@@ -1,10 +1,6 @@
 @import 'tailwindcss';
-@import '@fontsource/golos-text/cyrillic-400.css';
-@import '@fontsource/golos-text/cyrillic-500.css';
-@import '@fontsource/golos-text/cyrillic-600.css';
-@import '@fontsource/golos-text/latin-400.css';
-@import '@fontsource/golos-text/latin-500.css';
-@import '@fontsource-variable/literata/opsz.css';
+@import '@fontsource-variable/manrope/wght.css';
+@import '@fontsource-variable/inter-tight/wght.css';
 @import '@fontsource/jetbrains-mono/cyrillic-400.css';
 @import '@fontsource/jetbrains-mono/latin-400.css';
 
@@ -14,8 +10,11 @@
  * Подпись — номера дел и суммы моноширинным шрифтом в рамке, как штамп на папке дела.
  */
 @theme {
-  --font-sans: 'Golos Text', system-ui, -apple-system, 'Segoe UI', sans-serif;
-  --font-serif: 'Literata Variable', Georgia, 'Times New Roman', serif;
+  /* Шрифты по макету дизайнера (16.11.2026): Manrope — заголовки, Inter Tight — текст.
+     --font-serif оставлен как имя для заголовочного шрифта, чтобы не править все компоненты. */
+  --font-sans: 'Inter Tight Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Manrope Variable', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-serif: var(--font-display);
   --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', monospace;
 
   --color-ink: #17202e;
@@ -55,8 +54,7 @@
   }
   h1, h2, h3 {
     @apply font-serif text-ink;
-    font-weight: 500;
-    font-optical-sizing: auto;
+    font-weight: 600;
     text-wrap: balance;
   }
   h1 { font-size: clamp(2.25rem, 5vw, 3.75rem); line-height: 1.06; letter-spacing: -0.02em; }
