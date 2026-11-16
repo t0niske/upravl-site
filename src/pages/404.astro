@@ -1,0 +1,19 @@
+---
+import Base from '../layouts/Base.astro';
+import LeadForm from '../components/LeadForm.astro';
+import { services } from '../data/site';
+---
+<Base title="Страница не найдена" description="Такой страницы нет. Перейдите к услугам или свяжитесь с арбитражным управляющим." noindex>
+  <section class="wrap pt-12 md:pt-20">
+    <div class="prose-legal">
+      <h1>Такой страницы нет</h1>
+      <p class="lead-answer">Возможно, она переехала после обновления сайта. Вот основные разделы:</p>
+      <ul>
+        {services.map((s) => <li><a href={s.href}>{s.label}</a></li>)}
+        <li><a href="/yuridicheskie-uslugi/">Цены</a></li>
+        <li><a href="/kontakty/">Контакты</a></li>
+      </ul>
+    </div>
+  </section>
+  <div class="mt-24"><LeadForm /></div>
+</Base>

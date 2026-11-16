@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import CaseGrid from '../components/CaseGrid.astro';
+import LeadForm from '../components/LeadForm.astro';
+import Byline from '../components/Byline.astro';
+import { cases, rub, KAD_URL, SITE_URL } from '../data/site';
+
+const total = cases.reduce((s, c) => s + c.amount, 0);
+const itemList = {
+  '@type': 'ItemList',
+  name: 'Завершённые дела о банкротстве граждан',
+  url: `${SITE_URL}/dela/`,
+  numberOfItems: cases.length,
+  itemListElement: cases.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: `Дело № ${c.number}: списано ${rub(c.amount)}` })),
+};
+---
+
+<Base
+  title="Завершённые дела о банкротстве — номера и суммы"
+  description={`${cases.length} дел Арбитражного суда Томской области, где граждане освобождены от долгов: от 2,6 до 116,5 млн ₽. Номера дел для проверки в картотеке.`}
+  crumbs={[{ name: 'Дела', href: '/dela/' }]}
+  schema={[itemList]}
+>
+  <section class="wrap pt-6 md:pt-10">
+    <h1>Завершённые дела о банкротстве граждан</h1>
+    <div class="prose-legal lead-answer mt-6">
+      <p>
+        {cases.length} дел, в которых Арбитражный суд Томской области завершил реализацию имущества и освободил граждан от долгов.
+        Суммы — по определениям суда, в сумме по этим делам списано {rub(total)}. Каждое дело можно найти по номеру
+        в <a href={KAD_URL} target="_blank" rel="noopener">картотеке арбитражных дел</a>.
+      </p>
+    </div>
+    <Byline />
+    <div class="mt-10"><CaseGrid /></div>
+  </section>
+
+  <section class="wrap mt-16">
+    <div class="prose-legal">
+      <h2>Почему на сайте нет имён и копий определений</h2>
+      <p>
+        В определениях указаны дата рождения, адрес, ИНН и СНИЛС должника. Сведения о банкротстве и так публикуются в ЕФРСБ, но размещать их
+        на коммерческом сайте ради рекламы мы не будем. Номера дел достаточно, чтобы проверить результат в открытых источниках.
+      </p>
+      <h2>Что значит «списано»</h2>
+      <p>
+        Это сумма требований кредиторов, от исполнения которых суд освободил должника по итогам процедуры. Деньги, вырученные от продажи
+        имущества (если оно было), к этому моменту уже распределены между кредиторами.
+      </p>
+      <h2>Гарантирует ли это результат в вашем деле</h2>
+      <p>
+        Нет. Освобождение от долгов зависит от добросовестности должника, сделок за последние годы и решения суда.
+        Гарантировать списание по закону нельзя — честно оцениваю перспективы на консультации.
+      </p>
+    </div>
+  </section>
+
+  <div class="mt-24"><LeadForm /></div>
+</Base>

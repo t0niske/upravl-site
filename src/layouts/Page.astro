@@ -1,0 +1,81 @@
+---
+/**
+ * Шаблон контентной страницы (услуга, статья): крошки, H1, прямой ответ, факты, тело, FAQ, «по теме», заявка.
+ */
+import Base from './Base.astro';
+import Byline from '../components/Byline.astro';
+import Faq from '../components/Faq.astro';
+import Related from '../components/Related.astro';
+import LeadForm from '../components/LeadForm.astro';
+import { contacts } from '../data/site';
+import { faqSchema, type Crumb } from '../data/schema';
+
+interface Props {
+  title: string;
+  description: string;
+  h1: string;
+  eyebrow?: string;
+  crumbs: Crumb[];
+  facts?: [string, string][];
+  faq?: { q: string; a: string }[];
+  related?: { href: string; label: string; text: string }[];
+  schema?: Record<string, unknown>[];
+  published?: string;
+  ogType?: 'website' | 'article';
+  formTitle?: string;
+  formText?: string;
+  topic?: string;
+  cta?: boolean;
+}
+const {
+  title, description, h1, eyebrow, crumbs, facts = [], faq = [], related = [], schema = [],
+  published, ogType = 'website', formTitle, formText, topic, cta = true,
+} = Astro.props;
+const allSchema = [...schema, ...(faq.length ? [faqSchema(faq)] : [])];
+---
+<Base title={title} description={description} crumbs={crumbs} schema={allSchema} ogType={ogType}>
+  <article>
+    <header class="wrap pt-6 md:pt-10">
+      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+      <h1 class="mt-4 max-w-[48rem]">{h1}</h1>
+      <div class="prose-legal lead-answer mt-6">
+        <slot name="lead" />
+      </div>
+      {cta && (
+        <div class="mt-7 flex flex-wrap gap-3">
+          <a href="#zayavka" class="btn btn-primary">Бесплатная консультация</a>
+          <a href={contacts.phoneHref} class="btn btn-ghost tnum">{contacts.phone}</a>
+        </div>
+      )}
+      <Byline published={published} />
+      {facts.length > 0 && (
+        <dl class="mt-12 grid grid-cols-2 border-y border-line lg:grid-cols-4">
+          {facts.map(([k, v], i) => (
+            <div class:list={['py-5 pr-4', i % 2 === 1 && 'border-l border-line pl-4 lg:pl-6', i >= 2 && 'border-t border-line lg:border-t-0', i === 2 && 'lg:border-l lg:pl-6']}>
+              <dt class="text-[0.875rem] text-muted">{k}</dt>
+              <dd class="figure mt-1 text-[1.25rem] leading-tight">{v}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
+    </header>
+
+    <div class="wrap mt-16 grid gap-16 lg:grid-cols-[minmax(0,1fr)_17rem]">
+      <div class="prose-legal min-w-0">
+        <slot />
+      </div>
+      <aside class="hidden lg:block" aria-label="Связаться">
+        <div class="sticky top-24 rounded-[14px] border border-line bg-card p-5">
+          <p class="font-serif text-[1.1875rem] leading-snug font-medium">Разберу вашу ситуацию бесплатно</p>
+          <p class="mt-2 text-sm text-muted">По телефону или в офисе на ул. Тверской, 14. Первая консультация бесплатная.</p>
+          <a href="#zayavka" class="btn btn-primary mt-4 w-full">Оставить заявку</a>
+          <a href={contacts.phoneHref} class="tnum mt-3 block text-center font-medium no-underline">{contacts.phone}</a>
+        </div>
+      </aside>
+    </div>
+  </article>
+
+  {faq.length > 0 && <Faq items={faq} />}
+  {related.length > 0 && <Related links={related} />}
+  <div class="mt-24"><LeadForm title={formTitle} text={formText} topic={topic} /></div>
+</Base>

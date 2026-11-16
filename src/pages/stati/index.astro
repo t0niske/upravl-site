@@ -1,0 +1,42 @@
+---
+import Base from '../../layouts/Base.astro';
+import LeadForm from '../../components/LeadForm.astro';
+import { SITE_URL } from '../../data/site';
+
+const articles = [
+  { href: '/stati/mify-o-bankrotstve-grazhdan/', title: '10 мифов о банкротстве граждан — и что на самом деле', text: 'Спишут ли все долги, заберут ли зарплату и квартиру, дадут ли кредит после процедуры.', date: '2020-01-23', updated: '2026-11-13' },
+  { href: '/stati/kto-takoj-arbitrazhnyj-upravlyayushchij/', title: 'Кто такой арбитражный управляющий и что он делает в банкротстве', text: 'Требования к управляющему, виды, СРО, кто выбирает и сколько ему платят.', date: '2020-02-25', updated: '2026-11-13' },
+  { href: '/bankrotstvo-ur-lica/subsidiarnaya-otvetstvennost/', title: 'Субсидиарная ответственность при банкротстве', text: 'Кого привлекают, по каким основаниям и как строится защита.', date: '2020-02-25', updated: '2026-11-13' },
+];
+const fmt = (d: string) => new Date(d).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
+const collection = {
+  '@type': 'CollectionPage',
+  url: `${SITE_URL}/stati/`,
+  name: 'Статьи о банкротстве',
+  hasPart: articles.map((a) => ({ '@type': 'Article', headline: a.title, url: `${SITE_URL}${a.href}` })),
+};
+---
+
+<Base
+  title="Статьи о банкротстве граждан и организаций"
+  description="Разборы по закону о банкротстве в редакции 2026 года: мифы о банкротстве граждан, роль арбитражного управляющего, субсидиарная ответственность."
+  crumbs={[{ name: 'Статьи', href: '/stati/' }]}
+  schema={[collection]}
+>
+  <section class="wrap pt-6 md:pt-10">
+    <h1>Статьи о банкротстве</h1>
+    <p class="lead-answer mt-6 max-w-[46rem]">Разборы частых вопросов по закону о банкротстве. Тексты обновлены в ноябре 2026 года с учётом изменений закона.</p>
+    <ul class="mt-10 grid gap-5 md:grid-cols-3">
+      {articles.map((a) => (
+        <li>
+          <article class="flex h-full flex-col rounded-[14px] border border-line bg-card p-6">
+            <h2 class="text-[1.3rem]"><a href={a.href} class="no-underline transition-colors hover:text-ink-2">{a.title}</a></h2>
+            <p class="mt-3 text-[0.97rem] text-muted">{a.text}</p>
+            <p class="mt-auto pt-4 text-sm text-muted">Обновлено <time datetime={a.updated}>{fmt(a.updated)}</time></p>
+          </article>
+        </li>
+      ))}
+    </ul>
+  </section>
+  <div class="mt-24"><LeadForm /></div>
+</Base>

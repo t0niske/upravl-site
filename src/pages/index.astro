@@ -1,0 +1,227 @@
+---
+import Base from '../layouts/Base.astro';
+import Quiz from '../components/Quiz.astro';
+import HomeHero from '../components/HomeHero.astro';
+import CaseGrid from '../components/CaseGrid.astro';
+import Faq from '../components/Faq.astro';
+import LeadForm from '../components/LeadForm.astro';
+import { person, contacts, pricing, law, rub, services, cases } from '../data/site';
+import { personSchema, faqSchema } from '../data/schema';
+
+const faq = [
+  {
+    q: 'Сколько стоит банкротство гражданина в Томске?',
+    a: `Сопровождение под ключ — ${rub(pricing.citizenTurnkey)} с рассрочкой от ${rub(pricing.citizenInstallmentFrom)} в месяц. Отдельно по закону оплачиваются ${rub(law.fuDeposit)} на депозит суда для вознаграждения финансового управляющего и публикации в ЕФРСБ и «Коммерсанте». Если подходите под банкротство через МФЦ, процедура бесплатная.`,
+  },
+  {
+    q: 'Сколько длится банкротство физического лица?',
+    a: `Процедура реализации имущества вводится на ${law.realizationMonths} месяцев, суд может её продлить, если управляющий не успел продать имущество или проверить сделки. Ещё 1–3 месяца уходит на подготовку документов и рассмотрение заявления. Реструктуризация долгов — до ${law.restructuringYears} лет.`,
+  },
+  {
+    q: 'Что будет с квартирой и машиной?',
+    a: 'Единственное жильё, если оно не в ипотеке, по закону не продают (ст. 446 ГПК РФ). Автомобиль, вторую квартиру, доли и другое имущество сверх защищённого продают на торгах, деньги идут кредиторам. До подачи заявления разбираем, что именно сохранится.',
+  },
+  {
+    q: 'Какие долги не спишут?',
+    a: 'Алименты, возмещение вреда жизни и здоровью, зарплатные долги перед работниками, субсидиарную ответственность и долги, возникшие из-за мошенничества или сокрытия имущества. Суд также может не освободить от долгов должника, который скрыл доход или имущество от управляющего.',
+  },
+  {
+    q: 'Нужно ли ходить в суд?',
+    a: 'Личное присутствие должника на заседаниях законом не требуется. Документы и позицию готовим заранее, на заседаниях интересы представляет юрист. Суд может вызвать должника, если у него появятся вопросы.',
+  },
+  {
+    q: 'Как перестанут звонить коллекторы?',
+    a: 'С даты, когда суд признаёт заявление обоснованным и вводит процедуру, кредиторы и коллекторы не вправе взаимодействовать с должником для возврата долга, а исполнительные производства приостанавливаются. Требования принимаются только через финансового управляющего.',
+  },
+];
+const facts: [string, string][] = [
+  ['В антикризисном управлении', `с ${person.sinceYear} года`],
+  ['Банкротство граждан', `с ${person.citizensSinceYear} года`],
+  ['Под ключ для гражданина', rub(pricing.citizenTurnkey)],
+  ['Первая консультация', 'бесплатно'],
+];
+const serviceGroups = [
+  { title: 'Гражданам и ИП', items: services.slice(0, 3) },
+  { title: 'Бизнесу и кредиторам', items: services.slice(3) },
+];
+const steps: [string, string, string][] = [
+  ['Консультация', 'Разбираем долги, доходы, имущество и сделки за 3 года. Говорим, какая процедура подходит и есть ли риски.', 'бесплатно'],
+  ['Документы и заявление', 'Собираем справки и выписки, составляем заявление и список кредиторов, вносим депозит.', '2–6 недель'],
+  ['Суд вводит процедуру', 'Суд признаёт заявление обоснованным и утверждает финансового управляющего. Звонки кредиторов прекращаются.', '1–3 месяца'],
+  ['Процедура', 'Управляющий запрашивает сведения, проверяет сделки, при наличии продаёт имущество сверх защищённого.', `от ${law.realizationMonths} мес.`],
+  ['Списание долгов', 'Суд завершает реализацию имущества и освобождает от обязательств. Исполнительные производства прекращаются.', 'итог'],
+];
+const limits: [string, string][] = [
+  ['Долг — алименты или возмещение вреда', 'Эти обязательства закон не списывает, они остаются и после процедуры.'],
+  ['Имущество недавно переоформлено', 'Сделки за 3 года до заявления управляющий проверит; подарок родственнику вернут в конкурсную массу.'],
+  ['Нужно сохранить ипотечную квартиру', 'Единственное жильё в залоге не защищено. Возможна реструктуризация или мировое соглашение, но не списание с сохранением квартиры.'],
+  ['Долги появились через обман', 'Кредиты по ложным справкам и сокрытие доходов — основание отказать в освобождении от долгов.'],
+];
+const timeline: [string, string][] = [
+  ['1999', 'Свидетельство ФСДН России об экзамене по программе специалистов по антикризисному управлению, Томск'],
+  ['2003', 'Свидетельство Минюста России о сдаче теоретического экзамена по единой программе подготовки арбитражных управляющих'],
+  ['2016', 'Повышение квалификации «Банкротство предприятий: изменения законодательства и арбитражная практика», 24 часа'],
+  ['2018', 'Повышение профессиональной подготовки арбитражных управляющих, 24 академических часа'],
+];
+---
+
+<Base
+  title="Арбитражный управляющий в Томске — Антонец Ю. А."
+  description="Банкротство граждан под ключ за 95 000 ₽ с рассрочкой, банкротство ИП и ООО, защита от субсидиарной ответственности. Томск, с 1999 года."
+  schema={[personSchema(), faqSchema(faq)]}
+  hideHeader
+>
+  <HomeHero />
+
+  <!-- Факты -->
+  <section class="wrap mt-16 lg:mt-20" aria-label="Ключевые факты">
+    <dl class="grid grid-cols-2 border-y border-line lg:grid-cols-4">
+      {facts.map(([k, v], i) => (
+        <div class:list={['py-6 pr-4', i % 2 === 1 && 'border-l border-line pl-4 lg:pl-6', i >= 2 && 'border-t border-line lg:border-t-0', i === 2 && 'lg:border-l lg:pl-6']}>
+          <dt class="text-[0.875rem] text-muted">{k}</dt>
+          <dd class="figure mt-1 text-[1.5rem] leading-tight">{v}</dd>
+        </div>
+      ))}
+    </dl>
+  </section>
+
+  <!-- Услуги: две колонки по аудитории -->
+  <section class="wrap mt-24" aria-labelledby="services-title">
+    <div class="max-w-[44rem]">
+      <h2 id="services-title">С чем помогаю</h2>
+      <p class="mt-4 text-ink-2">Если вашей задачи нет в списке, опишите ситуацию на консультации — подскажу, решается ли она через банкротство или суд.</p>
+    </div>
+    <div class="mt-10 grid gap-10 lg:grid-cols-2 lg:gap-12">
+      {serviceGroups.map((g) => (
+        <div>
+          <h3 class="font-sans text-[0.9375rem] font-medium text-muted">{g.title}</h3>
+          <ul class="mt-3 border-t border-line">
+            {g.items.map((s) => (
+              <li class="border-b border-line">
+                <a href={s.href} class="group -mx-3 grid grid-cols-[1fr_auto] items-start gap-4 rounded-[10px] px-3 py-5 no-underline transition-colors hover:bg-card">
+                  <span>
+                    <span class="block font-serif text-[1.3125rem] leading-snug font-medium">{s.label}</span>
+                    <span class="mt-1 block text-[0.9375rem] text-ink-2">{s.lead}</span>
+                  </span>
+                  <svg class="mt-1.5 text-muted transition-transform duration-150 group-hover:translate-x-0.5" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <!-- Квиз -->
+  <section class="wrap mt-24 grid gap-10 lg:grid-cols-[1fr_1.6fr] lg:gap-16" aria-label="Проверка">
+    <div class="self-start lg:sticky lg:top-24">
+      <h2>Сначала — подходит ли процедура вообще</h2>
+      <p class="mt-4 text-ink-2">Банкротство — не единственный выход и не всегда лучший. При небольшом долге и оконченном исполнительном производстве дешевле бесплатная процедура через МФЦ. При имуществе и свежих сделках важнее сначала оценить риски.</p>
+      <p class="mt-4 text-ink-2">Ответьте на шесть вопросов — увидите предварительный вывод и главные риски вашей ситуации. Ответы подставятся в заявку.</p>
+    </div>
+    <Quiz />
+  </section>
+
+  <!-- Как проходит -->
+  <section class="wrap mt-24 grid gap-10 lg:grid-cols-[1fr_1.6fr] lg:gap-16" aria-labelledby="steps-title">
+    <div class="self-start lg:sticky lg:top-24">
+      <h2 id="steps-title">Как проходит банкротство гражданина</h2>
+      <p class="mt-4 text-ink-2">Пять этапов от первого звонка до определения суда об освобождении от долгов. Сроки ориентировочные: точные зависят от загрузки суда и сложности дела.</p>
+      <p class="mt-6"><a href="/bankrotstvo-fizicheskih-lic/">Условия, документы и последствия</a></p>
+    </div>
+    <ol class="border-t border-line">
+      {steps.map(([t, d, time], i) => (
+        <li class="grid grid-cols-[2.5rem_1fr] gap-x-4 border-b border-line py-6 sm:grid-cols-[2.5rem_1fr_7rem]">
+          <span class="pt-1 font-mono text-[0.875rem] text-muted tnum">{String(i + 1).padStart(2, '0')}</span>
+          <div>
+            <h3 class="font-serif text-[1.25rem] font-medium">{t}</h3>
+            <p class="mt-1 text-[0.9375rem] text-ink-2">{d}</p>
+            <p class="mt-2 font-mono text-[0.8125rem] text-muted sm:hidden">{time}</p>
+          </div>
+          <span class="hidden pt-1 text-right font-mono text-[0.8125rem] text-muted sm:block">{time}</span>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <!-- Дела -->
+  <section class="wrap mt-24" aria-labelledby="cases-title">
+    <div class="flex flex-wrap items-end justify-between gap-4">
+      <div class="max-w-[44rem]">
+        <h2 id="cases-title">Завершённые дела</h2>
+        <p class="mt-4 text-ink-2">Последние дела, по которым суд освободил граждан от долгов. Каждое проверяется по номеру в картотеке.</p>
+      </div>
+      <a href="/dela/" class="btn btn-ghost">Все {cases.length} дел</a>
+    </div>
+    <div class="mt-8"><CaseGrid limit={4} /></div>
+  </section>
+
+  <!-- Цена -->
+  <section class="wrap mt-24 grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-16" aria-labelledby="price-title">
+    <div>
+      <h2 id="price-title">Сколько стоит банкротство гражданина</h2>
+      <p class="mt-4 text-ink-2">
+        Гонорар за сопровождение под ключ — {rub(pricing.citizenTurnkey)}. Платить можно частями, от {rub(pricing.citizenInstallmentFrom)} в месяц.
+        Что входит в работу, фиксируем в договоре до начала.
+      </p>
+      <p class="mt-4 text-ink-2">Остальное — расходы, которые требует закон. Их платит любой должник, с юристом или без.</p>
+      <p class="mt-6"><a href="/yuridicheskie-uslugi/">Полный прайс юридических услуг</a></p>
+    </div>
+    <div class="overflow-x-auto rounded-[14px] border border-line bg-card px-6 py-2">
+      <table class="table-clean">
+        <caption class="sr-only">Из чего складывается стоимость</caption>
+        <thead><tr><th scope="col">Статья расходов</th><th scope="col" class="text-right">Сумма</th></tr></thead>
+        <tbody>
+          <tr><td>Сопровождение под ключ: документы, заявление, суд, работа с управляющим до списания</td><td class="figure whitespace-nowrap text-right text-[1.25rem] text-accent">{rub(pricing.citizenTurnkey)}</td></tr>
+          <tr><td>Депозит суда на вознаграждение финансового управляющего, ст. 20.6 закона о банкротстве</td><td class="tnum whitespace-nowrap text-right">{rub(law.fuDeposit)}</td></tr>
+          <tr><td>Публикации в ЕФРСБ и газете «Коммерсантъ», почтовые расходы</td><td class="whitespace-nowrap text-right">по факту</td></tr>
+          <tr class="[&>td]:border-b-0"><td>Процент управляющего — только если продано имущество</td><td class="tnum whitespace-nowrap text-right">{law.fuPercent} % от выручки</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Ограничения -->
+  <section class="wrap mt-24" aria-labelledby="limits-title">
+    <div class="rounded-[18px] bg-paper-2 px-6 py-10 sm:px-10 sm:py-12">
+      <div class="max-w-[44rem]">
+        <h2 id="limits-title">Когда банкротство не поможет</h2>
+        <p class="mt-4 text-ink-2">Об этом лучше узнать до того, как платить. Если увижу что-то из этого на консультации — скажу прямо.</p>
+      </div>
+      <dl class="mt-8 grid gap-x-12 md:grid-cols-2">
+        {limits.map(([t, d]) => (
+          <div class="border-t border-line-strong py-5">
+            <dt class="font-medium">{t}</dt>
+            <dd class="mt-1 text-[0.9375rem] text-ink-2">{d}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+  </section>
+
+  <!-- Кто ведёт дело -->
+  <section class="wrap mt-24 grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-16" aria-labelledby="about-title">
+    <div>
+      <h2 id="about-title">Кто ведёт дело</h2>
+      <p class="mt-4 text-ink-2">
+        {person.name} работает в антикризисном управлении и банкротстве с {person.sinceYear} года, с {person.citizensSinceYear} года — с делами граждан.
+        На счету {person.proceduresText} в нескольких регионах России. Консультирует и представляет должников и кредиторов в Арбитражном суде Томской области и судах общей юрисдикции.
+      </p>
+      <p class="mt-4 text-ink-2">Вы работаете с практикующим арбитражным управляющим напрямую, без посредника, который перепродаёт процедуру с наценкой.</p>
+      <a href="/ob-upravlyayushchem/" class="btn btn-ghost mt-8">Квалификация и документы</a>
+    </div>
+    <ol class="border-t border-line">
+      {timeline.map(([y, t]) => (
+        <li class="grid grid-cols-[4rem_1fr] gap-4 border-b border-line py-5">
+          <span class="font-mono text-[0.875rem] text-muted tnum">{y}</span>
+          <span class="text-[0.9375rem] text-ink-2">{t}</span>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <Faq items={faq} />
+
+  <div class="mt-24"><LeadForm /></div>
+</Base>

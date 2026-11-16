@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Мудборд upravl.ru</title>
+<style>
+@font-face{font-family:Literata;src:url(fonts/literata-cyrillic-wght-normal.woff2) format('woff2');font-weight:200 900;unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:Literata;src:url(fonts/literata-latin-wght-normal.woff2) format('woff2');font-weight:200 900}
+@font-face{font-family:Golos;src:url(fonts/golos-text-cyrillic-400-normal.woff2) format('woff2');font-weight:400;unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:Golos;src:url(fonts/golos-text-latin-400-normal.woff2) format('woff2');font-weight:400}
+@font-face{font-family:Golos;src:url(fonts/golos-text-cyrillic-500-normal.woff2) format('woff2');font-weight:500;unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:Golos;src:url(fonts/golos-text-latin-500-normal.woff2) format('woff2');font-weight:500}
+@font-face{font-family:Mono;src:url(fonts/jetbrains-mono-cyrillic-400-normal.woff2) format('woff2');unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116}
+@font-face{font-family:Mono;src:url(fonts/jetbrains-mono-latin-400-normal.woff2) format('woff2')}
+
+:root{
+  --ink:#17202e;--ink2:#4a4f58;--muted:#6f6a62;
+  --paper:#f6f3ed;--paper2:#ede8df;--card:#fdfbf8;
+  --line:rgb(23 32 46/.1);--line2:rgb(23 32 46/.18);
+  --accent:#9a4a19;--ok:#2f6b4f;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{background:var(--paper);color:var(--ink);font-family:Golos,sans-serif;font-size:16px;line-height:1.5}
+body{width:1600px;padding:64px}
+.mono{font-family:Mono,monospace;font-variant-numeric:tabular-nums}
+
+header{display:grid;grid-template-columns:7fr 5fr;gap:48px;align-items:end;padding-bottom:40px;border-bottom:1px solid var(--line2);margin-bottom:32px}
+.kicker{font-family:Mono,monospace;font-size:13px;color:var(--muted);margin-bottom:16px}
+h1{font-family:Literata,serif;font-weight:500;font-size:72px;line-height:1.05;letter-spacing:-0.01em}
+header p{font-size:18px;color:var(--ink2);line-height:1.6}
+
+.grid{display:grid;grid-template-columns:repeat(12,1fr);grid-auto-rows:340px;gap:16px}
+figure{position:relative;overflow:hidden;border-radius:12px;background:var(--paper2)}
+figure img{width:100%;height:100%;object-fit:cover;display:block}
+figcaption{position:absolute;left:12px;bottom:12px;background:rgb(253 251 248/.94);border-radius:6px;padding:6px 10px;font-size:13px;color:var(--ink);display:flex;gap:8px;align-items:baseline}
+figcaption .mono{font-size:12px;color:var(--muted)}
+.portrait{grid-column:1/5;grid-row:1/3}
+.folders{grid-column:5/9;grid-row:1}
+.stamp{grid-column:9/13;grid-row:1}
+.desk{grid-column:5/9;grid-row:2}
+.catalog{grid-column:9/13;grid-row:2}
+.tomsk{grid-column:9/13;grid-row:3/5}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:28px}
+.card h2{font-family:Mono,monospace;font-weight:400;font-size:13px;color:var(--muted);margin-bottom:20px}
+.palette{grid-column:1/5;grid-row:3/5;display:flex;flex-direction:column}
+.sw{display:grid;grid-template-columns:56px 1fr auto;gap:16px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.sw:last-child{border-bottom:0}
+.chip{width:56px;height:56px;border-radius:8px;border:1px solid var(--line)}
+.sw b{font-weight:500;display:block;font-size:15px}
+.sw span{font-size:13px;color:var(--muted)}
+.sw .mono{font-size:13px;color:var(--ink2)}
+
+.type{grid-column:5/9;grid-row:3/5;display:flex;flex-direction:column;gap:20px}
+.spec-h{font-family:Literata,serif;font-weight:500;font-size:40px;line-height:1.1}
+.spec-p{font-size:16px;color:var(--ink2);line-height:1.6}
+.label{font-family:Mono,monospace;font-size:12px;color:var(--muted);margin-bottom:6px}
+.case{border:1.5px solid var(--ink);border-radius:4px;padding:16px 18px;display:inline-flex;flex-direction:column;gap:4px;align-self:flex-start;background:var(--paper)}
+.case .num{font-family:Mono,monospace;font-size:22px}
+.case .meta{font-family:Mono,monospace;font-size:13px;color:var(--ink2)}
+.case .meta em{font-style:normal;color:var(--ok)}
+.btn{align-self:flex-start;background:var(--accent);color:#fff;border-radius:8px;padding:12px 20px;font-weight:500;font-size:15px}
+.fontrow{display:flex;gap:24px;font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:16px;margin-top:auto}
+.fontrow b{color:var(--ink);font-weight:500}
+
+.bottom{display:grid;grid-template-columns:4fr 4fr 4fr;gap:16px;margin-top:16px}
+.words{display:flex;flex-direction:column;gap:14px}
+.words div{display:grid;grid-template-columns:172px 1fr;gap:12px;align-items:baseline}
+.words b{font-family:Literata,serif;font-weight:500;font-size:24px}
+.words span{color:var(--ink2);font-size:15px}
+.tags{display:flex;flex-wrap:wrap;gap:8px}
+.tags span{border:1px solid var(--line2);border-radius:6px;padding:6px 10px;font-size:14px}
+.no .tags span{color:var(--muted);text-decoration:line-through;text-decoration-color:rgb(154 74 25/.6)}
+.foot{margin-top:24px;display:flex;justify-content:space-between;font-family:Mono,monospace;font-size:12px;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <div class="kicker">Мудборд · сайт арбитражного управляющего · Томск</div>
+    <h1>Спокойный, точный,<br>человечный</h1>
+  </div>
+  <p>Кабинет опытного специалиста, а не офис продаж. Тёплая бумага, чернила, папки дел, дневной свет. Главное доказательство — реальные дела с номерами, которые можно проверить. Человек приходит в стрессе из-за долгов и должен почувствовать: здесь спокойно, честно и всё по порядку.</p>
+</header>
+
+<div class="grid">
+  <figure class="portrait"><img src="04-portrait.png" alt=""><figcaption><span class="mono">01</span>Человек, а не бренд: дневной свет, без постановки</figcaption></figure>
+  <figure class="folders"><img src="01-folders.png" alt=""><figcaption><span class="mono">02</span>Папки дел — порядок и история</figcaption></figure>
+  <figure class="stamp"><img src="03-stamp.png" alt=""><figcaption><span class="mono">03</span>Штамп и подпись — всё заверено</figcaption></figure>
+  <figure class="desk"><img src="02-desk.png" alt=""><figcaption><span class="mono">04</span>Рабочий стол у окна — спокойно, обжито</figcaption></figure>
+  <figure class="catalog"><img src="05-catalog.png" alt=""><figcaption><span class="mono">05</span>Картотека — точность, медь как акцент</figcaption></figure>
+
+  <section class="card palette">
+    <h2>Палитра</h2>
+    <div class="sw"><div class="chip" style="background:#f6f3ed"></div><div><b>Тёплая бумага</b><span>фон</span></div><div class="mono">#F6F3ED</div></div>
+    <div class="sw"><div class="chip" style="background:#ede8df"></div><div><b>Картон папки</b><span>второй фон</span></div><div class="mono">#EDE8DF</div></div>
+    <div class="sw"><div class="chip" style="background:#fdfbf8"></div><div><b>Чистый лист</b><span>карточки</span></div><div class="mono">#FDFBF8</div></div>
+    <div class="sw"><div class="chip" style="background:#17202e"></div><div><b>Чернила</b><span>основной текст</span></div><div class="mono">#17202E</div></div>
+    <div class="sw"><div class="chip" style="background:#4a4f58"></div><div><b>Графит</b><span>второстепенный текст</span></div><div class="mono">#4A4F58</div></div>
+    <div class="sw"><div class="chip" style="background:#9a4a19"></div><div><b>Медь, сургуч</b><span>только кнопка и главная сумма</span></div><div class="mono">#9A4A19</div></div>
+    <div class="sw"><div class="chip" style="background:#2f6b4f"></div><div><b>Зелёное сукно</b><span>«дело завершено»</span></div><div class="mono">#2F6B4F</div></div>
+  </section>
+
+  <section class="card type">
+    <h2>Шрифты и фирменная деталь</h2>
+    <div class="spec-h">Арбитражный управляющий в&nbsp;Томске</div>
+    <div class="spec-p">Работаю сам, с 1999 года. Сначала разберёмся, нужно ли вам банкротство, и только потом назову полную цену.</div>
+    <div>
+      <div class="label">Подпись сайта — номер дела в рамке, как штамп</div>
+      <div class="case"><span class="num">А67-3303/2021</span><span class="meta">списано 3 326 575 ₽ · <em>завершено 15.02.2022</em></span></div>
+    </div>
+    <div class="btn">Проверить мою ситуацию</div>
+    <div class="fontrow"><span><b>Literata 500</b> заголовки</span><span><b>Golos Text</b> текст</span><span><b>JetBrains Mono</b> номера, суммы</span></div>
+  </section>
+
+  <figure class="tomsk"><img src="06-tomsk.png" alt=""><figcaption><span class="mono">06</span>Томск — локальный акцент</figcaption></figure>
+</div>
+
+<div class="bottom">
+  <section class="card words">
+    <h2>Характер</h2>
+    <div><b>Спокойный</b><span>без паники, таймеров и крика</span></div>
+    <div><b>Точный</b><span>номера дел, даты, полная цена</span></div>
+    <div><b>Человечный</b><span>живой человек, говорит просто</span></div>
+  </section>
+  <section class="card">
+    <h2>Ассоциации</h2>
+    <div class="tags"><span>можно проверить</span><span>лично</span><span>честно</span><span>полная цена</span><span>с 1999 года</span><span>по порядку</span><span>бумага и чернила</span><span>дневной свет</span><span>архив</span><span>Томск</span><span>без давления</span></div>
+  </section>
+  <section class="card no">
+    <h2>Не мы</h2>
+    <div class="tags"><span>Фемида и весы</span><span>молоток судьи</span><span>синий с золотом</span><span>стоковые семьи</span><span>амбассадоры</span><span>«−55%» и таймеры</span><span>запугивание</span><span>градиенты и неон</span><span>«100% результат»</span></div>
+  </section>
+</div>
+
+<div class="foot"><span>upravl.ru · направление дизайна</span><span>фото сгенерированы как референсы стиля, на сайт — только реальные</span></div>
+
+</body>
+</html>

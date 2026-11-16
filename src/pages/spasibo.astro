@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import { contacts } from '../data/site';
+---
+<Base title="Заявка отправлена" description="Спасибо, заявка получена." noindex>
+  <section class="wrap py-16 md:py-24">
+    <div class="prose-legal">
+      <h1>Заявка отправлена</h1>
+      <p class="lead-answer">Спасибо. Перезвоню в рабочее время. Если вопрос срочный — звоните: <a href={contacts.phoneHref}>{contacts.phone}</a>.</p>
+      <p><a href="/" class="btn btn-ghost">На главную</a></p>
+    </div>
+  </section>
+  <span id="zayavka" hidden></span>
+</Base>

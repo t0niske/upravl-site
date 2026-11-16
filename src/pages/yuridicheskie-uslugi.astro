@@ -1,0 +1,65 @@
+---
+import Page from '../layouts/Page.astro';
+import { priceGroups } from '../data/prices';
+import { law, rub } from '../data/site';
+
+const url = '/yuridicheskie-uslugi/';
+const description = 'Цены на юруслуги в Томске: банкротство гражданина под ключ 95 000 ₽, иск в арбитраж от 10 000 ₽, суд от 15 000 ₽. Консультация бесплатно.';
+const offerCatalog = {
+  '@type': 'OfferCatalog',
+  name: 'Юридические услуги',
+  itemListElement: priceGroups.flatMap((g) =>
+    g.rows.map((r) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: r.service }, description: `${r.price}${r.note ? `, ${r.note}` : ''}`, priceCurrency: 'RUB' })),
+  ),
+};
+---
+
+<Page
+  title="Цены на юридические услуги в Томске"
+  description={description}
+  h1="Юридические услуги и цены"
+  crumbs={[{ name: 'Цены', href: url }]}
+  topic="Юридическая услуга"
+  schema={[offerCatalog]}
+  related={[
+    { href: '/bankrotstvo-fizicheskih-lic/', label: 'Банкротство граждан', text: 'Что входит в сопровождение под ключ.' },
+    { href: '/bankrotstvo-ur-lica/', label: 'Банкротство организаций', text: 'Процедуры и риски для директора.' },
+    { href: '/bankrotstvo-ur-lica/kreditoram/', label: 'Кредиторам', text: 'Возврат долга через банкротство должника.' },
+  ]}
+>
+  <Fragment slot="lead">
+    <p>
+      Устная консультация — бесплатно. Цена «от» означает минимальную стоимость простого дела; итоговую называю до начала работы, после того как
+      увижу документы, и фиксирую в договоре. Транспортные и командировочные расходы по делам вне Томска оплачиваются отдельно.
+    </p>
+  </Fragment>
+
+  {priceGroups.map((g) => (
+    <section class="not-prose mt-10 first:mt-0">
+      <h2 class="text-[1.5rem]">{g.title}</h2>
+      <div class="mt-4 overflow-x-auto">
+        <table class="table-clean min-w-[30rem]">
+          <thead><tr><th scope="col">Услуга</th><th scope="col" class="w-44 text-right">Стоимость</th></tr></thead>
+          <tbody>
+            {g.rows.map((r) => (
+              <tr>
+                <td>{r.service}{r.note && <span class="mt-0.5 block text-sm text-muted">{r.note}</span>}</td>
+                <td class="tnum whitespace-nowrap text-right font-medium">{r.price}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </section>
+  ))}
+
+  <h2>Обязательные расходы, которые не входят в гонорар</h2>
+  <p>Эти суммы требует закон, их платит любой заявитель — с юристом или без:</p>
+  <ul>
+    <li>депозит на вознаграждение финансового управляющего в деле гражданина — {rub(law.fuDeposit)};</li>
+    <li>публикации в ЕФРСБ и газете «Коммерсантъ», почтовые расходы;</li>
+    <li>государственная пошлина по искам — по ст. 333.19 и 333.21 Налогового кодекса;</li>
+    <li>оценка имущества, если её требует процедура.</li>
+  </ul>
+  <p class="text-sm text-muted">Цены действуют на дату обновления страницы и не являются публичной офертой.</p>
+</Page>

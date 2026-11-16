@@ -1,0 +1,17 @@
+---
+interface Props { title?: string; links: { href: string; label: string; text: string }[] }
+const { title = 'По этой теме', links } = Astro.props;
+---
+<section class="wrap mt-24" aria-labelledby="related-title">
+  <h2 id="related-title" class="text-[1.5rem]">{title}</h2>
+  <ul class="mt-5 grid gap-4 md:grid-cols-3">
+    {links.map((l) => (
+      <li>
+        <a href={l.href} class="group block h-full rounded-[14px] border border-line bg-card p-5 no-underline transition-colors hover:border-ink/30">
+          <span class="font-serif text-[1.1875rem] font-medium">{l.label}</span>
+          <span class="mt-1.5 block text-[0.95rem] text-muted">{l.text}</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</section>

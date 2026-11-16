@@ -1,0 +1,44 @@
+---
+import Base from '../layouts/Base.astro';
+import LeadForm from '../components/LeadForm.astro';
+import { contacts, person, SITE_URL } from '../data/site';
+import { ORG_ID } from '../data/schema';
+
+const contactPage = { '@type': 'ContactPage', url: `${SITE_URL}/kontakty/`, name: 'Контакты', about: { '@id': ORG_ID } };
+---
+
+<Base
+  title="Контакты арбитражного управляющего в Томске"
+  description={`Офис: г. Томск, ${contacts.street}. Телефон ${contacts.phone}. Первая консультация по банкротству — бесплатно, по предварительной записи.`}
+  crumbs={[{ name: 'Контакты', href: '/kontakty/' }]}
+  schema={[contactPage]}
+>
+  <section class="wrap pt-6 md:pt-10">
+    <h1>Контакты</h1>
+    <p class="lead-answer mt-6 max-w-[46rem]">
+      Офис {person.short} — в Томске, на {contacts.street}. Консультация бесплатная, приём по предварительной записи: позвоните или оставьте заявку,
+      и договоримся о времени. Если удобнее, консультирую по телефону.
+    </p>
+
+    <div class="mt-10 grid gap-6 md:grid-cols-2">
+      <dl class="grid gap-5 rounded-[14px] border border-line bg-card p-6 sm:p-8">
+        <div><dt class="text-sm text-muted">Телефон</dt><dd><a href={contacts.phoneHref} class="tnum text-2xl font-medium no-underline">{contacts.phone}</a></dd></div>
+        <div><dt class="text-sm text-muted">Электронная почта</dt><dd><a href={`mailto:${contacts.email}`} class="text-lg">{contacts.email}</a></dd></div>
+        <div><dt class="text-sm text-muted">Адрес</dt><dd class="text-lg">{contacts.addressFull}</dd></div>
+        <div><dt class="text-sm text-muted">Приём</dt><dd class="text-lg">{contacts.hours}</dd></div>
+        {contacts.telegram && <div><dt class="text-sm text-muted">Telegram</dt><dd><a href={contacts.telegram}>{contacts.telegram}</a></dd></div>}
+        {contacts.whatsapp && <div><dt class="text-sm text-muted">WhatsApp</dt><dd><a href={contacts.whatsapp}>{contacts.whatsapp}</a></dd></div>}
+      </dl>
+      <div class="flex flex-col justify-between rounded-[14px] border border-line bg-card p-6 sm:p-8">
+        <div>
+          <h2 class="text-[1.5rem]">Как добраться</h2>
+          <p class="mt-3 text-ink-2">Ул. Тверская, 14, офис 1. Перед визитом позвоните, чтобы договориться о времени и подсказать, как пройти.</p>
+          <p class="mt-3 text-ink-2">На первую встречу возьмите паспорт и всё, что есть по долгам: кредитные договоры, требования банков, постановления приставов. Если документов нет — приходите без них, разберёмся по кредитной истории.</p>
+        </div>
+        <a href={contacts.yandexMapsUrl} class="btn btn-ghost mt-6 self-start" target="_blank" rel="noopener">Открыть в Яндекс Картах</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="mt-24"><LeadForm /></div>
+</Base>

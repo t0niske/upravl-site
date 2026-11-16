@@ -1,0 +1,101 @@
+---
+import { contacts } from '../data/site';
+interface Props {
+  title?: string;
+  text?: string;
+  topic?: string;
+}
+const {
+  title = 'Бесплатная консультация по вашей ситуации',
+  text = 'Оставьте телефон — перезвоню в рабочее время, задам несколько вопросов о долгах и имуществе и скажу, какая процедура вам подходит и сколько она будет стоить. Без обязательств.',
+  topic = '',
+} = Astro.props;
+---
+<section id="zayavka" class="scroll-mt-20 bg-night text-paper" aria-labelledby="zayavka-title">
+  <div class="wrap grid items-center gap-10 py-16 md:grid-cols-[1fr_1.1fr] md:gap-16 md:py-24">
+    <div>
+      <h2 id="zayavka-title" class="text-paper">{title}</h2>
+      <p class="mt-4 max-w-[30rem] text-paper/75">{text}</p>
+      <dl class="mt-8 grid gap-6 text-paper/80 sm:grid-cols-2">
+        <div>
+          <dt class="text-sm text-paper/60">Телефон</dt>
+          <dd><a href={contacts.phoneHref} class="tnum text-xl font-medium text-paper">{contacts.phone}</a></dd>
+        </div>
+        <div>
+          <dt class="text-sm text-paper/60">Офис</dt>
+          <dd>г. Томск, {contacts.street}</dd>
+        </div>
+      </dl>
+      {(contacts.telegram || contacts.whatsapp || contacts.max) && (
+        <div class="mt-6 flex flex-wrap gap-3">
+          {contacts.telegram && <a class="btn btn-light" href={contacts.telegram} rel="noopener">Написать в Telegram</a>}
+          {contacts.whatsapp && <a class="btn btn-light" href={contacts.whatsapp} rel="noopener">Написать в WhatsApp</a>}
+          {contacts.max && <a class="btn btn-light" href={contacts.max} rel="noopener">Написать в MAX</a>}
+        </div>
+      )}
+    </div>
+
+    <form class="lead-form relative rounded-[18px] bg-card p-6 text-ink sm:p-8" action="/lead.php" method="post" novalidate>
+      <input type="hidden" name="topic" value={topic} />
+      <input type="hidden" name="page" value={Astro.url.pathname} />
+      <input type="hidden" name="quiz" value="" data-quiz-field />
+      <div class="absolute -left-[9999px]" aria-hidden="true">
+        <label>Сайт <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+      </div>
+
+      <div class="grid gap-4">
+        <label class="grid gap-1.5">
+          <span class="text-sm font-medium">Как к вам обращаться</span>
+          <input name="name" type="text" autocomplete="given-name" maxlength="80" class="h-12 rounded-[10px] border border-line-strong bg-white px-3 outline-none transition-colors focus:border-ink" />
+        </label>
+        <label class="grid gap-1.5">
+          <span class="text-sm font-medium">Телефон <span class="text-accent" aria-hidden="true">*</span></span>
+          <input name="phone" type="tel" inputmode="tel" autocomplete="tel" required minlength="10" maxlength="25" placeholder="+7" class="h-12 rounded-[10px] border border-line-strong bg-white px-3 outline-none transition-colors focus:border-ink" />
+        </label>
+        <label class="grid gap-1.5">
+          <span class="text-sm font-medium">Коротко о ситуации <span class="font-normal text-muted">(необязательно)</span></span>
+          <textarea name="message" rows="3" maxlength="2000" placeholder="Например: 4 кредита и микрозайм, общий долг около 900 тыс., есть квартира и машина" class="rounded-[10px] border border-line-strong bg-white px-3 py-2.5 outline-none transition-colors focus:border-ink"></textarea>
+        </label>
+        <label class="flex items-start gap-3 text-sm text-muted">
+          <input name="consent" type="checkbox" required value="1" class="mt-1 h-5 w-5 shrink-0 accent-[var(--color-accent)]" />
+          <span>Согласен на обработку персональных данных по <a href="/politika-konfidencialnosti/" class="text-ink">политике конфиденциальности</a>. Данные нужны только для ответа на заявку.</span>
+        </label>
+        <button type="submit" class="btn btn-primary w-full text-base">Получить консультацию</button>
+        <p class="lead-status hidden rounded-[10px] p-3 text-sm" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('.lead-form').forEach((form) => {
+    const status = form.querySelector<HTMLElement>('.lead-status')!;
+    const show = (msg: string, ok: boolean) => {
+      status.textContent = msg;
+      status.className = `lead-status rounded-[10px] p-3 text-sm ${ok ? 'bg-[#e6f0ea] text-[#1f4d37]' : 'bg-[#fbe9e2] text-[#7a2e10]'}`;
+    };
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(form);
+      const phone = String(fd.get('phone') || '').replace(/\D/g, '');
+      if (phone.length < 10) return show('Проверьте номер телефона: нужно не меньше 10 цифр.', false);
+      if (!fd.get('consent')) return show('Отметьте согласие на обработку данных — без него заявку отправить нельзя.', false);
+      const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+      btn.disabled = true;
+      btn.textContent = 'Отправляю…';
+      try {
+        const res = await fetch(form.action, { method: 'POST', body: fd, headers: { Accept: 'application/json' } });
+        const data = await res.json().catch(() => ({}));
+        if (!res.ok || !data.ok) throw new Error(data.error || 'send');
+        form.reset();
+        show('Заявка отправлена. Перезвоню в рабочее время; если вопрос срочный — звоните по телефону.', true);
+        (window as any).ym?.((window as any).YM_ID, 'reachGoal', 'lead');
+      } catch {
+        show('Не получилось отправить заявку. Позвоните, пожалуйста, по телефону +7 (3822) 30-02-15.', false);
+      } finally {
+        btn.disabled = false;
+        btn.textContent = 'Получить консультацию';
+      }
+    });
+  });
+</script>
