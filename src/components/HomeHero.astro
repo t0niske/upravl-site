@@ -72,7 +72,7 @@ const messengers = [
           </a>
         ))}
         <details class="group relative xl:hidden">
-          <summary class="grid size-11 cursor-pointer list-none place-items-center rounded-[8px] border border-white/20 text-white [&::-webkit-details-marker]:hidden lg:size-12" aria-label="Меню">
+          <summary class="grid size-11 cursor-pointer list-none place-items-center rounded-[8px] bg-white text-[#034B8E] [&::-webkit-details-marker]:hidden lg:size-12" aria-label="Меню">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16" /></svg>
           </summary>
           <nav aria-label="Мобильное меню" class="absolute top-14 right-0 w-[min(20rem,calc(100vw-2rem))] rounded-[14px] border border-white/10 bg-[#0d2241] p-2 shadow-[0_12px_32px_rgba(0,0,0,0.35)] lg:top-16">
@@ -100,10 +100,10 @@ const messengers = [
       <div class="relative z-10 flex flex-col pt-10 pb-8 lg:justify-between lg:pt-0 lg:pb-[clamp(2rem,6vh,4.5rem)]">
         <div class="lg:my-auto lg:pt-[4vh]">
           <h1 id="hero-title" class="hero-title">{nb('Помогаю законно списать долги через банкротство в Томске')}</h1>
-          <p class="hero-sub mt-[clamp(1rem,3vh,2rem)] max-w-[44rem] text-white/90">
+          <p class="hero-sub mt-[clamp(1rem,3vh,2rem)] max-w-[44rem] font-medium text-white/90 lg:font-normal">
             {nb('Банкротство граждан и бизнеса, сопровождение дела в Арбитражном суде Томской области, работа с банками и коллекторами')}
           </p>
-          <a href="#proverka" class="hero-btn mt-[clamp(1.5rem,5vh,3.5rem)] inline-flex w-full items-center justify-center rounded-[10px] bg-[#034B8E] px-10 font-normal text-white no-underline transition-colors hover:bg-[#0a5aa6] sm:w-auto">Бесплатная консультация</a>
+          <a href="#proverka" class="hero-btn mt-[clamp(1.5rem,5vh,3.5rem)] inline-flex w-full items-center justify-center rounded-[10px] bg-[#034B8E] px-10 font-semibold text-white no-underline transition-colors hover:bg-[#0a5aa6] sm:w-auto lg:font-normal">Бесплатная консультация</a>
         </div>
 
         <ul class="mt-10 grid grid-cols-2 gap-6 sm:flex sm:gap-14 lg:mt-0 lg:translate-y-[10px]">
@@ -114,7 +114,7 @@ const messengers = [
             <span class="hero-stat-num tnum">{heroStats.years}</span>
             <span class="hero-stat-label">{heroStats.yearsLabel}</span>
           </li>
-          <li class="flex flex-col">
+          <li class="flex flex-col justify-self-end">
             <span class="hero-stat-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="M4.35 14.34A8 8 0 0 1 14.34 4.35" /><path d="M19.65 9.66A8 8 0 0 1 9.66 19.65" /><circle cx="17.66" cy="6.34" r="2.3" /><circle cx="6.34" cy="17.66" r="2.3" /><path d="M10.9 15.9V8.4h2.2a1.9 1.9 0 0 1 0 3.8H9.6" /><path d="M9.6 14.1h3.7" /></svg>
             </span>

@@ -56,7 +56,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     <link rel="sitemap" href="/sitemap-index.xml" />
     <script type="application/ld+json" set:html={JSON.stringify(graph)} />
   </head>
-  <body class="pb-16 md:pb-0">
+  <body>
     <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-50 focus:rounded focus:bg-white focus:px-3 focus:py-2">К содержанию</a>
 
     {!hideHeader && <header class="sticky top-0 z-40 border-b border-line bg-paper/90 backdrop-blur-md">
@@ -141,9 +141,5 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
       </div>
     </footer>
 
-    <div class="fixed inset-x-0 bottom-0 z-40 grid grid-cols-2 gap-2 border-t border-line bg-paper/95 p-2 backdrop-blur md:hidden">
-      <a href={contacts.phoneHref} class="btn btn-ghost !min-h-12">Позвонить</a>
-      <a href="#zayavka" class="btn btn-primary !min-h-12">Консультация</a>
-    </div>
   </body>
 </html>
