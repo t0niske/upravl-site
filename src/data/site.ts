@@ -152,33 +152,97 @@ export const heroStats = {
   writtenLabel: 'списанных долгов',
 };
 
-/** Меню новой шапки (макет главной, 16.11.2026). Пункты без страниц ведут на ближайшую существующую. */
-export type NavGroup = NavItem & { children?: NavItem[] };
+/** Меню новой шапки (макет главной, 16–17.11.2026). icon — ключ иконки в HomeHero.astro. */
+export type MenuLink = NavItem & { icon?: string };
+export type MenuColumn = { title: string; items: MenuLink[] };
+/** href: '' — страницы ещё нет: пункт виден в меню, но без ссылки */
+export type NavGroup = NavItem & { children?: MenuLink[]; columns?: MenuColumn[]; promo?: boolean };
+
+/** Широкая панель «Услуги»: две колонки + карточка квиза. Цены — отдельным пунктом. */
+export const servicesMenu: MenuColumn[] = [
+  {
+    title: 'Гражданам',
+    items: [
+      { href: '/bankrotstvo-fizicheskih-lic/', label: 'Банкротство через суд', icon: 'court' },
+      { href: '/bankrotstvo-fizicheskih-lic/cherez-mfc/', label: 'Бесплатно через МФЦ', icon: 'mfc' },
+      { href: '/bankrotstvo-ip/', label: 'Банкротство ИП', icon: 'store' },
+      // «С ипотекой», «Пенсионерам» — добавить, когда появятся страницы (карта сайта v2, P1)
+    ],
+  },
+  {
+    title: 'Бизнесу',
+    items: [
+      { href: '/bankrotstvo-ur-lica/', label: 'Банкротство ООО', icon: 'briefcase' },
+      { href: '/bankrotstvo-ur-lica/subsidiarnaya-otvetstvennost/', label: 'Защита от субсидиарной ответственности', icon: 'shield' },
+      { href: '/bankrotstvo-ur-lica/kreditoram/', label: 'Кредиторам', icon: 'doc' },
+    ],
+  },
+];
+
+/** Широкая панель «Всё о банкротстве» (структура дизайнера, 17.11.2026). Пустой href — страницы пока нет. */
+export const knowMenu: MenuColumn[] = [
+  {
+    title: 'Как это работает',
+    items: [
+      { href: '/bankrotstvo-fizicheskih-lic/', label: 'Как проходит банкротство через суд' },
+      { href: '/bankrotstvo-fizicheskih-lic/cherez-mfc/', label: 'Как пройти банкротство через МФЦ' },
+      { href: '/stati/kto-takoj-arbitrazhnyj-upravlyayushchij/', label: 'Кто такой арбитражный управляющий' },
+      { href: '', label: 'Банкротство или реструктуризация' },
+    ],
+  },
+  {
+    title: 'Ваша ситуация',
+    items: [
+      { href: '', label: 'Банкротство с ипотекой' },
+      { href: '', label: 'Банкротство пенсионеров' },
+      { href: '', label: 'Банкротство поручителя' },
+      { href: '', label: 'Банкротство с автокредитом' },
+      { href: '', label: 'Банкротство супругов' },
+    ],
+  },
+  {
+    title: 'Перед тем как решиться',
+    items: [
+      { href: '', label: 'Последствия банкротства' },
+      { href: '', label: 'Документы для банкротства' },
+      { href: '/stati/mify-o-bankrotstve-grazhdan/', label: 'Мифы о банкротстве' },
+      { href: '', label: 'Когда суд не списывает долги' },
+      { href: '', label: 'Как не попасть к недобросовестной фирме' },
+    ],
+  },
+];
+
 export const headerNav: NavGroup[] = [
   {
     href: '/bankrotstvo-fizicheskih-lic/',
     label: 'Услуги',
+    columns: servicesMenu,
+    promo: true,
+    children: servicesMenu.flatMap((c) => c.items),
+  },
+  {
+    href: '/yuridicheskie-uslugi/',
+    label: 'Цены',
+    // страницы «Стоимость», «Калькулятор», «Рассрочка» в плане (карта сайта v2); пока ведут на прайс
     children: [
-      ...services.map(({ href, label }) => ({ href, label })),
-      { href: '/yuridicheskie-uslugi/', label: 'Юридические услуги' },
+      { href: '/yuridicheskie-uslugi/', label: 'Стоимость банкротства', icon: 'ruble' },
+      { href: '/yuridicheskie-uslugi/', label: 'Калькулятор полной цены', icon: 'calc' },
+      { href: '/yuridicheskie-uslugi/', label: 'Рассрочка', icon: 'calendar' },
+      { href: '/yuridicheskie-uslugi/', label: 'Юридические услуги и цены', icon: 'list' },
     ],
   },
-  { href: '/yuridicheskie-uslugi/', label: 'Цены' },
   {
     href: '/stati/',
     label: 'Все о банкротстве',
-    children: [
-      { href: '/stati/kto-takoj-arbitrazhnyj-upravlyayushchij/', label: 'Кто такой арбитражный управляющий' },
-      { href: '/stati/mify-o-bankrotstve-grazhdan/', label: 'Мифы о банкротстве граждан' },
-      { href: '/stati/', label: 'Все статьи' },
-    ],
+    columns: knowMenu,
+    children: knowMenu.flatMap((c) => c.items).filter((i) => i.href),
   },
   {
     href: '/ob-upravlyayushchem/',
     label: 'Обо мне',
     children: [
-      { href: '/ob-upravlyayushchem/', label: 'Опыт и документы' },
-      { href: '/dela/', label: 'Завершённые дела' },
+      { href: '/ob-upravlyayushchem/', label: 'Опыт и документы', icon: 'award' },
+      { href: '/dela/', label: 'Завершённые дела', icon: 'doc' },
     ],
   },
   { href: '/#otzyvy', label: 'Отзывы' },
