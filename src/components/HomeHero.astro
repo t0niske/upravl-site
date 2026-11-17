@@ -9,7 +9,6 @@ import { person, contacts, headerNav, heroStats } from '../data/site';
 import portrait from '../assets/antonets-hero.png';
 import court from '../assets/court-bg-a.png';
 import { nb } from '../data/typo';
-import promoImg from '../assets/photos/quiz.jpg';
 import iconWhatsapp from '../assets/icons/whatsapp.png';
 import iconMax from '../assets/icons/max.png';
 
@@ -76,7 +75,18 @@ const messengers = [
                           <span class="menu-promo-btn" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14" /></svg></span>
                         </span>
                         <span class="mt-1.5 block text-[0.9375rem] leading-[1.35] text-[#6d737c]">{nb('Ответьте на 6 вопросов — это займёт пару минут')}</span>
-                        <Image src={promoImg} alt="" widths={[320, 640]} sizes="18rem" class="menu-promo-img" loading="lazy" />
+                        <span class="qz" aria-hidden="true">
+                          <span class="qz-phone">
+                            <span class="qz-screen">
+                              <span class="qz-step">Вопрос 2 из 6</span>
+                              <span class="qz-bar"><i></i></span>
+                              <span class="qz-q">Какая сумма долга?</span>
+                              <span class="qz-opt">до 500 тыс. ₽</span>
+                              <span class="qz-opt is-on">от 500 тыс. до 1 млн ₽</span>
+                              <span class="qz-opt">больше 1 млн ₽</span>
+                            </span>
+                          </span>
+                        </span>
                       </a>
                     )}
                   </div>
@@ -199,7 +209,20 @@ const messengers = [
   .menu-promo-btn { display: grid; place-items: center; width: 2.5rem; height: 2.5rem; flex: none; border-radius: 6px; background: #15171c; color: #fff; transition: background-color 150ms var(--ease-out), transform 120ms var(--ease-out); }
   .menu-promo:hover .menu-promo-btn { background: #034b8e; }
   .menu-promo:active .menu-promo-btn { transform: scale(0.96); }
-  .menu-promo-img { display: block; width: calc(100% + 1.75rem); max-width: none; height: auto; aspect-ratio: 16 / 9; object-fit: cover; object-position: 40% 45%; margin: 0.875rem -0.875rem 0; border-radius: 10px; }
+  /* Мини-экран квиза кодом вместо фото: телефон выглядывает снизу карточки */
+  .qz { display: flex; justify-content: center; height: 10.5rem; margin: 1rem -1.375rem -0.5rem; overflow: hidden; }
+  .qz-phone { width: 12.5rem; padding: 0.4375rem 0.4375rem 0; border-radius: 1.75rem 1.75rem 0 0; background: #15171c; box-shadow: 0 10px 30px rgb(3 75 142 / 0.18); transition: transform 200ms var(--ease-out); }
+  .menu-promo:hover .qz-phone { transform: translateY(-4px); }
+  .qz-screen { display: flex; flex-direction: column; height: 100%; padding: 1rem 0.75rem 0; border-radius: 1.375rem 1.375rem 0 0; background: #fff; }
+  .qz-screen > * { flex-shrink: 0; }
+  .qz-step { font-size: 0.625rem; line-height: 1; color: #8a8f98; }
+  .qz-bar { display: block; height: 3px; margin-top: 0.4375rem; border-radius: 2px; background: #e6e8ec; }
+  .qz-bar i { display: block; width: 33%; height: 100%; border-radius: inherit; background: #034b8e; }
+  .qz-q { margin: 0.6875rem 0 0.5rem; font-family: var(--font-display); font-size: 0.875rem; font-weight: 700; line-height: 1.15; color: #15171c; }
+  .qz-opt { display: flex; align-items: center; gap: 0.4375rem; margin-top: 0.3125rem; padding: 0.4375rem 0.5rem; border: 1px solid #e3e5e9; border-radius: 7px; font-size: 0.6875rem; line-height: 1.1; color: #15171c; }
+  .qz-opt::before { content: ''; flex: none; width: 0.6875rem; height: 0.6875rem; border: 1.5px solid #b8bcc4; border-radius: 50%; }
+  .qz-opt.is-on { border-color: #034b8e; background: #034b8e; color: #fff; }
+  .qz-opt.is-on::before { border-color: #fff; background: radial-gradient(circle, #fff 0 2.5px, transparent 3px); }
   /* кнопки мессенджеров: без подсветки фона, при наведении значок светлеет и появляется мягкое кольцо */
   .msg-btn {
     transition: color 150ms var(--ease-out), box-shadow 150ms var(--ease-out), transform 120ms var(--ease-out);
