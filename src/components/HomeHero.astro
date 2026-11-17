@@ -61,8 +61,8 @@ const messengers = [
       <div class="flex items-center gap-2 lg:gap-3">
         <div class="mr-1 hidden flex-col items-start leading-tight md:flex 2xl:mr-4">
           <a href={contacts.phoneHref} class="tnum whitespace-nowrap text-[1rem] font-semibold text-white no-underline transition-opacity hover:opacity-80 2xl:text-[1.125rem]">{contacts.phone}</a>
-          <span class="mt-1 whitespace-nowrap text-[0.8125rem] text-white/65 2xl:text-[0.875rem]">{contacts.hoursDays}</span>
-          <span class="whitespace-nowrap text-[0.8125rem] text-white/65 2xl:text-[0.875rem]">{contacts.hoursNote}</span>
+          <span class="mt-1 whitespace-nowrap text-[0.8125rem] text-white/85 2xl:text-[0.875rem]">{contacts.hoursDays}</span>
+          <span class="whitespace-nowrap text-[0.8125rem] text-white/85 2xl:text-[0.875rem]">{contacts.hoursNote}</span>
         </div>
         {messengers.map((m) => (
           <a href={m.href} class="msg-btn hidden size-11 place-items-center rounded-[8px] bg-white text-[#034B8E] no-underline sm:grid 2xl:size-14" aria-label={m.label}>
@@ -128,7 +128,7 @@ const messengers = [
         <Image src={portrait} alt={`${person.name}, арбитражный управляющий, в тёмно-синем костюме, руки скрещены`} widths={[480, 720, 1000]} sizes="(min-width: 1024px) 46vw, 100vw" class="hero-photo" loading="eager" fetchpriority="high" />
         <figcaption class="hero-name">
           <span class="block font-serif font-bold text-white">{person.name}</span>
-          <span class="mt-1 block text-white/75">Арбитражный управляющий</span>
+          <span class="mt-1 block text-white/90">Арбитражный управляющий</span>
         </figcaption>
       </figure>
     </div>
@@ -216,8 +216,11 @@ const messengers = [
   /* Стекло: лёгкий градиент, светлая кромка сверху, тень вниз; размытие с усилением цвета */
   .glass,
   .hero-name {
-    /* плоская полупрозрачная плашка, как в референсе krasovskii.com: белый 10 %, без размытия, рамки и тени */
-    background-color: rgb(255 255 255 / 0.1);
+    /* плоская плашка как в референсе krasovskii.com (белый, без рамки, тени и блика),
+       но с размытием фона под ней, чтобы текст не терялся на здании и пиджаке */
+    background-color: rgb(255 255 255 / 0.12);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
   }
   .hero-photo { position: relative; }
   .hero-name {
