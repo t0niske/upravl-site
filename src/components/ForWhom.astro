@@ -2,16 +2,17 @@
 /**
  * Блок «Для кого» по макету дизайнера (17.11.2026): шесть ситуаций карточками,
  * на компьютере по три в ряд со стрелками, на телефоне листаются пальцем.
- * Иллюстрации — матовый 3D в оттенках #034B8E (design/illustrations/).
+ * Фото — сгенерированные иллюстрации ситуаций (design/photos/light-*), не снимки реальных клиентов.
+ * Прежние 3D-иллюстрации лежат в src/assets/cards/.
  */
 import { Image } from 'astro:assets';
 import { nb } from '../data/typo';
-import credits from '../assets/cards/credits.png';
-import calls from '../assets/cards/calls.png';
-import blocked from '../assets/cards/blocked.png';
-import ip from '../assets/cards/ip.png';
-import company from '../assets/cards/company.png';
-import subsidiary from '../assets/cards/subsidiary.png';
+import credits from '../assets/photos/credits.jpg';
+import calls from '../assets/photos/calls.jpg';
+import blocked from '../assets/photos/blocked.jpg';
+import ip from '../assets/photos/ip.jpg';
+import company from '../assets/photos/company.jpg';
+import subsidiary from '../assets/photos/subsidiary.jpg';
 
 const cards = [
   {
@@ -173,7 +174,7 @@ const cards = [
     flex-direction: column;
     border-radius: 16px;
     background: #fff;
-    padding: clamp(1.5rem, 2.2vw, 2.75rem) clamp(1.5rem, 2.2vw, 2.75rem) clamp(1rem, 1.5vw, 1.75rem);
+    padding: clamp(1.5rem, 2.2vw, 2.25rem) clamp(1.5rem, 2.2vw, 2.25rem) 0.75rem;
   }
   .fw-card-title {
     font-family: var(--font-display);
@@ -193,13 +194,16 @@ const cards = [
   }
   .fw-card-img {
     display: block;
-    width: 100%;
+    width: calc(100% + 2 * clamp(1.5rem, 2.2vw, 2.25rem) - 1.5rem);
+    max-width: none;
     height: auto;
     aspect-ratio: 3 / 2;
-    object-fit: contain;
+    object-fit: cover;
+    margin: auto calc(-1 * clamp(1.5rem, 2.2vw, 2.25rem) + 0.75rem) 0;
     margin-top: auto;
-    padding-top: clamp(1rem, 2vw, 2rem);
+    border-radius: 10px;
   }
+  .fw-card-text { margin-bottom: clamp(1.25rem, 2vw, 2rem); }
 
   @media (min-width: 640px) {
     .fw-track { margin-inline: 0; padding-inline: 0; scroll-padding-inline: 0; }
