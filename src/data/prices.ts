@@ -1,9 +1,10 @@
 /** ◐ Прайс со старого сайта (2020). Подтвердить актуальность перед запуском. */
 export type PriceRow = { service: string; price: string; note?: string };
-export type PriceGroup = { title: string; rows: PriceRow[] };
+export type PriceGroup = { id: string; title: string; rows: PriceRow[] };
 
 export const priceGroups: PriceGroup[] = [
   {
+    id: 'konsultacii',
     title: 'Консультации и документы',
     rows: [
       { service: 'Устная консультация', price: 'бесплатно' },
@@ -12,6 +13,7 @@ export const priceGroups: PriceGroup[] = [
     ],
   },
   {
+    id: 'bankrotstvo',
     title: 'Дела о банкротстве',
     rows: [
       { service: 'Банкротство гражданина под ключ: заявление, суд, сопровождение до списания долгов', price: '95 000 ₽', note: 'рассрочка от 5 000 ₽ в месяц; обязательные расходы оплачиваются отдельно' },
@@ -24,6 +26,7 @@ export const priceGroups: PriceGroup[] = [
     ],
   },
   {
+    id: 'arbitrazhnyj-sud',
     title: 'Арбитражный суд (кроме банкротства)',
     rows: [
       { service: 'Исковое заявление или отзыв на иск', price: 'от 10 000 ₽' },
@@ -35,6 +38,7 @@ export const priceGroups: PriceGroup[] = [
     ],
   },
   {
+    id: 'sudy-obshchej-yurisdikcii',
     title: 'Суды общей юрисдикции',
     rows: [
       { service: 'Исковое заявление или отзыв', price: 'от 5 000 ₽' },

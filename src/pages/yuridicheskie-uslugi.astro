@@ -35,7 +35,7 @@ const offerCatalog = {
   </Fragment>
 
   {priceGroups.map((g) => (
-    <section class="not-prose mt-10 first:mt-0">
+    <section id={g.id} class="not-prose mt-10 scroll-mt-6 first:mt-0">
       <h2 class="text-[1.5rem]">{g.title}</h2>
       <div class="mt-4 overflow-x-auto">
         <table class="table-clean min-w-[30rem]">

@@ -177,6 +177,15 @@ export const servicesMenu: MenuColumn[] = [
       { href: '/bankrotstvo-ur-lica/kreditoram/', label: 'Кредиторам', icon: 'doc' },
     ],
   },
+  {
+    // «Прочие юридические услуги» со старого сайта: ведут в разделы прайса
+    title: 'Другие услуги',
+    items: [
+      { href: '/yuridicheskie-uslugi/#konsultacii', label: 'Консультации и документы', icon: 'doc' },
+      { href: '/yuridicheskie-uslugi/#arbitrazhnyj-sud', label: 'Арбитражный суд', icon: 'court' },
+      { href: '/yuridicheskie-uslugi/#sudy-obshchej-yurisdikcii', label: 'Суды общей юрисдикции', icon: 'court' },
+    ],
+  },
 ];
 
 /** Широкая панель «Всё о банкротстве» (структура дизайнера, 17.11.2026). Пустой href — страницы пока нет. */
