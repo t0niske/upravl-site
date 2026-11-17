@@ -6,6 +6,7 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://upravl.ru',
   trailingSlash: 'always',
+  devToolbar: { enabled: false },
   build: { format: 'directory', inlineStylesheets: 'auto' },
   integrations: [
     sitemap({

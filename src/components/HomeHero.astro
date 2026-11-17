@@ -7,6 +7,12 @@
 import { Image } from 'astro:assets';
 import { person, contacts, headerNav, heroStats } from '../data/site';
 import portrait from '../assets/antonets-hero.png';
+import court from '../assets/court-bg-a.png';
+import { nb } from '../data/typo';
+
+// Фон: здание Арбитражного суда Томской области, фасад анфас (сгенерировано по мотивам, монохром).
+// Другие варианты (ракурс снизу, скетч, акварель, линии) лежат в design/court/.
+const COURT_OPACITY = 0.5;
 
 const path = Astro.url.pathname;
 const messengers = [
@@ -17,7 +23,9 @@ const messengers = [
 ---
 
 <section class="hero relative isolate overflow-hidden text-white" aria-labelledby="hero-title">
-  <div class="hero-bg absolute inset-0 -z-10" aria-hidden="true"></div>
+  <div class="hero-bg absolute inset-0 -z-10" aria-hidden="true">
+    <Image src={court} alt="" widths={[960, 1600, 2400]} sizes="100vw" class="hero-court" style={`opacity:${COURT_OPACITY}`} loading="eager" />
+  </div>
 
   <div class="hero-inner mx-auto flex w-full max-w-[100rem] flex-col px-4 sm:px-8">
     <!-- Шапка -->
@@ -85,14 +93,14 @@ const messengers = [
     <div class="hero-body relative grid flex-1 lg:grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)]">
       <div class="relative z-10 flex flex-col pt-10 pb-8 lg:justify-between lg:pt-0 lg:pb-[clamp(2rem,6vh,4.5rem)]">
         <div class="lg:my-auto lg:pt-[4vh]">
-          <h1 id="hero-title" class="hero-title">Помогаю законно списать долги через банкротство в&nbsp;Томске</h1>
+          <h1 id="hero-title" class="hero-title">{nb('Помогаю законно списать долги через банкротство в Томске')}</h1>
           <p class="hero-sub mt-[clamp(1rem,3vh,2rem)] max-w-[44rem] text-white/90">
-            Банкротство граждан и бизнеса, сопровождение дела в Арбитражном суде Томской области, работа с банками и коллекторами
+            {nb('Банкротство граждан и бизнеса, сопровождение дела в Арбитражном суде Томской области, работа с банками и коллекторами')}
           </p>
           <a href="#proverka" class="hero-btn mt-[clamp(1.5rem,5vh,3.5rem)] inline-flex w-full items-center justify-center rounded-[10px] bg-[#034B8E] px-10 font-normal text-white no-underline transition-colors hover:bg-[#0a5aa6] sm:w-auto">Бесплатная консультация</a>
         </div>
 
-        <ul class="mt-10 grid grid-cols-2 gap-6 sm:flex sm:gap-16 lg:mt-0">
+        <ul class="mt-10 grid grid-cols-2 gap-6 sm:flex sm:gap-14 lg:mt-0">
           <li class="flex flex-col">
             <span class="hero-stat-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" /><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" /><path d="M7 21h10" /><path d="M12 3v18" /><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2" /></svg>
@@ -111,19 +119,6 @@ const messengers = [
       </div>
 
       <figure class="hero-figure relative -mx-4 mt-2 sm:-mx-8 lg:static lg:m-0">
-        <svg class="hero-portico" viewBox="0 0 600 560" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" aria-hidden="true">
-          <path d="M300 24 30 150h540Z" /><path d="M300 52 92 140h416Z" opacity=".6" />
-          <path d="M18 150h564v18H18zM34 168h532v26H34z" />
-          {[70, 158, 246, 334, 422, 510].map((x) => (
-            <g>
-              <path d={`M${x - 6} 194h64v14H${x - 6}z`} />
-              <path d={`M${x} 208h52v262H${x}z`} />
-              <path d={`M${x + 13} 214v250M${x + 26} 214v250M${x + 39} 214v250`} opacity=".55" />
-              <path d={`M${x - 6} 470h64v12H${x - 6}z`} />
-            </g>
-          ))}
-          <path d="M20 482h560v18H20zM4 500h592v20H4zM-12 520h624v20H-12z" />
-        </svg>
         <Image src={portrait} alt={`${person.name}, арбитражный управляющий, в тёмно-синем костюме, руки скрещены`} widths={[480, 720, 1000]} sizes="(min-width: 1024px) 46vw, 100vw" class="hero-photo" loading="eager" fetchpriority="high" />
         <figcaption class="hero-name">
           <span class="block font-serif font-bold text-white">{person.name}</span>
@@ -136,10 +131,25 @@ const messengers = [
 
 <style>
   .hero-bg {
+    background: linear-gradient(155deg, #1b2a45 0%, #13284a 40%, #0c3466 75%, #0b3d78 100%);
+  }
+  .hero-court {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 70% 100%;
+  }
+  /* затемнение под текстом слева и плавный переход книзу */
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
     background:
-      radial-gradient(42% 60% at 72% 42%, rgb(30 92 168 / 0.55), transparent 70%),
-      radial-gradient(60% 50% at 85% 100%, rgb(3 75 142 / 0.6), transparent 70%),
-      linear-gradient(155deg, #1b2a45 0%, #13284a 40%, #0c3466 75%, #0b3d78 100%);
+      linear-gradient(90deg, rgb(16 34 64 / 0.95) 0%, rgb(16 34 64 / 0.75) 38%, rgb(16 34 64 / 0.15) 68%, transparent 100%),
+      linear-gradient(0deg, rgb(11 40 80 / 0.55) 0%, transparent 35%),
+      radial-gradient(40% 55% at 74% 48%, rgb(30 92 168 / 0.35), transparent 70%);
   }
   .hero-title {
     font-family: var(--font-display);
@@ -163,7 +173,7 @@ const messengers = [
   .hero-stat-icon {
     display: grid;
     place-items: center;
-    width: clamp(2.75rem, 6vh, 3.5rem);
+    width: clamp(2.25rem, 4.6vh, 2.75rem);
     aspect-ratio: 1;
     border-radius: 6px;
     background: rgb(255 255 255 / 0.14);
@@ -172,15 +182,15 @@ const messengers = [
   .hero-stat-icon svg { width: 58%; height: 58%; }
   .hero-stat-num {
     font-family: var(--font-display);
-    margin-top: clamp(0.75rem, 2.4vh, 1.5rem);
+    margin-top: clamp(0.5rem, 1.6vh, 1rem);
     font-weight: 600;
-    font-size: clamp(1.75rem, min(3vw, 5.4vh), 3rem);
+    font-size: clamp(1.5rem, min(2.3vw, 4.3vh), 2.375rem);
     line-height: 1;
     letter-spacing: -0.02em;
   }
   .hero-stat-label {
-    margin-top: clamp(0.5rem, 1.6vh, 1rem);
-    font-size: clamp(1rem, min(1.45vw, 2.6vh), 1.5rem);
+    margin-top: clamp(0.25rem, 0.8vh, 0.5rem);
+    font-size: clamp(0.9375rem, min(1.15vw, 2.1vh), 1.1875rem);
     line-height: 1.2;
     color: rgb(255 255 255 / 0.92);
   }
@@ -199,19 +209,6 @@ const messengers = [
     box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.22), 0 12px 40px rgb(2 14 34 / 0.35);
     backdrop-filter: blur(22px) saturate(150%);
     -webkit-backdrop-filter: blur(22px) saturate(150%);
-  }
-  .hero-portico {
-    position: absolute;
-    left: 50%;
-    bottom: 0;
-    width: 100%;
-    max-width: 44rem;
-    transform: translateX(-50%);
-    color: #8fb8ec;
-    opacity: 0.13;
-    pointer-events: none;
-    mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
-    -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
   }
   .hero-photo { position: relative; }
   .hero-name {
@@ -236,19 +233,11 @@ const messengers = [
     }
     .hero-photo {
       position: absolute;
-      right: 2%;
-      bottom: 0;
+      right: 0;
+      bottom: -18%;
       width: auto;
       max-width: none;
-      height: 97%;
-    }
-    .hero-portico {
-      left: auto;
-      right: -4%;
-      bottom: 2%;
-      width: 112%;
-      max-width: none;
-      transform: none;
+      height: 114%;
     }
     .hero-name {
       right: 0;
