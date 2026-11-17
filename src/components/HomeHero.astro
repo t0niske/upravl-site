@@ -9,7 +9,7 @@ import { person, contacts, headerNav, heroStats } from '../data/site';
 import portrait from '../assets/antonets-hero.png';
 import court from '../assets/court-bg-a.png';
 import { nb } from '../data/typo';
-import promoImg from '../assets/cards/credits.png';
+import promoImg from '../assets/cards/quiz.png';
 import iconWhatsapp from '../assets/icons/whatsapp.png';
 import iconMax from '../assets/icons/max.png';
 
@@ -70,13 +70,13 @@ const messengers = [
                       </div>
                     ))}
                     {i.promo && (
-                      <a href="#proverka" class="menu-promo group/promo">
+                      <a href="#proverka" class="menu-promo">
                         <span class="flex items-start justify-between gap-4">
                           <span class="font-serif text-[1.25rem] leading-[1.15] font-bold text-[#15171c]">Можно ли списать ваши долги?</span>
-                          <span class="menu-promo-arrow" aria-hidden="true"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8" /></svg></span>
+                          <span class="menu-promo-btn" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14" /></svg></span>
                         </span>
-                        <span class="mt-1.5 block whitespace-normal text-[0.9375rem] text-[#6d737c]">Ответьте на 6 вопросов — это займёт пару минут</span>
-                        <Image src={promoImg} alt="" widths={[400, 760]} sizes="20rem" class="menu-promo-img" loading="lazy" />
+                        <span class="mt-1.5 block text-[0.9375rem] leading-[1.35] text-[#6d737c]">{nb('Ответьте на 6 вопросов — это займёт пару минут')}</span>
+                        <Image src={promoImg} alt="" widths={[300, 600]} sizes="8.5rem" class="menu-promo-img" loading="lazy" />
                       </a>
                     )}
                   </div>
@@ -190,10 +190,11 @@ const messengers = [
   .menu-item { display: flex; align-items: center; gap: 0.75rem; margin: 0 -0.625rem; padding: 0.4375rem 0.625rem; border-radius: 8px; font-size: 1rem; font-weight: 400; line-height: 1.25; color: #15171c; text-decoration: none; white-space: normal; transition: background-color 150ms var(--ease-out), color 150ms var(--ease-out); }
   a.menu-item:hover { background: #eef4fb; color: #034b8e; }
   .menu-item.is-soon { color: #8a9099; cursor: default; }
-  .menu-promo { position: relative; display: block; min-height: 13.5rem; overflow: hidden; border-radius: 14px; background: #eef4fb; padding: 1.25rem 1.375rem; text-decoration: none; white-space: normal; }
-  .menu-promo-arrow { display: grid; place-items: center; width: 2.25rem; height: 2.25rem; flex: none; border-radius: 50%; border: 1.5px solid #15171c; color: #15171c; transition: background-color 150ms var(--ease-out), color 150ms var(--ease-out), border-color 150ms var(--ease-out); }
-  .menu-promo:hover .menu-promo-arrow { background: #034b8e; border-color: #034b8e; color: #fff; }
-  .menu-promo-img { position: absolute; right: -0.75rem; bottom: -1.25rem; width: 15rem; height: auto; }
+  .menu-promo { display: flex; flex-direction: column; overflow: hidden; border-radius: 14px; background: #eef4fb; padding: 1.25rem 1.375rem 1rem; text-decoration: none; white-space: normal; }
+  .menu-promo-btn { display: grid; place-items: center; width: 2.5rem; height: 2.5rem; flex: none; border-radius: 6px; background: #15171c; color: #fff; transition: background-color 150ms var(--ease-out), transform 120ms var(--ease-out); }
+  .menu-promo:hover .menu-promo-btn { background: #034b8e; }
+  .menu-promo:active .menu-promo-btn { transform: scale(0.96); }
+  .menu-promo-img { display: block; width: 8.5rem; height: auto; margin: 0.5rem 0 0 auto; }
   /* кнопки мессенджеров: без подсветки фона, при наведении значок светлеет и появляется мягкое кольцо */
   .msg-btn {
     transition: color 150ms var(--ease-out), box-shadow 150ms var(--ease-out), transform 120ms var(--ease-out);
