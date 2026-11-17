@@ -1,0 +1,211 @@
+---
+/**
+ * Блок «Для кого» по макету дизайнера (17.11.2026): шесть ситуаций карточками,
+ * на компьютере по три в ряд со стрелками, на телефоне листаются пальцем.
+ * Иллюстрации — матовый 3D в оттенках #034B8E (design/illustrations/).
+ */
+import { Image } from 'astro:assets';
+import { nb } from '../data/typo';
+import credits from '../assets/cards/credits.png';
+import calls from '../assets/cards/calls.png';
+import blocked from '../assets/cards/blocked.png';
+import ip from '../assets/cards/ip.png';
+import company from '../assets/cards/company.png';
+import subsidiary from '../assets/cards/subsidiary.png';
+
+const cards = [
+  {
+    title: 'Не получается платить по кредитам',
+    text: 'Платежи больше дохода, а долг растёт из-за процентов и штрафов. Разберу, можно ли его списать',
+    img: credits,
+    alt: 'Стопки монет, одна из них падает',
+  },
+  {
+    title: 'Звонят банки и коллекторы',
+    text: 'После начала процедуры кредиторы могут требовать долг только через суд, а не звонками вам и родственникам',
+    img: calls,
+    alt: 'Телефоны с сообщениями и трубка',
+  },
+  {
+    title: 'Приставы списывают зарплату или арестовали счета',
+    text: 'Банкротство останавливает исполнительные производства. Объясню, как это происходит в вашем случае',
+    img: blocked,
+    alt: 'Банковская карта под цепью с замком',
+  },
+  {
+    title: 'Остались долги после закрытия ИП',
+    text: 'Закрытие ИП не снимает долги: они остаются на вас лично. Их можно списать через банкротство',
+    img: ip,
+    alt: 'Закрытый магазин и пачка денег',
+  },
+  {
+    title: 'Компании нечем платить по долгам',
+    text: 'Директор обязан вовремя подать на банкротство, иначе долги могут взыскать с него лично',
+    img: company,
+    alt: 'Офисное здание, нижние этажи которого проседают',
+  },
+  {
+    title: 'Вас привлекают к субсидиарной ответственности',
+    text: 'Кредиторы требуют с вас лично долги компании. Оценю риски и буду защищать вас в суде',
+    img: subsidiary,
+    alt: 'Портфель, прикованный цепью к дому',
+  },
+];
+---
+
+<section id="dlya-kogo" class="for-whom" aria-labelledby="for-whom-title">
+  <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-8">
+    <span class="fw-chip">
+      <span class="grid grid-cols-2 gap-[2px]" aria-hidden="true">
+        <i class="size-[5px] rounded-[1px] bg-[#034B8E]"></i><i class="size-[5px] rounded-[1px] bg-[#034B8E]"></i>
+        <i class="size-[5px] rounded-[1px] bg-[#034B8E]"></i><i class="size-[5px] rounded-[1px] bg-[#034B8E]"></i>
+      </span>
+      Для кого
+    </span>
+
+    <div class="mt-[clamp(2rem,4.5vw,4.5rem)] flex items-end justify-between gap-8">
+      <h2 id="for-whom-title" class="fw-title">
+        {nb('Беру дело под свой контроль —')}<br class="hidden lg:block" /> {nb('от первых документов до решения суда')}
+      </h2>
+      <div class="hidden shrink-0 gap-4 lg:flex">
+        <button type="button" class="fw-arrow" data-fw-prev aria-label="Предыдущие карточки">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" /></svg>
+        </button>
+        <button type="button" class="fw-arrow" data-fw-next aria-label="Следующие карточки">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+        </button>
+      </div>
+    </div>
+
+    <ul class="fw-track" data-fw-track>
+      {cards.map((c) => (
+        <li class="fw-card">
+          <h3 class="fw-card-title">{nb(c.title)}</h3>
+          <p class="fw-card-text">{nb(c.text)}</p>
+          <Image src={c.img} alt={c.alt} widths={[400, 640, 900]} sizes="(min-width: 1024px) 31vw, (min-width: 640px) 46vw, 84vw" class="fw-card-img" loading="lazy" />
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.for-whom').forEach((root) => {
+    const track = root.querySelector<HTMLElement>('[data-fw-track]');
+    const prev = root.querySelector<HTMLButtonElement>('[data-fw-prev]');
+    const next = root.querySelector<HTMLButtonElement>('[data-fw-next]');
+    if (!track || !prev || !next) return;
+    const step = () => {
+      const card = track.querySelector<HTMLElement>('.fw-card');
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      return card ? card.offsetWidth + gap : track.clientWidth;
+    };
+    const update = () => {
+      const max = track.scrollWidth - track.clientWidth - 2;
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft >= max;
+    };
+    prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+    next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+    track.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  });
+</script>
+
+<style>
+  .for-whom {
+    background: #f3f4f6;
+    padding: clamp(3.5rem, 7vw, 7rem) 0;
+  }
+  .fw-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.625rem 1.125rem;
+    border-radius: 8px;
+    background: #fff;
+    font-size: clamp(1rem, 1.1vw, 1.1875rem);
+    line-height: 1.2;
+    color: var(--color-ink);
+  }
+  .fw-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.875rem, 3.3vw, 3.75rem);
+    line-height: 1.06;
+    letter-spacing: -0.025em;
+    color: #15171c;
+    text-wrap: wrap;
+  }
+  .fw-arrow {
+    display: grid;
+    place-items: center;
+    width: clamp(3.5rem, 3.6vw, 4.375rem);
+    aspect-ratio: 1;
+    border-radius: 8px;
+    background: #15171c;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 150ms var(--ease-out), opacity 150ms var(--ease-out), transform 120ms var(--ease-out);
+  }
+  .fw-arrow:hover { background: #034b8e; }
+  .fw-arrow:active { transform: scale(0.96); }
+  .fw-arrow:disabled { opacity: 0.25; cursor: default; background: #15171c; }
+
+  .fw-track {
+    --gap: clamp(1rem, 1.5vw, 1.75rem);
+    display: flex;
+    gap: var(--gap);
+    margin-top: clamp(1.75rem, 3vw, 3.5rem);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    margin-inline: -1rem;
+    padding-inline: 1rem;
+    scroll-padding-inline: 1rem;
+  }
+  .fw-track::-webkit-scrollbar { display: none; }
+  .fw-card {
+    flex: 0 0 84%;
+    scroll-snap-align: start;
+    display: flex;
+    flex-direction: column;
+    border-radius: 16px;
+    background: #fff;
+    padding: clamp(1.5rem, 2.2vw, 2.75rem) clamp(1.5rem, 2.2vw, 2.75rem) clamp(1rem, 1.5vw, 1.75rem);
+  }
+  .fw-card-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.375rem, 1.75vw, 2.125rem);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: #15171c;
+    text-wrap: wrap;
+  }
+  .fw-card-text {
+    margin-top: clamp(0.75rem, 1.2vw, 1.5rem);
+    font-size: clamp(1rem, 1.3vw, 1.5rem);
+    line-height: 1.3;
+    color: #7c818a;
+    text-wrap: wrap;
+  }
+  .fw-card-img {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: contain;
+    margin-top: auto;
+    padding-top: clamp(1rem, 2vw, 2rem);
+  }
+
+  @media (min-width: 640px) {
+    .fw-track { margin-inline: 0; padding-inline: 0; scroll-padding-inline: 0; }
+    .fw-card { flex-basis: calc((100% - var(--gap)) / 2); }
+  }
+  @media (min-width: 1024px) {
+    .fw-card { flex-basis: calc((100% - 2 * var(--gap)) / 3); }
+  }
+</style>
