@@ -19,7 +19,7 @@ const {
       <dl class="mt-8 grid gap-6 text-paper/80 sm:grid-cols-2">
         <div>
           <dt class="text-sm text-paper/60">Телефон</dt>
-          <dd><a href={contacts.phoneHref} class="tnum text-xl font-medium text-paper">{contacts.phone}</a></dd>
+          <dd class="flex flex-col"><a href={contacts.phoneHref} class="tnum text-xl font-medium text-paper">{contacts.phone}</a><a href={contacts.phone2Href} class="tnum text-xl font-medium text-paper">{contacts.phone2}</a></dd>
         </div>
         <div>
           <dt class="text-sm text-paper/60">Офис</dt>
@@ -91,7 +91,7 @@ const {
         show('Заявка отправлена. Перезвоню в рабочее время; если вопрос срочный — звоните по телефону.', true);
         (window as any).ym?.((window as any).YM_ID, 'reachGoal', 'lead');
       } catch {
-        show('Не получилось отправить заявку. Позвоните, пожалуйста, по телефону +7 (3822) 30-02-15.', false);
+        show('Не получилось отправить заявку. Позвоните, пожалуйста, по телефону +7 (3822) 30-02-15 или +7 (913) 889-35-36.', false);
       } finally {
         btn.disabled = false;
         btn.textContent = 'Получить консультацию';

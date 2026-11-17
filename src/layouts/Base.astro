@@ -90,6 +90,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
                 ))}
               </ul>
               <a href={contacts.phoneHref} class="tnum mt-1 block rounded-[8px] bg-paper px-3 py-2.5 font-medium no-underline">{contacts.phone}</a>
+              <a href={contacts.phone2Href} class="tnum mt-1 block rounded-[8px] bg-paper px-3 py-2.5 font-medium no-underline">{contacts.phone2}</a>
             </nav>
           </details>
         </div>
@@ -110,6 +111,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
           <address class="mt-5 space-y-1 not-italic">
             <p>{contacts.addressFull}</p>
             <p><a href={contacts.phoneHref} class="tnum font-medium text-paper">{contacts.phone}</a></p>
+            <p><a href={contacts.phone2Href} class="tnum font-medium text-paper">{contacts.phone2}</a></p>
             <p><a href={`mailto:${contacts.email}`} class="text-paper">{contacts.email}</a></p>
             <p>{contacts.hours}</p>
           </address>

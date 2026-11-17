@@ -9,7 +9,7 @@ const contactPage = { '@type': 'ContactPage', url: `${SITE_URL}/kontakty/`, name
 
 <Base
   title="Контакты арбитражного управляющего в Томске"
-  description={`Офис: г. Томск, ${contacts.street}. Телефон ${contacts.phone}. Первая консультация по банкротству — бесплатно, по предварительной записи.`}
+  description={`Офис: г. Томск, ${contacts.street}. Телефоны ${contacts.phone}, ${contacts.phone2}. Первая консультация по банкротству — бесплатно, по предварительной записи.`}
   crumbs={[{ name: 'Контакты', href: '/kontakty/' }]}
   schema={[contactPage]}
 >
@@ -22,7 +22,7 @@ const contactPage = { '@type': 'ContactPage', url: `${SITE_URL}/kontakty/`, name
 
     <div class="mt-10 grid gap-6 md:grid-cols-2">
       <dl class="grid gap-5 rounded-[14px] border border-line bg-card p-6 sm:p-8">
-        <div><dt class="text-sm text-muted">Телефон</dt><dd><a href={contacts.phoneHref} class="tnum text-2xl font-medium no-underline">{contacts.phone}</a></dd></div>
+        <div><dt class="text-sm text-muted">Телефоны</dt><dd class="flex flex-col gap-1"><a href={contacts.phoneHref} class="tnum text-2xl font-medium no-underline">{contacts.phone}</a><a href={contacts.phone2Href} class="tnum text-2xl font-medium no-underline">{contacts.phone2}</a></dd></div>
         <div><dt class="text-sm text-muted">Электронная почта</dt><dd><a href={`mailto:${contacts.email}`} class="text-lg">{contacts.email}</a></dd></div>
         <div><dt class="text-sm text-muted">Адрес</dt><dd class="text-lg">{contacts.addressFull}</dd></div>
         <div><dt class="text-sm text-muted">Приём</dt><dd class="text-lg">{contacts.hours}</dd></div>
