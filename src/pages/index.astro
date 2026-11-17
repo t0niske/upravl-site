@@ -4,6 +4,7 @@ import Quiz from '../components/Quiz.astro';
 import HomeHero from '../components/HomeHero.astro';
 import ForWhom from '../components/ForWhom.astro';
 import Services from '../components/Services.astro';
+import About from '../components/About.astro';
 import CaseGrid from '../components/CaseGrid.astro';
 import Faq from '../components/Faq.astro';
 import LeadForm from '../components/LeadForm.astro';
@@ -48,12 +49,6 @@ const limits: [string, string][] = [
   ['Имущество недавно переоформлено', 'Сделки за 3 года до заявления управляющий проверит; подарок родственнику вернут в конкурсную массу.'],
   ['Нужно сохранить ипотечную квартиру', 'Единственное жильё в залоге не защищено. Возможна реструктуризация или мировое соглашение, но не списание с сохранением квартиры.'],
   ['Долги появились через обман', 'Кредиты по ложным справкам и сокрытие доходов — основание отказать в освобождении от долгов.'],
-];
-const timeline: [string, string][] = [
-  ['1999', 'Свидетельство ФСДН России об экзамене по программе специалистов по антикризисному управлению, Томск'],
-  ['2003', 'Свидетельство Минюста России о сдаче теоретического экзамена по единой программе подготовки арбитражных управляющих'],
-  ['2016', 'Повышение квалификации «Банкротство предприятий: изменения законодательства и арбитражная практика», 24 часа'],
-  ['2018', 'Повышение профессиональной подготовки арбитражных управляющих, 24 академических часа'],
 ];
 ---
 
@@ -156,26 +151,7 @@ const timeline: [string, string][] = [
     </div>
   </section>
 
-  <!-- Кто ведёт дело -->
-  <section class="wrap mt-24 grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-16" aria-labelledby="about-title">
-    <div>
-      <h2 id="about-title">Кто ведёт дело</h2>
-      <p class="mt-4 text-ink-2">
-        {person.name} работает в антикризисном управлении и банкротстве с {person.sinceYear} года, с {person.citizensSinceYear} года — с делами граждан.
-        На счету {person.proceduresText} в нескольких регионах России. Консультирует и представляет должников и кредиторов в Арбитражном суде Томской области и судах общей юрисдикции.
-      </p>
-      <p class="mt-4 text-ink-2">Вы работаете с практикующим арбитражным управляющим напрямую, без посредника, который перепродаёт процедуру с наценкой.</p>
-      <a href="/ob-upravlyayushchem/" class="btn btn-ghost mt-8">Квалификация и документы</a>
-    </div>
-    <ol class="border-t border-line">
-      {timeline.map(([y, t]) => (
-        <li class="grid grid-cols-[4rem_1fr] gap-4 border-b border-line py-5">
-          <span class="font-mono text-[0.875rem] text-muted tnum">{y}</span>
-          <span class="text-[0.9375rem] text-ink-2">{t}</span>
-        </li>
-      ))}
-    </ol>
-  </section>
+  <About />
 
   <Faq items={faq} />
 

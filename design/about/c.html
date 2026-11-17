@@ -1,0 +1,50 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><link rel="stylesheet" href="common.css"><style>
+  body { background: #fff; padding: 88px 0 110px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 72px; }
+  .stats { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 56px; margin-top: 40px; }
+  .list { margin-top: 48px; border-top: 1px solid #dfe1e5; }
+  .list div { display: grid; grid-template-columns: 76px 1fr auto; gap: 16px; align-items: baseline; padding: 18px 0; border-bottom: 1px solid #dfe1e5; font-size: 18px; line-height: 1.35; }
+  .list .y { font: 700 20px/1 Manrope; color: #034b8e; }
+  .list .o { font-size: 15px; color: #8a8f98; }
+  .right { position: relative; }
+  .photo { position: relative; height: 100%; margin-left: 110px; border-radius: 18px; overflow: hidden; }
+  .photo .ph { position: absolute; inset: 0; object-position: 50% 30%; }
+  .fan { position: absolute; left: 0; bottom: 30px; width: 300px; height: 300px; }
+  .fan .doc { position: absolute; width: 170px; aspect-ratio: 0.7; border: 6px solid #fff; transform-origin: 50% 100%; }
+  .fan .doc.l { aspect-ratio: 1.42; width: 230px; }
+  .badge { position: absolute; right: 20px; top: 20px; padding: 12px 16px; border-radius: 12px; background: rgb(255 255 255 / .94); font: 600 16px/1.25 Manrope; }
+  .badge span { display: block; font: 400 14px/1.3 'Inter Tight'; color: #7c818a; }
+</style></head><body>
+<div class="wrap">
+  <div class="grid">
+    <div>
+      <span class="chip"><i><b></b><b></b><b></b><b></b></i>Обо мне</span>
+      <h2 class="h2" style="margin-top:40px"><em>Антонец Юрий Анатольевич</em> — арбитражный управляющий из Томска</h2>
+      <ul class="pts" style="margin-top:36px">
+        <li>На первой встрече смотрю документы и говорю, подходит ли вам банкротство. Если нет — объясняю почему и что можно сделать вместо него</li>
+        <li>Сразу называю полную стоимость: гонорар и обязательные расходы</li>
+        <li>Веду дело сам: документы, суд, переписка с кредиторами</li>
+      </ul>
+      <div class="stats">
+        <div class="stat"><b>25+ лет</b><span>в банкротстве</span></div>
+        <div class="stat"><b>250+</b><span>процедур</span></div>
+        <div class="stat"><b>320+ млн ₽</b><span>списанных долгов</span></div>
+      </div>
+      <div class="list">
+        <div><span class="y">1999</span><span>Свидетельство ФСДН России № 7</span><span class="o">скан</span></div>
+        <div><span class="y">2003</span><span>Свидетельство Минюста РФ, серия АА № 002916</span><span class="o">скан</span></div>
+        <div><span class="y">2016</span><span>Повышение квалификации № 70АА 0001188</span><span class="o">скан</span></div>
+        <div><span class="y">2018</span><span>Свидетельство ООО «Декстер»</span><span class="o">скан</span></div>
+      </div>
+    </div>
+    <div class="right">
+      <div class="photo"><img class="ph" src="office.jpg" alt=""><div class="badge">Офис в Томске<span>приём по предварительной записи</span></div></div>
+      <div class="fan">
+        <div class="doc" style="left:10px;bottom:20px;transform:rotate(-14deg)"><img src="doc-1999.jpg" alt=""></div>
+        <div class="doc" style="left:70px;bottom:28px;transform:rotate(-3deg)"><img src="doc-2003.jpg" alt=""></div>
+        <div class="doc" style="left:130px;bottom:24px;transform:rotate(9deg)"><img src="doc-2018.jpg" alt=""></div>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

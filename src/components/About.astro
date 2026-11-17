@@ -1,0 +1,170 @@
+---
+/**
+ * Блок «Обо мне» по макету дизайнера (17.11.2026): тёмная подложка, две белые «страницы книжки»
+ * (текст и фото), ниже сертификаты карточками со сканами.
+ * ◐ office.jpg вырезано из скриншота макета (411 px) — заменить оригиналом фото.
+ * ◐ «250+» и «320+ млн ₽» — цифры из макета, подтвердить у Антонца (в site.ts пока «более 200 процедур»).
+ * Скан 1999 г. — с замазанными паспортными данными и адресом (см. seo/BRANDCORE.md).
+ */
+import { Image } from 'astro:assets';
+import { nb } from '../data/typo';
+import { person, contacts } from '../data/site';
+import office from '../assets/photos/office.jpg';
+import doc1999 from '../assets/doc-fsdn-1999.jpg';
+import doc2003 from '../assets/doc-minjust-2003.jpg';
+import doc2016 from '../assets/doc-tipkia-2016.jpg';
+import doc2018 from '../assets/doc-dexter-2018.jpg';
+
+const points = [
+  'На первой встрече смотрю документы и говорю, подходит ли вам банкротство. Если не подходит, объясняю почему и что можно сделать вместо него',
+  'Сразу называю полную стоимость: гонорар и обязательные расходы (депозит управляющему, публикации)',
+  'Веду дело сам: документы, суд, переписка с кредиторами',
+];
+const stats = [
+  { value: '25+ лет', label: 'в банкротстве' },
+  { value: '250+', label: 'процедур банкротства' },
+  { value: '320+ млн ₽', label: 'списанных долгов' },
+];
+const docs = [
+  { img: doc1999, year: '1999', title: 'Свидетельство ФСДН России № 7 от 4 марта 1999 года', alt: 'Свидетельство ФСДН России о сдаче экзамена по программе специалистов по антикризисному управлению, 1999 год' },
+  { img: doc2003, year: '2003', title: 'Свидетельство Министерства юстиции РФ, серия АА № 002916, от 22 декабря 2003 года', alt: 'Свидетельство Министерства юстиции РФ о сдаче экзамена по единой программе подготовки арбитражных управляющих, 2003 год' },
+  { img: doc2016, year: '2016', title: 'Удостоверение о повышении квалификации № 70АА 0001188 от 19 ноября 2016 года', alt: 'Удостоверение о повышении квалификации по программе «Банкротство предприятий», 2016 год' },
+  { img: doc2018, year: '2018', title: 'Свидетельство ООО «Декстер» о повышении квалификации, 2018 год', alt: 'Свидетельство ООО «Декстер» о повышении профессиональной подготовки арбитражных управляющих, 2018 год' },
+];
+---
+
+<section id="obo-mne" class="about" aria-labelledby="about-title">
+  <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-8">
+    <div class="ab-shell">
+      <div class="ab-book">
+        <div class="ab-page ab-text">
+          <span class="ab-chip">
+            <span class="ab-squares" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+            Обо мне
+          </span>
+          <h2 id="about-title" class="ab-title"><span class="text-[#034B8E]">{nb(person.name)}</span> — {nb('арбитражный управляющий из Томска')}</h2>
+          <ul class="ab-points">
+            {points.map((p) => (
+              <li>
+                <span class="ab-squares" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+                <span>{nb(p)}</span>
+              </li>
+            ))}
+          </ul>
+          <dl class="ab-stats">
+            {stats.map((s) => (
+              <div>
+                <dt class="ab-stat-value tnum">{s.value}</dt>
+                <dd class="ab-stat-label">{s.label}</dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+
+        <figure class="ab-page ab-photo-page">
+          <div class="ab-photo">
+            <Image src={office} alt={`${person.name} за рабочим столом в офисе`} widths={[480, 800]} sizes="(min-width: 1024px) 45vw, 92vw" class="ab-photo-img" loading="lazy" />
+            <figcaption class="ab-office">
+              <span class="ab-office-title">Офис в Томске</span>
+              <span class="ab-office-text">{contacts.street}</span>
+              <span class="ab-office-text">{contacts.hoursNote}</span>
+            </figcaption>
+          </div>
+        </figure>
+      </div>
+
+      <h3 class="ab-docs-title">{nb('Сертификаты профессиональной подготовки')}</h3>
+      <ul class="ab-docs">
+        {docs.map((d) => (
+          <li>
+            <a href={d.img.src} target="_blank" rel="noopener" class="ab-doc" aria-label={`Открыть скан: ${d.title}`}>
+              <span class="ab-doc-scan">
+                <Image src={d.img} alt={d.alt} widths={[320, 640]} sizes="(min-width: 1024px) 22vw, 45vw" class="ab-doc-img" loading="lazy" />
+              </span>
+              <span class="ab-doc-year tnum">{d.year}</span>
+              <span class="ab-doc-text">{nb(d.title)}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .about { padding: clamp(3rem, 5.5vw, 5.75rem) 0 clamp(3.5rem, 7vw, 7rem); background: #fff; }
+  .ab-shell { border-radius: clamp(16px, 1.6vw, 24px); background: #1d1e21; padding: clamp(0.5rem, 1.1vw, 1rem) clamp(0.5rem, 1.1vw, 1rem) clamp(1rem, 2.6vw, 2.5rem); }
+
+  /* Две «страницы»: на компьютере стоят вплотную, скругления в месте стыка дают корешок книжки */
+  .ab-book { display: grid; gap: 0.5rem; }
+  .ab-page { margin: 0; border-radius: clamp(14px, 1.6vw, 24px); background: #fff; }
+  .ab-text { padding: clamp(1.25rem, 2.6vw, 2.75rem); }
+  .ab-photo-page { display: flex; padding: clamp(0.75rem, 2.6vw, 2.75rem); }
+  @media (min-width: 1024px) {
+    .ab-book { grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); gap: 0; }
+    .ab-photo-page { padding-left: clamp(0.75rem, 1.6vw, 1.5rem); }
+  }
+
+  .ab-chip {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    padding: 0.625rem 1.125rem; border-radius: 8px; background: #f3f4f6;
+    font-size: clamp(1rem, 1.1vw, 1.1875rem); line-height: 1.2; color: var(--color-ink);
+  }
+  .ab-squares { display: grid; flex: none; grid-template-columns: 5px 5px; gap: 2px; }
+  .ab-squares i { width: 5px; height: 5px; border-radius: 1px; background: #034b8e; }
+
+  .ab-title {
+    margin-top: clamp(1.5rem, 3.4vw, 3.5rem);
+    font-family: var(--font-display); font-weight: 700;
+    font-size: clamp(1.75rem, 2.9vw, 3.375rem); line-height: 1.06; letter-spacing: -0.025em;
+    color: #15171c; text-wrap: wrap;
+  }
+  .ab-points { display: grid; gap: clamp(1rem, 1.6vw, 1.5rem); margin-top: clamp(1.5rem, 2.6vw, 2.5rem); }
+  .ab-points li {
+    display: grid; grid-template-columns: 12px minmax(0, 1fr); column-gap: clamp(0.875rem, 1.2vw, 1.25rem); align-items: start;
+    font-size: clamp(1rem, 1.25vw, 1.375rem); line-height: 1.35; color: #2a2d33;
+  }
+  .ab-points .ab-squares { margin-top: 0.42em; }
+
+  /* Линия над цифрами */
+  .ab-stats {
+    display: grid; grid-template-columns: repeat(3, auto); justify-content: space-between; gap: 1.25rem;
+    margin-top: clamp(1.75rem, 3vw, 3rem); padding-top: clamp(1.25rem, 2.2vw, 2rem); border-top: 1px solid #dfe1e5;
+  }
+  .ab-stat-value { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.375rem, 2.3vw, 2.75rem); line-height: 1; letter-spacing: -0.03em; color: #15171c; white-space: nowrap; }
+  .ab-stat-label { margin-top: 0.625rem; font-size: clamp(0.875rem, 1.1vw, 1.1875rem); line-height: 1.25; color: #7c818a; }
+  @media (max-width: 639px) {
+    .ab-stats { grid-template-columns: 1fr 1fr; justify-content: stretch; row-gap: 1.25rem; }
+  }
+
+  .ab-photo { position: relative; flex: 1; min-height: 22rem; overflow: hidden; border-radius: clamp(10px, 1vw, 14px); background: #e9ebee; }
+  .ab-photo-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%; }
+  .ab-office {
+    position: absolute; left: clamp(0.75rem, 1.2vw, 1.25rem); bottom: clamp(0.75rem, 1.2vw, 1.25rem);
+    display: flex; flex-direction: column; gap: 0.125rem;
+    max-width: calc(100% - 1.5rem); padding: 0.875rem 1.125rem; border-radius: 12px;
+    background: rgb(255 255 255 / 0.94); color: #5f646d; font-size: clamp(0.875rem, 1vw, 1rem); line-height: 1.3;
+  }
+  .ab-office-title { font-family: var(--font-display); font-weight: 600; font-size: clamp(1rem, 1.15vw, 1.1875rem); color: #15171c; }
+  .ab-office-text:last-child { color: #8a8f98; }
+
+  .ab-docs-title {
+    margin: clamp(2.25rem, 4.4vw, 4.5rem) clamp(0.5rem, 1.2vw, 1.25rem) 0;
+    font-family: var(--font-display); font-weight: 700; font-size: clamp(1.5rem, 2.5vw, 2.875rem); line-height: 1.08; letter-spacing: -0.02em;
+    color: #fff; text-wrap: wrap;
+  }
+  .ab-docs { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; margin-top: clamp(1.25rem, 2.2vw, 2rem); }
+  @media (min-width: 1024px) { .ab-docs { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0.75rem; } }
+  .ab-doc {
+    display: flex; flex-direction: column; height: 100%; padding: clamp(0.625rem, 1.2vw, 1.25rem);
+    border-radius: clamp(12px, 1.2vw, 16px); background: #2a2b30; color: #fff; text-decoration: none;
+    transition: background-color 150ms var(--ease-out);
+  }
+  .ab-doc:hover { background: #33353b; }
+  .ab-doc:focus-visible { outline: 2px solid #fff; outline-offset: 2px; }
+  .ab-doc-scan { display: block; overflow: hidden; aspect-ratio: 4 / 3; border-radius: 8px; background: #fff; }
+  .ab-doc-img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; transition: transform 300ms var(--ease-out); }
+  .ab-doc:hover .ab-doc-img { transform: scale(1.03); }
+  .ab-doc-year { margin-top: clamp(0.875rem, 1.4vw, 1.25rem); font-family: var(--font-display); font-weight: 700; font-size: clamp(1.25rem, 1.9vw, 1.875rem); line-height: 1; letter-spacing: -0.02em; }
+  .ab-doc-text { margin-top: 0.5rem; font-size: clamp(0.875rem, 1.05vw, 1.0625rem); line-height: 1.35; color: #b5bac2; text-wrap: wrap; }
+</style>

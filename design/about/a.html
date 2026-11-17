@@ -1,0 +1,46 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><link rel="stylesheet" href="common.css"><style>
+  body { background: #fff; padding: 24px 0; }
+  .sec { margin: 0 32px; padding: 32px; border-radius: 24px; background: #15171c; }
+  .top { display: grid; grid-template-columns: 1.15fr 1fr; gap: 12px; }
+  .card { background: #fff; border-radius: 18px; padding: 44px 48px 44px; }
+  .photo { border-radius: 18px; overflow: hidden; min-height: 600px; position: relative; }
+  .photo .ph { position: absolute; inset: 0; object-position: 50% 30%; }
+  .tag { position: absolute; left: 20px; bottom: 20px; padding: 14px 18px; border-radius: 12px; background: rgb(255 255 255 / .92); font-size: 15px; line-height: 1.3; color: #5f646d; }
+  .tag b { display: block; font: 600 18px/1.2 Manrope; color: #15171c; }
+  .stats { display: grid; grid-template-columns: repeat(3, auto); justify-content: start; gap: 56px; margin-top: 44px; padding-top: 32px; border-top: 1px solid #e6e8ec; }
+  .docs-head { display: flex; justify-content: space-between; align-items: end; margin: 64px 16px 28px; color: #fff; }
+  .docs-head h3 { font: 700 38px/1.1 Manrope; letter-spacing: -.02em; }
+  .docs-head p { font-size: 18px; color: #9aa0a9; }
+  .docs { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .d { background: #22252c; border-radius: 16px; padding: 20px; color: #fff; }
+  .d .doc { aspect-ratio: 4 / 3; border-radius: 8px; }
+  .d .y { margin-top: 20px; font: 700 30px/1 Manrope; letter-spacing: -.02em; }
+  .d p { margin-top: 10px; font-size: 16px; line-height: 1.35; color: #b5bac2; }
+</style></head><body>
+<section class="sec">
+  <div class="top">
+    <div class="card">
+      <span class="chip"><i><b></b><b></b><b></b><b></b></i>Обо мне</span>
+      <h2 class="h2" style="margin-top:40px"><em>Антонец Юрий Анатольевич</em> — арбитражный управляющий из Томска</h2>
+      <ul class="pts" style="margin-top:36px">
+        <li>На первой встрече смотрю документы и говорю, подходит ли вам банкротство. Если нет — объясняю почему и что можно сделать вместо него</li>
+        <li>Сразу называю полную стоимость: гонорар и обязательные расходы (депозит управляющему, публикации)</li>
+        <li>Веду дело сам: документы, суд, переписка с кредиторами</li>
+      </ul>
+      <div class="stats">
+        <div class="stat"><b>25+ лет</b><span>в банкротстве</span></div>
+        <div class="stat"><b>250+</b><span>процедур</span></div>
+        <div class="stat"><b>320+ млн ₽</b><span>списанных долгов</span></div>
+      </div>
+    </div>
+    <div class="photo"><img class="ph" src="office.jpg" alt=""><div class="tag"><b>Офис в Томске</b>приём по предварительной записи</div></div>
+  </div>
+  <div class="docs-head"><h3>Документы и квалификация</h3><p>Нажмите, чтобы открыть скан</p></div>
+  <div class="docs">
+    <div class="d"><div class="doc"><img src="doc-1999.jpg" alt=""></div><div class="y">1999</div><p>Свидетельство ФСДН России № 7</p></div>
+    <div class="d"><div class="doc"><img src="doc-2003.jpg" alt=""></div><div class="y">2003</div><p>Свидетельство Минюста РФ, серия АА № 002916</p></div>
+    <div class="d"><div class="doc"><img src="doc-2016.jpg" alt=""></div><div class="y">2016</div><p>Повышение квалификации № 70АА 0001188</p></div>
+    <div class="d"><div class="doc"><img src="doc-2018.jpg" alt=""></div><div class="y">2018</div><p>Свидетельство ООО «Декстер»</p></div>
+  </div>
+</section>
+</body></html>
