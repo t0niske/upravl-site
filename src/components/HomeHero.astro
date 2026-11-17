@@ -18,7 +18,7 @@ const path = Astro.url.pathname;
 const messengers = [
   { label: 'Telegram', href: contacts.telegram || '/kontakty/', icon: 'telegram' },
   { label: 'WhatsApp', href: contacts.whatsapp || '/kontakty/', icon: 'whatsapp' },
-  { label: 'Позвонить', href: contacts.phoneHref, icon: 'phone' },
+  { label: 'MAX', href: contacts.max || '/kontakty/', icon: 'max' },
 ];
 ---
 
@@ -63,7 +63,7 @@ const messengers = [
           <a href={m.href} class="hidden size-11 place-items-center rounded-[8px] bg-white text-[#034B8E] no-underline transition-colors hover:bg-[#e3eefb] sm:grid lg:size-12 2xl:size-14" aria-label={m.label} title={m.label}>
             {m.icon === 'telegram' && <svg width="26" height="26" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 1.5A10.5 10.5 0 1 0 22.5 12 10.5 10.5 0 0 0 12 1.5Zm4.87 7.15c-.16 1.66-.84 5.7-1.19 7.56-.15.79-.44 1.05-.72 1.08-.61.06-1.07-.4-1.66-.79-.93-.6-1.45-.98-2.34-1.58-1.04-.68-.37-1.06.22-1.67.16-.16 2.84-2.6 2.9-2.83 0-.03.01-.13-.05-.19s-.15-.03-.22-.02c-.09.02-1.57 1-4.43 2.93-.42.29-.8.43-1.14.42-.37-.01-1.1-.21-1.63-.39-.66-.21-1.18-.33-1.13-.69.02-.19.28-.38.78-.58 3.06-1.33 5.1-2.21 6.12-2.64 2.92-1.21 3.52-1.42 3.92-1.43.09 0 .28.02.41.12a.44.44 0 0 1 .15.29c.01.08.03.27.01.41Z" /></svg>}
             {m.icon === 'whatsapp' && <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 1.5a10.5 10.5 0 0 0-9.06 15.8L1.5 22.5l5.35-1.4A10.5 10.5 0 1 0 12 1.5Z" /><path fill="#fff" d="M9.1 7.2c-.2-.45-.42-.46-.62-.47h-.53c-.18 0-.48.07-.73.34-.25.28-.96.94-.96 2.29s.98 2.66 1.12 2.84c.14.18 1.9 3.04 4.7 4.14 2.33.92 2.8.73 3.31.69.5-.05 1.63-.67 1.86-1.31.23-.65.23-1.2.16-1.32-.07-.11-.25-.18-.53-.32-.27-.14-1.63-.8-1.88-.9-.26-.09-.44-.13-.62.14-.19.28-.72.9-.88 1.08-.16.19-.32.21-.6.07-.28-.14-1.16-.43-2.21-1.36-.82-.73-1.37-1.63-1.53-1.9-.16-.28-.02-.43.12-.57.13-.12.28-.32.42-.48.14-.16.18-.28.28-.46.09-.19.05-.35-.02-.49-.07-.14-.6-1.5-.86-2.05Z" /></svg>}
-            {m.icon === 'phone' && <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10.5" fill="currentColor" /><path fill="#fff" d="M9.3 6.6c.3 0 .55.2.62.48l.5 2.02a.65.65 0 0 1-.19.62l-.95.88a8.1 8.1 0 0 0 4.12 4.12l.88-.95a.65.65 0 0 1 .62-.19l2.02.5c.29.07.48.33.48.62v1.75c0 .55-.46 1-1.01.97A10.3 10.3 0 0 1 6.58 7.6c-.03-.55.42-1 .97-1Z" /></svg>}
+            {m.icon === 'max' && <svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" fill-rule="evenodd" d="M12.3 1.6a10 10 0 1 1-4.7 18.85l-3.9 1.37a.8.8 0 0 1-1.02-1.02l1.32-3.8A10 10 0 0 1 12.3 1.6Zm.1 5.15a4.85 4.85 0 1 0 0 9.7 4.85 4.85 0 0 0 0-9.7Z" /></svg>}
           </a>
         ))}
         <details class="group relative xl:hidden">
@@ -100,7 +100,7 @@ const messengers = [
           <a href="#proverka" class="hero-btn mt-[clamp(1.5rem,5vh,3.5rem)] inline-flex w-full items-center justify-center rounded-[10px] bg-[#034B8E] px-10 font-normal text-white no-underline transition-colors hover:bg-[#0a5aa6] sm:w-auto">Бесплатная консультация</a>
         </div>
 
-        <ul class="mt-10 grid grid-cols-2 gap-6 sm:flex sm:gap-14 lg:mt-0">
+        <ul class="mt-10 grid grid-cols-2 gap-6 sm:flex sm:gap-14 lg:mt-0 lg:translate-y-[10px]">
           <li class="flex flex-col">
             <span class="hero-stat-icon" aria-hidden="true">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"><path d="m16 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" /><path d="m2 16 3-8 3 8c-.87.65-1.92 1-3 1s-2.13-.35-3-1Z" /><path d="M7 21h10" /><path d="M12 3v18" /><path d="M3 7h2c2 0 5-1 7-2 2 1 5 2 7 2h2" /></svg>
@@ -130,6 +130,9 @@ const messengers = [
 </section>
 
 <style>
+  .hero {
+    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
   .hero-bg {
     background: linear-gradient(155deg, #1b2a45 0%, #13284a 40%, #0c3466 75%, #0b3d78 100%);
   }
@@ -176,15 +179,20 @@ const messengers = [
     width: clamp(2.25rem, 4.6vh, 2.75rem);
     aspect-ratio: 1;
     border-radius: 6px;
-    background: rgb(255 255 255 / 0.14);
+    background-color: rgb(120 150 195 / 0.2);
+    background-image: var(--grain);
+    background-size: 160px 160px;
+    border: 1px solid rgb(255 255 255 / 0.08);
+    backdrop-filter: blur(24px);
+    -webkit-backdrop-filter: blur(24px);
     color: #fff;
   }
   .hero-stat-icon svg { width: 58%; height: 58%; }
   .hero-stat-num {
     font-family: var(--font-display);
-    margin-top: clamp(0.5rem, 1.6vh, 1rem);
+    margin-top: calc(clamp(0.5rem, 1.6vh, 1rem) + 2px);
     font-weight: 600;
-    font-size: clamp(1.5rem, min(2.3vw, 4.3vh), 2.375rem);
+    font-size: clamp(1.875rem, min(3vw, 5.6vh), 3.125rem);
     line-height: 1;
     letter-spacing: -0.02em;
   }
@@ -204,11 +212,14 @@ const messengers = [
   /* Стекло: лёгкий градиент, светлая кромка сверху, тень вниз; размытие с усилением цвета */
   .glass,
   .hero-name {
-    background: linear-gradient(135deg, rgb(255 255 255 / 0.16), rgb(255 255 255 / 0.05) 60%, rgb(255 255 255 / 0.08));
-    border: 1px solid rgb(255 255 255 / 0.16);
-    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.22), 0 12px 40px rgb(2 14 34 / 0.35);
-    backdrop-filter: blur(22px) saturate(150%);
-    -webkit-backdrop-filter: blur(22px) saturate(150%);
+    /* матовое стекло: плотнее заливка, сильное размытие, лёгкое зерно, без глянцевого блика */
+    background-color: rgb(120 150 195 / 0.16);
+    background-image: var(--grain);
+    background-size: 160px 160px;
+    border: 1px solid rgb(255 255 255 / 0.1);
+    box-shadow: 0 10px 32px rgb(2 14 34 / 0.28);
+    backdrop-filter: blur(36px) saturate(115%);
+    -webkit-backdrop-filter: blur(36px) saturate(115%);
   }
   .hero-photo { position: relative; }
   .hero-name {
