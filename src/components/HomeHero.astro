@@ -220,7 +220,10 @@ const messengers = [
        но с размытием фона под ней, чтобы текст не терялся на здании и пиджаке */
     background-color: rgb(255 255 255 / 0.12);
     backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
+  }
+  /* Safari до 18 понимает только -webkit-: отдельное правило, чтобы сборщик не выкинул его как дубль */
+  @supports (-webkit-backdrop-filter: blur(1px)) and (not (backdrop-filter: blur(1px))) {
+    .glass, .hero-name { -webkit-backdrop-filter: blur(18px); }
   }
   .hero-photo { position: relative; }
   .hero-name {
