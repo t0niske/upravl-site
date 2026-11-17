@@ -131,7 +131,7 @@ const messengers = [
 
 <style>
   .hero {
-    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    --grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .11 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   }
   .hero-bg {
     background: linear-gradient(155deg, #1b2a45 0%, #13284a 40%, #0c3466 75%, #0b3d78 100%);
@@ -176,23 +176,23 @@ const messengers = [
   .hero-stat-icon {
     display: grid;
     place-items: center;
-    width: clamp(2.25rem, 4.6vh, 2.75rem);
+    width: 3rem;
     aspect-ratio: 1;
     border-radius: 6px;
-    background-color: rgb(120 150 195 / 0.2);
+    background-color: rgb(150 175 215 / 0.26);
     background-image: var(--grain);
     background-size: 160px 160px;
-    border: 1px solid rgb(255 255 255 / 0.08);
-    backdrop-filter: blur(24px);
-    -webkit-backdrop-filter: blur(24px);
+    border: 1px solid rgb(255 255 255 / 0.14);
+    backdrop-filter: blur(40px) brightness(1.05);
+    -webkit-backdrop-filter: blur(40px) brightness(1.05);
     color: #fff;
   }
-  .hero-stat-icon svg { width: 58%; height: 58%; }
+  .hero-stat-icon svg { width: 52%; height: 52%; }
   .hero-stat-num {
     font-family: var(--font-display);
     margin-top: calc(clamp(0.5rem, 1.6vh, 1rem) + 2px);
     font-weight: 600;
-    font-size: clamp(1.875rem, min(3vw, 5.6vh), 3.125rem);
+    font-size: 1.875rem;
     line-height: 1;
     letter-spacing: -0.02em;
   }
@@ -213,13 +213,13 @@ const messengers = [
   .glass,
   .hero-name {
     /* матовое стекло: плотнее заливка, сильное размытие, лёгкое зерно, без глянцевого блика */
-    background-color: rgb(120 150 195 / 0.16);
+    background-color: rgb(150 175 215 / 0.24);
     background-image: var(--grain);
     background-size: 160px 160px;
-    border: 1px solid rgb(255 255 255 / 0.1);
+    border: 1px solid rgb(255 255 255 / 0.14);
     box-shadow: 0 10px 32px rgb(2 14 34 / 0.28);
-    backdrop-filter: blur(36px) saturate(115%);
-    -webkit-backdrop-filter: blur(36px) saturate(115%);
+    backdrop-filter: blur(56px) saturate(105%) brightness(1.05);
+    -webkit-backdrop-filter: blur(56px) saturate(105%) brightness(1.05);
   }
   .hero-photo { position: relative; }
   .hero-name {
@@ -258,5 +258,7 @@ const messengers = [
       font-size: clamp(1rem, min(1.45vw, 2.6vh), 1.5rem);
     }
     .hero-name span:first-child { font-size: 1.15em; }
+    .hero-stat-num { font-size: 36px; }
+    .hero-stat-icon { width: 56px; }
   }
 </style>
