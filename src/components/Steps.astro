@@ -53,7 +53,7 @@ const steps = [
         </li>
       ))}
     </ol>
-    <p class="st-note">{nb('Сроки ориентировочные: точные зависят от загрузки суда и сложности дела.')} <a href="/bankrotstvo-fizicheskih-lic/">Условия, документы и последствия</a></p>
+    <p class="st-note">{nb('Сроки ориентировочные: точные зависят от загрузки суда и сложности дела.')} {Astro.url.pathname !== '/bankrotstvo-fizicheskih-lic/' && <a href="/bankrotstvo-fizicheskih-lic/">Условия, документы и последствия</a>}</p>
   </div>
 </section>
 

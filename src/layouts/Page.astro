@@ -34,6 +34,8 @@ const {
   published, ogType = 'website', formTitle, formText, topic, cta = true,
 } = Astro.props;
 const allSchema = [...schema, ...(faq.length ? [faqSchema(faq)] : [])];
+// страница из блоков (без сплошного текста) — тогда отметка «Обновлено» уходит в синюю полосу
+const hasBody = Astro.slots.has('default');
 ---
 <Base title={title} description={description} crumbs={crumbs} schema={allSchema} ogType={ogType}>
   <Fragment slot="top">
@@ -62,9 +64,11 @@ const allSchema = [...schema, ...(faq.length ? [faqSchema(faq)] : [])];
           ))}
         </dl>
       )}
+      {!hasBody && <div class="ph-byline"><Byline published={published} /></div>}
     </div>
   </Fragment>
 
+  {hasBody && (
   <article class="pg">
     <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
       <div class="pg-grid">
@@ -84,6 +88,7 @@ const allSchema = [...schema, ...(faq.length ? [faqSchema(faq)] : [])];
       </div>
     </div>
   </article>
+  )}
 
   <slot name="after" />
 
@@ -140,6 +145,8 @@ const allSchema = [...schema, ...(faq.length ? [faqSchema(faq)] : [])];
   @media (min-width: 1024px) { .ph-facts { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
   .ph-fact { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 0.5rem; padding: clamp(1rem, 1.5vw, 1.25rem); border-radius: 14px; background: rgb(255 255 255 / 0.1); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.08); }
   .ph-fact dd { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.25rem, 1.8vw, 1.625rem); line-height: 1.1; letter-spacing: -0.02em; color: #fff; }
+  .ph-byline :global(p) { color: rgb(255 255 255 / 0.6); }
+  .ph-byline :global(a) { color: rgb(255 255 255 / 0.85); }
   .ph-fact dt { font-size: 0.9375rem; line-height: 1.35; color: rgb(255 255 255 / 0.75); }
 
   /* Текст и липкая карточка */

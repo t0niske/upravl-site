@@ -1,0 +1,47 @@
+---
+/**
+ * Секция посадочной страницы в стиле главной: плашка с квадратиками, H2, подводка, контент.
+ * bg: white | grey (чередуем). Слот head — элемент справа от заголовка (кнопка и т.п.).
+ */
+import { nb } from '../data/typo';
+
+interface Props { id?: string; chip?: string; title: string; lead?: string; bg?: 'white' | 'grey' }
+const { id, chip, title, lead, bg = 'white' } = Astro.props;
+const hid = id ? `${id}-title` : undefined;
+---
+
+<section id={id} class:list={['lps', bg === 'grey' && 'is-grey']} aria-labelledby={hid}>
+  <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
+    {chip && (
+      <span class="lps-chip">
+        <span class="lps-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        {chip}
+      </span>
+    )}
+    <div class="lps-head">
+      <div>
+        <h2 id={hid} class="lps-title">{nb(title)}</h2>
+        {lead && <p class="lps-lead">{nb(lead)}</p>}
+      </div>
+      {Astro.slots.has('head') && <div class="lps-head-side"><slot name="head" /></div>}
+    </div>
+    <div class="lps-body"><slot /></div>
+  </div>
+</section>
+
+<style>
+  .lps { padding: clamp(2.5rem, 4vw, 3.5rem) 0; background: #fff; }
+  .lps.is-grey { background: #f3f4f6; }
+  .lps-chip {
+    display: inline-flex; align-items: center; gap: 0.75rem; margin-bottom: clamp(1.25rem, 2vw, 1.75rem);
+    padding: 0.625rem 1.125rem; border-radius: 8px; background: #f3f4f6;
+    font-size: clamp(1rem, 1.1vw, 1.1875rem); line-height: 1.2; color: #1d1e21;
+  }
+  .is-grey .lps-chip { background: #fff; }
+  .lps-sq { display: grid; grid-template-columns: 5px 5px; grid-auto-rows: 5px; gap: 2px; }
+  .lps-sq i { width: 5px; height: 5px; border-radius: 1px; background: #034b8e; }
+  .lps-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.25rem 2rem; }
+  .lps-title { max-width: 52rem; font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h2); line-height: 1.08; letter-spacing: -0.025em; color: #1d1e21; text-wrap: balance; }
+  .lps-lead { margin-top: 1rem; max-width: 46rem; font-size: var(--fs-lead); line-height: 1.4; color: #5f646d; text-wrap: pretty; }
+  .lps-body { margin-top: clamp(1.5rem, 2.6vw, 2.25rem); }
+</style>
