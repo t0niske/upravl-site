@@ -4,7 +4,7 @@
  * слева заголовок и виды долгов, справа белая карточка — вопросы по одному.
  * Вопросы и расчёт — src/data/quiz.ts (общие с Quiz.astro). Без JS виден первый вопрос и телефон.
  */
-import { nb } from '../data/typo';
+import { nb, soft } from '../data/typo';
 import { Image } from 'astro:assets';
 import { contacts } from '../data/site';
 import iconWhatsapp from '../assets/icons/whatsapp.png';
@@ -65,8 +65,8 @@ const messengers = [
           </div>
           {questions.map((item, idx) => (
             <fieldset class="hq-q" data-hq-step={idx} hidden={idx !== 0}>
-              <legend class="hq-q-title">{nb(item.q)}</legend>
-              <p class="hq-q-hint">{nb(item.hint)}</p>
+              <legend class="hq-q-title">{soft(nb(item.q))}</legend>
+              <p class="hq-q-hint">{soft(nb(item.hint))}</p>
               <div class="hq-opts">
                 {item.options.map(([value, label]) => (
                   <label class="hq-opt">
@@ -92,13 +92,21 @@ const messengers = [
           <ul class="hq-notes" data-r-notes></ul>
           <div class="hq-actions">
             <a href="#zayavka" class="hq-btn">Обсудить результат бесплатно</a>
-            <button type="button" class="hq-again" data-hq-again>Пройти заново</button>
+            <button type="button" class="hq-again" data-hq-again>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 1 0 3-6.7L3 8" /><path d="M3 3v5h5" /></svg>
+              Пройти заново
+            </button>
           </div>
         </div>
 
         <div class="hq-contact">
-          <p class="hq-contact-label">Для быстрой связи</p>
-          <div class="hq-contact-row">
+          <div class="hq-contact-main">
+            <p class="hq-contact-label">Для быстрой связи</p>
+            <a href={contacts.phone2Href} class="hq-phone tnum">{contacts.phone2}</a>
+            <a href={`mailto:${contacts.email}`} class="hq-mail">{contacts.email}</a>
+          </div>
+          <div class="hq-contact-msg">
+            <p class="hq-contact-label">Мессенджеры</p>
             <div class="hq-msgs">
               {messengers.map((m) => (
                 <a href={m.href} class="hq-msg" aria-label={m.label}>
@@ -108,7 +116,6 @@ const messengers = [
                 </a>
               ))}
             </div>
-            <a href={`mailto:${contacts.email}`} class="hq-mail">{contacts.email}</a>
           </div>
         </div>
       </div>
@@ -222,14 +229,31 @@ const messengers = [
       linear-gradient(#034b8e 0 0) 0 7px / 5px 5px no-repeat,
       linear-gradient(#034b8e 0 0) 7px 7px / 5px 5px no-repeat;
   }
-  .hq-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.25rem; }
-  .hq-again { margin-top: clamp(1.5rem, 2.2vw, 2rem); padding: 0.5rem 0.25rem; font-size: 1rem; color: #6b7079; background: none; border: 0; cursor: pointer; text-decoration: underline; text-underline-offset: 3px; }
+  .hq-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.25rem; margin-top: clamp(1.5rem, 2.2vw, 2rem); }
+  .hq-actions .hq-btn { margin-top: 0; }
+  .hq-again {
+    display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.5rem 0.25rem;
+    font-size: 1rem; color: #6b7079; background: none; border: 0; cursor: pointer;
+  }
+  .hq-again svg { width: 18px; height: 18px; }
   .hq-again:hover { color: #15171c; }
+  @media (max-width: 639px) {
+    /* кнопка во всю ширину, «Пройти заново» сразу под ней по центру */
+    .hq-actions { flex-direction: column; align-items: stretch; gap: 0.5rem; }
+    .hq-actions .hq-btn { width: 100%; }
+    .hq-again { align-self: center; }
+  }
 
-  .hq-contact { margin-top: auto; padding-top: clamp(1.75rem, 3vw, 3rem); }
+  .hq-contact {
+    display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1.5rem 2rem;
+    margin-top: auto; padding-top: clamp(1.75rem, 3vw, 3rem);
+  }
+  .hq-contact-main { display: flex; flex-direction: column; }
   .hq-contact-label { font-size: clamp(0.875rem, 0.95vw, 1rem); color: #8a8f98; }
-  .hq-contact-row { display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.25rem; margin-top: 0.625rem; }
-  .hq-msgs { display: flex; gap: 0.5rem; }
+  .hq-phone { margin-top: 0.5rem; font-family: var(--font-sans); font-weight: 700; font-size: clamp(1.25rem, 1.5vw, 1.5rem); line-height: 1.2; color: #15171c; text-decoration: none; }
+  .hq-mail { margin-top: 0.25rem; font-size: var(--fs-body); line-height: 1.3; color: #5f646d; text-decoration: none; }
+  .hq-phone:hover, .hq-mail:hover { color: #034b8e; }
+  .hq-msgs { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
   .hq-msg {
     display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 8px;
     background: #f3f4f6; text-decoration: none;
@@ -238,14 +262,13 @@ const messengers = [
   .hq-msg :global(svg), .hq-msg :global(img) { width: 1.625rem; height: 1.625rem; }
   .hq-msg:hover { background: #e6e8ec; }
   .hq-msg:active { transform: scale(0.96); }
-  .hq-msg:focus-visible, .hq-mail:focus-visible { outline: 2px solid #034b8e; outline-offset: 2px; }
-  .hq-mail { font-family: var(--font-sans); font-weight: 700; font-size: clamp(1.125rem, 1.4vw, 1.375rem); color: #15171c; text-decoration: none; }
-  .hq-mail:hover { color: #034b8e; }
+  .hq-msg:focus-visible, .hq-mail:focus-visible, .hq-phone:focus-visible { outline: 2px solid #034b8e; outline-offset: 2px; }
 
 </style>
 
 <script>
   import { decide, summary, type A } from '../data/quiz';
+  import { nb, soft } from '../data/typo';
 
   document.querySelectorAll<HTMLElement>('[data-hq]').forEach((root) => {
     const form = root.querySelector<HTMLFormElement>('[data-hq-form]')!;
@@ -267,11 +290,11 @@ const messengers = [
     const finish = () => {
       const a: A = Object.fromEntries([...new FormData(form).entries()].map(([k, v]) => [k, String(v)]));
       const r = decide(a);
-      result.querySelector('[data-r-title]')!.textContent = r.title;
-      result.querySelector('[data-r-text]')!.textContent = r.text;
+      result.querySelector('[data-r-title]')!.textContent = soft(nb(r.title));
+      result.querySelector('[data-r-text]')!.textContent = soft(nb(r.text));
       const ul = result.querySelector('[data-r-notes]')!;
       ul.innerHTML = '';
-      r.notes.forEach((n) => { const li = document.createElement('li'); li.textContent = n; ul.appendChild(li); });
+      r.notes.forEach((n) => { const li = document.createElement('li'); li.textContent = soft(nb(n)); ul.appendChild(li); });
       form.hidden = true;
       result.hidden = false;
       const text = summary(a, r.title);
