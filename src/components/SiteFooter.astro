@@ -85,7 +85,7 @@ const address = contacts.addressFull.replace(/(г\.|ул\.|д\.|оф\.) /g, '$1�
             <p class="sf-hours">{contacts.hoursDays}, {contacts.hoursNote}</p>
             <div class="sf-big">
               <a href={contacts.phone2Href} class="tnum">{contacts.phone2}</a>
-              <a href={contacts.phoneHref} class="tnum sf-big-2">{contacts.phone}</a>
+              <a href={contacts.phoneHref} class="tnum">{contacts.phone}</a>
               <a href={`mailto:${contacts.email}`} class="sf-mail">{contacts.email}</a>
             </div>
           </div>
@@ -109,7 +109,7 @@ const address = contacts.addressFull.replace(/(г\.|ул\.|д\.|оф\.) /g, '$1�
   .sf-logo { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.875rem; color: #fff; }
   .sf-mark { display: grid; grid-template-columns: 10px 10px; gap: 4px; }
   .sf-mark i { width: 10px; height: 10px; border-radius: 2px; background: #fff; }
-  .sf-mark i:nth-child(4) { background: #4d8fd6; }
+  .sf-mark i:nth-child(4) { background: #034b8e; }
   .sf-name { font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; letter-spacing: -0.02em; }
   .sf-role { font-size: 0.9375rem; color: #8a8f98; }
 
@@ -130,11 +130,11 @@ const address = contacts.addressFull.replace(/(г\.|ул\.|д\.|оф\.) /g, '$1�
     .sf-col:last-child { border-right: 0; padding-right: 0; }
   }
   .sf-label { display: flex; align-items: center; gap: 0.625rem; font-size: 0.9375rem; color: #8a8f98; }
-  .sf-dot { width: 6px; height: 6px; border-radius: 1px; background: #4d8fd6; }
+  .sf-dot { width: 6px; height: 6px; border-radius: 1px; background: #fff; }
 
   .sf-links { display: grid; gap: 0.625rem; margin-top: auto; }
   .sf-links a { font-size: 1rem; color: #e4e6ea; transition: color 150ms var(--ease-out); }
-  .sf-links a:hover { color: #8fbbea; }
+  .sf-links a:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
   .sf-links-sm a { font-size: 0.9375rem; }
 
   .sf-msgs { display: grid; gap: 0.5rem; margin-top: auto; }
@@ -154,11 +154,10 @@ const address = contacts.addressFull.replace(/(г\.|ул\.|д\.|оф\.) /g, '$1�
   .sf-addr { font-size: 1rem; line-height: 1.4; color: #e4e6ea; }
   .sf-hours { margin-top: 0.5rem; font-size: 0.9375rem; line-height: 1.4; color: #8a8f98; }
   .sf-big { display: flex; flex-direction: column; margin-top: clamp(1.25rem, 2.4vw, 2rem); }
-  .sf-big a { font-family: var(--font-sans); font-weight: 600; font-size: clamp(1.75rem, 3vw, 2.75rem); line-height: 1.2; letter-spacing: -0.02em; color: #fff; white-space: nowrap; transition: color 150ms var(--ease-out); }
-  .sf-big .sf-big-2 { font-size: clamp(1.25rem, 1.8vw, 1.625rem); color: #c9ccd2; }
-  .sf-big .sf-mail { margin-top: 0.5rem; font-size: clamp(1.375rem, 2.4vw, 2.25rem); overflow-wrap: anywhere; white-space: normal; }
-  .sf-big a:hover { color: #8fbbea; }
-  .sf a:focus-visible { outline: 2px solid #8fbbea; outline-offset: 3px; border-radius: 4px; }
+  .sf-big a { font-family: var(--font-sans); font-weight: 600; font-size: clamp(1.375rem, 2vw, 1.75rem); line-height: 1.3; letter-spacing: -0.02em; color: #fff; white-space: nowrap; transition: color 150ms var(--ease-out); }
+  .sf-big .sf-mail { margin-top: 0.5rem; overflow-wrap: anywhere; white-space: normal; }
+  .sf-big a:hover { color: #c9ccd2; }
+  .sf a:focus-visible { outline: 2px solid #fff; outline-offset: 3px; border-radius: 4px; }
 
   .sf-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem 2rem; padding: 1.5rem 0 1.75rem; font-size: 0.875rem; line-height: 1.5; color: #7c818a; }
   .sf-legal { max-width: 52rem; }
