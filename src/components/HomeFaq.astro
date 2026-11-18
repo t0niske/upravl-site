@@ -1,0 +1,89 @@
+---
+/**
+ * «Частые вопросы» — вариант A дизайнера (18.11.2026): слева заголовок и тёмная карточка
+ * «Не нашли свой вопрос?» с телефоном, справа раскрывающиеся вопросы (первый открыт).
+ * Вопросы и ответы передаются с главной (они же идут в разметку FAQPage).
+ */
+import { nb } from '../data/typo';
+import { contacts } from '../data/site';
+
+interface Props { items: { q: string; a: string }[] }
+const { items } = Astro.props;
+---
+
+<section id="faq" class="faq" aria-labelledby="faq-title">
+  <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
+    <div class="fq-grid">
+      <div class="fq-side">
+        <span class="fq-chip">
+          <span class="grid grid-cols-2 gap-[2px]" aria-hidden="true">
+            <i class="size-[5px] rounded-[1px] bg-[#034B8E]"></i><i class="size-[5px] rounded-[1px] bg-[#034B8E]"></i>
+            <i class="size-[5px] rounded-[1px] bg-[#034B8E]"></i><i class="size-[5px] rounded-[1px] bg-[#034B8E]"></i>
+          </span>
+          Вопросы
+        </span>
+        <h2 id="faq-title" class="fq-title">{nb('Частые вопросы о банкротстве')}</h2>
+        <div class="fq-card">
+          <p class="fq-card-title">{nb('Не нашли свой вопрос?')}</p>
+          <p class="fq-card-text">{nb('Позвоните или напишите — отвечу сам, первая консультация бесплатно')}</p>
+          <a href={contacts.phone2Href} class="fq-phone tnum">{contacts.phone2}</a>
+          <a href="#zayavka" class="fq-btn">Задать вопрос</a>
+        </div>
+      </div>
+
+      <div class="fq-list">
+        {items.map((i, k) => (
+          <details class="fq-item" open={k === 0}>
+            <summary class="fq-q">
+              <h3>{nb(i.q)}</h3>
+              <span class="fq-pm" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path class="fq-v" d="M12 5v14" /><path d="M5 12h14" /></svg>
+              </span>
+            </summary>
+            <p class="fq-a">{nb(i.a)}</p>
+          </details>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq { padding: clamp(2.5rem, 4vw, 3.5rem) 0 clamp(3.5rem, 6vw, 5.5rem); background: #fff; }
+  .fq-grid { display: grid; gap: 2rem; }
+  @media (min-width: 1024px) { .fq-grid { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(2.5rem, 4.4vw, 4rem); } }
+  .fq-side { align-self: start; }
+  @media (min-width: 1024px) { .fq-side { position: sticky; top: clamp(1.5rem, 4vh, 3rem); } }
+  .fq-chip {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    padding: 0.625rem 1.125rem; border-radius: 8px; background: #f3f4f6;
+    font-size: clamp(1rem, 1.1vw, 1.1875rem); line-height: 1.2; color: var(--color-ink);
+  }
+  .fq-title { margin-top: clamp(1.25rem, 2.6vw, 2.5rem); font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h2); line-height: 1.08; letter-spacing: -0.025em; color: #15171c; text-wrap: wrap; }
+  .fq-card { margin-top: clamp(1.5rem, 2.6vw, 2.5rem); padding: clamp(1.25rem, 2.2vw, 2rem); border-radius: 18px; background: #15171c; color: #fff; }
+  .fq-card-title { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; }
+  .fq-card-text { margin-top: 0.625rem; font-size: var(--fs-body); line-height: 1.45; color: #b5bac2; }
+  .fq-phone { display: inline-block; margin-top: 1.25rem; font-family: var(--font-sans); font-weight: 700; font-size: clamp(1.25rem, 1.6vw, 1.5rem); color: #fff; text-decoration: none; }
+  .fq-phone:hover { color: #b9d4f2; }
+  .fq-btn {
+    display: flex; align-items: center; justify-content: center; min-height: 3.5rem; margin-top: 1.25rem;
+    border-radius: 10px; background: #fff; color: #15171c; font-size: 1.0625rem; font-weight: 500; text-decoration: none;
+    transition: background-color 150ms var(--ease-out);
+  }
+  .fq-btn:hover { background: #e9ebee; }
+  .fq-btn:focus-visible, .fq-phone:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+
+  .fq-list { border-top: 1px solid #dfe1e5; }
+  .fq-item { border-bottom: 1px solid #dfe1e5; }
+  .fq-q { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding: clamp(1.125rem, 1.8vw, 1.625rem) 0; cursor: pointer; list-style: none; }
+  .fq-q::-webkit-details-marker { display: none; }
+  .fq-q h3 { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.25; letter-spacing: -0.015em; color: #15171c; text-wrap: wrap; }
+  .fq-pm { display: grid; flex: none; place-items: center; width: 3rem; height: 3rem; border-radius: 8px; background: #f3f4f6; color: #15171c; transition: background-color 150ms var(--ease-out), color 150ms var(--ease-out); }
+  .fq-v { transition: opacity 150ms var(--ease-out); }
+  .fq-item[open] .fq-pm { background: #034b8e; color: #fff; }
+  .fq-item[open] .fq-v { opacity: 0; }
+  .fq-q:hover .fq-pm { background: #e6eef8; color: #034b8e; }
+  .fq-item[open] .fq-q:hover .fq-pm { background: #0a5aa6; color: #fff; }
+  .fq-q:focus-visible { outline: 2px solid #034b8e; outline-offset: 4px; border-radius: 6px; }
+  .fq-a { max-width: 46rem; padding-bottom: clamp(1.25rem, 2vw, 1.75rem); margin-top: -0.25rem; font-size: var(--fs-body); line-height: 1.55; color: #5f646d; text-wrap: wrap; }
+</style>

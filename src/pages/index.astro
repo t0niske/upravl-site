@@ -9,7 +9,8 @@ import HomeHero from '../components/HomeHero.astro';
 import ForWhom from '../components/ForWhom.astro';
 import Services from '../components/Services.astro';
 import About from '../components/About.astro';
-import Faq from '../components/Faq.astro';
+import HomeLimits from '../components/HomeLimits.astro';
+import HomeFaq from '../components/HomeFaq.astro';
 import LeadForm from '../components/LeadForm.astro';
 import { person, contacts, pricing, law, rub, cases } from '../data/site';
 import { personSchema, faqSchema } from '../data/schema';
@@ -40,12 +41,6 @@ const faq = [
     a: 'С даты, когда суд признаёт заявление обоснованным и вводит процедуру, кредиторы и коллекторы не вправе взаимодействовать с должником для возврата долга, а исполнительные производства приостанавливаются. Требования принимаются только через финансового управляющего.',
   },
 ];
-const limits: [string, string][] = [
-  ['Долг — алименты или возмещение вреда', 'Эти обязательства закон не списывает, они остаются и после процедуры.'],
-  ['Имущество недавно переоформлено', 'Сделки за 3 года до заявления управляющий проверит; подарок родственнику вернут в конкурсную массу.'],
-  ['Нужно сохранить ипотечную квартиру', 'Единственное жильё в залоге не защищено. Возможна реструктуризация или мировое соглашение, но не списание с сохранением квартиры.'],
-  ['Долги появились через обман', 'Кредиты по ложным справкам и сокрытие доходов — основание отказать в освобождении от долгов.'],
-];
 ---
 
 <Base
@@ -72,25 +67,9 @@ const limits: [string, string][] = [
 
   <HomeQuiz />
 
-  <!-- Ограничения -->
-  <section class="wrap mt-24" aria-labelledby="limits-title">
-    <div class="rounded-[18px] bg-paper-2 px-6 py-10 sm:px-10 sm:py-12">
-      <div class="max-w-[44rem]">
-        <h2 id="limits-title">Когда банкротство не поможет</h2>
-        <p class="mt-4 text-ink-2">Об этом лучше узнать до того, как платить. Если увижу что-то из этого на консультации — скажу прямо.</p>
-      </div>
-      <dl class="mt-8 grid gap-x-12 md:grid-cols-2">
-        {limits.map(([t, d]) => (
-          <div class="border-t border-line-strong py-5">
-            <dt class="font-medium">{t}</dt>
-            <dd class="mt-1 text-[0.9375rem] text-ink-2">{d}</dd>
-          </div>
-        ))}
-      </dl>
-    </div>
-  </section>
+  <HomeLimits />
 
-  <Faq items={faq} />
+  <HomeFaq items={faq} />
 
   <div class="mt-24"><LeadForm /></div>
 </Base>

@@ -1,0 +1,89 @@
+---
+/**
+ * «Кому банкротство не поможет» — вариант B дизайнера (18.11.2026): тёмная рамка как в «Обо мне»,
+ * слева заголовок, подсказка про другой путь и кнопка к квизу, справа белая карточка со списком [01]–[04].
+ */
+import { nb } from '../data/typo';
+
+const limits: [string, string][] = [
+  ['Долг — алименты или возмещение вреда', 'Эти обязательства закон не списывает, они остаются и после процедуры'],
+  ['Имущество недавно переоформлено', 'Сделки за 3 года до заявления управляющий проверит; подарок родственнику вернут в конкурсную массу'],
+  ['Нужно сохранить ипотечную квартиру', 'Единственное жильё в залоге не защищено. Возможна реструктуризация или мировое соглашение с банком, но не списание с сохранением квартиры'],
+  ['Долги появились через обман', 'Кредиты по ложным справкам и сокрытие доходов — основание отказать в освобождении от долгов'],
+];
+---
+
+<section id="ogranicheniya" class="lim" aria-labelledby="limits-title">
+  <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
+    <div class="lim-shell">
+      <div class="lim-side">
+        <span class="lim-chip">
+          <span class="grid grid-cols-2 gap-[2px]" aria-hidden="true">
+            <i class="size-[5px] rounded-[1px] bg-white"></i><i class="size-[5px] rounded-[1px] bg-white"></i>
+            <i class="size-[5px] rounded-[1px] bg-white"></i><i class="size-[5px] rounded-[1px] bg-white"></i>
+          </span>
+          Ограничения
+        </span>
+        <h2 id="limits-title" class="lim-title">{nb('Кому банкротство не поможет')}</h2>
+        <p class="lim-lead">{nb('Об этом лучше узнать до того, как платить. Если увижу что-то из этого на консультации — скажу прямо')}</p>
+        <div class="lim-bottom">
+          <p class="lim-alt">
+            <span class="lim-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+            <span>{nb('Не подходит? Подскажу другой путь: реструктуризацию, переговоры с банком или бесплатное банкротство через МФЦ')}</span>
+          </p>
+          <a href="#proverka" class="lim-btn">Проверить мою ситуацию</a>
+        </div>
+      </div>
+
+      <ol class="lim-list">
+        {limits.map(([t, d], i) => (
+          <li>
+            <span class="lim-num tnum">[{String(i + 1).padStart(2, '0')}]</span>
+            <div>
+              <h3 class="lim-name">{nb(t)}</h3>
+              <p class="lim-text">{nb(d)}</p>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .lim { padding: clamp(1.5rem, 3vw, 2.75rem) 0 clamp(2.5rem, 4vw, 3.5rem); background: #fff; }
+  .lim-shell {
+    display: grid; gap: clamp(0.5rem, 1.1vw, 1rem);
+    padding: clamp(0.5rem, 1.1vw, 1rem); border-radius: clamp(16px, 1.6vw, 24px); background: #1d1e21;
+  }
+  @media (min-width: 1024px) { .lim-shell { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); } }
+
+  .lim-side { display: flex; flex-direction: column; padding: clamp(1rem, 2.6vw, 2.75rem) clamp(0.75rem, 2.2vw, 2.25rem); color: #fff; }
+  .lim-chip {
+    display: inline-flex; align-self: flex-start; align-items: center; gap: 0.75rem;
+    padding: 0.625rem 1.125rem; border-radius: 8px; background: #2a2b30;
+    font-size: clamp(1rem, 1.1vw, 1.1875rem); line-height: 1.2;
+  }
+  .lim-title { margin-top: clamp(1.5rem, 2.6vw, 2.5rem); font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h2); line-height: 1.08; letter-spacing: -0.025em; color: #fff; text-wrap: wrap; }
+  .lim-lead { margin-top: 1rem; font-size: var(--fs-lead); line-height: 1.4; color: #b5bac2; text-wrap: wrap; }
+  .lim-bottom { display: flex; flex-direction: column; gap: 1rem; margin-top: auto; padding-top: clamp(1.75rem, 3vw, 3rem); }
+  .lim-alt { display: grid; grid-template-columns: 12px minmax(0, 1fr); gap: 0.875rem; padding: clamp(1rem, 1.6vw, 1.375rem); border-radius: 14px; background: #2a2b30; font-size: var(--fs-body); line-height: 1.45; color: #d6d9de; text-wrap: wrap; }
+  .lim-sq { display: grid; grid-template-columns: 5px 5px; grid-auto-rows: 5px; gap: 2px; margin-top: 0.45em; }
+  .lim-sq i { width: 5px; height: 5px; border-radius: 1px; background: #5b9be0; }
+  .lim-btn {
+    display: inline-flex; align-items: center; justify-content: center; min-height: clamp(3.25rem, 4vw, 4rem); padding: 0 1.75rem;
+    border-radius: 10px; background: #034b8e; color: #fff; font-size: clamp(1rem, 1.15vw, 1.25rem); font-weight: 500; text-decoration: none;
+    transition: background-color 150ms var(--ease-out), transform 120ms var(--ease-out);
+  }
+  .lim-btn:hover { background: #0a5aa6; }
+  .lim-btn:active { transform: scale(0.98); }
+  .lim-btn:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+  @media (min-width: 640px) { .lim-btn { align-self: flex-start; } }
+
+  .lim-list { padding: clamp(0.25rem, 1vw, 1rem) clamp(1.25rem, 2.6vw, 2.5rem); border-radius: clamp(14px, 1.6vw, 24px); background: #fff; }
+  .lim-list li { display: grid; grid-template-columns: clamp(2.25rem, 4.5vw, 4.5rem) minmax(0, 1fr); gap: 1rem; padding: clamp(1.25rem, 2vw, 1.75rem) 0; border-bottom: 1px solid #eceef1; }
+  .lim-list li:last-child { border-bottom: 0; }
+  .lim-num { padding-top: 0.2em; font-size: var(--fs-body); color: #8a8f98; }
+  .lim-name { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; color: #15171c; text-wrap: wrap; }
+  .lim-text { margin-top: 0.5rem; font-size: var(--fs-body); line-height: 1.45; color: #7c818a; text-wrap: wrap; }
+</style>
