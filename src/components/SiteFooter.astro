@@ -32,7 +32,7 @@ const address = contacts.addressFull.replace(/(г\.|ул\.|д\.|оф\.) /g, '$1�
     <div class="sf-top">
       <a href="/" class="sf-logo" aria-label="На главную">
         <span class="sf-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-        <span class="sf-name">Антонец</span>
+        <span class="sf-name">Антонец Юрий</span>
         <span class="sf-role">арбитражный управляющий, Томск</span>
       </a>
     </div>
@@ -108,11 +108,13 @@ const address = contacts.addressFull.replace(/(г\.|ул\.|д\.|оф\.) /g, '$1�
   .sf { background: #1d1e21; color: #fff; }
   .sf a { text-decoration: none; }
   .sf-top { padding: clamp(1.75rem, 3vw, 2.5rem) 0; }
-  .sf-logo { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.875rem; color: #fff; }
-  .sf-mark { display: grid; grid-template-columns: 10px 10px; gap: 4px; }
-  .sf-mark i { width: 10px; height: 10px; border-radius: 2px; background: #fff; }
-  .sf-mark i:nth-child(4) { background: #034b8e; }
-  .sf-name { font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; letter-spacing: -0.02em; }
+  .sf-logo { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.625rem; color: #fff; }
+  /* как логотип в шапке: квадратики 5 px, по диагонали яркие и приглушённые */
+  .sf-mark { display: grid; grid-template-columns: 5px 5px; gap: 3px; }
+  .sf-mark i { width: 5px; height: 5px; border-radius: 1px; background: #3d8bff; }
+  .sf-mark i:nth-child(2), .sf-mark i:nth-child(3) { background: rgb(61 139 255 / 0.6); }
+  .sf-name { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.125rem, 1.6vw, 1.5rem); }
+  .sf-role { margin-left: 0.5rem; }
   .sf-role { font-size: 0.9375rem; color: #8a8f98; }
 
   .sf-cols-wrap { border-top: 1px solid #33353b; border-bottom: 1px solid #33353b; }
