@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { SITE_URL, contacts, person, mainNav, services } from '../data/site';
 import { orgSchema, websiteSchema, breadcrumbSchema, type Crumb } from '../data/schema';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
+import SiteFooter from '../components/SiteFooter.astro';
 
 interface Props {
   title: string;
@@ -103,44 +104,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
       <slot />
     </main>
 
-    <footer class="border-t border-paper/10 bg-night text-paper/75">
-      <div class="wrap grid gap-10 py-14 md:grid-cols-[1.3fr_1fr_1fr]">
-        <div>
-          <p class="font-serif text-xl font-medium text-paper">{person.name}</p>
-          <p class="mt-1">Арбитражный управляющий. Банкротство граждан, ИП и организаций в Томске и Томской области с {person.sinceYear} года.</p>
-          <address class="mt-5 space-y-1 not-italic">
-            <p>{contacts.addressFull}</p>
-            <p><a href={contacts.phoneHref} class="tnum font-medium text-paper">{contacts.phone}</a></p>
-            <p><a href={contacts.phone2Href} class="tnum font-medium text-paper">{contacts.phone2}</a></p>
-            <p><a href={`mailto:${contacts.email}`} class="text-paper">{contacts.email}</a></p>
-            {contacts.email2 && <p><a href={`mailto:${contacts.email2}`} class="text-paper">{contacts.email2}</a></p>}
-            <p>{contacts.hours}</p>
-          </address>
-        </div>
-        <nav aria-label="Услуги">
-          <p class="font-medium text-paper">Услуги</p>
-          <ul class="mt-3 space-y-2">
-            {services.map((s) => <li><a href={s.href} class="text-paper/75 no-underline transition-colors hover:text-paper">{s.label}</a></li>)}
-            <li><a href="/yuridicheskie-uslugi/" class="text-paper/75 no-underline transition-colors hover:text-paper">Юридические услуги и цены</a></li>
-          </ul>
-        </nav>
-        <nav aria-label="О практике">
-          <p class="font-medium text-paper">О практике</p>
-          <ul class="mt-3 space-y-2">
-            <li><a href="/ob-upravlyayushchem/" class="text-paper/75 no-underline transition-colors hover:text-paper">Об управляющем</a></li>
-            <li><a href="/dela/" class="text-paper/75 no-underline transition-colors hover:text-paper">Завершённые дела</a></li>
-            <li><a href="/stati/" class="text-paper/75 no-underline transition-colors hover:text-paper">Статьи</a></li>
-            <li><a href="/kontakty/" class="text-paper/75 no-underline transition-colors hover:text-paper">Контакты</a></li>
-            <li><a href="/politika-konfidencialnosti/" class="text-paper/75 no-underline transition-colors hover:text-paper">Политика конфиденциальности</a></li>
-          </ul>
-        </nav>
-      </div>
-      <div class="border-t border-paper/15">
-        <p class="wrap py-6 text-sm text-paper/55">
-          Информация на сайте носит справочный характер и не является публичной офертой. Итог дела зависит от обстоятельств и решения суда; гарантировать результат по закону нельзя. © 2019–2026
-        </p>
-      </div>
-    </footer>
+    <SiteFooter />
 
   </body>
 </html>

@@ -1,0 +1,165 @@
+---
+/**
+ * Футер по референсу дизайнера (18.11.2026): тёмный фон, сверху логотип, ниже четыре высокие колонки
+ * с вертикальными линиями (навигация, мессенджеры, документы, контакты), содержимое прижато к низу,
+ * в контактах крупно телефон и почта; внизу строка с © и юридической оговоркой.
+ */
+import { Image } from 'astro:assets';
+import { contacts, person } from '../data/site';
+import iconWhatsapp from '../assets/icons/whatsapp.png';
+import iconMax from '../assets/icons/max.png';
+
+const nav = [
+  { href: '/bankrotstvo-fizicheskih-lic/', label: 'Банкротство граждан' },
+  { href: '/bankrotstvo-ip/', label: 'Банкротство ИП' },
+  { href: '/bankrotstvo-ur-lica/', label: 'Банкротство компаний' },
+  { href: '/dela/', label: 'Завершённые дела' },
+  { href: '/yuridicheskie-uslugi/', label: 'Цены' },
+  { href: '/ob-upravlyayushchem/', label: 'Об управляющем' },
+  { href: '/stati/', label: 'Статьи' },
+  { href: '/kontakty/', label: 'Контакты' },
+];
+const messengers = [
+  { label: 'Telegram', href: contacts.telegram || '/kontakty/', icon: 'telegram' },
+  { label: 'WhatsApp', href: contacts.whatsapp || '/kontakty/', icon: 'whatsapp' },
+  { label: 'MAX', href: contacts.max || '/kontakty/', icon: 'max' },
+];
+const address = contacts.addressFull.replace(/(г\.|ул\.|д\.|оф\.) /g, '$1 ');
+---
+
+<footer class="sf">
+  <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
+    <div class="sf-top">
+      <a href="/" class="sf-logo" aria-label="На главную">
+        <span class="sf-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+        <span class="sf-name">Антонец</span>
+        <span class="sf-role">арбитражный управляющий, Томск</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="sf-cols-wrap">
+    <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
+      <div class="sf-cols">
+        <nav class="sf-col" aria-label="Навигация по сайту">
+          <p class="sf-label"><span class="sf-dot" aria-hidden="true"></span>Навигация</p>
+          <ul class="sf-links">
+            {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+          </ul>
+        </nav>
+
+        <div class="sf-col">
+          <p class="sf-label"><span class="sf-dot" aria-hidden="true"></span>Мессенджеры</p>
+          <ul class="sf-msgs">
+            {messengers.map((m) => (
+              <li>
+                <a href={m.href} class="sf-msg">
+                  <span>{m.label}</span>
+                  {m.icon === 'telegram' && <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#26A5E4" d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" /></svg>}
+                  {m.icon === 'whatsapp' && <Image src={iconWhatsapp} alt="" width={64} height={64} />}
+                  {m.icon === 'max' && <Image src={iconMax} alt="" width={64} height={64} />}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div class="sf-col">
+          <p class="sf-label"><span class="sf-dot" aria-hidden="true"></span>Документы</p>
+          <div class="sf-docs">
+            <dl class="sf-reg">
+              {person.registryNumber && <div><dt>Номер в реестре арбитражных управляющих</dt><dd class="tnum">{person.registryNumber}</dd></div>}
+              {person.inn && <div><dt>ИНН</dt><dd class="tnum">{person.inn}</dd></div>}
+              {person.sro && <div><dt>СРО</dt><dd>{person.sro}</dd></div>}
+            </dl>
+            <ul class="sf-links sf-links-sm">
+              <li><a href="/politika-konfidencialnosti/">Политика конфиденциальности</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="sf-col">
+          <p class="sf-label"><span class="sf-dot" aria-hidden="true"></span>Контакты</p>
+          <div class="sf-contacts">
+            <p class="sf-addr">{address}</p>
+            <p class="sf-hours">{contacts.hoursDays}, {contacts.hoursNote}</p>
+            <div class="sf-big">
+              <a href={contacts.phone2Href} class="tnum">{contacts.phone2}</a>
+              <a href={contacts.phoneHref} class="tnum sf-big-2">{contacts.phone}</a>
+              <a href={`mailto:${contacts.email}`} class="sf-mail">{contacts.email}</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
+    <div class="sf-bottom">
+      <p>© 2019–2026 {person.name}</p>
+      <p class="sf-legal">Информация на сайте носит справочный характер и не является публичной офертой. Итог дела зависит от обстоятельств и решения суда; гарантировать результат по закону нельзя</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .sf { background: #15171c; color: #fff; }
+  .sf a { text-decoration: none; }
+  .sf-top { padding: clamp(1.75rem, 3vw, 2.5rem) 0; }
+  .sf-logo { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.875rem; color: #fff; }
+  .sf-mark { display: grid; grid-template-columns: 10px 10px; gap: 4px; }
+  .sf-mark i { width: 10px; height: 10px; border-radius: 2px; background: #fff; }
+  .sf-mark i:nth-child(4) { background: #4d8fd6; }
+  .sf-name { font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; letter-spacing: -0.02em; }
+  .sf-role { font-size: 0.9375rem; color: #8a8f98; }
+
+  .sf-cols-wrap { border-top: 1px solid #2a2b30; border-bottom: 1px solid #2a2b30; }
+  .sf-cols { display: grid; }
+  .sf-col { display: flex; flex-direction: column; gap: 1.5rem; padding: clamp(1.5rem, 2.4vw, 2.25rem) 0; border-bottom: 1px solid #2a2b30; }
+  .sf-col:last-child { border-bottom: 0; }
+  @media (min-width: 768px) {
+    .sf-cols { grid-template-columns: 1fr 1fr; }
+    .sf-col { padding-inline: clamp(1rem, 2vw, 1.75rem); }
+    .sf-col:nth-child(odd) { padding-left: 0; border-right: 1px solid #2a2b30; }
+    .sf-col:nth-child(3) { border-bottom: 0; }
+  }
+  @media (min-width: 1280px) {
+    .sf-cols { grid-template-columns: 0.8fr 0.9fr 1.1fr 1.6fr; min-height: 22rem; }
+    .sf-col, .sf-col:nth-child(odd) { border-bottom: 0; border-right: 1px solid #2a2b30; padding-inline: clamp(1rem, 2vw, 1.75rem); }
+    .sf-col:first-child { padding-left: 0; }
+    .sf-col:last-child { border-right: 0; padding-right: 0; }
+  }
+  .sf-label { display: flex; align-items: center; gap: 0.625rem; font-size: 0.9375rem; color: #8a8f98; }
+  .sf-dot { width: 6px; height: 6px; border-radius: 1px; background: #4d8fd6; }
+
+  .sf-links { display: grid; gap: 0.625rem; margin-top: auto; }
+  .sf-links a { font-size: 1rem; color: #e4e6ea; transition: color 150ms var(--ease-out); }
+  .sf-links a:hover { color: #8fbbea; }
+  .sf-links-sm a { font-size: 0.9375rem; }
+
+  .sf-msgs { display: grid; gap: 0.5rem; margin-top: auto; }
+  .sf-msg {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.875rem 1.125rem;
+    border-radius: 10px; background: #22252b; color: #fff; font-weight: 500; transition: background-color 150ms var(--ease-out);
+  }
+  .sf-msg:hover { background: #2c3038; }
+  .sf-msg :global(svg), .sf-msg :global(img) { width: 1.5rem; height: 1.5rem; flex: none; }
+
+  .sf-docs { display: flex; flex-direction: column; gap: 1.25rem; margin-top: auto; }
+  .sf-reg { display: grid; gap: 0.75rem; }
+  .sf-reg dt { font-size: 0.875rem; color: #8a8f98; }
+  .sf-reg dd { margin-top: 0.125rem; font-size: 1rem; font-weight: 500; color: #e4e6ea; }
+
+  .sf-contacts { display: flex; flex-direction: column; margin-top: auto; }
+  .sf-addr { font-size: 1rem; line-height: 1.4; color: #e4e6ea; }
+  .sf-hours { margin-top: 0.5rem; font-size: 0.9375rem; line-height: 1.4; color: #8a8f98; }
+  .sf-big { display: flex; flex-direction: column; margin-top: clamp(1.25rem, 2.4vw, 2rem); }
+  .sf-big a { font-family: var(--font-sans); font-weight: 600; font-size: clamp(1.75rem, 3vw, 2.75rem); line-height: 1.2; letter-spacing: -0.02em; color: #fff; white-space: nowrap; transition: color 150ms var(--ease-out); }
+  .sf-big .sf-big-2 { font-size: clamp(1.25rem, 1.8vw, 1.625rem); color: #c9ccd2; }
+  .sf-big .sf-mail { margin-top: 0.5rem; font-size: clamp(1.375rem, 2.4vw, 2.25rem); overflow-wrap: anywhere; white-space: normal; }
+  .sf-big a:hover { color: #8fbbea; }
+  .sf a:focus-visible { outline: 2px solid #8fbbea; outline-offset: 3px; border-radius: 4px; }
+
+  .sf-bottom { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.75rem 2rem; padding: 1.5rem 0 1.75rem; font-size: 0.875rem; line-height: 1.5; color: #7c818a; }
+  .sf-legal { max-width: 52rem; }
+</style>

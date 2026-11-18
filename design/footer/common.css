@@ -1,0 +1,18 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter Tight', system-ui, sans-serif; width: 1440px; color: #15171c; background: #fff; font-size: 18px; }
+.wrap { padding: 0 52px; }
+.chip { display: inline-flex; align-items: center; gap: 12px; padding: 10px 18px; border-radius: 8px; background: #f3f4f6; font-size: 18px; line-height: 1.2; }
+.chip i { display: grid; grid-template-columns: 5px 5px; gap: 2px; } .chip b { width: 5px; height: 5px; border-radius: 1px; background: #034B8E; }
+.h2 { font: 700 37px/1.08 Manrope; letter-spacing: -0.025em; }
+.lead { font-size: 20px; line-height: 1.4; color: #5f646d; }
+.arrow { display: grid; place-items: center; width: 56px; height: 56px; border-radius: 8px; background: #15171c; color: #fff; }
+.arrow.off { opacity: .25; }
+.num { font-size: 16px; color: #8a8f98; font-variant-numeric: tabular-nums; }
+.sum { font: 700 26px/1 Manrope; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.muted { color: #7c818a; }
+.link { display: inline-flex; align-items: center; gap: 6px; color: #034b8e; font-size: 16px; font-weight: 500; }
+.tag { display: inline-flex; padding: 6px 12px; border-radius: 8px; background: #e6eef8; color: #034b8e; font-size: 15px; font-weight: 500; }
+.btn { display: inline-flex; align-items: center; justify-content: center; height: 60px; padding: 0 32px; border-radius: 10px; background: #034b8e; color: #fff; font-size: 18px; font-weight: 500; }
+.note { position: absolute; right: 52px; top: 16px; font-size: 13px; color: #b0b4bb; }
+.sq{display:grid;grid-template-columns:5px 5px;gap:2px}.sq b{width:5px;height:5px;border-radius:1px;background:#034b8e}
