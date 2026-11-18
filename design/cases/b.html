@@ -1,0 +1,35 @@
+<!doctype html><html lang="ru"><head><meta charset="utf-8"><link rel="stylesheet" href="common.css"><style>
+body { padding: 88px 0 100px; position: relative; }
+.grid { display: grid; grid-template-columns: 420px 1fr; gap: 64px; margin-top: 48px; }
+.side { position: relative; padding: 36px; border-radius: 24px; background: linear-gradient(105deg, #034b8e 0%, #053a6e 50%, #0b1a30 100%); color: #fff; }
+.side .big { font: 700 72px/1 Manrope; letter-spacing: -.03em; }
+.side .lbl { margin-top: 10px; font-size: 18px; color: rgb(255 255 255 / .8); }
+.side hr { border: 0; border-top: 1px solid rgb(255 255 255 / .15); margin: 28px 0; }
+.side .sum2 { font: 700 34px/1 Manrope; }
+.side p.small { margin-top: 28px; font-size: 16px; line-height: 1.45; color: rgb(255 255 255 / .75); }
+.tabs { display: flex; gap: 8px; }
+.tabs span { padding: 10px 16px; border-radius: 8px; background: #f3f4f6; font-size: 16px; }
+.tabs span.on { background: #15171c; color: #fff; }
+.head, .r { display: grid; grid-template-columns: 1.1fr 1fr .8fr .9fr auto; gap: 16px; align-items: center; }
+.head { margin-top: 28px; padding-bottom: 12px; border-bottom: 1px solid #dfe1e5; font-size: 14px; color: #8a8f98; }
+.r { padding: 20px 0; border-bottom: 1px solid #eceef1; }
+.r .n { font: 600 19px/1.2 Manrope; }
+.r .t, .r .d { font-size: 16px; color: #5f646d; }
+.r .s { font: 700 22px/1 Manrope; letter-spacing: -.01em; white-space: nowrap; }
+</style></head><body><span class="note">Суммы и даты условные — нужны данные от Антонца</span>
+<div class="wrap">
+  <span class="chip"><i><b></b><b></b><b></b><b></b></i>Дела</span>
+  <div class="grid">
+    <div class="side">
+      <div class="big">21</div><div class="lbl">дело завершено за 2024–2026</div>
+      <hr><div class="sum2">48 млн ₽</div><div class="lbl">списано долгов клиентам</div>
+      <p class="small">Каждое дело можно проверить по номеру в картотеке арбитражных дел. Имена должников не публикую</p>
+    </div>
+    <div>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:24px"><h2 class="h2">Последние завершённые дела</h2><div class="tabs"><span class="on">2026</span><span>2025</span><span>2024</span><span>Ранее</span></div></div>
+      <div class="head"><span>Номер дела</span><span>Должник</span><span>Завершено</span><span>Списано</span><span></span></div>
+      <div class="r"><span class="n">А67-1437/2026</span><span class="t">гражданин</span><span class="d">14.10.2026</span><span class="s">2 480 000 ₽</span><span class="link">Картотека <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></div><div class="r"><span class="n">А67-2627/2026</span><span class="t">ИП</span><span class="d">02.10.2026</span><span class="s">5 912 000 ₽</span><span class="link">Картотека <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></div><div class="r"><span class="n">А67-2347/2026</span><span class="t">гражданин</span><span class="d">28.09.2026</span><span class="s">1 150 000 ₽</span><span class="link">Картотека <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></div><div class="r"><span class="n">А75-18552/2024</span><span class="t">гражданин · ХМАО</span><span class="d">19.09.2026</span><span class="s">1 370 000 ₽</span><span class="link">Картотека <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></div><div class="r"><span class="n">А67-2576/2026</span><span class="t">гражданин</span><span class="d">11.09.2026</span><span class="s">3 040 000 ₽</span><span class="link">Картотека <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></div><div class="r"><span class="n">А67-3896/2026</span><span class="t">гражданин</span><span class="d">29.08.2026</span><span class="s">860 000 ₽</span><span class="link">Картотека <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M8 7h9v9"/></svg></span></div>
+      <div style="margin-top:28px;display:flex;align-items:center;gap:24px"><span class="btn">Все дела</span><span class="muted" style="font-size:16px">29 дел с 2015 года</span></div>
+    </div>
+  </div>
+</div></body></html>
