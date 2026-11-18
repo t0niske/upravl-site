@@ -2,7 +2,7 @@
 /**
  * Блок «Обо мне» по макету дизайнера (17.11.2026): тёмная подложка, две белые «страницы книжки»
  * (текст и фото), ниже сертификаты карточками со сканами.
- * ◐ office.jpg вырезано из скриншота макета (411 px) — заменить оригиналом фото.
+ * office.jpg — оригинал от дизайнера (1280×960), подправлен цвет и резкость, увеличен до 1920 px.
  * ◐ «250+» и «320+ млн ₽» — цифры из макета, подтвердить у Антонца (в site.ts пока «более 200 процедур»).
  * Скан 1999 г. — с замазанными паспортными данными и адресом (см. seo/BRANDCORE.md).
  */
@@ -63,7 +63,7 @@ const docs = [
 
         <figure class="ab-page ab-photo-page">
           <div class="ab-photo">
-            <Image src={office} alt={`${person.name} за рабочим столом в офисе`} widths={[480, 800]} sizes="(min-width: 1024px) 45vw, 92vw" class="ab-photo-img" loading="lazy" />
+            <Image src={office} alt={`${person.name} за рабочим столом в офисе`} widths={[480, 800, 1200]} sizes="(min-width: 1024px) 45vw, 92vw" class="ab-photo-img" loading="lazy" />
             <figcaption class="ab-office">
               <span class="ab-office-title">Офис в Томске</span>
               <span class="ab-office-text">{contacts.street}</span>
@@ -138,7 +138,7 @@ const docs = [
   }
 
   .ab-photo { position: relative; flex: 1; min-height: 22rem; overflow: hidden; border-radius: clamp(10px, 1vw, 14px); background: #e9ebee; }
-  .ab-photo-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 50% 35%; }
+  .ab-photo-img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 55% 30%; }
   .ab-office {
     position: absolute; left: clamp(0.75rem, 1.2vw, 1.25rem); bottom: clamp(0.75rem, 1.2vw, 1.25rem);
     display: flex; flex-direction: column; gap: 0.125rem;
