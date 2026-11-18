@@ -96,10 +96,10 @@ const messengers = [
             </dd>
           </div>
         </dl>
-        <div class="lf-map">
-          <iframe src={mapSrc} title="Офис на Яндекс Картах: Томск, ул. Тверская, 14" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-        </div>
       </div>
+    </div>
+    <div class="lf-map">
+      <iframe src={mapSrc} title="Офис на Яндекс Картах: Томск, ул. Тверская, 14" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
     </div>
   </div>
 </section>
@@ -160,7 +160,7 @@ const messengers = [
   }
   .lf-title { margin-top: clamp(1rem, 1.6vw, 1.5rem); font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h2); line-height: 1.08; letter-spacing: -0.025em; color: #fff; text-wrap: wrap; }
   .lf-lead { margin-top: 1rem; max-width: 34rem; font-size: var(--fs-body); line-height: 1.45; color: rgb(255 255 255 / 0.85); text-wrap: wrap; }
-  .lf-fields { display: grid; gap: 0.75rem; margin-top: auto; padding-top: clamp(1.25rem, 2vw, 1.75rem); }
+  .lf-fields { display: grid; gap: 0.75rem; padding-top: clamp(1.5rem, 2.4vw, 2rem); }
   .lf-field { display: block; }
   .lf-field input, .lf-field textarea {
     /* полупрозрачные, как плашки на первом экране */
@@ -195,7 +195,8 @@ const messengers = [
   /* Контакты — белая карточка */
   .lf-contacts { display: flex; flex-direction: column; padding: clamp(1.25rem, 2.4vw, 2.25rem); border-radius: clamp(16px, 1.6vw, 24px); background: #fff; color: #15171c; }
   .lf-ctitle { margin-top: clamp(1rem, 1.6vw, 1.5rem); padding-bottom: clamp(1rem, 1.6vw, 1.25rem); border-bottom: 1px solid #eceef1; font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h2); line-height: 1.08; letter-spacing: -0.025em; }
-  .lf-info { display: grid; gap: 1.25rem; padding: clamp(1rem, 1.6vw, 1.25rem) 0; }
+  .lf-info { display: grid; flex: 1; gap: 1.25rem; padding: clamp(1rem, 1.6vw, 1.25rem) 0 0; }
+  @media (min-width: 1024px) { .lf-info { grid-auto-rows: 1fr; align-content: stretch; } }
   @media (min-width: 640px) {
     .lf-info { grid-template-columns: 1fr 1fr; gap: 1.25rem 0; }
     .lf-info > div:nth-child(odd) { padding-right: 1.5rem; border-right: 1px solid #eceef1; }
@@ -221,6 +222,6 @@ const messengers = [
   .lf-phones a:focus-visible, .lf-mail a:focus-visible, .lf-msg:focus-visible { outline: 2px solid #034b8e; outline-offset: 3px; border-radius: 6px; }
   .lf-route { font-size: 0.9375rem; font-weight: 500; color: #034b8e; text-decoration: none; }
   .lf-route:hover { text-decoration: underline; }
-  .lf-map { flex: 1; min-height: 9.5rem; overflow: hidden; border-radius: 14px; background: #e9ebee; }
-  .lf-map iframe { display: block; width: 100%; height: 100%; min-height: 9.5rem; border: 0; }
+  .lf-map { margin-top: clamp(0.75rem, 1.4vw, 1.25rem); height: clamp(18rem, 28vw, 26rem); overflow: hidden; border-radius: clamp(16px, 1.6vw, 24px); background: #e9ebee; }
+  .lf-map iframe { display: block; width: 100%; height: 100%; border: 0; }
 </style>
