@@ -157,14 +157,12 @@ const docs = [
   .ab-stat-label { margin-top: 0.625rem; font-size: clamp(0.875rem, 1.1vw, 1.1875rem); line-height: 1.25; color: #7c818a; }
   /* Телефон: цифры списком — цифра 26 px слева, подпись справа (дизайнер, 18.11.2026) */
   @media (max-width: 639px) {
-    /* белый блок вплотную к тёмной подложке: заголовку хватает ширины на 4 строки */
-    .ab-shell { padding: 0 0 1rem; }
-    .ab-book { border-radius: inherit; }
-    .ab-docs-title, .ab-docs, .ab-verify { margin-inline: 0.5rem; }
-    .ab-docs-title { margin-inline: 1rem; }
-    .ab-text { padding-inline: 1rem; }
+    /* чёрная рамка на месте; поля секции 12 px и внутренние отступы 12 px — заголовку хватает ширины на 4 строки */
+    .about > div { padding-inline: 0.75rem; }
+    .ab-shell { padding: 0.5rem 0.5rem 1rem; }
+    .ab-text { padding-inline: 0.75rem; }
     .ab-stats { grid-template-columns: 1fr; gap: 0; padding-top: 0; }
-    .ab-stats > div { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); column-gap: 0.75rem; align-items: baseline; padding: 0.875rem 0; border-bottom: 1px solid #eceef1; }
+    .ab-stats > div { display: grid; grid-template-columns: 9.5rem minmax(0, 1fr); column-gap: 0.75rem; align-items: center; padding: 0.875rem 0; border-bottom: 1px solid #eceef1; }
     .ab-stats > div:last-child { border-bottom: 0; padding-bottom: 0; }
     .ab-stat-value { font-size: 1.625rem; }
     .ab-stat-label { margin-top: 0; font-size: 1rem; line-height: 1.3; }
