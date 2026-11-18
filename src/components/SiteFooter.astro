@@ -74,6 +74,8 @@ const address = contacts.addressFull.replace(/(г\.|ул\.|д\.|оф\.) /g, '$1�
             </dl>
             <ul class="sf-links sf-links-sm">
               <li><a href="/politika-konfidencialnosti/">Политика конфиденциальности</a></li>
+              <li><a href="/soglasie-na-obrabotku-personalnyh-dannyh/">Согласие на обработку персональных данных</a></li>
+              <li><a href="/politika-konfidencialnosti/#cookie">Использование cookies</a></li>
             </ul>
           </div>
         </div>
@@ -103,7 +105,7 @@ const address = contacts.addressFull.replace(/(г\.|ул\.|д\.|оф\.) /g, '$1�
 </footer>
 
 <style>
-  .sf { background: #15171c; color: #fff; }
+  .sf { background: #1d1e21; color: #fff; }
   .sf a { text-decoration: none; }
   .sf-top { padding: clamp(1.75rem, 3vw, 2.5rem) 0; }
   .sf-logo { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.875rem; color: #fff; }
@@ -113,19 +115,19 @@ const address = contacts.addressFull.replace(/(г\.|ул\.|д\.|оф\.) /g, '$1�
   .sf-name { font-family: var(--font-display); font-weight: 700; font-size: 1.5rem; letter-spacing: -0.02em; }
   .sf-role { font-size: 0.9375rem; color: #8a8f98; }
 
-  .sf-cols-wrap { border-top: 1px solid #2a2b30; border-bottom: 1px solid #2a2b30; }
+  .sf-cols-wrap { border-top: 1px solid #33353b; border-bottom: 1px solid #33353b; }
   .sf-cols { display: grid; }
-  .sf-col { display: flex; flex-direction: column; gap: 1.5rem; padding: clamp(1.5rem, 2.4vw, 2.25rem) 0; border-bottom: 1px solid #2a2b30; }
+  .sf-col { display: flex; flex-direction: column; gap: 1.5rem; padding: clamp(1.5rem, 2.4vw, 2.25rem) 0; border-bottom: 1px solid #33353b; }
   .sf-col:last-child { border-bottom: 0; }
   @media (min-width: 768px) {
     .sf-cols { grid-template-columns: 1fr 1fr; }
     .sf-col { padding-inline: clamp(1rem, 2vw, 1.75rem); }
-    .sf-col:nth-child(odd) { padding-left: 0; border-right: 1px solid #2a2b30; }
+    .sf-col:nth-child(odd) { padding-left: 0; border-right: 1px solid #33353b; }
     .sf-col:nth-child(3) { border-bottom: 0; }
   }
   @media (min-width: 1280px) {
     .sf-cols { grid-template-columns: 0.8fr 0.9fr 1.1fr 1.6fr; min-height: 22rem; }
-    .sf-col, .sf-col:nth-child(odd) { border-bottom: 0; border-right: 1px solid #2a2b30; padding-inline: clamp(1rem, 2vw, 1.75rem); }
+    .sf-col, .sf-col:nth-child(odd) { border-bottom: 0; border-right: 1px solid #33353b; padding-inline: clamp(1rem, 2vw, 1.75rem); }
     .sf-col:first-child { padding-left: 0; }
     .sf-col:last-child { border-right: 0; padding-right: 0; }
   }
@@ -140,9 +142,9 @@ const address = contacts.addressFull.replace(/(г\.|ул\.|д\.|оф\.) /g, '$1�
   .sf-msgs { display: grid; gap: 0.5rem; margin-top: auto; }
   .sf-msg {
     display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: 0.875rem 1.125rem;
-    border-radius: 10px; background: #22252b; color: #fff; font-weight: 500; transition: background-color 150ms var(--ease-out);
+    border-radius: 10px; background: #2a2b30; color: #fff; font-weight: 500; transition: background-color 150ms var(--ease-out);
   }
-  .sf-msg:hover { background: #2c3038; }
+  .sf-msg:hover { background: #33353b; }
   .sf-msg :global(svg), .sf-msg :global(img) { width: 1.5rem; height: 1.5rem; flex: none; }
 
   .sf-docs { display: flex; flex-direction: column; gap: 1.25rem; margin-top: auto; }

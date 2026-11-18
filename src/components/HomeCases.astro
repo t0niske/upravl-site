@@ -84,16 +84,16 @@ const total = recentCases.length;
     padding: 0.625rem 1.125rem; border-radius: 8px; background: #fff;
     font-size: clamp(1rem, 1.1vw, 1.1875rem); line-height: 1.2; color: var(--color-ink);
   }
-  .hc-title { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h2); line-height: 1.08; letter-spacing: -0.025em; color: #15171c; text-wrap: wrap; }
+  .hc-title { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h2); line-height: 1.08; letter-spacing: -0.025em; color: #1d1e21; text-wrap: wrap; }
   .hc-lead { margin-top: clamp(0.75rem, 1.2vw, 1.25rem); max-width: 60rem; font-size: var(--fs-lead); line-height: 1.4; color: #5f646d; text-wrap: wrap; }
   .hc-arrow {
     display: grid; place-items: center; width: clamp(3.5rem, 3.6vw, 4.375rem); aspect-ratio: 1;
-    border-radius: 8px; background: #15171c; color: #fff; cursor: pointer;
+    border-radius: 8px; background: #1d1e21; color: #fff; cursor: pointer;
     transition: background-color 150ms var(--ease-out), opacity 150ms var(--ease-out), transform 120ms var(--ease-out);
   }
   .hc-arrow:hover { background: #034b8e; }
   .hc-arrow:active { transform: scale(0.96); }
-  .hc-arrow:disabled { opacity: 0.25; cursor: default; background: #15171c; }
+  .hc-arrow:disabled { opacity: 0.25; cursor: default; background: #1d1e21; }
   .hc-arrow:focus-visible { outline: 2px solid #034b8e; outline-offset: 3px; }
 
   .hc-track {
@@ -116,11 +116,11 @@ const total = recentCases.length;
 
   .hc-more {
     display: flex; flex-direction: column; justify-content: space-between; gap: 1rem; min-height: 16rem; padding: clamp(1.5rem, 2.2vw, 2.25rem);
-    border-radius: 16px; background: #15171c; color: #fff; text-decoration: none; transition: background-color 150ms var(--ease-out);
+    border-radius: 16px; background: #1d1e21; color: #fff; text-decoration: none; transition: background-color 150ms var(--ease-out);
   }
   .hc-more:hover { background: #034b8e; }
   .hc-more:focus-visible { outline: 2px solid #034b8e; outline-offset: 3px; }
   .hc-more-title { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.15; letter-spacing: -0.015em; }
   .hc-more-text { margin-top: -0.25rem; font-size: var(--fs-body); line-height: 1.45; color: #b5bac2; text-wrap: wrap; }
-  .hc-more-arrow { display: grid; place-items: center; width: 3.5rem; height: 3.5rem; margin-top: auto; border-radius: 8px; background: #fff; color: #15171c; }
+  .hc-more-arrow { display: grid; place-items: center; width: 3.5rem; height: 3.5rem; margin-top: auto; border-radius: 8px; background: #fff; color: #1d1e21; }
 </style>

@@ -53,7 +53,7 @@ const messengers = [
           </label>
           <label class="lf-consent">
             <input name="consent" type="checkbox" required value="1" />
-            <span>Я даю согласие на обработку персональных данных в соответствии с <a href="/politika-konfidencialnosti/">политикой конфиденциальности</a></span>
+            <span>Я даю <a href="/soglasie-na-obrabotku-personalnyh-dannyh/" target="_blank">согласие на обработку персональных данных</a> и ознакомлен(а) с <a href="/politika-konfidencialnosti/" target="_blank">политикой конфиденциальности</a></span>
           </label>
           <button type="submit" class="lf-btn">Получить консультацию</button>
           <p class="lead-status hidden" role="status" aria-live="polite"></p>
@@ -193,7 +193,7 @@ const messengers = [
   .lead-status.is-err { background: #fbe9e2; color: #7a2e10; }
 
   /* Контакты — белая карточка */
-  .lf-contacts { display: flex; flex-direction: column; padding: clamp(1.25rem, 2.4vw, 2.25rem); border-radius: clamp(16px, 1.6vw, 24px); background: #fff; color: #15171c; }
+  .lf-contacts { display: flex; flex-direction: column; padding: clamp(1.25rem, 2.4vw, 2.25rem); border-radius: clamp(16px, 1.6vw, 24px); background: #fff; color: #1d1e21; }
   .lf-ctitle { margin-top: clamp(1rem, 1.6vw, 1.5rem); padding-bottom: clamp(1rem, 1.6vw, 1.25rem); border-bottom: 1px solid #eceef1; font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h2); line-height: 1.08; letter-spacing: -0.025em; }
   .lf-info { display: grid; flex: 1; gap: 1.25rem; padding: clamp(1rem, 1.6vw, 1.25rem) 0 0; }
   @media (min-width: 1024px) { .lf-info { grid-auto-rows: 1fr; align-content: stretch; } }
@@ -203,7 +203,7 @@ const messengers = [
     .lf-info > div:nth-child(even) { padding-left: 1.5rem; }
   }
   .lf-info dt { font-size: 0.9375rem; color: #8a8f98; }
-  .lf-info dd { margin-top: 0.5rem; font-size: var(--fs-body); line-height: 1.45; color: #15171c; overflow-wrap: anywhere; }
+  .lf-info dd { margin-top: 0.5rem; font-size: var(--fs-body); line-height: 1.45; color: #1d1e21; overflow-wrap: anywhere; }
   .lf-phones, .lf-mail { display: flex; flex-direction: column; }
   .lf-phones a, .lf-mail a { white-space: nowrap; }
   /* 1024–1279: карточка узкая — контакты одним столбцом */
@@ -211,8 +211,8 @@ const messengers = [
     .lf-info { grid-template-columns: 1fr; gap: 1.25rem; }
     .lf-info > div:nth-child(odd), .lf-info > div:nth-child(even) { padding: 0; border: 0; }
   }
-  .lf-phones a { font-family: var(--font-sans); font-weight: 700; font-size: clamp(1.25rem, 1.5vw, 1.4375rem); line-height: 1.35; color: #15171c; text-decoration: none; }
-  .lf-mail a { font-weight: 500; color: #15171c; text-decoration: none; }
+  .lf-phones a { font-family: var(--font-sans); font-weight: 700; font-size: clamp(1.25rem, 1.5vw, 1.4375rem); line-height: 1.35; color: #1d1e21; text-decoration: none; }
+  .lf-mail a { font-weight: 500; color: #1d1e21; text-decoration: none; }
   .lf-phones a:hover, .lf-mail a:hover { color: #034b8e; }
   .lf-msgs { display: flex; gap: 0.5rem; margin-top: 0.625rem !important; }
   .lf-msg { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 10px; background: #f3f4f6; transition: background-color 150ms var(--ease-out), transform 120ms var(--ease-out); }

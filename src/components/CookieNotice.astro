@@ -1,0 +1,47 @@
+---
+/**
+ * Уведомление о cookies (карта Яндекса в блоке контактов ставит свои cookies; при подключении
+ * Метрики — тоже). Показывается, пока посетитель не нажмёт «Понятно»; отметка хранится в localStorage.
+ */
+---
+
+<div class="ck" data-cookie hidden role="region" aria-label="Уведомление о cookies">
+  <p class="ck-text">
+    Сайт использует cookies: они нужны для работы карты и подсчёта посещений.
+    Подробнее — в <a href="/politika-konfidencialnosti/#cookie">политике конфиденциальности</a>
+  </p>
+  <button type="button" class="ck-btn" data-cookie-ok>Понятно</button>
+</div>
+
+<script>
+  const box = document.querySelector<HTMLElement>('[data-cookie]');
+  const KEY = 'cookie-ok';
+  let seen = false;
+  try { seen = localStorage.getItem(KEY) === '1'; } catch {}
+  if (box && !seen) {
+    box.hidden = false;
+    box.querySelector('[data-cookie-ok]')?.addEventListener('click', () => {
+      try { localStorage.setItem(KEY, '1'); } catch {}
+      box.hidden = true;
+    });
+  }
+</script>
+
+<style>
+  .ck {
+    position: fixed; z-index: 60; left: 1rem; right: 1rem; bottom: 1rem;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0.75rem 1.25rem;
+    max-width: 34rem; padding: 1rem 1.125rem; border-radius: 14px;
+    background: #1d1e21; color: #e4e6ea; box-shadow: 0 0 0 1px rgb(255 255 255 / 0.14), 0 10px 30px rgb(0 0 0 / 0.25);
+  }
+  .ck[hidden] { display: none; }
+  @media (min-width: 640px) { .ck { left: 1.5rem; right: auto; bottom: 1.5rem; flex-wrap: nowrap; } }
+  .ck-text { flex: 1; font-size: 0.875rem; line-height: 1.45; }
+  .ck-text a { color: #fff; }
+  .ck-btn {
+    flex: none; min-height: 2.75rem; padding: 0 1.25rem; border-radius: 10px; background: #fff; color: #034b8e;
+    font-size: 0.9375rem; font-weight: 600; cursor: pointer; transition: background-color 150ms var(--ease-out);
+  }
+  .ck-btn:hover { background: #e6eef8; }
+  .ck-btn:focus-visible, .ck-text a:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+</style>
