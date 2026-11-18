@@ -116,20 +116,21 @@ const address = contacts.addressFull.replace(/(г\.|ул\.|д\.|оф\.) /g, '$1�
   .sf-role { font-size: 0.9375rem; color: #8a8f98; }
 
   .sf-cols-wrap { border-top: 1px solid #33353b; border-bottom: 1px solid #33353b; }
-  .sf-cols { display: grid; }
-  .sf-col { display: flex; flex-direction: column; gap: 1.5rem; padding: clamp(1.5rem, 2.4vw, 2.25rem) 0; border-bottom: 1px solid #33353b; }
+  /* Линии как в карточке контактов: горизонтали сплошные, вертикальные разделители не доходят до них —
+     разрывы между смысловыми блоками */
+  .sf-cols { --g: clamp(2rem, 4vw, 3.5rem); display: grid; }
+  .sf-col { position: relative; display: flex; flex-direction: column; gap: 1.5rem; padding: clamp(1.5rem, 2.4vw, 2.25rem) 0; border-bottom: 1px solid #33353b; }
   .sf-col:last-child { border-bottom: 0; }
+  .sf-col::before { content: none; position: absolute; left: calc(var(--g) / -2); top: clamp(1.5rem, 2.4vw, 2.25rem); bottom: clamp(1.5rem, 2.4vw, 2.25rem); width: 1px; background: #33353b; }
   @media (min-width: 768px) {
-    .sf-cols { grid-template-columns: 1fr 1fr; }
-    .sf-col { padding-inline: clamp(1rem, 2vw, 1.75rem); }
-    .sf-col:nth-child(odd) { padding-left: 0; border-right: 1px solid #33353b; }
+    .sf-cols { grid-template-columns: 1fr 1fr; column-gap: var(--g); }
     .sf-col:nth-child(3) { border-bottom: 0; }
+    .sf-col:nth-child(even)::before { content: ''; }
   }
   @media (min-width: 1280px) {
     .sf-cols { grid-template-columns: 0.8fr 0.9fr 1.1fr 1.6fr; min-height: 22rem; }
-    .sf-col, .sf-col:nth-child(odd) { border-bottom: 0; border-right: 1px solid #33353b; padding-inline: clamp(1rem, 2vw, 1.75rem); }
-    .sf-col:first-child { padding-left: 0; }
-    .sf-col:last-child { border-right: 0; padding-right: 0; }
+    .sf-col { border-bottom: 0; }
+    .sf-col:not(:first-child)::before { content: ''; }
   }
   .sf-label { display: flex; align-items: center; gap: 0.625rem; font-size: 0.9375rem; color: #8a8f98; }
   .sf-dot { width: 6px; height: 6px; border-radius: 1px; background: #fff; }
