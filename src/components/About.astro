@@ -1,6 +1,6 @@
 ---
 /**
- * Блок «Обо мне» по макету дизайнера (17.11.2026): тёмная подложка, две белые «страницы книжки»
+ * Блок «Обо мне» по макету дизайнера (17–18.11.2026): тёмная подложка, один белый блок
  * (текст и фото), ниже сертификаты карточками со сканами.
  * office.jpg — оригинал от дизайнера (1280×960), подправлен цвет и резкость, увеличен до 1920 px.
  * «250+» и «320+ млн ₽» подтверждены Антонцем 18.11.2026.
@@ -114,14 +114,14 @@ const docs = [
   .about { padding: clamp(3rem, 5.5vw, 5.75rem) 0 clamp(3.5rem, 7vw, 7rem); background: #fff; }
   .ab-shell { border-radius: clamp(16px, 1.6vw, 24px); background: #1d1e21; padding: clamp(0.5rem, 1.1vw, 1rem) clamp(0.5rem, 1.1vw, 1rem) clamp(1rem, 2.6vw, 2.5rem); }
 
-  /* Две «страницы»: на компьютере стоят вплотную, скругления в месте стыка дают корешок книжки */
-  .ab-book { display: grid; gap: 0.5rem; }
-  .ab-page { margin: 0; border-radius: clamp(14px, 1.6vw, 24px); background: #fff; }
+  /* Один белый блок: текст слева, фото справа (на телефоне фото под текстом) */
+  .ab-book { display: grid; border-radius: clamp(14px, 1.6vw, 24px); background: #fff; }
+  .ab-page { margin: 0; }
   .ab-text { padding: clamp(1.25rem, 2.6vw, 2.75rem); }
-  .ab-photo-page { display: flex; padding: clamp(0.75rem, 2.6vw, 2.75rem); }
+  .ab-photo-page { display: flex; padding: 0 clamp(0.75rem, 2.6vw, 2.75rem) clamp(0.75rem, 2.6vw, 2.75rem); }
   @media (min-width: 1024px) {
-    .ab-book { grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); gap: 0; }
-    .ab-photo-page { padding-left: clamp(0.75rem, 1.6vw, 1.5rem); }
+    .ab-book { grid-template-columns: minmax(0, 1.08fr) minmax(0, 1fr); }
+    .ab-photo-page { padding: clamp(0.75rem, 2.6vw, 2.75rem) clamp(0.75rem, 2.6vw, 2.75rem) clamp(0.75rem, 2.6vw, 2.75rem) 0; }
   }
 
   .ab-chip {
