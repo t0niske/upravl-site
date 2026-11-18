@@ -57,8 +57,8 @@ export const contacts = {
   telegram: '',
   whatsapp: '',
   max: '',
-  yandexMapsUrl: 'https://yandex.ru/maps/?text=%D0%A2%D0%BE%D0%BC%D1%81%D0%BA%2C%20%D1%83%D0%BB.%20%D0%A2%D0%B2%D0%B5%D1%80%D1%81%D0%BA%D0%B0%D1%8F%2C%2014',
-  geo: { lat: 56.4617, lon: 84.9744 }, // ✖ приблизительно, уточнить по карте
+  yandexMapsUrl: 'https://yandex.ru/maps/?pt=84.971674,56.483464&z=17&l=map',
+  geo: { lat: 56.483464, lon: 84.971674 }, // координаты карточки офиса в 2ГИС (18.11.2026)
 };
 
 /** ◐ цены со старого сайта 2020–2022 — подтвердить перед запуском */
