@@ -1,6 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
-import Quiz from '../components/Quiz.astro';
+import HomeQuiz from '../components/HomeQuiz.astro';
 import HomeHero from '../components/HomeHero.astro';
 import ForWhom from '../components/ForWhom.astro';
 import Services from '../components/Services.astro';
@@ -64,15 +64,7 @@ const limits: [string, string][] = [
 
   <Services />
 
-  <!-- Квиз -->
-  <section class="wrap mt-24 grid gap-10 lg:grid-cols-[1fr_1.6fr] lg:gap-16" aria-label="Проверка">
-    <div class="self-start lg:sticky lg:top-24">
-      <h2>Сначала — подходит ли процедура вообще</h2>
-      <p class="mt-4 text-ink-2">Банкротство — не единственный выход и не всегда лучший. При небольшом долге и оконченном исполнительном производстве дешевле бесплатная процедура через МФЦ. При имуществе и свежих сделках важнее сначала оценить риски.</p>
-      <p class="mt-4 text-ink-2">Ответьте на шесть вопросов — увидите предварительный вывод и главные риски вашей ситуации. Ответы подставятся в заявку.</p>
-    </div>
-    <Quiz />
-  </section>
+  <HomeQuiz />
 
   <!-- Как проходит -->
   <section class="wrap mt-24 grid gap-10 lg:grid-cols-[1fr_1.6fr] lg:gap-16" aria-labelledby="steps-title">
