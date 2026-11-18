@@ -1,69 +1,113 @@
 ---
+/**
+ * Форма заявки и контакты (18.11.2026, в стиле новой главной): серый фон, слева заголовок и
+ * карточки контактов (телефоны, почта, офис, мессенджеры), справа белая форма.
+ * Отправка — public/lead.php (работает на хостинге с PHP; на GitHub Pages показывает ошибку с телефонами).
+ * Скрытое поле data-quiz-field заполняет квиз ответами.
+ */
+import { Image } from 'astro:assets';
+import { nb } from '../data/typo';
 import { contacts } from '../data/site';
-interface Props {
-  title?: string;
-  text?: string;
-  topic?: string;
-}
+import iconWhatsapp from '../assets/icons/whatsapp.png';
+import iconMax from '../assets/icons/max.png';
+
+interface Props { title?: string; text?: string; topic?: string }
 const {
   title = 'Бесплатная консультация по вашей ситуации',
-  text = 'Оставьте телефон — перезвоню в рабочее время, задам несколько вопросов о долгах и имуществе и скажу, какая процедура вам подходит и сколько она будет стоить. Без обязательств.',
+  text = 'Оставьте телефон — перезвоню, задам несколько вопросов о долгах и имуществе и скажу, какая процедура вам подходит и сколько она будет стоить. Без обязательств',
   topic = '',
 } = Astro.props;
+
+const messengers = [
+  { label: 'Telegram', href: contacts.telegram || '/kontakty/', icon: 'telegram' },
+  { label: 'WhatsApp', href: contacts.whatsapp || '/kontakty/', icon: 'whatsapp' },
+  { label: 'MAX', href: contacts.max || '/kontakty/', icon: 'max' },
+];
 ---
-<section id="zayavka" class="scroll-mt-20 bg-night text-paper" aria-labelledby="zayavka-title">
-  <div class="wrap grid items-center gap-10 py-16 md:grid-cols-[1fr_1.1fr] md:gap-16 md:py-24">
-    <div>
-      <h2 id="zayavka-title" class="text-paper">{title}</h2>
-      <p class="mt-4 max-w-[30rem] text-paper/75">{text}</p>
-      <dl class="mt-8 grid gap-6 text-paper/80 sm:grid-cols-2">
-        <div>
-          <dt class="text-sm text-paper/60">Телефон</dt>
-          <dd class="flex flex-col"><a href={contacts.phoneHref} class="tnum text-xl font-medium text-paper">{contacts.phone}</a><a href={contacts.phone2Href} class="tnum text-xl font-medium text-paper">{contacts.phone2}</a></dd>
+
+<section id="zayavka" class="lf scroll-mt-20" aria-labelledby="zayavka-title">
+  <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
+    <span class="lf-chip">
+      <span class="grid grid-cols-2 gap-[2px]" aria-hidden="true">
+        <i class="size-[5px] rounded-[1px] bg-[#034B8E]"></i><i class="size-[5px] rounded-[1px] bg-[#034B8E]"></i>
+        <i class="size-[5px] rounded-[1px] bg-[#034B8E]"></i><i class="size-[5px] rounded-[1px] bg-[#034B8E]"></i>
+      </span>
+      Контакты
+    </span>
+
+    <div class="lf-grid">
+      <div class="lf-side">
+        <h2 id="zayavka-title" class="lf-title">{nb(title)}</h2>
+        <p class="lf-lead">{nb(text)}</p>
+
+        <div class="lf-cards">
+          <div class="lf-card">
+            <p class="lf-label">Телефоны</p>
+            <a href={contacts.phone2Href} class="lf-big tnum">{contacts.phone2}</a>
+            <a href={contacts.phoneHref} class="lf-big tnum">{contacts.phone}</a>
+          </div>
+          <div class="lf-card">
+            <p class="lf-label">Почта</p>
+            <a href={`mailto:${contacts.email}`} class="lf-mid">{contacts.email}</a>
+            {contacts.email2 && <a href={`mailto:${contacts.email2}`} class="lf-mid">{contacts.email2}</a>}
+          </div>
+          <div class="lf-card">
+            <p class="lf-label">Офис в Томске</p>
+            <p class="lf-mid">{contacts.street}</p>
+            <p class="lf-note">{contacts.hoursDays}, {contacts.hoursNote}</p>
+            <a href={contacts.yandexMapsUrl} target="_blank" rel="noopener" class="lf-link">
+              Маршрут на Яндекс Картах
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+            </a>
+          </div>
+          <div class="lf-card">
+            <p class="lf-label">Мессенджеры</p>
+            <div class="lf-msgs">
+              {messengers.map((m) => (
+                <a href={m.href} class="lf-msg" aria-label={m.label}>
+                  {m.icon === 'telegram' && <svg viewBox="0 0 24 24" aria-hidden="true"><path fill="#26A5E4" d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z" /></svg>}
+                  {m.icon === 'whatsapp' && <Image src={iconWhatsapp} alt="" width={64} height={64} />}
+                  {m.icon === 'max' && <Image src={iconMax} alt="" width={64} height={64} />}
+                </a>
+              ))}
+            </div>
+          </div>
         </div>
-        <div>
-          <dt class="text-sm text-paper/60">Офис</dt>
-          <dd>г. Томск, {contacts.street}</dd>
+      </div>
+
+      <form class="lead-form lf-form" action="/lead.php" method="post" novalidate>
+        <input type="hidden" name="topic" value={topic} />
+        <input type="hidden" name="page" value={Astro.url.pathname} />
+        <input type="hidden" name="quiz" value="" data-quiz-field />
+        <div class="absolute -left-[9999px]" aria-hidden="true">
+          <label>Сайт <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
         </div>
-      </dl>
-      {(contacts.telegram || contacts.whatsapp || contacts.max) && (
-        <div class="mt-6 flex flex-wrap gap-3">
-          {contacts.telegram && <a class="btn btn-light" href={contacts.telegram} rel="noopener">Написать в Telegram</a>}
-          {contacts.whatsapp && <a class="btn btn-light" href={contacts.whatsapp} rel="noopener">Написать в WhatsApp</a>}
-          {contacts.max && <a class="btn btn-light" href={contacts.max} rel="noopener">Написать в MAX</a>}
+
+        <p class="lf-form-title">Оставить заявку</p>
+        <p class="lf-form-text">{nb('Перезвоню в рабочее время. Первая консультация бесплатна')}</p>
+
+        <div class="lf-fields">
+          <label class="lf-field">
+            <span>Как к вам обращаться</span>
+            <input name="name" type="text" autocomplete="given-name" maxlength="80" placeholder="Имя" />
+          </label>
+          <label class="lf-field">
+            <span>Телефон <b aria-hidden="true">*</b></span>
+            <input name="phone" type="tel" inputmode="tel" autocomplete="tel" required minlength="10" maxlength="25" placeholder="+7" />
+          </label>
+          <label class="lf-field">
+            <span>Коротко о ситуации <em>необязательно</em></span>
+            <textarea name="message" rows="3" maxlength="2000" placeholder="Например: 4 кредита и микрозайм, общий долг около 900 тыс., есть квартира и машина"></textarea>
+          </label>
+          <label class="lf-consent">
+            <input name="consent" type="checkbox" required value="1" />
+            <span>Согласен на обработку персональных данных по <a href="/politika-konfidencialnosti/">политике конфиденциальности</a>. Данные нужны только для ответа на заявку</span>
+          </label>
+          <button type="submit" class="lf-btn">Получить консультацию</button>
+          <p class="lead-status hidden" role="status" aria-live="polite"></p>
         </div>
-      )}
+      </form>
     </div>
-
-    <form class="lead-form relative rounded-[18px] bg-card p-6 text-ink sm:p-8" action="/lead.php" method="post" novalidate>
-      <input type="hidden" name="topic" value={topic} />
-      <input type="hidden" name="page" value={Astro.url.pathname} />
-      <input type="hidden" name="quiz" value="" data-quiz-field />
-      <div class="absolute -left-[9999px]" aria-hidden="true">
-        <label>Сайт <input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
-      </div>
-
-      <div class="grid gap-4">
-        <label class="grid gap-1.5">
-          <span class="text-sm font-medium">Как к вам обращаться</span>
-          <input name="name" type="text" autocomplete="given-name" maxlength="80" class="h-12 rounded-[10px] border border-line-strong bg-white px-3 outline-none transition-colors focus:border-ink" />
-        </label>
-        <label class="grid gap-1.5">
-          <span class="text-sm font-medium">Телефон <span class="text-accent" aria-hidden="true">*</span></span>
-          <input name="phone" type="tel" inputmode="tel" autocomplete="tel" required minlength="10" maxlength="25" placeholder="+7" class="h-12 rounded-[10px] border border-line-strong bg-white px-3 outline-none transition-colors focus:border-ink" />
-        </label>
-        <label class="grid gap-1.5">
-          <span class="text-sm font-medium">Коротко о ситуации <span class="font-normal text-muted">(необязательно)</span></span>
-          <textarea name="message" rows="3" maxlength="2000" placeholder="Например: 4 кредита и микрозайм, общий долг около 900 тыс., есть квартира и машина" class="rounded-[10px] border border-line-strong bg-white px-3 py-2.5 outline-none transition-colors focus:border-ink"></textarea>
-        </label>
-        <label class="flex items-start gap-3 text-sm text-muted">
-          <input name="consent" type="checkbox" required value="1" class="mt-1 h-5 w-5 shrink-0 accent-[var(--color-accent)]" />
-          <span>Согласен на обработку персональных данных по <a href="/politika-konfidencialnosti/" class="text-ink">политике конфиденциальности</a>. Данные нужны только для ответа на заявку.</span>
-        </label>
-        <button type="submit" class="btn btn-primary w-full text-base">Получить консультацию</button>
-        <p class="lead-status hidden rounded-[10px] p-3 text-sm" role="status" aria-live="polite"></p>
-      </div>
-    </form>
   </div>
 </section>
 
@@ -72,14 +116,14 @@ const {
     const status = form.querySelector<HTMLElement>('.lead-status')!;
     const show = (msg: string, ok: boolean) => {
       status.textContent = msg;
-      status.className = `lead-status rounded-[10px] p-3 text-sm ${ok ? 'bg-[#e6f0ea] text-[#1f4d37]' : 'bg-[#fbe9e2] text-[#7a2e10]'}`;
+      status.className = `lead-status ${ok ? 'is-ok' : 'is-err'}`;
     };
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const fd = new FormData(form);
       const phone = String(fd.get('phone') || '').replace(/\D/g, '');
-      if (phone.length < 10) return show('Проверьте номер телефона: нужно не меньше 10 цифр.', false);
-      if (!fd.get('consent')) return show('Отметьте согласие на обработку данных — без него заявку отправить нельзя.', false);
+      if (phone.length < 10) return show('Проверьте номер телефона: нужно не меньше 10 цифр', false);
+      if (!fd.get('consent')) return show('Отметьте согласие на обработку данных — без него заявку отправить нельзя', false);
       const btn = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
       btn.disabled = true;
       btn.textContent = 'Отправляю…';
@@ -88,10 +132,10 @@ const {
         const data = await res.json().catch(() => ({}));
         if (!res.ok || !data.ok) throw new Error(data.error || 'send');
         form.reset();
-        show('Заявка отправлена. Перезвоню в рабочее время; если вопрос срочный — звоните по телефону.', true);
+        show('Заявка отправлена. Перезвоню в рабочее время; если вопрос срочный — звоните по телефону', true);
         (window as any).ym?.((window as any).YM_ID, 'reachGoal', 'lead');
       } catch {
-        show('Не получилось отправить заявку. Позвоните, пожалуйста, по телефону +7 (3822) 30-02-15 или +7 (913) 889-35-36.', false);
+        show('Не получилось отправить заявку. Позвоните, пожалуйста: +7 (913) 889-35-36 или +7 (3822) 30-02-15', false);
       } finally {
         btn.disabled = false;
         btn.textContent = 'Получить консультацию';
@@ -99,3 +143,69 @@ const {
     });
   });
 </script>
+
+<style>
+  .lf { padding: clamp(2.5rem, 4vw, 3.5rem) 0 clamp(3rem, 5vw, 4.5rem); background: #f3f4f6; }
+  .lf-chip {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    padding: 0.625rem 1.125rem; border-radius: 8px; background: #fff;
+    font-size: clamp(1rem, 1.1vw, 1.1875rem); line-height: 1.2; color: var(--color-ink);
+  }
+  .lf-grid { display: grid; gap: clamp(1.5rem, 2.6vw, 2.5rem); margin-top: clamp(1.25rem, 2vw, 1.75rem); }
+  @media (min-width: 1024px) { .lf-grid { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); align-items: start; } }
+
+  .lf-title { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h2); line-height: 1.08; letter-spacing: -0.025em; color: #15171c; text-wrap: wrap; }
+  .lf-lead { margin-top: 1rem; max-width: 40rem; font-size: var(--fs-lead); line-height: 1.4; color: #5f646d; text-wrap: wrap; }
+
+  .lf-cards { display: grid; gap: 0.75rem; margin-top: clamp(1.5rem, 2.6vw, 2.25rem); }
+  @media (min-width: 640px) { .lf-cards { grid-template-columns: 1fr 1fr; } }
+  .lf-card { display: flex; flex-direction: column; gap: 0.25rem; padding: clamp(1.25rem, 1.8vw, 1.625rem); border-radius: 16px; background: #fff; }
+  .lf-label { margin-bottom: 0.375rem; font-size: 0.9375rem; color: #8a8f98; }
+  .lf-big { font-family: var(--font-sans); font-weight: 700; font-size: clamp(1.25rem, 1.5vw, 1.4375rem); line-height: 1.3; color: #15171c; text-decoration: none; }
+  .lf-mid { font-size: var(--fs-body); font-weight: 500; line-height: 1.4; color: #15171c; text-decoration: none; overflow-wrap: anywhere; }
+  .lf-note { font-size: 0.9375rem; line-height: 1.4; color: #7c818a; }
+  .lf-big:hover, .lf-mid:hover { color: #034b8e; }
+  .lf-link { display: inline-flex; align-items: center; gap: 0.375rem; margin-top: 0.625rem; font-size: 0.9375rem; font-weight: 500; color: #034b8e; text-decoration: none; }
+  .lf-link svg { transition: transform 150ms var(--ease-out); }
+  .lf-link:hover svg { transform: translateX(3px); }
+  .lf-msgs { display: flex; gap: 0.5rem; }
+  .lf-msg { display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 10px; background: #f3f4f6; transition: background-color 150ms var(--ease-out), transform 120ms var(--ease-out); }
+  .lf-msg :global(svg), .lf-msg :global(img) { width: 1.75rem; height: 1.75rem; }
+  .lf-msg:hover { background: #e6e8ec; }
+  .lf-msg:active { transform: scale(0.96); }
+  .lf-big:focus-visible, .lf-mid:focus-visible, .lf-link:focus-visible, .lf-msg:focus-visible { outline: 2px solid #034b8e; outline-offset: 3px; border-radius: 6px; }
+
+  .lf-form { position: relative; padding: clamp(1.25rem, 2.6vw, 2.5rem); border-radius: clamp(16px, 1.6vw, 24px); background: #fff; color: #15171c; }
+  .lf-form-title { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; }
+  .lf-form-text { margin-top: 0.5rem; font-size: var(--fs-body); line-height: 1.45; color: #7c818a; }
+  .lf-fields { display: grid; gap: 1rem; margin-top: clamp(1.25rem, 2vw, 1.75rem); }
+  .lf-field { display: grid; gap: 0.5rem; }
+  .lf-field > span { font-size: 0.9375rem; font-weight: 500; color: #2a2d33; }
+  .lf-field b { color: #034b8e; }
+  .lf-field em { font-style: normal; font-weight: 400; color: #8a8f98; }
+  .lf-field input, .lf-field textarea {
+    width: 100%; padding: 0.875rem 1rem; border: 0; border-radius: 10px; background: #f3f4f6;
+    font: inherit; font-size: var(--fs-body); color: #15171c; outline: none;
+    box-shadow: inset 0 0 0 1px transparent; transition: box-shadow 150ms var(--ease-out), background-color 150ms var(--ease-out);
+  }
+  .lf-field input { min-height: 3.25rem; }
+  .lf-field textarea { resize: vertical; min-height: 6rem; }
+  .lf-field input::placeholder, .lf-field textarea::placeholder { color: #9aa0a9; }
+  .lf-field input:focus, .lf-field textarea:focus { background: #fff; box-shadow: inset 0 0 0 2px #034b8e; }
+  .lf-consent { display: grid; grid-template-columns: 20px minmax(0, 1fr); gap: 0.75rem; font-size: 0.875rem; line-height: 1.45; color: #7c818a; }
+  .lf-consent input { width: 20px; height: 20px; margin-top: 1px; accent-color: #034b8e; }
+  .lf-consent a { color: #15171c; }
+  .lf-btn {
+    display: flex; align-items: center; justify-content: center; min-height: clamp(3.25rem, 4vw, 4rem); margin-top: 0.25rem;
+    border-radius: 10px; background: #034b8e; color: #fff; font-size: clamp(1rem, 1.15vw, 1.25rem); font-weight: 500; cursor: pointer;
+    transition: background-color 150ms var(--ease-out), transform 120ms var(--ease-out);
+  }
+  .lf-btn:hover { background: #0a5aa6; }
+  .lf-btn:active { transform: scale(0.98); }
+  .lf-btn:disabled { opacity: 0.7; cursor: default; }
+  .lf-btn:focus-visible { outline: 2px solid #034b8e; outline-offset: 3px; }
+  .lead-status { padding: 0.75rem 1rem; border-radius: 10px; font-size: 0.9375rem; line-height: 1.45; }
+  .lead-status.hidden { display: none; }
+  .lead-status.is-ok { background: #e6f0ea; color: #1f4d37; }
+  .lead-status.is-err { background: #fbe9e2; color: #7a2e10; }
+</style>
