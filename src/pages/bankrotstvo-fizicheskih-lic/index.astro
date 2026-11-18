@@ -1,7 +1,8 @@
 ---
 import Page from '../../layouts/Page.astro';
-import Quiz from '../../components/Quiz.astro';
-import CaseGrid from '../../components/CaseGrid.astro';
+import HomeQuiz from '../../components/HomeQuiz.astro';
+import HomeCases from '../../components/HomeCases.astro';
+import HomeReviews from '../../components/HomeReviews.astro';
 import { pricing, law, rub } from '../../data/site';
 import { serviceSchema } from '../../data/schema';
 
@@ -87,7 +88,6 @@ const faq = [
     <a href="/bankrotstvo-fizicheskih-lic/cherez-mfc/">бесплатное банкротство через МФЦ</a> — суд и управляющий там не нужны.
   </p>
 
-  <div class="not-prose my-10"><Quiz id="proverka" /></div>
 
   <h2>Какие долги спишут, а какие останутся</h2>
   <p>После завершения процедуры суд освобождает от большинства долгов, которые были на дату заявления. Исключения перечислены в ст. 213.28 закона о банкротстве.</p>
@@ -213,6 +213,10 @@ const faq = [
   </div>
   <p>Работать по найму, открывать счета, ездить в отпуск и снова брать кредиты после процедуры можно.</p>
 
-  <h2>Результаты по делам граждан</h2>
-  <div class="not-prose mt-6"><CaseGrid limit={4} /></div>
+
+  <Fragment slot="after">
+    <HomeQuiz />
+    <HomeCases />
+    <HomeReviews />
+  </Fragment>
 </Page>

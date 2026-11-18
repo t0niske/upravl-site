@@ -17,16 +17,17 @@
   --font-serif: var(--font-display);
   --font-mono: 'JetBrains Mono', ui-monospace, 'Cascadia Mono', monospace;
 
-  --color-ink: #17202e;
-  --color-ink-2: #4a4f58;
-  --color-muted: #6f6a62;
-  --color-paper: #f6f3ed;
-  --color-paper-2: #ede8df;
-  --color-line: rgb(23 32 46 / 0.1);
-  --color-line-strong: rgb(23 32 46 / 0.18);
-  --color-card: #fdfbf8;
-  --color-accent: #9a4a19;
-  --color-accent-dark: #7e3b12;
+  /* Палитра новой главной (18.11.2026): тёмный #1D1E21, синий #034B8E, серый фон #F3F4F6 */
+  --color-ink: #1d1e21;
+  --color-ink-2: #5f646d;
+  --color-muted: #7c818a;
+  --color-paper: #ffffff;
+  --color-paper-2: #f3f4f6;
+  --color-line: rgb(29 30 33 / 0.1);
+  --color-line-strong: rgb(29 30 33 / 0.18);
+  --color-card: #ffffff;
+  --color-accent: #034b8e;
+  --color-accent-dark: #0a5aa6;
   --color-ok: #2f6b4f;
   --color-warn: #8a5a00;
   --color-night: #1d1e21;
@@ -72,13 +73,13 @@
     text-wrap: balance;
   }
   h1 { font-size: var(--fs-h1); line-height: 1.06; letter-spacing: -0.02em; }
-  h2 { font-size: var(--fs-h2); line-height: 1.12; letter-spacing: -0.015em; }
+  h2 { font-size: var(--fs-h2); line-height: 1.08; letter-spacing: -0.025em; font-weight: 700; }
   h3 { font-size: var(--fs-h3); line-height: 1.2; }
   p { text-wrap: pretty; }
   a { @apply underline decoration-1 underline-offset-[3px]; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); transition: text-decoration-color 150ms var(--ease-out), color 150ms var(--ease-out); }
   a:hover { text-decoration-color: currentColor; }
   :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; border-radius: 4px; }
-  ::selection { background: #ead8c6; }
+  ::selection { background: #cfe0f3; }
 }
 
 @layer components {
@@ -89,7 +90,8 @@
   .prose-legal > h3 { margin-top: 1.75em; }
   .prose-legal > ul { @apply list-disc pl-6 space-y-2; }
   .prose-legal > ol { @apply list-decimal pl-6 space-y-2; }
-  .prose-legal > ul > li::marker, .prose-legal > ol > li::marker { color: var(--color-muted); }
+  .prose-legal > ul > li::marker, .prose-legal > ol > li::marker { color: var(--color-accent); }
+  .prose-legal > p, .prose-legal > ul, .prose-legal > ol { color: #2a2d33; line-height: 1.6; }
   .lead-answer { @apply leading-[1.5] text-ink-2; font-size: var(--fs-lead); }
 
   .btn {

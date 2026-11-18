@@ -1,13 +1,15 @@
 ---
 /**
- * Шаблон контентной страницы (услуга, статья): крошки, H1, прямой ответ, факты, тело, FAQ, «по теме», заявка.
+ * Шаблон посадочной/контентной страницы в стиле новой главной (18.11.2026):
+ * синяя полоса (шапка, крошки, плашка, H1, прямой ответ, кнопки, цифры) → текст с липкой карточкой справа →
+ * слот after (блоки с главной: кейсы, отзывы…) → FAQ → «по теме» → форма и контакты.
  */
 import Base from './Base.astro';
 import Byline from '../components/Byline.astro';
-import Faq from '../components/Faq.astro';
-import Related from '../components/Related.astro';
+import HomeFaq from '../components/HomeFaq.astro';
 import LeadForm from '../components/LeadForm.astro';
 import { contacts } from '../data/site';
+import { nb } from '../data/typo';
 import { faqSchema, type Crumb } from '../data/schema';
 
 interface Props {
@@ -34,48 +36,142 @@ const {
 const allSchema = [...schema, ...(faq.length ? [faqSchema(faq)] : [])];
 ---
 <Base title={title} description={description} crumbs={crumbs} schema={allSchema} ogType={ogType}>
-  <article>
-    <header class="wrap pt-6 md:pt-10">
-      {eyebrow && <p class="eyebrow">{eyebrow}</p>}
-      <h1 class="mt-4 max-w-[48rem]">{h1}</h1>
-      <div class="prose-legal lead-answer mt-6">
-        <slot name="lead" />
-      </div>
+  <Fragment slot="top">
+    <div class="ph">
+      {eyebrow && (
+        <span class="ph-chip">
+          <span class="ph-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          {eyebrow}
+        </span>
+      )}
+      <h1 class="ph-title">{nb(h1)}</h1>
+      <div class="ph-lead"><slot name="lead" /></div>
       {cta && (
-        <div class="mt-7 flex flex-wrap gap-3">
-          <a href="#zayavka" class="btn btn-primary">Бесплатная консультация</a>
-          <a href={contacts.phoneHref} class="btn btn-ghost tnum">{contacts.phone}</a>
+        <div class="ph-actions">
+          <a href="#zayavka" class="ph-btn">Бесплатная консультация</a>
+          <a href={contacts.phone2Href} class="ph-btn ph-btn-glass tnum">{contacts.phone2}</a>
         </div>
       )}
-      <Byline published={published} />
       {facts.length > 0 && (
-        <dl class="mt-12 grid grid-cols-2 border-y border-line lg:grid-cols-4">
-          {facts.map(([k, v], i) => (
-            <div class:list={['py-5 pr-4', i % 2 === 1 && 'border-l border-line pl-4 lg:pl-6', i >= 2 && 'border-t border-line lg:border-t-0', i === 2 && 'lg:border-l lg:pl-6']}>
-              <dt class="text-[0.875rem] text-muted">{k}</dt>
-              <dd class="figure mt-1 text-[1.25rem] leading-tight">{v}</dd>
+        <dl class="ph-facts">
+          {facts.map(([k, v]) => (
+            <div class="ph-fact">
+              <dt>{nb(k)}</dt>
+              <dd class="tnum">{v}</dd>
             </div>
           ))}
         </dl>
       )}
-    </header>
+    </div>
+  </Fragment>
 
-    <div class="wrap mt-16 grid gap-16 lg:grid-cols-[minmax(0,1fr)_17rem]">
-      <div class="prose-legal min-w-0">
-        <slot />
-      </div>
-      <aside class="hidden lg:block" aria-label="Связаться">
-        <div class="sticky top-24 rounded-[14px] border border-line bg-card p-5">
-          <p class="font-serif text-[1.1875rem] leading-snug font-medium">Разберу вашу ситуацию бесплатно</p>
-          <p class="mt-2 text-sm text-muted">По телефону или в офисе на ул. Тверской, 14. Первая консультация бесплатная.</p>
-          <a href="#zayavka" class="btn btn-primary mt-4 w-full">Оставить заявку</a>
-          <a href={contacts.phoneHref} class="tnum mt-3 block text-center font-medium no-underline">{contacts.phone}</a>
+  <article class="pg">
+    <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
+      <div class="pg-grid">
+        <div class="prose-legal pg-prose min-w-0">
+          <Byline published={published} />
+          <slot />
         </div>
-      </aside>
+        <aside class="pg-aside" aria-label="Связаться">
+          <div class="pg-card">
+            <span class="ph-sq ph-sq-blue" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+            <p class="pg-card-title">{nb('Разберу вашу ситуацию бесплатно')}</p>
+            <p class="pg-card-text">{nb('По телефону или в офисе на ул. Тверской, 14. Первая консультация бесплатная')}</p>
+            <a href="#zayavka" class="pg-card-btn">Оставить заявку</a>
+            <a href={contacts.phone2Href} class="pg-card-phone tnum">{contacts.phone2}</a>
+          </div>
+        </aside>
+      </div>
     </div>
   </article>
 
-  {faq.length > 0 && <Faq items={faq} />}
-  {related.length > 0 && <Related links={related} />}
-  <div class="mt-24"><LeadForm title={formTitle} text={formText} topic={topic} /></div>
+  <slot name="after" />
+
+  {faq.length > 0 && <HomeFaq items={faq} />}
+
+  {related.length > 0 && (
+    <section class="rel" aria-labelledby="related-title">
+      <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
+        <h2 id="related-title" class="rel-title">По этой теме</h2>
+        <ul class="rel-grid">
+          {related.map((l) => (
+            <li>
+              <a href={l.href} class="rel-card">
+                <span class="rel-name">{nb(l.label)}</span>
+                <span class="rel-text">{nb(l.text.replace(/\.$/, ''))}</span>
+                <span class="rel-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <LeadForm title={formTitle} text={formText} topic={topic} />
 </Base>
+
+<style>
+  /* Заголовок страницы в синей полосе */
+  .ph { max-width: 62rem; }
+  .ph-chip {
+    display: inline-flex; align-items: center; gap: 0.75rem; padding: 0.625rem 1.125rem; border-radius: 8px;
+    background: rgb(255 255 255 / 0.12); font-size: clamp(1rem, 1.1vw, 1.1875rem); line-height: 1.2; color: #fff;
+  }
+  .ph-sq { display: grid; grid-template-columns: 5px 5px; grid-auto-rows: 5px; gap: 2px; flex: none; }
+  .ph-sq i { width: 5px; height: 5px; border-radius: 1px; background: #fff; }
+  .ph-sq-blue i { background: #034b8e; }
+  .ph-title { margin-top: clamp(1.25rem, 2.4vw, 2rem); font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h1); line-height: 1.06; letter-spacing: -0.025em; color: #fff; text-wrap: balance; }
+  .ph-lead { margin-top: clamp(1rem, 1.8vw, 1.5rem); max-width: 48rem; font-size: var(--fs-lead); line-height: 1.45; color: rgb(255 255 255 / 0.88); text-wrap: pretty; }
+  .ph-lead :global(a) { color: #fff; }
+  .ph-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: clamp(1.5rem, 3vw, 2.25rem); }
+  .ph-btn {
+    display: inline-flex; align-items: center; justify-content: center; min-height: clamp(3.25rem, 4vw, 4rem); padding: 0 1.75rem;
+    border-radius: 10px; background: #034b8e; color: #fff; font-size: clamp(1rem, 1.15vw, 1.1875rem); font-weight: 500; text-decoration: none;
+    transition: background-color 150ms var(--ease-out), transform 120ms var(--ease-out);
+  }
+  .ph-btn:hover { background: #0a5aa6; }
+  .ph-btn:active { transform: scale(0.98); }
+  .ph-btn-glass { background: rgb(255 255 255 / 0.12); font-weight: 600; }
+  .ph-btn-glass:hover { background: rgb(255 255 255 / 0.2); }
+  .ph-btn:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
+  @media (max-width: 639px) { .ph-btn { width: 100%; } }
+  .ph-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; margin-top: clamp(2rem, 4vw, 3.5rem); }
+  @media (min-width: 1024px) { .ph-facts { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .ph-fact { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 0.5rem; padding: clamp(1rem, 1.5vw, 1.25rem); border-radius: 14px; background: rgb(255 255 255 / 0.1); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.08); }
+  .ph-fact dd { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.25rem, 1.8vw, 1.625rem); line-height: 1.1; letter-spacing: -0.02em; color: #fff; }
+  .ph-fact dt { font-size: 0.9375rem; line-height: 1.35; color: rgb(255 255 255 / 0.75); }
+
+  /* Текст и липкая карточка */
+  .pg { padding: clamp(2.5rem, 4vw, 3.5rem) 0 clamp(3rem, 5vw, 4.5rem); background: #fff; }
+  .pg-grid { display: grid; gap: 2.5rem; }
+  @media (min-width: 1024px) { .pg-grid { grid-template-columns: minmax(0, 1fr) 20rem; gap: clamp(3rem, 6vw, 6rem); } }
+  .pg-prose { max-width: 50rem; font-size: var(--fs-body); }
+  .pg-prose :global(> p:first-child) { margin-top: 0; }
+  .pg-aside { display: none; }
+  @media (min-width: 1024px) { .pg-aside { display: block; } }
+  .pg-card { position: sticky; top: 1.5rem; display: flex; flex-direction: column; padding: 1.75rem; border-radius: 18px; background: #f3f4f6; }
+  .pg-card-title { margin-top: 1.25rem; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; color: #1d1e21; }
+  .pg-card-text { margin-top: 0.75rem; font-size: 1rem; line-height: 1.45; color: #5f646d; }
+  .pg-card-btn {
+    display: flex; align-items: center; justify-content: center; min-height: 3.25rem; margin-top: 1.5rem;
+    border-radius: 10px; background: #034b8e; color: #fff; font-weight: 500; text-decoration: none; transition: background-color 150ms var(--ease-out);
+  }
+  .pg-card-btn:hover { background: #0a5aa6; }
+  .pg-card-phone { margin-top: 1rem; text-align: center; font-family: var(--font-sans); font-weight: 700; font-size: 1.25rem; color: #1d1e21; text-decoration: none; }
+  .pg-card-phone:hover { color: #034b8e; }
+
+  /* По этой теме */
+  .rel { padding: clamp(2.5rem, 4vw, 3.5rem) 0; background: #f3f4f6; }
+  .rel-title { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h2); line-height: 1.08; letter-spacing: -0.025em; color: #1d1e21; }
+  .rel-grid { display: grid; gap: clamp(0.75rem, 1.4vw, 1.25rem); margin-top: clamp(1.25rem, 2.4vw, 2rem); }
+  @media (min-width: 768px) { .rel-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .rel-card { display: flex; flex-direction: column; height: 100%; padding: clamp(1.25rem, 2vw, 1.75rem); border-radius: 16px; background: #fff; color: #1d1e21; text-decoration: none; transition: box-shadow 150ms var(--ease-out); }
+  .rel-card:hover { box-shadow: inset 0 0 0 2px #034b8e; }
+  .rel-name { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; }
+  .rel-text { margin-top: 0.625rem; font-size: var(--fs-body); line-height: 1.45; color: #7c818a; }
+  .rel-arrow { display: grid; place-items: center; width: 2.75rem; height: 2.75rem; margin-top: auto; padding-top: 0; border-radius: 8px; background: #f3f4f6; color: #1d1e21; transition: background-color 150ms var(--ease-out), color 150ms var(--ease-out); }
+  .rel-card .rel-arrow { margin-top: 1.5rem; }
+  .rel-card:hover .rel-arrow { background: #034b8e; color: #fff; }
+  .rel-card:focus-visible { outline: 2px solid #034b8e; outline-offset: 3px; }
+</style>

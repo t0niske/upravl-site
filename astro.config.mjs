@@ -7,6 +7,8 @@ export default defineConfig({
   site: 'https://upravl.ru',
   trailingSlash: 'always',
   devToolbar: { enabled: false },
+  // без сжатия HTML: иначе теряется пробел на переносе строки перед ссылкой («проверьте<a>»)
+  compressHTML: false,
   build: { format: 'directory', inlineStylesheets: 'auto' },
   integrations: [
     sitemap({

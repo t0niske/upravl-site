@@ -1,0 +1,58 @@
+---
+/**
+ * Синяя полоса внутренних страниц: фон как на первом экране главной (здание суда + градиент),
+ * шапка-плашка, хлебные крошки и слот для заголовка страницы (H1, подводка, кнопки, цифры).
+ */
+import { Image } from 'astro:assets';
+import SiteHeader from './SiteHeader.astro';
+import court from '../assets/court-bg-a.png';
+import type { Crumb } from '../data/schema';
+
+interface Props { crumbs?: Crumb[] }
+const { crumbs = [] } = Astro.props;
+---
+
+<section class="pt relative isolate overflow-hidden text-white">
+  <div class="pt-bg absolute inset-0 -z-10" aria-hidden="true">
+    <Image src={court} alt="" widths={[960, 1600, 2400]} sizes="100vw" class="pt-court" loading="eager" />
+  </div>
+  <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
+    <SiteHeader />
+    {crumbs.length > 0 && (
+      <nav aria-label="Хлебные крошки" class="pt-crumbs">
+        <ol>
+          <li><a href="/">Главная</a></li>
+          {crumbs.map((c, i) => (
+            <li>
+              <span aria-hidden="true">/</span>
+              {i === crumbs.length - 1 ? <span aria-current="page">{c.name}</span> : <a href={c.href}>{c.name}</a>}
+            </li>
+          ))}
+        </ol>
+      </nav>
+    )}
+    <div class="pt-body">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .pt { padding-bottom: clamp(2.5rem, 5vw, 4.5rem); }
+  .pt-bg { background: linear-gradient(155deg, #1b2a45 0%, #13284a 40%, #0c3466 75%, #0b3d78 100%); }
+  .pt-court { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: 70% 60%; opacity: 0.35; }
+  .pt-bg::after {
+    content: ''; position: absolute; inset: 0;
+    background:
+      linear-gradient(90deg, rgb(16 34 64 / 0.96) 0%, rgb(16 34 64 / 0.8) 45%, rgb(16 34 64 / 0.35) 100%),
+      linear-gradient(0deg, rgb(11 40 80 / 0.5) 0%, transparent 40%);
+  }
+  .pt-crumbs { margin-top: clamp(1.5rem, 3vw, 2.5rem); font-size: 0.9375rem; }
+  .pt-crumbs ol { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 0.5rem; }
+  .pt-crumbs li { display: flex; align-items: center; gap: 0.5rem; color: rgb(255 255 255 / 0.9); }
+  .pt-crumbs a { color: rgb(255 255 255 / 0.65); text-decoration: none; }
+  .pt-crumbs a:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+  .pt-crumbs span[aria-hidden] { color: rgb(255 255 255 / 0.4); }
+  .pt-body:empty { display: none; }
+  .pt-body { margin-top: clamp(1rem, 2vw, 1.75rem); }
+</style>
