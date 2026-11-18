@@ -83,7 +83,7 @@ const included = [
     padding: 0.625rem 1.125rem; border-radius: 8px; background: rgb(255 255 255 / 0.1);
     font-size: clamp(1rem, 1.1vw, 1.1875rem); line-height: 1.2;
   }
-  .hp-title { margin-top: clamp(1.5rem, 2.6vw, 2.5rem); font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h2); line-height: 1.08; letter-spacing: -0.025em; color: #fff; text-wrap: wrap; }
+  .hp-title { margin-top: clamp(1.5rem, 2.6vw, 2.5rem); font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h2); line-height: 1.08; letter-spacing: -0.025em; color: #fff; text-wrap: pretty; }
   .hp-tiles { display: grid; gap: 0.625rem; margin-top: clamp(1.5rem, 2.4vw, 2.25rem); }
   @media (min-width: 640px) { .hp-tiles { grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, 1fr); } }
   /* 1024–1279: колонка узкая — плашки столбиком, чтобы цифры не вылезали */
@@ -91,8 +91,8 @@ const included = [
   .hp-tile { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 0.625rem; padding: clamp(1rem, 1.5vw, 1.375rem); border-radius: 14px; background: rgb(255 255 255 / 0.08); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.1); }
   .hp-tile dd { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.375rem, 1.8vw, 1.75rem); line-height: 1; letter-spacing: -0.02em; white-space: nowrap; }
   .hp-from { font-weight: 500; font-size: 0.72em; letter-spacing: 0; }
-  .hp-tile dt { font-size: clamp(0.9375rem, 1.05vw, 1rem); line-height: 1.35; color: rgb(255 255 255 / 0.8); text-wrap: wrap; }
-  .hp-foot { margin-top: auto; padding-top: clamp(1.5rem, 2.4vw, 2rem); max-width: 40rem; font-size: clamp(0.9375rem, 1.05vw, 1rem); line-height: 1.45; color: rgb(255 255 255 / 0.75); text-wrap: wrap; }
+  .hp-tile dt { font-size: clamp(0.9375rem, 1.05vw, 1rem); line-height: 1.35; color: rgb(255 255 255 / 0.8); text-wrap: pretty; }
+  .hp-foot { margin-top: auto; padding-top: clamp(1.5rem, 2.4vw, 2rem); max-width: 40rem; font-size: clamp(0.9375rem, 1.05vw, 1rem); line-height: 1.45; color: rgb(255 255 255 / 0.75); text-wrap: pretty; }
 
   .hp-card { display: flex; flex-direction: column; padding: clamp(1.25rem, 2.6vw, 2.5rem); border-radius: clamp(14px, 1.6vw, 24px); background: #fff; color: #1d1e21; }
   .hp-total { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 0.75rem 1rem; padding-bottom: clamp(1rem, 1.6vw, 1.5rem); border-bottom: 1px solid #eceef1; }
