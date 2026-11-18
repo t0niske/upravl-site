@@ -2,11 +2,11 @@
 import Base from '../layouts/Base.astro';
 import HomeQuiz from '../components/HomeQuiz.astro';
 import Steps from '../components/Steps.astro';
+import HomeCases from '../components/HomeCases.astro';
 import HomeHero from '../components/HomeHero.astro';
 import ForWhom from '../components/ForWhom.astro';
 import Services from '../components/Services.astro';
 import About from '../components/About.astro';
-import CaseGrid from '../components/CaseGrid.astro';
 import Faq from '../components/Faq.astro';
 import LeadForm from '../components/LeadForm.astro';
 import { person, contacts, pricing, law, rub, cases } from '../data/site';
@@ -15,7 +15,7 @@ import { personSchema, faqSchema } from '../data/schema';
 const faq = [
   {
     q: 'Сколько стоит банкротство гражданина в Томске?',
-    a: `Сопровождение под ключ — ${rub(pricing.citizenTurnkey)} с рассрочкой от ${rub(pricing.citizenInstallmentFrom)} в месяц. Отдельно по закону оплачиваются ${rub(law.fuDeposit)} на депозит суда для вознаграждения финансового управляющего и публикации в ЕФРСБ и «Коммерсанте». Если подходите под банкротство через МФЦ, процедура бесплатная.`,
+    a: `Юридическое сопровождение — от ${rub(pricing.citizenTurnkey)} с рассрочкой от ${rub(pricing.citizenInstallmentFrom)} в месяц. Отдельно по закону оплачиваются ${rub(law.fuDeposit)} на депозит суда для вознаграждения финансового управляющего и публикации в ЕФРСБ и «Коммерсанте». Если подходите под банкротство через МФЦ, процедура бесплатная.`,
   },
   {
     q: 'Сколько длится банкротство физического лица?',
@@ -48,7 +48,7 @@ const limits: [string, string][] = [
 
 <Base
   title="Арбитражный управляющий в Томске — Антонец Ю. А."
-  description="Банкротство граждан под ключ за 95 000 ₽ с рассрочкой, банкротство ИП и ООО, защита от субсидиарной ответственности. Томск, с 1999 года."
+  description="Банкротство граждан под ключ от 125 000 ₽ с рассрочкой, банкротство ИП и ООО, защита от субсидиарной ответственности. Томск, с 1999 года."
   schema={[personSchema(), faqSchema(faq)]}
   hideHeader
 >
@@ -64,24 +64,14 @@ const limits: [string, string][] = [
 
   <About />
 
-  <!-- Дела -->
-  <section class="wrap mt-24" aria-labelledby="cases-title">
-    <div class="flex flex-wrap items-end justify-between gap-4">
-      <div class="max-w-[44rem]">
-        <h2 id="cases-title">Завершённые дела</h2>
-        <p class="mt-4 text-ink-2">Последние дела, по которым суд освободил граждан от долгов. Каждое проверяется по номеру в картотеке.</p>
-      </div>
-      <a href="/dela/" class="btn btn-ghost">Все {cases.length} дел</a>
-    </div>
-    <div class="mt-8"><CaseGrid limit={4} /></div>
-  </section>
+  <HomeCases />
 
   <!-- Цена -->
   <section class="wrap mt-24 grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-16" aria-labelledby="price-title">
     <div>
       <h2 id="price-title">Сколько стоит банкротство гражданина</h2>
       <p class="mt-4 text-ink-2">
-        Гонорар за сопровождение под ключ — {rub(pricing.citizenTurnkey)}. Платить можно частями, от {rub(pricing.citizenInstallmentFrom)} в месяц.
+        Гонорар за сопровождение под ключ — от {rub(pricing.citizenTurnkey)}. Платить можно частями, от {rub(pricing.citizenInstallmentFrom)} в месяц.
         Что входит в работу, фиксируем в договоре до начала.
       </p>
       <p class="mt-4 text-ink-2">Остальное — расходы, которые требует закон. Их платит любой должник, с юристом или без.</p>
@@ -92,7 +82,7 @@ const limits: [string, string][] = [
         <caption class="sr-only">Из чего складывается стоимость</caption>
         <thead><tr><th scope="col">Статья расходов</th><th scope="col" class="text-right">Сумма</th></tr></thead>
         <tbody>
-          <tr><td>Сопровождение под ключ: документы, заявление, суд, работа с управляющим до списания</td><td class="figure whitespace-nowrap text-right text-[1.25rem] text-accent">{rub(pricing.citizenTurnkey)}</td></tr>
+          <tr><td>Сопровождение под ключ: документы, заявление, суд, работа с управляющим до списания</td><td class="figure whitespace-nowrap text-right text-[1.25rem] text-accent">от {rub(pricing.citizenTurnkey)}</td></tr>
           <tr><td>Депозит суда на вознаграждение финансового управляющего, ст. 20.6 закона о банкротстве</td><td class="tnum whitespace-nowrap text-right">{rub(law.fuDeposit)}</td></tr>
           <tr><td>Публикации в ЕФРСБ и газете «Коммерсантъ», почтовые расходы</td><td class="whitespace-nowrap text-right">по факту</td></tr>
           <tr class="[&>td]:border-b-0"><td>Процент управляющего — только если продано имущество</td><td class="tnum whitespace-nowrap text-right">{law.fuPercent} % от выручки</td></tr>

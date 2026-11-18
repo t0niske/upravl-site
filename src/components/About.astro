@@ -88,7 +88,7 @@ const docs = [
         ))}
       </ul>
 
-      {(person.registryNumber || person.inn || person.fedresursUrl) && (
+      {(person.registryNumber || person.inn || person.sro || person.fedresursUrl) && (
         <div class="ab-verify">
           <dl class="ab-verify-list">
             {person.registryNumber && (
@@ -96,6 +96,9 @@ const docs = [
             )}
             {person.inn && (
               <div><dt>ИНН</dt><dd class="tnum">{person.inn}</dd></div>
+            )}
+            {person.sro && (
+              <div><dt>СРО арбитражных управляющих</dt><dd>{nb(person.sro)}</dd></div>
             )}
           </dl>
           {person.fedresursUrl && (

@@ -6,7 +6,7 @@ import { pricing, law, rub } from '../../data/site';
 import { serviceSchema } from '../../data/schema';
 
 const url = '/bankrotstvo-fizicheskih-lic/';
-const description = `Списание долгов гражданам через Арбитражный суд Томской области: под ключ ${rub(pricing.citizenTurnkey)}, рассрочка. Что сохранится, какие сделки оспорят.`;
+const description = `Списание долгов гражданам через Арбитражный суд Томской области: под ключ от ${rub(pricing.citizenTurnkey)}, рассрочка. Что сохранится, какие сделки оспорят.`;
 
 const faq = [
   {
@@ -43,7 +43,7 @@ const faq = [
   eyebrow="Для граждан"
   crumbs={[{ name: 'Банкротство граждан', href: url }]}
   facts={[
-    ['Сопровождение под ключ', rub(pricing.citizenTurnkey)],
+    ['Сопровождение под ключ', `от ${rub(pricing.citizenTurnkey)}`],
     ['Рассрочка', `от ${rub(pricing.citizenInstallmentFrom)} в месяц`],
     ['Депозит управляющему', rub(law.fuDeposit)],
     ['Реализация имущества', `от ${law.realizationMonths} месяцев`],
@@ -64,7 +64,7 @@ const faq = [
       звонки коллекторов прекращаются.
     </p>
     <p>
-      Сопровождаю процедуру под ключ за {rub(pricing.citizenTurnkey)} с рассрочкой; отдельно по закону вносится {rub(law.fuDeposit)} на вознаграждение
+      Сопровождаю процедуру под ключ — от {rub(pricing.citizenTurnkey)}, с рассрочкой; отдельно по закону вносится {rub(law.fuDeposit)} на вознаграждение
       финансового управляющего. Не подойдёт тем, у кого основной долг — алименты, и тем, кто за последние 3 года переоформил имущество на родственников:
       такие сделки оспорят.
     </p>
@@ -191,7 +191,7 @@ const faq = [
 
   <h2>Сколько стоит</h2>
   <p>
-    Гонорар за сопровождение под ключ — {rub(pricing.citizenTurnkey)}, рассрочка от {rub(pricing.citizenInstallmentFrom)} в месяц.
+    Гонорар за сопровождение под ключ — от {rub(pricing.citizenTurnkey)}, рассрочка от {rub(pricing.citizenInstallmentFrom)} в месяц.
     Сверх этого закон требует внести {rub(law.fuDeposit)} на депозит суда для вознаграждения финансового управляющего и оплатить публикации в ЕФРСБ и «Коммерсанте».
     Если управляющий продаёт имущество, он получает ещё {law.fuPercent} % от выручки — из вырученных денег, а не из вашего кармана.
     Отдельные услуги, например только заявление в суд, есть в <a href="/yuridicheskie-uslugi/">прайсе</a>.
