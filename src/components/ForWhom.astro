@@ -213,9 +213,10 @@ const cards = [
     .fw-card { flex-basis: calc((100% - 2 * var(--gap)) / 3); }
   }
 
-  /* Телефон: подзаголовки 20 px (просьба дизайнера 18.11.2026) */
+  /* Телефон: заголовки карточек 22 px, текст 18 px (просьба дизайнера 18.11.2026) */
   @media (max-width: 639px) {
-    .fw-card-title { font-size: 1.25rem; line-height: 1.2; }
+    .fw-card-title { font-size: 1.375rem; line-height: 1.15; }
+    .fw-card-text { font-size: 1.125rem; line-height: 1.35; margin-bottom: 1.25rem; }
     /* карточки крупнее: шире и с более высоким фото */
     .fw-card { flex-basis: 90%; }
     .fw-card-img { aspect-ratio: 4 / 3; }
