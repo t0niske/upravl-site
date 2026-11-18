@@ -3,6 +3,7 @@ import Base from '../layouts/Base.astro';
 import HomeQuiz from '../components/HomeQuiz.astro';
 import Steps from '../components/Steps.astro';
 import HomeCases from '../components/HomeCases.astro';
+import HomePrice from '../components/HomePrice.astro';
 import HomeHero from '../components/HomeHero.astro';
 import ForWhom from '../components/ForWhom.astro';
 import Services from '../components/Services.astro';
@@ -66,30 +67,7 @@ const limits: [string, string][] = [
 
   <HomeCases />
 
-  <!-- Цена -->
-  <section class="wrap mt-24 grid gap-10 lg:grid-cols-[1fr_1.2fr] lg:gap-16" aria-labelledby="price-title">
-    <div>
-      <h2 id="price-title">Сколько стоит банкротство гражданина</h2>
-      <p class="mt-4 text-ink-2">
-        Гонорар за сопровождение под ключ — от {rub(pricing.citizenTurnkey)}. Платить можно частями, от {rub(pricing.citizenInstallmentFrom)} в месяц.
-        Что входит в работу, фиксируем в договоре до начала.
-      </p>
-      <p class="mt-4 text-ink-2">Остальное — расходы, которые требует закон. Их платит любой должник, с юристом или без.</p>
-      <p class="mt-6"><a href="/yuridicheskie-uslugi/">Полный прайс юридических услуг</a></p>
-    </div>
-    <div class="overflow-x-auto rounded-[14px] border border-line bg-card px-6 py-2">
-      <table class="table-clean">
-        <caption class="sr-only">Из чего складывается стоимость</caption>
-        <thead><tr><th scope="col">Статья расходов</th><th scope="col" class="text-right">Сумма</th></tr></thead>
-        <tbody>
-          <tr><td>Сопровождение под ключ: документы, заявление, суд, работа с управляющим до списания</td><td class="figure whitespace-nowrap text-right text-[1.25rem] text-accent">от {rub(pricing.citizenTurnkey)}</td></tr>
-          <tr><td>Депозит суда на вознаграждение финансового управляющего, ст. 20.6 закона о банкротстве</td><td class="tnum whitespace-nowrap text-right">{rub(law.fuDeposit)}</td></tr>
-          <tr><td>Публикации в ЕФРСБ и газете «Коммерсантъ», почтовые расходы</td><td class="whitespace-nowrap text-right">по факту</td></tr>
-          <tr class="[&>td]:border-b-0"><td>Процент управляющего — только если продано имущество</td><td class="tnum whitespace-nowrap text-right">{law.fuPercent} % от выручки</td></tr>
-        </tbody>
-      </table>
-    </div>
-  </section>
+  <HomePrice />
 
   <!-- Ограничения -->
   <section class="wrap mt-24" aria-labelledby="limits-title">

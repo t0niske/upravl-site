@@ -1,0 +1,116 @@
+---
+/**
+ * Блок «Стоимость» по варианту B (выбор дизайнера, 18.11.2026): синяя градиентная плашка
+ * с тремя цифрами и белая карточка «итого с депозитом», состав работ и ссылка на прайс.
+ * Цены — pricing/law в site.ts (от 125 000 ₽, депозит 25 000 ₽, рассрочка от 10 000 ₽ — сообщил Антонец 18.11.2026).
+ * ◐ Состав работ собран из текстов сайта — сверить с договором, когда Антонец его пришлёт.
+ * ◐ Прайс /yuridicheskie-uslugi/ — цены со старого сайта (2020), подтвердить.
+ */
+import { nb } from '../data/typo';
+import { pricing, law, rub } from '../data/site';
+
+const total = pricing.citizenTurnkey + law.fuDeposit;
+const included = [
+  'Разбор долгов, имущества и сделок за 3 года',
+  'Сбор справок и выписок, заявление в суд',
+  'Представительство в Арбитражном суде',
+  'Работа с финансовым управляющим и кредиторами',
+  'Сопровождение до определения о списании долгов',
+];
+---
+
+<section id="stoimost" class="hp" aria-labelledby="price-title">
+  <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
+    <div class="hp-shell">
+      <div class="hp-side">
+        <span class="hp-chip">
+          <span class="grid grid-cols-2 gap-[2px]" aria-hidden="true">
+            <i class="size-[5px] rounded-[1px] bg-white"></i><i class="size-[5px] rounded-[1px] bg-white"></i>
+            <i class="size-[5px] rounded-[1px] bg-white"></i><i class="size-[5px] rounded-[1px] bg-white"></i>
+          </span>
+          Стоимость
+        </span>
+        <h2 id="price-title" class="hp-title">{nb('Сколько стоит банкротство гражданина')}</h2>
+        <dl class="hp-tiles">
+          <div class="hp-tile"><dt>{nb('юридическое сопровождение под ключ')}</dt><dd class="tnum">от&nbsp;{rub(pricing.citizenTurnkey)}</dd></div>
+          <div class="hp-tile"><dt>{nb('депозит на вознаграждение финансового управляющего')}</dt><dd class="tnum">{rub(law.fuDeposit)}</dd></div>
+          <div class="hp-tile"><dt>{nb('в месяц — рассрочка')}</dt><dd class="tnum">от&nbsp;{rub(pricing.citizenInstallmentFrom)}</dd></div>
+        </dl>
+        <p class="hp-foot">{nb(`Публикации в ЕФРСБ и «Коммерсанте» оплачиваются по факту. Процент управляющему — ${law.fuPercent} %, только если продано имущество`)}</p>
+      </div>
+
+      <div class="hp-card">
+        <div class="hp-total">
+          <div>
+            <p class="hp-total-label">Итого с депозитом</p>
+            <p class="hp-total-sum tnum">от&nbsp;{rub(total)}</p>
+          </div>
+          <span class="hp-tag">можно частями</span>
+        </div>
+        <h3 class="hp-inc-title">Что входит в сопровождение</h3>
+        <ul class="hp-inc">
+          {included.map((t) => (
+            <li>
+              <span class="hp-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+              <span>{nb(t)}</span>
+            </li>
+          ))}
+        </ul>
+        <div class="hp-actions">
+          <a href="#zayavka" class="hp-btn">Бесплатная консультация</a>
+          <a href="/yuridicheskie-uslugi/" class="hp-link">
+            Цены на другие юридические услуги
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hp { padding: clamp(2.5rem, 4vw, 3.5rem) 0; background: #fff; }
+  .hp-shell {
+    display: grid; gap: clamp(1rem, 2.4vw, 2rem);
+    padding: clamp(0.5rem, 1.1vw, 1rem); border-radius: clamp(16px, 1.6vw, 24px);
+    background: linear-gradient(105deg, #034b8e 0%, #053a6e 45%, #0b1a30 100%); color: #fff;
+  }
+  @media (min-width: 1024px) { .hp-shell { grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr); } }
+
+  .hp-side { display: flex; flex-direction: column; padding: clamp(1rem, 2.4vw, 2.25rem); }
+  .hp-chip {
+    display: inline-flex; align-self: flex-start; align-items: center; gap: 0.75rem;
+    padding: 0.625rem 1.125rem; border-radius: 8px; background: rgb(255 255 255 / 0.1);
+    font-size: clamp(1rem, 1.1vw, 1.1875rem); line-height: 1.2;
+  }
+  .hp-title { margin-top: clamp(1.5rem, 2.6vw, 2.5rem); font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h2); line-height: 1.08; letter-spacing: -0.025em; color: #fff; text-wrap: wrap; }
+  .hp-tiles { display: grid; gap: 0.625rem; margin-top: clamp(1.5rem, 2.4vw, 2.25rem); }
+  @media (min-width: 640px) { .hp-tiles { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .hp-tile { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 0.625rem; padding: clamp(1rem, 1.5vw, 1.375rem); border-radius: 14px; background: rgb(255 255 255 / 0.08); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.1); }
+  .hp-tile dd { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.5rem, 1.95vw, 1.75rem); line-height: 1; letter-spacing: -0.02em; white-space: nowrap; }
+  .hp-tile dt { font-size: clamp(0.9375rem, 1.05vw, 1rem); line-height: 1.35; color: rgb(255 255 255 / 0.8); text-wrap: wrap; }
+  .hp-foot { margin-top: auto; padding-top: clamp(1.5rem, 2.4vw, 2rem); max-width: 36rem; font-size: clamp(0.9375rem, 1.05vw, 1rem); line-height: 1.45; color: rgb(255 255 255 / 0.75); text-wrap: wrap; }
+
+  .hp-card { display: flex; flex-direction: column; padding: clamp(1.25rem, 2.6vw, 2.5rem); border-radius: clamp(14px, 1.6vw, 24px); background: #fff; color: #15171c; }
+  .hp-total { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 0.75rem 1rem; padding-bottom: clamp(1rem, 1.6vw, 1.5rem); border-bottom: 1px solid #eceef1; }
+  .hp-total-label { font-size: 1rem; color: #7c818a; }
+  .hp-total-sum { margin-top: 0.25rem; font-family: var(--font-display); font-weight: 700; font-size: clamp(2.25rem, 3.3vw, 3rem); line-height: 1; letter-spacing: -0.03em; white-space: nowrap; }
+  .hp-tag { padding: 0.375rem 0.75rem; border-radius: 8px; background: #e6eef8; color: #034b8e; font-size: 0.9375rem; font-weight: 500; }
+  .hp-inc-title { margin-top: clamp(1.25rem, 1.8vw, 1.5rem); font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; }
+  .hp-inc { display: grid; gap: 0.75rem; margin-top: 1rem; }
+  .hp-inc li { display: grid; grid-template-columns: 12px minmax(0, 1fr); column-gap: 0.875rem; font-size: var(--fs-body); line-height: 1.4; color: #2a2d33; }
+  .hp-sq { display: grid; grid-template-columns: 5px 5px; grid-auto-rows: 5px; align-self: start; gap: 2px; margin-top: 0.45em; }
+  .hp-sq i { width: 5px; height: 5px; border-radius: 1px; background: #034b8e; }
+  .hp-actions { display: flex; flex-direction: column; gap: 1rem; margin-top: auto; padding-top: clamp(1.5rem, 2.4vw, 2rem); }
+  .hp-btn {
+    display: inline-flex; align-items: center; justify-content: center; min-height: clamp(3.25rem, 4vw, 4rem); padding: 0 1.75rem;
+    border-radius: 10px; background: #034b8e; color: #fff; font-size: clamp(1rem, 1.15vw, 1.25rem); font-weight: 500; text-decoration: none;
+    transition: background-color 150ms var(--ease-out), transform 120ms var(--ease-out);
+  }
+  .hp-btn:hover { background: #0a5aa6; }
+  .hp-btn:active { transform: scale(0.98); }
+  .hp-link { display: inline-flex; align-self: flex-start; align-items: center; gap: 0.5rem; font-size: var(--fs-body); font-weight: 500; color: #034b8e; text-decoration: none; }
+  .hp-link svg { transition: transform 150ms var(--ease-out); }
+  .hp-link:hover svg { transform: translateX(3px); }
+  .hp-btn:focus-visible, .hp-link:focus-visible { outline: 2px solid #034b8e; outline-offset: 3px; }
+</style>

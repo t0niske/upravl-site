@@ -1,23 +1,28 @@
 ---
 import Base from '../layouts/Base.astro';
 import CaseGrid from '../components/CaseGrid.astro';
+import CaseStory from '../components/CaseStory.astro';
 import LeadForm from '../components/LeadForm.astro';
 import Byline from '../components/Byline.astro';
-import { cases, rub, KAD_URL, SITE_URL } from '../data/site';
+import { cases, recentCases, rub, KAD_URL, SITE_URL } from '../data/site';
+import { nb } from '../data/typo';
 
-const total = cases.reduce((s, c) => s + c.amount, 0);
+const all = recentCases.length + cases.length;
 const itemList = {
   '@type': 'ItemList',
   name: 'Завершённые дела о банкротстве граждан',
   url: `${SITE_URL}/dela/`,
-  numberOfItems: cases.length,
-  itemListElement: cases.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: `Дело № ${c.number}: списано ${rub(c.amount)}` })),
+  numberOfItems: all,
+  itemListElement: [
+    ...recentCases.map((c) => `Дело № ${c.number}: ${c.title}`),
+    ...cases.map((c) => `Дело № ${c.number}: списано ${rub(c.amount)}`),
+  ].map((name, i) => ({ '@type': 'ListItem', position: i + 1, name })),
 };
 ---
 
 <Base
-  title="Завершённые дела о банкротстве — номера и суммы"
-  description={`${cases.length} дел Арбитражного суда Томской области, где граждане освобождены от долгов: от 2,6 до 116,5 млн ₽. Номера дел для проверки в картотеке.`}
+  title="Завершённые дела о банкротстве — номера и истории"
+  description={`${all} дел, где граждане освобождены от долгов: свежие дела 2025–2026 и прошлых лет. Номера для проверки в картотеке арбитражных судов.`}
   crumbs={[{ name: 'Дела', href: '/dela/' }]}
   schema={[itemList]}
 >
@@ -25,13 +30,23 @@ const itemList = {
     <h1>Завершённые дела о банкротстве граждан</h1>
     <div class="prose-legal lead-answer mt-6">
       <p>
-        {cases.length} дел, в которых Арбитражный суд Томской области завершил реализацию имущества и освободил граждан от долгов.
-        Суммы — по определениям суда, в сумме по этим делам списано {rub(total)}. Каждое дело можно найти по номеру
-        в <a href={KAD_URL} target="_blank" rel="noopener">картотеке арбитражных дел</a>.
+        {nb(`Дела, которые я вёл финансовым управляющим и в которых суд освободил граждан от долгов. Имён не публикую — каждое дело можно найти по номеру в`)}{' '}<a href={KAD_URL} target="_blank" rel="noopener">картотеке арбитражных дел</a>.
       </p>
     </div>
     <Byline />
-    <div class="mt-10"><CaseGrid /></div>
+  </section>
+
+  <section class="mx-auto mt-10 w-full max-w-[100rem] px-4 sm:px-[3.25rem]" aria-labelledby="recent-title">
+    <h2 id="recent-title">{nb(`Последние завершённые дела — ${recentCases.length}`)}</h2>
+    <ul class="dela-grid mt-6">
+      {recentCases.map((c) => <li><CaseStory c={c} /></li>)}
+    </ul>
+  </section>
+
+  <section class="wrap mt-16" aria-labelledby="past-title">
+    <h2 id="past-title">{nb(`Дела прошлых лет — ${cases.length}`)}</h2>
+    <p class="mt-3 text-ink-2">{nb(`По этим делам в сумме списано ${rub(cases.reduce((s, c) => s + c.amount, 0))}`)}</p>
+    <div class="mt-8"><CaseGrid /></div>
   </section>
 
   <section class="wrap mt-16">
@@ -56,3 +71,9 @@ const itemList = {
 
   <div class="mt-24"><LeadForm /></div>
 </Base>
+
+<style>
+  .dela-grid { display: grid; gap: clamp(1rem, 1.5vw, 1.75rem); grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); }
+  .dela-grid > li { display: flex; }
+  .dela-grid > li > :global(*) { flex: 1; }
+</style>
