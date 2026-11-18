@@ -12,7 +12,7 @@ interface Props { crumbs?: Crumb[] }
 const { crumbs = [] } = Astro.props;
 ---
 
-<section class="pt relative isolate overflow-hidden text-white">
+<section class="pt relative z-40 isolate overflow-hidden text-white">
   <div class="pt-bg absolute inset-0 -z-10" aria-hidden="true">
     <Image src={court} alt="" widths={[960, 1600, 2400]} sizes="100vw" class="pt-court" loading="eager" />
   </div>

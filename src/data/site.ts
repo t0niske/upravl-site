@@ -175,7 +175,7 @@ export const servicesMenu: MenuColumn[] = [
   {
     title: 'Гражданам',
     items: [
-      { href: '/bankrotstvo-fizicheskih-lic/', label: 'Банкротство через суд', icon: 'court' },
+      { href: '/bankrotstvo-fizicheskih-lic/', label: 'Банкротство граждан через суд', icon: 'court' },
       { href: '/bankrotstvo-fizicheskih-lic/cherez-mfc/', label: 'Бесплатно через МФЦ', icon: 'mfc' },
       { href: '/bankrotstvo-ip/', label: 'Банкротство ИП', icon: 'store' },
       // «С ипотекой», «Пенсионерам» — добавить, когда появятся страницы (карта сайта v2, P1)
