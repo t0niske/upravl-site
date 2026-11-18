@@ -113,6 +113,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
             <p><a href={contacts.phoneHref} class="tnum font-medium text-paper">{contacts.phone}</a></p>
             <p><a href={contacts.phone2Href} class="tnum font-medium text-paper">{contacts.phone2}</a></p>
             <p><a href={`mailto:${contacts.email}`} class="text-paper">{contacts.email}</a></p>
+            {contacts.email2 && <p><a href={`mailto:${contacts.email2}`} class="text-paper">{contacts.email2}</a></p>}
             <p>{contacts.hours}</p>
           </address>
         </div>

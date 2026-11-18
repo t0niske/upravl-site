@@ -124,6 +124,16 @@ const total = questions.length;
     font-size: clamp(0.9375rem, 1.05vw, 1.0625rem); line-height: 1.2;
   }
   .hq-chip svg { width: 18px; height: 18px; flex: none; color: rgb(255 255 255 / 0.75); }
+  /* Телефон: плашки компактнее, чтобы вставали по две-три в ряд, а не столбиком */
+  @media (max-width: 639px) {
+    .hq-side { gap: 1.75rem; padding: 1.25rem 0.75rem 0.5rem; }
+    .hq-lead { font-size: 1rem; }
+    /* две ровные колонки на всю ширину, чтобы справа не оставалось пустоты */
+    .hq-chips { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.375rem; margin-top: 0.625rem; max-width: none; }
+    .hq-chip { gap: 0.5rem; min-height: 2.75rem; padding: 0.5rem 0.625rem; border-radius: 8px; font-size: 0.875rem; }
+    .hq-chip svg { width: 16px; height: 16px; }
+    .hq-card { min-height: 0; }
+  }
 
   /* Белая карточка */
   .hq-card {
@@ -201,6 +211,9 @@ const total = questions.length;
   .hq-contact-label { font-size: clamp(0.875rem, 0.95vw, 1rem); color: #8a8f98; }
   .hq-phone { display: inline-block; margin-top: 0.375rem; font-family: var(--font-display); font-weight: 600; font-size: clamp(1.125rem, 1.4vw, 1.5rem); color: #15171c; text-decoration: none; }
   .hq-phone:hover { color: #034b8e; }
+
+  /* Телефон: подзаголовки 18 px */
+  @media (max-width: 639px) { .hq-q-title, .hq-card-title { font-size: 1.125rem; line-height: 1.25; } }
 </style>
 
 <script>
