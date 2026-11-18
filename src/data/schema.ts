@@ -47,6 +47,7 @@ export function personSchema() {
     familyName: person.familyName,
     jobTitle: person.job,
     ...(person.inn ? { taxID: person.inn } : {}),
+    ...(person.sro ? { memberOf: { '@type': 'Organization', name: person.sro } } : {}),
     image: `${SITE_URL}/og/antonec.jpg`,
     url: `${SITE_URL}/ob-upravlyayushchem/`,
     worksFor: { '@id': ORG_ID },
