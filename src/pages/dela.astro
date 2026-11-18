@@ -4,7 +4,7 @@ import CaseGrid from '../components/CaseGrid.astro';
 import CaseStory from '../components/CaseStory.astro';
 import LeadForm from '../components/LeadForm.astro';
 import Byline from '../components/Byline.astro';
-import { cases, recentCases, rub, KAD_URL, SITE_URL } from '../data/site';
+import { cases, recentCases, rub, maskCase, SITE_URL } from '../data/site';
 import { nb } from '../data/typo';
 
 const all = recentCases.length + cases.length;
@@ -14,15 +14,15 @@ const itemList = {
   url: `${SITE_URL}/dela/`,
   numberOfItems: all,
   itemListElement: [
-    ...recentCases.map((c) => `Дело № ${c.number}: ${c.title}`),
-    ...cases.map((c) => `Дело № ${c.number}: списано ${rub(c.amount)}`),
+    ...recentCases.map((c) => `Дело № ${maskCase(c.number)}: ${c.title}`),
+    ...cases.map((c) => `Дело № ${maskCase(c.number)}: списано ${rub(c.amount)}`),
   ].map((name, i) => ({ '@type': 'ListItem', position: i + 1, name })),
 };
 ---
 
 <Base
   title="Завершённые дела о банкротстве — номера и истории"
-  description={`${all} дел, где граждане освобождены от долгов: свежие дела 2025–2026 и прошлых лет. Номера для проверки в картотеке арбитражных судов.`}
+  description={`${all} дел, где граждане освобождены от долгов: свежие дела 2025–2026 и прошлых лет. Имена и номера дел скрыты.`}
   crumbs={[{ name: 'Дела', href: '/dela/' }]}
   schema={[itemList]}
 >
@@ -30,7 +30,7 @@ const itemList = {
     <h1>Завершённые дела о банкротстве граждан</h1>
     <div class="prose-legal lead-answer mt-6">
       <p>
-        {nb(`Дела, которые я вёл финансовым управляющим и в которых суд освободил граждан от долгов. Имён не публикую — каждое дело можно найти по номеру в`)}{' '}<a href={KAD_URL} target="_blank" rel="noopener">картотеке арбитражных дел</a>.
+        {nb('Дела, которые я вёл финансовым управляющим и в которых суд освободил граждан от долгов. Имена и номера дел скрыты, чтобы не раскрывать клиентов.')}
       </p>
     </div>
     <Byline />
@@ -51,10 +51,10 @@ const itemList = {
 
   <section class="wrap mt-16">
     <div class="prose-legal">
-      <h2>Почему на сайте нет имён и копий определений</h2>
+      <h2>Почему на сайте нет имён, номеров дел и копий определений</h2>
       <p>
         В определениях указаны дата рождения, адрес, ИНН и СНИЛС должника. Сведения о банкротстве и так публикуются в ЕФРСБ, но размещать их
-        на коммерческом сайте ради рекламы мы не будем. Номера дел достаточно, чтобы проверить результат в открытых источниках.
+        на коммерческом сайте ради рекламы мы не будем. По полному номеру дела в картотеке видно имя должника, поэтому номера тоже скрыты.
       </p>
       <h2>Что значит «списано»</h2>
       <p>

@@ -1,16 +1,16 @@
 ---
 /**
  * «Папка дела» — главный визуальный момент: итог реального завершённого дела.
- * Не копия судебного акта, а карточка с данными из открытой картотеки.
+ * Не копия судебного акта, а карточка с итогом; номер дела замазан.
  */
-import { rub, type CaseItem } from '../data/site';
+import { rub, maskCase, type CaseItem } from '../data/site';
 interface Props { item: CaseItem; class?: string }
 const { item, class: cls = '' } = Astro.props;
 ---
-<figure class:list={['case-card w-[19rem] max-w-full', cls]} aria-label={`Завершённое дело № ${item.number}`}>
+<figure class:list={['case-card w-[19rem] max-w-full', cls]} aria-label={`Завершённое дело № ${maskCase(item.number)}`}>
   <div class="relative rounded-[14px] border border-line bg-card p-5 shadow-[0_1px_2px_rgba(23,32,46,0.06),0_16px_40px_rgba(23,32,46,0.12)]">
     <div class="flex items-center justify-between gap-3">
-      <span class="docket">№ {item.number}</span>
+      <span class="docket">№ {maskCase(item.number)}</span>
       <span class="font-mono text-[0.75rem] text-muted tnum"><time datetime={item.finished}>{item.finished.split('-').reverse().join('.')}</time></span>
     </div>
     <p class="mt-4 text-[0.875rem] leading-5 text-muted">Арбитражный суд Томской области освободил гражданина от долгов</p>
@@ -20,5 +20,5 @@ const { item, class: cls = '' } = Astro.props;
       Реализация имущества завершена
     </div>
   </div>
-  <figcaption class="sr-only">Дело № {item.number}: списано {rub(item.amount)}, завершено {item.finishedLabel}</figcaption>
+  <figcaption class="sr-only">Дело № {maskCase(item.number)}: списано {rub(item.amount)}, завершено {item.finishedLabel}</figcaption>
 </figure>

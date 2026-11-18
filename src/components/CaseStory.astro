@@ -1,11 +1,11 @@
 ---
 /**
- * Карточка завершённого дела: фото, итог, короткая история, ссылка на картотеку, номер и дата.
+ * Карточка завершённого дела: фото, итог, короткая история, суд, замазанный номер и дата.
  * Используется в ленте на главной (HomeCases) и на странице /dela/. Данные — recentCases в site.ts.
  */
 import { Image } from 'astro:assets';
 import { nb } from '../data/typo';
-import type { RecentCase } from '../data/site';
+import { maskCase, courtOf, type RecentCase } from '../data/site';
 import folder from '../assets/cases/folder.jpg';
 import padlock from '../assets/cases/padlock.jpg';
 import stamp from '../assets/cases/stamp.jpg';
@@ -34,24 +34,16 @@ const date = c.finished.split('-').reverse().join('.');
   <div class="cs-body">
     <Heading class="cs-name">{nb(c.title)}</Heading>
     <p class="cs-text">{nb(c.text)}</p>
-    <a href="https://kad.arbitr.ru/" target="_blank" rel="noopener" class="cs-check" data-case={c.number} title="Номер дела скопируется — вставьте его в поиск картотеки">
-      Проверить в картотеке
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
-    </a>
+    <p class="cs-court">{courtOf(c.number)}</p>
     <div class="cs-foot">
       <ul class="cs-tags">
-        <li class="cs-tag is-num tnum">{c.number}</li>
+        <li class="cs-tag is-num tnum" title="Номер дела скрыт, чтобы не раскрывать клиента">{maskCase(c.number)}</li>
       </ul>
       <p class="cs-date tnum" title="Дата завершения и срок процедуры"><time datetime={c.finished}>{date}</time> · {c.months}&nbsp;мес.</p>
     </div>
   </div>
 </article>
 
-<script>
-  document.querySelectorAll<HTMLAnchorElement>('.cs-check[data-case]').forEach((a) => {
-    a.addEventListener('click', () => { navigator.clipboard?.writeText(a.dataset.case || '').catch(() => {}); });
-  });
-</script>
 
 <style>
   .cs { display: flex; flex-direction: column; height: 100%; padding: 0.75rem; border-radius: 16px; background: #fff; }
@@ -59,13 +51,7 @@ const date = c.finished.split('-').reverse().join('.');
   .cs-body { display: flex; flex: 1; flex-direction: column; padding: clamp(0.875rem, 1.2vw, 1.25rem) clamp(0.5rem, 0.9vw, 0.875rem) 0.25rem; }
   .cs-name { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.15; letter-spacing: -0.015em; color: #15171c; text-wrap: wrap; }
   .cs-text { margin-top: 0.5rem; font-size: var(--fs-body); line-height: 1.45; color: #7c818a; text-wrap: wrap; }
-  .cs-check {
-    display: inline-flex; align-self: flex-start; align-items: center; gap: 0.5rem; margin-top: 0.75rem; margin-bottom: 1rem;
-    font-size: var(--fs-body); font-weight: 500; color: #034b8e; text-decoration: none;
-  }
-  .cs-check svg { transition: transform 150ms var(--ease-out); }
-  .cs-check:hover svg { transform: translateX(3px); }
-  .cs-check:focus-visible { outline: 2px solid #034b8e; outline-offset: 3px; border-radius: 4px; }
+  .cs-court { margin-top: 0.75rem; margin-bottom: 1rem; font-size: 0.9375rem; line-height: 1.35; color: #8a8f98; }
   .cs-foot { display: flex; flex-wrap: nowrap; align-items: center; justify-content: space-between; gap: 0.5rem 1rem; margin-top: auto; padding-top: 0.875rem; border-top: 1px solid #eceef1; }
   .cs-tags { display: flex; flex-wrap: wrap; gap: 0.375rem; }
   .cs-tag { padding: 0.375rem 0.625rem; border-radius: 8px; background: #f3f4f6; font-size: 0.875rem; line-height: 1.3; color: #5f646d; white-space: nowrap; }

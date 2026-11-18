@@ -1,5 +1,5 @@
 ---
-import { cases, rub, KAD_URL } from '../data/site';
+import { cases, rub, maskCase } from '../data/site';
 interface Props { limit?: number; note?: boolean }
 const { limit, note = true } = Astro.props;
 const list = limit ? cases.slice(0, limit) : cases;
@@ -11,7 +11,7 @@ const list = limit ? cases.slice(0, limit) : cases;
   <ul class="divide-y divide-line">
     {list.map((c) => (
       <li class="grid grid-cols-[1fr_auto] items-center gap-x-6 gap-y-1 px-5 py-4 md:grid-cols-[11rem_1fr_9rem_10rem] md:px-6">
-        <span><span class="docket">№ {c.number}</span></span>
+        <span><span class="docket">№ {maskCase(c.number)}</span></span>
         <span class="col-start-1 row-start-2 text-[0.9375rem] text-ink-2 md:col-start-2 md:row-start-1">{c.debtor}<span class="text-muted md:hidden"> · <time datetime={c.finished}>{c.finishedLabel}</time></span></span>
         <span class="hidden text-[0.9375rem] text-ink-2 md:block"><time datetime={c.finished}>{c.finishedLabel}</time></span>
         <span class="figure row-span-2 text-right text-[1.375rem] leading-none md:row-span-1">{rub(c.amount)}</span>
@@ -21,6 +21,6 @@ const list = limit ? cases.slice(0, limit) : cases;
 </div>
 {note && (
   <p class="mt-4 max-w-[44rem] text-[0.875rem] text-muted">
-    Суммы — из определений Арбитражного суда Томской области о завершении реализации имущества и освобождении от обязательств. Каждое дело можно проверить по номеру в <a href={KAD_URL} rel="noopener" target="_blank">картотеке арбитражных дел</a>. Имена должников не публикуем.
+    Суммы — из определений Арбитражного суда Томской области о завершении реализации имущества и освобождении от обязательств. Имена должников и номера дел не публикуем, чтобы не раскрывать клиентов.
   </p>
 )}
