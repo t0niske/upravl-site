@@ -133,7 +133,7 @@ const cards = [
   .fw-title {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: clamp(1.75rem, 2.6vw, 3rem);
+    font-size: var(--fs-h2);
     line-height: 1.06;
     letter-spacing: -0.025em;
     color: #15171c;
@@ -179,7 +179,7 @@ const cards = [
   .fw-card-title {
     font-family: var(--font-display);
     font-weight: 700;
-    font-size: clamp(1.375rem, 1.75vw, 2.125rem);
+    font-size: var(--fs-h3);
     line-height: 1.1;
     letter-spacing: -0.02em;
     color: #15171c;
@@ -187,8 +187,8 @@ const cards = [
   }
   .fw-card-text {
     margin-top: clamp(0.75rem, 1.2vw, 1.5rem);
-    font-size: clamp(1rem, 1.3vw, 1.5rem);
-    line-height: 1.3;
+    font-size: var(--fs-body);
+    line-height: 1.4;
     color: #7c818a;
     text-wrap: wrap;
   }
@@ -213,10 +213,7 @@ const cards = [
     .fw-card { flex-basis: calc((100% - 2 * var(--gap)) / 3); }
   }
 
-  /* Телефон: заголовки карточек 22 px, текст 18 px (просьба дизайнера 18.11.2026) */
   @media (max-width: 639px) {
-    .fw-card-title { font-size: 1.375rem; line-height: 1.15; }
-    .fw-card-text { font-size: 1.125rem; line-height: 1.35; margin-bottom: 1.25rem; }
     /* карточки крупнее: шире и с более высоким фото */
     .fw-card { flex-basis: 90%; }
     .fw-card-img { aspect-ratio: 4 / 3; }

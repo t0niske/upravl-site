@@ -38,6 +38,20 @@
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/*
+ * Шкала шрифтов (утверждена дизайнером 18.11.2026). Телефон 390 px → десктоп 1440 px,
+ * между ними размер растёт плавно, шире 1440 — десктопное значение.
+ *   H1 34 → 55 · H2 28 → 37 · заголовок карточки 22 → 25 · подзаголовок под H2 18 → 20 · текст 16 → 18
+ * Цифры-акценты, ярлыки, кнопки и подписи в шкалу не входят.
+ */
+:root {
+  --fs-h1: clamp(2.125rem, calc(2.125rem + (100vw - 24.375rem) * 0.02), 3.4375rem);
+  --fs-h2: clamp(1.75rem, calc(1.75rem + (100vw - 24.375rem) * 0.008571), 2.3125rem);
+  --fs-h3: clamp(1.375rem, calc(1.375rem + (100vw - 24.375rem) * 0.002857), 1.5625rem);
+  --fs-lead: clamp(1.125rem, calc(1.125rem + (100vw - 24.375rem) * 0.001905), 1.25rem);
+  --fs-body: clamp(1rem, calc(1rem + (100vw - 24.375rem) * 0.001905), 1.125rem);
+}
+
 @utility tnum {
   font-variant-numeric: tabular-nums;
 }
@@ -49,17 +63,17 @@
   }
   body {
     @apply bg-paper text-ink font-sans antialiased;
-    font-size: 1.0625rem;
-    line-height: 1.65;
+    font-size: var(--fs-body);
+    line-height: 1.6;
   }
   h1, h2, h3 {
     @apply font-serif text-ink;
     font-weight: 600;
     text-wrap: balance;
   }
-  h1 { font-size: clamp(2.25rem, 5vw, 3.75rem); line-height: 1.06; letter-spacing: -0.02em; }
-  h2 { font-size: clamp(1.625rem, 3vw, 2.25rem); line-height: 1.15; letter-spacing: -0.01em; }
-  h3 { font-size: 1.25rem; line-height: 1.3; }
+  h1 { font-size: var(--fs-h1); line-height: 1.06; letter-spacing: -0.02em; }
+  h2 { font-size: var(--fs-h2); line-height: 1.12; letter-spacing: -0.015em; }
+  h3 { font-size: var(--fs-h3); line-height: 1.2; }
   p { text-wrap: pretty; }
   a { @apply underline decoration-1 underline-offset-[3px]; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); transition: text-decoration-color 150ms var(--ease-out), color 150ms var(--ease-out); }
   a:hover { text-decoration-color: currentColor; }
@@ -76,7 +90,7 @@
   .prose-legal > ul { @apply list-disc pl-6 space-y-2; }
   .prose-legal > ol { @apply list-decimal pl-6 space-y-2; }
   .prose-legal > ul > li::marker, .prose-legal > ol > li::marker { color: var(--color-muted); }
-  .lead-answer { @apply text-[1.1875rem] leading-[1.6] text-ink-2; }
+  .lead-answer { @apply leading-[1.5] text-ink-2; font-size: var(--fs-lead); }
 
   .btn {
     @apply inline-flex items-center justify-center gap-2 px-5 font-medium no-underline;
