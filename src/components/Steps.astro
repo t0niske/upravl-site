@@ -1,0 +1,131 @@
+---
+/**
+ * Блок «Этапы» по макету дизайнера (18.11.2026): серый фон, заголовок со стрелками,
+ * каждый этап — две карточки (название с номером и описание со сроком), лента листается.
+ * Этапы и сроки — из прежнего раздела «Как проходит банкротство гражданина» (ориентировочные).
+ */
+import { nb } from '../data/typo';
+import { law } from '../data/site';
+
+const steps = [
+  { title: 'Заявка', time: 'пара минут', text: 'Оставьте заявку на сайте или позвоните, чтобы договориться о бесплатной консультации' },
+  { title: 'Консультация', time: 'бесплатно', text: 'Разбираем долги, доходы, имущество и сделки за 3 года. Говорю, какая процедура подходит и есть ли риски' },
+  { title: 'Документы и заявление', time: '2–6 недель', text: 'Собираем справки и выписки, составляем заявление и список кредиторов, вносим депозит' },
+  { title: 'Суд вводит процедуру', time: '1–3 месяца', text: 'Суд признаёт заявление обоснованным и утверждает финансового управляющего. Звонки кредиторов прекращаются' },
+  { title: 'Процедура', time: `от ${law.realizationMonths} месяцев`, text: 'Управляющий запрашивает сведения, проверяет сделки, при наличии продаёт имущество сверх защищённого законом' },
+  { title: 'Списание долгов', time: 'результат', text: 'Суд завершает процедуру и освобождает от долгов. Исполнительные производства прекращаются' },
+];
+---
+
+<section id="etapy" class="steps" aria-labelledby="steps-title">
+  <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-8">
+    <span class="st-chip">
+      <span class="grid grid-cols-2 gap-[2px]" aria-hidden="true">
+        <i class="size-[5px] rounded-[1px] bg-[#034B8E]"></i><i class="size-[5px] rounded-[1px] bg-[#034B8E]"></i>
+        <i class="size-[5px] rounded-[1px] bg-[#034B8E]"></i><i class="size-[5px] rounded-[1px] bg-[#034B8E]"></i>
+      </span>
+      Этапы
+    </span>
+
+    <div class="mt-[clamp(1.5rem,3.4vw,3.5rem)] flex items-end justify-between gap-8">
+      <h2 id="steps-title" class="st-title">{nb('Беру дело под свой контроль —')}<br class="hidden lg:inline" /> {nb('от первых документов до решения суда')}</h2>
+      <div class="hidden shrink-0 gap-4 lg:flex">
+        <button type="button" class="st-arrow" data-st-prev aria-label="Предыдущие этапы">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" /></svg>
+        </button>
+        <button type="button" class="st-arrow" data-st-next aria-label="Следующие этапы">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+        </button>
+      </div>
+    </div>
+
+    <ol class="st-track" data-st-track>
+      {steps.map((s, i) => (
+        <li class="st-step">
+          <div class="st-head">
+            <h3 class="st-name">{nb(s.title)}</h3>
+            <span class="st-num tnum">[{String(i + 1).padStart(2, '0')}]</span>
+          </div>
+          <div class="st-body">
+            <span class="st-time">{nb(s.time)}</span>
+            <p class="st-text">{nb(s.text)}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+    <p class="st-note">{nb('Сроки ориентировочные: точные зависят от загрузки суда и сложности дела.')} <a href="/bankrotstvo-fizicheskih-lic/">Условия, документы и последствия</a></p>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLElement>('.steps').forEach((root) => {
+    const track = root.querySelector<HTMLElement>('[data-st-track]');
+    const prev = root.querySelector<HTMLButtonElement>('[data-st-prev]');
+    const next = root.querySelector<HTMLButtonElement>('[data-st-next]');
+    if (!track || !prev || !next) return;
+    const step = () => {
+      const card = track.querySelector<HTMLElement>('.st-step');
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      return card ? card.offsetWidth + gap : track.clientWidth;
+    };
+    const update = () => {
+      const max = track.scrollWidth - track.clientWidth - 2;
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft >= max;
+    };
+    prev.addEventListener('click', () => track.scrollBy({ left: -step(), behavior: 'smooth' }));
+    next.addEventListener('click', () => track.scrollBy({ left: step(), behavior: 'smooth' }));
+    track.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+  });
+</script>
+
+<style>
+  .steps { background: #f3f4f6; padding: clamp(3rem, 5.5vw, 5.75rem) 0 clamp(3.5rem, 7vw, 7rem); }
+  .st-chip {
+    display: inline-flex; align-items: center; gap: 0.75rem;
+    padding: 0.625rem 1.125rem; border-radius: 8px; background: #fff;
+    font-size: clamp(1rem, 1.1vw, 1.1875rem); line-height: 1.2; color: var(--color-ink);
+  }
+  .st-title {
+    font-family: var(--font-display); font-weight: 700;
+    font-size: var(--fs-h2); line-height: 1.08; letter-spacing: -0.025em;
+    color: #15171c; text-wrap: wrap;
+  }
+  .st-arrow {
+    display: grid; place-items: center; width: clamp(3.5rem, 3.6vw, 4.375rem); aspect-ratio: 1;
+    border-radius: 8px; background: #15171c; color: #fff; cursor: pointer;
+    transition: background-color 150ms var(--ease-out), opacity 150ms var(--ease-out), transform 120ms var(--ease-out);
+  }
+  .st-arrow:hover { background: #034b8e; }
+  .st-arrow:active { transform: scale(0.96); }
+  .st-arrow:disabled { opacity: 0.25; cursor: default; background: #15171c; }
+  .st-arrow:focus-visible { outline: 2px solid #034b8e; outline-offset: 3px; }
+
+  .st-track {
+    --gap: clamp(1rem, 1.5vw, 1.75rem);
+    display: flex; gap: var(--gap);
+    margin-top: clamp(1.75rem, 3vw, 3.5rem);
+    overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none;
+    margin-inline: -1rem; padding-inline: 1rem; scroll-padding-inline: 1rem;
+  }
+  .st-track::-webkit-scrollbar { display: none; }
+  .st-step { flex: 0 0 90%; scroll-snap-align: start; display: flex; flex-direction: column; gap: clamp(0.75rem, 1.2vw, 1.25rem); }
+  @media (min-width: 640px) {
+    .st-track { margin-inline: 0; padding-inline: 0; scroll-padding-inline: 0; }
+    .st-step { flex-basis: calc((100% - var(--gap)) / 2); }
+  }
+  @media (min-width: 1024px) { .st-step { flex-basis: calc((100% - 2 * var(--gap)) / 3); } }
+
+  .st-head, .st-body { border-radius: 16px; background: #fff; padding: clamp(1.25rem, 1.8vw, 2rem) clamp(1.25rem, 1.6vw, 1.75rem); }
+  .st-head { display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; }
+  .st-name { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.15; letter-spacing: -0.015em; color: #15171c; text-wrap: wrap; }
+  .st-num { flex: none; font-size: var(--fs-body); color: #8a8f98; }
+  .st-body { flex: 1; display: flex; flex-direction: column; justify-content: space-between; gap: 2rem; min-height: clamp(15rem, 20vw, 21rem); }
+  .st-time { align-self: flex-start; padding: 0.375rem 0.75rem; border-radius: 8px; background: #f3f4f6; font-size: clamp(0.875rem, 0.95vw, 1rem); line-height: 1.3; color: #5f646d; }
+  .st-text { font-size: var(--fs-body); line-height: 1.45; color: #7c818a; text-wrap: wrap; }
+
+  .st-note { margin-top: clamp(1.25rem, 2vw, 2rem); max-width: 48rem; font-size: clamp(0.875rem, 0.95vw, 1rem); line-height: 1.45; color: #7c818a; }
+  .st-note a { color: #034b8e; }
+</style>

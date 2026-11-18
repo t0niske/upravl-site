@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import HomeQuiz from '../components/HomeQuiz.astro';
+import Steps from '../components/Steps.astro';
 import HomeHero from '../components/HomeHero.astro';
 import ForWhom from '../components/ForWhom.astro';
 import Services from '../components/Services.astro';
@@ -37,13 +38,6 @@ const faq = [
     a: 'С даты, когда суд признаёт заявление обоснованным и вводит процедуру, кредиторы и коллекторы не вправе взаимодействовать с должником для возврата долга, а исполнительные производства приостанавливаются. Требования принимаются только через финансового управляющего.',
   },
 ];
-const steps: [string, string, string][] = [
-  ['Консультация', 'Разбираем долги, доходы, имущество и сделки за 3 года. Говорим, какая процедура подходит и есть ли риски.', 'бесплатно'],
-  ['Документы и заявление', 'Собираем справки и выписки, составляем заявление и список кредиторов, вносим депозит.', '2–6 недель'],
-  ['Суд вводит процедуру', 'Суд признаёт заявление обоснованным и утверждает финансового управляющего. Звонки кредиторов прекращаются.', '1–3 месяца'],
-  ['Процедура', 'Управляющий запрашивает сведения, проверяет сделки, при наличии продаёт имущество сверх защищённого.', `от ${law.realizationMonths} мес.`],
-  ['Списание долгов', 'Суд завершает реализацию имущества и освобождает от обязательств. Исполнительные производства прекращаются.', 'итог'],
-];
 const limits: [string, string][] = [
   ['Долг — алименты или возмещение вреда', 'Эти обязательства закон не списывает, они остаются и после процедуры.'],
   ['Имущество недавно переоформлено', 'Сделки за 3 года до заявления управляющий проверит; подарок родственнику вернут в конкурсную массу.'],
@@ -66,27 +60,7 @@ const limits: [string, string][] = [
 
   <HomeQuiz />
 
-  <!-- Как проходит -->
-  <section class="wrap mt-24 grid gap-10 lg:grid-cols-[1fr_1.6fr] lg:gap-16" aria-labelledby="steps-title">
-    <div class="self-start lg:sticky lg:top-24">
-      <h2 id="steps-title">Как проходит банкротство гражданина</h2>
-      <p class="mt-4 text-ink-2">Пять этапов от первого звонка до определения суда об освобождении от долгов. Сроки ориентировочные: точные зависят от загрузки суда и сложности дела.</p>
-      <p class="mt-6"><a href="/bankrotstvo-fizicheskih-lic/">Условия, документы и последствия</a></p>
-    </div>
-    <ol class="border-t border-line">
-      {steps.map(([t, d, time], i) => (
-        <li class="grid grid-cols-[2.5rem_1fr] gap-x-4 border-b border-line py-6 sm:grid-cols-[2.5rem_1fr_7rem]">
-          <span class="pt-1 font-mono text-[0.875rem] text-muted tnum">{String(i + 1).padStart(2, '0')}</span>
-          <div>
-            <h3 class="font-serif text-[1.25rem] font-medium">{t}</h3>
-            <p class="mt-1 text-[0.9375rem] text-ink-2">{d}</p>
-            <p class="mt-2 font-mono text-[0.8125rem] text-muted sm:hidden">{time}</p>
-          </div>
-          <span class="hidden pt-1 text-right font-mono text-[0.8125rem] text-muted sm:block">{time}</span>
-        </li>
-      ))}
-    </ol>
-  </section>
+  <Steps />
 
   <!-- Дела -->
   <section class="wrap mt-24" aria-labelledby="cases-title">
