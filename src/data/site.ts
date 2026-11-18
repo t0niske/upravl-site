@@ -23,13 +23,13 @@ export const person = {
   job: 'Арбитражный управляющий',
   sinceYear: 1999,
   citizensSinceYear: 2016,
-  /** ◐ со старого сайта (2022), подтвердить */
+  /** подтверждено Антонцем 18.11.2026 */
   proceduresText: 'более 250 процедур банкротства организаций и граждан',
   // ✖ заполнить до запуска: без этих данных не показываются (блоки скрываются)
   sro: '', // напр. 'Ассоциация «СРО АУ …»'
-  registryNumber: '', // рег. номер в сводном реестре АУ
-  inn: '',
-  fedresursUrl: '', // карточка на fedresurs.ru
+  registryNumber: '207', // рег. номер в сводном реестре АУ (прислал Антонец 18.11.2026)
+  inn: '702100629211',
+  fedresursUrl: 'https://old.bankrot.fedresurs.ru/ArbitrManagerCard.aspx?ID=7d9f2349-6b3f-457d-86c5-43c398be2e0a', // карточка АУ в ЕФРСБ
 };
 
 export const contacts = {

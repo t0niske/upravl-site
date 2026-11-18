@@ -46,6 +46,7 @@ export function personSchema() {
     givenName: person.givenName,
     familyName: person.familyName,
     jobTitle: person.job,
+    ...(person.inn ? { taxID: person.inn } : {}),
     image: `${SITE_URL}/og/antonec.jpg`,
     url: `${SITE_URL}/ob-upravlyayushchem/`,
     worksFor: { '@id': ORG_ID },
