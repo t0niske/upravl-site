@@ -122,7 +122,7 @@ export type NavItem = { href: string; label: string };
 export const services: (NavItem & { lead: string })[] = [
   {
     href: '/bankrotstvo-fizicheskih-lic/',
-    label: 'Банкротство граждан',
+    label: 'Банкротство физических лиц',
     lead: 'Списание долгов через Арбитражный суд Томской области. Под ключ — от 125 000 ₽, рассрочка.',
   },
   {
@@ -175,7 +175,7 @@ export const servicesMenu: MenuColumn[] = [
   {
     title: 'Гражданам',
     items: [
-      { href: '/bankrotstvo-fizicheskih-lic/', label: 'Банкротство граждан через суд', icon: 'court' },
+      { href: '/bankrotstvo-fizicheskih-lic/', label: 'Банкротство физических лиц', icon: 'court' },
       { href: '/bankrotstvo-fizicheskih-lic/cherez-mfc/', label: 'Бесплатно через МФЦ', icon: 'mfc' },
       { href: '/bankrotstvo-ip/', label: 'Банкротство ИП', icon: 'store' },
       // «С ипотекой», «Пенсионерам» — добавить, когда появятся страницы (карта сайта v2, P1)

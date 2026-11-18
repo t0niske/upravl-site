@@ -40,12 +40,6 @@ const hasBody = Astro.slots.has('default');
 <Base title={title} description={description} crumbs={crumbs} schema={allSchema} ogType={ogType}>
   <Fragment slot="top">
     <div class="ph">
-      {eyebrow && (
-        <span class="ph-chip">
-          <span class="ph-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-          {eyebrow}
-        </span>
-      )}
       <h1 class="ph-title">{nb(h1)}</h1>
       <div class="ph-lead"><slot name="lead" /></div>
       {cta && (
@@ -64,7 +58,6 @@ const hasBody = Astro.slots.has('default');
           ))}
         </dl>
       )}
-      {!hasBody && <div class="ph-byline"><Byline published={published} /></div>}
     </div>
   </Fragment>
 
@@ -126,7 +119,7 @@ const hasBody = Astro.slots.has('default');
   .ph-sq { display: grid; grid-template-columns: 5px 5px; grid-auto-rows: 5px; gap: 2px; flex: none; }
   .ph-sq i { width: 5px; height: 5px; border-radius: 1px; background: #fff; }
   .ph-sq-blue i { background: #034b8e; }
-  .ph-title { margin-top: clamp(1.25rem, 2.4vw, 2rem); font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h1); line-height: 1.06; letter-spacing: -0.025em; color: #fff; text-wrap: balance; }
+  .ph-title { margin-top: clamp(0.5rem, 1.2vw, 1rem); font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h1); line-height: 1.06; letter-spacing: -0.025em; color: #fff; text-wrap: balance; }
   .ph-lead { margin-top: clamp(1rem, 1.8vw, 1.5rem); max-width: 48rem; font-size: var(--fs-lead); line-height: 1.45; color: rgb(255 255 255 / 0.88); text-wrap: pretty; }
   .ph-lead :global(a) { color: #fff; }
   .ph-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: clamp(1.5rem, 3vw, 2.25rem); }
