@@ -2,7 +2,7 @@
 /**
  * Квиз на главной по референсу дизайнера (18.11.2026): синяя градиентная плашка,
  * слева заголовок и виды долгов, справа белая карточка — вопросы по одному.
- * Вопросы и расчёт — src/data/quiz.ts (общие с Quiz.astro). Без JS видно вступление и телефон.
+ * Вопросы и расчёт — src/data/quiz.ts (общие с Quiz.astro). Без JS виден первый вопрос и телефон.
  */
 import { nb } from '../data/typo';
 import { contacts } from '../data/site';
@@ -23,7 +23,10 @@ const total = questions.length;
   <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-8">
     <div class="hq-shell">
       <div class="hq-side">
-        <h2 id="hq-title" class="hq-title">{nb('Узнайте, можно ли списать ваши долги через банкротство')}</h2>
+        <div>
+          <h2 id="hq-title" class="hq-title">{nb('Узнайте, можно ли списать ваши долги через банкротство')}</h2>
+          <p class="hq-lead">{nb(`${total} вопросов займут пару минут. Увидите предварительный вывод и главные риски, а точный ответ дам после разбора документов на бесплатной консультации`)}</p>
+        </div>
         <div class="hq-debts">
           <p class="hq-debts-label">Помогаю списать</p>
           <ul class="hq-chips">
@@ -44,20 +47,9 @@ const total = questions.length;
         </div>
       </div>
 
-      <div class="hq-card" data-hq data-state="intro">
-        <!-- Вступление -->
-        <div class="hq-intro" data-hq-intro>
-          <p class="hq-card-title">{nb(`${total} вопросов займут пару минут и покажут, подходит ли вам банкротство через суд или МФЦ`)}</p>
-          <p class="hq-card-text">{nb('Увидите предварительный вывод и главные риски вашей ситуации. Точный ответ дам после разбора документов на бесплатной консультации')}</p>
-          <button type="button" class="hq-btn" data-hq-start>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4v7a4 4 0 0 0 4 4h10M15 11l4 4-4 4" /></svg>
-            Пройти проверку
-          </button>
-          <noscript><p class="hq-card-text">{nb('Проверка работает с включённым JavaScript. Можно просто позвонить — отвечу на эти вопросы по телефону.')}</p></noscript>
-        </div>
-
+      <div class="hq-card" data-hq>
         <!-- Вопросы по одному -->
-        <form class="hq-steps" data-hq-form hidden>
+        <form class="hq-steps" data-hq-form>
           <div class="hq-progress">
             <span class="hq-step-label tnum" data-hq-count>Вопрос 1 из {total}</span>
             <span class="hq-bar" aria-hidden="true"><i data-hq-bar></i></span>
@@ -76,7 +68,8 @@ const total = questions.length;
               </div>
             </fieldset>
           ))}
-          <button type="button" class="hq-back" data-hq-back>
+          <noscript><p class="hq-q-hint">{nb('Проверка работает с включённым JavaScript. Можно просто позвонить — отвечу на эти вопросы по телефону.')}</p></noscript>
+          <button type="button" class="hq-back" data-hq-back hidden>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6" /></svg>
             Назад
           </button>
@@ -118,14 +111,15 @@ const total = questions.length;
   .hq-side { display: flex; flex-direction: column; justify-content: space-between; gap: 2rem; padding: clamp(1rem, 2.4vw, 2.5rem); }
   .hq-title {
     font-family: var(--font-display); font-weight: 700;
-    font-size: clamp(1.875rem, 3.3vw, 3.75rem); line-height: 1.06; letter-spacing: -0.025em;
+    font-size: clamp(1.75rem, 2.6vw, 3rem); line-height: 1.06; letter-spacing: -0.025em;
     color: #fff; text-wrap: wrap;
   }
+  .hq-lead { margin-top: clamp(1rem, 1.6vw, 1.5rem); max-width: 34rem; font-size: clamp(1rem, 1.25vw, 1.25rem); line-height: 1.4; color: rgb(255 255 255 / 0.72); text-wrap: wrap; }
   .hq-debts-label { font-size: clamp(0.9375rem, 1.05vw, 1.0625rem); color: rgb(255 255 255 / 0.62); }
   .hq-chips { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 0.875rem; max-width: 36rem; }
   .hq-chip {
     display: inline-flex; align-items: center; gap: 0.625rem;
-    padding: 0.625rem 1rem 0.625rem 0.875rem; border-radius: 999px;
+    padding: 0.625rem 1rem 0.625rem 0.875rem; border-radius: 8px;
     background: rgb(255 255 255 / 0.1); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.08);
     font-size: clamp(0.9375rem, 1.05vw, 1.0625rem); line-height: 1.2;
   }
@@ -134,7 +128,7 @@ const total = questions.length;
   /* Белая карточка */
   .hq-card {
     display: flex; flex-direction: column; min-height: clamp(28rem, 38vw, 38rem);
-    padding: clamp(1.25rem, 2.6vw, 2.5rem); border-radius: clamp(12px, 1.2vw, 18px);
+    padding: clamp(1.25rem, 2.6vw, 2.75rem); border-radius: clamp(14px, 1.6vw, 24px);
     background: #fff; color: #15171c;
   }
   .hq-card-title {
@@ -153,9 +147,6 @@ const total = questions.length;
   .hq-btn:hover { background: #0a5aa6; }
   .hq-btn:active { transform: scale(0.98); }
   .hq-btn:focus-visible, .hq-opt:has(input:focus-visible), .hq-back:focus-visible, .hq-again:focus-visible { outline: 2px solid #034b8e; outline-offset: 2px; }
-  .hq-intro .hq-btn { align-self: flex-start; }
-  .hq-intro { display: flex; flex-direction: column; }
-  .hq-intro[hidden] { display: none; }
   [data-r-title]:focus { outline: none; }
 
   /* Шаги */
@@ -216,7 +207,6 @@ const total = questions.length;
   import { decide, summary, type A } from '../data/quiz';
 
   document.querySelectorAll<HTMLElement>('[data-hq]').forEach((root) => {
-    const intro = root.querySelector<HTMLElement>('[data-hq-intro]')!;
     const form = root.querySelector<HTMLFormElement>('[data-hq-form]')!;
     const result = root.querySelector<HTMLElement>('[data-hq-result]')!;
     const steps = [...form.querySelectorAll<HTMLFieldSetElement>('[data-hq-step]')];
@@ -248,11 +238,7 @@ const total = questions.length;
       result.querySelector<HTMLElement>('[data-r-title]')!.focus?.();
     };
 
-    root.querySelector('[data-hq-start]')!.addEventListener('click', () => {
-      intro.hidden = true;
-      form.hidden = false;
-      show(0);
-    });
+    show(0);
 
     form.addEventListener('change', (e) => {
       const t = e.target as HTMLInputElement;
