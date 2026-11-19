@@ -28,12 +28,10 @@ interface Props {
   formText?: string;
   topic?: string;
   cta?: boolean;
-  /** на странице есть квиз #proverka — вторая кнопка ведёт к нему (телефон уже в шапке) */
-  quiz?: boolean;
 }
 const {
   title, description, h1, eyebrow, crumbs, facts = [], faq = [], related = [], schema = [],
-  published, ogType = 'website', formTitle, formText, topic, cta = true, quiz = false,
+  published, ogType = 'website', formTitle, formText, topic, cta = true,
 } = Astro.props;
 const allSchema = [...schema, ...(faq.length ? [faqSchema(faq)] : [])];
 // страница из блоков (без сплошного текста) — тогда отметка «Обновлено» уходит в синюю полосу
@@ -47,7 +45,6 @@ const hasBody = Astro.slots.has('default');
       {cta && (
         <div class="ph-actions">
           <a href="#zayavka" class="ph-btn">Бесплатная консультация</a>
-          {quiz && <a href="#proverka" class="ph-btn ph-btn-glass">Проверить мою ситуацию</a>}
         </div>
       )}
       {facts.length > 0 && (
