@@ -92,18 +92,19 @@ const faq = [
         <div class="lp-card lp-blue">
           <p class="lp-k">Обязаны подать</p>
           <p class="lp-big tnum">от {rub(law.citizenDutyThreshold)}</p>
-          <p class="lp-t">{nb('долга, и вы не можете расплатиться со всеми кредиторами. Заявление нужно подать в течение 30 рабочих дней (ст. 213.4 закона о банкротстве)')}</p>
+          <p class="lp-t">{nb('долга, и вы не можете расплатиться со всеми кредиторами. Заявление нужно подать в течение 30 рабочих дней (ст. 213.4 закона о банкротстве)')}</p>
         </div>
         <div class="lp-card">
-          <p class="lp-k">Вправе подать при любой сумме</p>
-          <p class="lp-t lp-t-dark">{nb('если подходит хотя бы один признак неплатёжеспособности:')}</p>
+          <p class="lp-k">Вправе подать</p>
+          <p class="lp-big">при любой сумме</p>
+          <p class="lp-t lp-t-muted">{nb('долга, если есть хотя бы один признак неплатёжеспособности:')}</p>
           <ul class="lp-list">
             {['перестали платить кредиторам по наступившим срокам', 'больше 10 % наступивших долгов не оплачено дольше месяца', 'долги больше стоимости вашего имущества', 'приставы окончили исполнительное производство, потому что взыскать нечего'].map((t) => <li><span class="lp-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>{nb(t)}</span></li>)}
           </ul>
         </div>
       </div>
       <a href="/bankrotstvo-fizicheskih-lic/cherez-mfc/" class="lp-strip">
-        <span>{nb(`Долг до ${rub(law.mfcMax)} и приставы окончили производство? Сначала проверьте бесплатное банкротство через МФЦ — суд и управляющий там не нужны`)}</span>
+        <span>{nb(`Долг до ${rub(law.mfcMax)} и приставы окончили производство?`)}<br class="lp-br" /> {nb('Сначала проверьте бесплатное банкротство через МФЦ — суд и управляющий там не нужны')}</span>
         <span class="lp-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
       </a>
     </LpSection>
@@ -205,6 +206,10 @@ const faq = [
   .lp-big { margin-top: 0.75rem; font-family: var(--font-display); font-weight: 700; font-size: clamp(2.25rem, 3.6vw, 3.25rem); line-height: 1; letter-spacing: -0.03em; }
   .lp-t { margin-top: 0.875rem; font-size: var(--fs-body); line-height: 1.5; color: rgb(255 255 255 / 0.88); text-wrap: pretty; }
   .lp-t-dark { color: #2a2d33; }
+  .lp-t-muted { color: #5f646d; }
+  .lp-t-muted + .lp-list { margin-top: 1.25rem; }
+  .lp-br { display: none; }
+  @media (min-width: 1024px) { .lp-br { display: inline; } }
   .lp-list { display: grid; gap: 0.75rem; margin-top: 1rem; }
   .lp-list li, .lp-chips li { display: grid; grid-template-columns: 12px minmax(0, 1fr); gap: 0.875rem; font-size: var(--fs-body); line-height: 1.45; color: #2a2d33; }
   .lp-sq { display: grid; grid-template-columns: 5px 5px; grid-auto-rows: 5px; gap: 2px; margin-top: 0.45em; }
