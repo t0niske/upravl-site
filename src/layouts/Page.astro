@@ -111,7 +111,8 @@ const hasBody = Astro.slots.has('default');
 
 <style>
   /* Заголовок страницы в синей полосе */
-  .ph { max-width: 62rem; }
+  .ph { max-width: none; }
+  .ph-title { max-width: 62rem; }
   .ph-chip {
     display: inline-flex; align-items: center; gap: 0.75rem; padding: 0.625rem 1.125rem; border-radius: 8px;
     background: rgb(255 255 255 / 0.12); font-size: clamp(1rem, 1.1vw, 1.1875rem); line-height: 1.2; color: #fff;
@@ -120,7 +121,7 @@ const hasBody = Astro.slots.has('default');
   .ph-sq i { width: 5px; height: 5px; border-radius: 1px; background: #fff; }
   .ph-sq-blue i { background: #034b8e; }
   .ph-title { margin-top: clamp(0.5rem, 1.2vw, 1rem); font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h1); line-height: 1.06; letter-spacing: -0.025em; color: #fff; text-wrap: balance; }
-  .ph-lead { margin-top: clamp(1rem, 1.8vw, 1.5rem); max-width: 48rem; font-size: var(--fs-lead); line-height: 1.45; color: rgb(255 255 255 / 0.88); text-wrap: pretty; }
+  .ph-lead { margin-top: clamp(1rem, 1.8vw, 1.5rem); max-width: 52rem; font-size: var(--fs-lead); line-height: 1.45; color: rgb(255 255 255 / 0.88); text-wrap: pretty; }
   .ph-lead :global(a) { color: #fff; }
   .ph-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: clamp(1.5rem, 3vw, 2.25rem); }
   .ph-btn {
@@ -134,13 +135,27 @@ const hasBody = Astro.slots.has('default');
   .ph-btn-glass:hover { background: rgb(255 255 255 / 0.2); }
   .ph-btn:focus-visible { outline: 2px solid #fff; outline-offset: 3px; }
   @media (max-width: 639px) { .ph-btn { width: 100%; } }
-  .ph-facts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; margin-top: clamp(2rem, 4vw, 3.5rem); }
+  /* Цифры — одна стеклянная полоса с тонкими разделителями (вариант A, 19.11.2026) */
+  .ph-facts {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 1.25rem; margin-top: clamp(2rem, 4vw, 3.5rem);
+    padding: 1.5rem 0; border-radius: 16px; background: rgb(255 255 255 / 0.08); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12);
+    -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+  }
   @media (min-width: 1024px) { .ph-facts { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-  .ph-fact { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 0.5rem; padding: clamp(1rem, 1.5vw, 1.25rem); border-radius: 14px; background: rgb(255 255 255 / 0.1); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.08); }
-  .ph-fact dd { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.25rem, 1.8vw, 1.625rem); line-height: 1.1; letter-spacing: -0.02em; color: #fff; }
-  .ph-byline :global(p) { color: rgb(255 255 255 / 0.6); }
-  .ph-byline :global(a) { color: rgb(255 255 255 / 0.85); }
-  .ph-fact dt { font-size: 0.9375rem; line-height: 1.35; color: rgb(255 255 255 / 0.75); }
+  .ph-fact { position: relative; display: flex; flex-direction: column; gap: 0.5rem; padding: 0 1.25rem; }
+  @media (min-width: 1024px) {
+    .ph-fact { padding: 0 1.75rem; }
+    .ph-fact + .ph-fact::before { content: ''; position: absolute; left: 0; top: 12%; bottom: 12%; width: 1px; background: rgb(255 255 255 / 0.18); }
+  }
+  .ph-fact dt { font-size: 0.9375rem; line-height: 1.35; color: rgb(255 255 255 / 0.65); }
+  .ph-fact dd { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.375rem, 1.9vw, 1.75rem); line-height: 1.1; letter-spacing: -0.02em; color: #fff; }
+  /* на телефоне — строки «подпись слева, цифра справа», чтобы «₽/мес» не переносилось */
+  @media (max-width: 639px) {
+    .ph-facts { grid-template-columns: minmax(0, 1fr); row-gap: 0; padding: 0.25rem 0; }
+    .ph-fact { flex-direction: row; align-items: baseline; justify-content: space-between; gap: 1rem; padding: 0.875rem 1.25rem; }
+    .ph-fact + .ph-fact::before { content: ''; position: absolute; top: 0; left: 1.25rem; right: 1.25rem; height: 1px; background: rgb(255 255 255 / 0.14); }
+    .ph-fact dd { flex: none; font-size: 1.25rem; white-space: nowrap; text-align: right; }
+  }
 
   /* Текст и липкая карточка */
   .pg { padding: clamp(2.5rem, 4vw, 3.5rem) 0 clamp(3rem, 5vw, 4.5rem); background: #fff; }
