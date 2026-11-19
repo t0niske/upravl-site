@@ -96,9 +96,9 @@ const faq = [
         </div>
         <div class="lp-card">
           <p class="lp-k">Вправе подать</p>
-          <p class="lp-big">при любой сумме</p>
-          <p class="lp-t lp-t-muted">{nb('долга, если есть хотя бы один признак неплатёжеспособности:')}</p>
-          <ul class="lp-list">
+          <h3 class="lp-h3">При любой сумме долга</h3>
+          <p class="lp-t lp-t-muted">{nb('если есть хотя бы один признак неплатёжеспособности:')}</p>
+          <ul class="lp-signs">
             {['перестали платить кредиторам по наступившим срокам', 'больше 10 % наступивших долгов не оплачено дольше месяца', 'долги больше стоимости вашего имущества', 'приставы окончили исполнительное производство, потому что взыскать нечего'].map((t) => <li><span class="lp-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>{nb(t)}</span></li>)}
           </ul>
         </div>
@@ -206,8 +206,11 @@ const faq = [
   .lp-big { margin-top: 0.75rem; font-family: var(--font-display); font-weight: 700; font-size: clamp(2.25rem, 3.6vw, 3.25rem); line-height: 1; letter-spacing: -0.03em; }
   .lp-t { margin-top: 0.875rem; font-size: var(--fs-body); line-height: 1.5; color: rgb(255 255 255 / 0.88); text-wrap: pretty; }
   .lp-t-dark { color: #2a2d33; }
-  .lp-t-muted { color: #5f646d; }
-  .lp-t-muted + .lp-list { margin-top: 1.25rem; }
+  .lp-t-muted { margin-top: 0.625rem; color: #5f646d; }
+  .lp-h3 { margin-top: 0.75rem; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; color: #1d1e21; text-wrap: balance; }
+  .lp-signs { margin-top: 1.25rem; }
+  .lp-signs li { display: grid; grid-template-columns: 12px minmax(0, 1fr); gap: 0.875rem; padding: 0.875rem 0; border-top: 1px solid rgb(29 30 33 / 0.1); font-size: var(--fs-body); line-height: 1.4; color: #2a2d33; }
+  .lp-signs li:last-child { padding-bottom: 0; }
   .lp-br { display: none; }
   @media (min-width: 1024px) { .lp-br { display: inline; } }
   .lp-list { display: grid; gap: 0.75rem; margin-top: 1rem; }
