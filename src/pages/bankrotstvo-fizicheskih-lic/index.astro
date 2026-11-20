@@ -309,8 +309,12 @@ const faq = [
   .im-chips svg { flex: none; width: 1.25rem; height: 1.25rem; margin-top: 0.05rem; color: rgb(255 255 255 / 0.6); }
   /* 2×2: первая колонка по ширине текста, вторая забирает остаток — без пустых ячеек */
   @media (min-width: 640px) { .im-chips { grid-template-columns: auto minmax(0, 1fr); gap: 1rem 3rem; margin-top: 1.25rem; } }
-  @media (min-width: 1280px) {
-    .im-sell { display: grid; grid-template-columns: 14rem minmax(0, 1fr); align-items: center; gap: 2rem; }
-    .im-chips { margin-top: 0; }
+  /* 1240–1499: заголовок сверху, две колонки пунктов от края до края */
+  @media (min-width: 1240px) and (max-width: 1499px) { .im-chips { grid-template-columns: auto auto; justify-content: space-between; } }
+  @media (min-width: 1500px) {
+    /* заголовок и две колонки пунктов растянуты по ширине: справа такой же отступ, как слева */
+    .im-sell { display: grid; grid-template-columns: auto auto auto; justify-content: space-between; align-items: center; column-gap: 3rem; }
+    .im-sell-h { max-width: 14rem; }
+    .im-chips { grid-column: 2 / -1; grid-template-columns: subgrid; column-gap: normal; margin-top: 0; }
   }
 </style>
