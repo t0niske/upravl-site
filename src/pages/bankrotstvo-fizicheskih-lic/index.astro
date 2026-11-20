@@ -294,29 +294,23 @@ const faq = [
   .lp-after .lp-card { gap: 0.75rem; }
   .lp-year { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.75rem, 2.6vw, 2.25rem); line-height: 1; letter-spacing: -0.02em; color: #034b8e; }
   .lp-after .lp-t { margin-top: 0; }
-  /* Имущество: плитки «останется» + тёмная полоса «могут продать» */
+  /* Имущество: плитки «останется» + тёмная плашка «могут продать» */
   .im-grid { display: grid; gap: 0.75rem; }
   @media (min-width: 640px) { .im-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (min-width: 1024px) { .im-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-  .im-tile { display: flex; flex-direction: column; gap: 0.875rem; padding: 1.25rem; border-radius: 18px; background: #fff; font-size: var(--fs-body); line-height: 1.4; color: #1d1e21; }
+  .im-tile { display: flex; flex-direction: column; gap: 1rem; padding: clamp(1.25rem, 2vw, 1.75rem); border-radius: 18px; background: #fff; font-size: var(--fs-body); line-height: 1.4; color: #1d1e21; }
   .im-ic { display: grid; flex: none; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 12px; background: #e6eef8; color: #034b8e; }
   .im-ic svg { width: 1.25rem; height: 1.25rem; }
   @media (max-width: 639px) { .im-tile { flex-direction: row; align-items: center; gap: 1rem; padding: 1rem 1.25rem; } }
-  .im-sell { display: flex; flex-direction: column; gap: 1rem; margin-top: 0.75rem; padding: 1.25rem; border-radius: 18px; background: #1d1e21; color: #fff; }
+  .im-sell { margin-top: 0.75rem; padding: clamp(1.25rem, 2vw, 1.75rem); border-radius: 18px; background: #1d1e21; color: #fff; }
   .im-sell-h { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; }
-  .im-chips { display: grid; flex: 1; gap: 0.75rem; }
-  .im-chips li { display: flex; align-items: flex-start; gap: 0.75rem; font-size: 1rem; line-height: 1.4; color: rgb(255 255 255 / 0.9); }
+  .im-chips { display: grid; gap: 0.75rem; margin-top: 1rem; }
+  .im-chips li { display: flex; align-items: flex-start; gap: 0.625rem; font-size: 1rem; line-height: 1.4; color: rgb(255 255 255 / 0.9); }
   .im-chips svg { flex: none; width: 1.25rem; height: 1.25rem; margin-top: 0.05rem; color: rgb(255 255 255 / 0.6); }
-  @media (min-width: 640px) { .im-chips { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 1.5rem; } }
+  /* 2×2: первая колонка по ширине текста, вторая забирает остаток — без пустых ячеек */
+  @media (min-width: 640px) { .im-chips { grid-template-columns: auto minmax(0, 1fr); gap: 1rem 3rem; margin-top: 1.25rem; } }
   @media (min-width: 1280px) {
-    .im-chips { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; }
-    .im-chips li { flex-direction: column; gap: 0.75rem; padding: 0 1.5rem; }
-    .im-chips li + li { border-left: 1px solid rgb(255 255 255 / 0.14); }
-    .im-chips li:first-child { padding-left: 0; }
-    .im-chips li:last-child { padding-right: 0; }
-  }
-  @media (min-width: 1024px) {
-    .im-sell { flex-direction: row; align-items: center; gap: 1.5rem; }
-    .im-sell-h { flex: none; width: 14rem; }
+    .im-sell { display: grid; grid-template-columns: 14rem minmax(0, 1fr); align-items: center; gap: 2rem; }
+    .im-chips { margin-top: 0; }
   }
 </style>
