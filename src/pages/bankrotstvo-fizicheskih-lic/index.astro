@@ -161,8 +161,11 @@ const faq = [
       <div class="im-sell">
         <p class="im-sell-h">{nb('Могут продать на торгах')}</p>
         <ul class="im-chips">
-          {sell.map(([t, ic]) => (
-            <li><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" set:html={ic} /><span>{nb(t)}</span></li>
+          {sell.map(([t, ic], i) => (
+            <>
+              {i > 0 && <li class="im-div" role="none" aria-hidden="true" />}
+              <li class="im-item"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true" set:html={ic} /><span>{nb(t)}</span></li>
+            </>
           ))}
         </ul>
       </div>
@@ -209,6 +212,27 @@ const faq = [
   </Fragment>
 </Page>
 
+
+<script>
+  // Колонки «Могут продать» по ширине самого текста: при переносе строки блок шире текста,
+  // и справа остаётся пустота. Сужаем колонки, остаток поровну уходит в промежутки.
+  const items = [...document.querySelectorAll<HTMLElement>('.im-chips .im-item')];
+  const mq = window.matchMedia('(min-width: 1280px)');
+  const fit = () => {
+    items.forEach((li) => (li.style.width = ''));
+    if (!mq.matches) return;
+    const widths = items.map((li) => {
+      const r = document.createRange();
+      r.selectNodeContents(li.querySelector('span')!);
+      const right = Math.max(...[...r.getClientRects()].map((x) => x.right));
+      return Math.ceil(right - li.getBoundingClientRect().left);
+    });
+    items.forEach((li, i) => (li.style.width = `${widths[i]}px`));
+  };
+  let t = 0;
+  window.addEventListener('resize', () => { clearTimeout(t); t = window.setTimeout(fit, 100); });
+  document.fonts.ready.then(fit);
+</script>
 <style>
   .lp-two { display: grid; gap: clamp(0.75rem, 1.4vw, 1.25rem); }
   @media (min-width: 768px) { .lp-two { grid-template-columns: 1fr 1fr; } }
@@ -304,17 +328,18 @@ const faq = [
   @media (max-width: 639px) { .im-tile { flex-direction: row; align-items: center; gap: 1rem; padding: 1rem 1.25rem; } }
   .im-sell { margin-top: 0.75rem; padding: clamp(1.25rem, 2vw, 1.75rem); border-radius: 18px; background: #1d1e21; color: #fff; }
   .im-sell-h { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; }
-  .im-chips { display: grid; gap: 0.75rem; margin-top: 1rem; }
-  .im-chips li { display: flex; align-items: flex-start; gap: 0.625rem; font-size: 1rem; line-height: 1.4; color: rgb(255 255 255 / 0.9); }
-  .im-chips svg { flex: none; width: 1.25rem; height: 1.25rem; margin-top: 0.05rem; color: rgb(255 255 255 / 0.6); }
-  /* 2×2: первая колонка по ширине текста, вторая забирает остаток — без пустых ячеек */
-  @media (min-width: 640px) { .im-chips { grid-template-columns: auto minmax(0, 1fr); gap: 1rem 3rem; margin-top: 1.25rem; } }
-  /* 1240–1499: заголовок сверху, две колонки пунктов от края до края */
-  @media (min-width: 1240px) and (max-width: 1499px) { .im-chips { grid-template-columns: auto auto; justify-content: space-between; } }
-  @media (min-width: 1500px) {
-    /* заголовок и две колонки пунктов растянуты по ширине: справа такой же отступ, как слева */
-    .im-sell { display: grid; grid-template-columns: auto auto auto; justify-content: space-between; align-items: center; column-gap: 3rem; }
-    .im-sell-h { max-width: 14rem; }
-    .im-chips { grid-column: 2 / -1; grid-template-columns: subgrid; column-gap: normal; margin-top: 0; }
+  .im-chips { display: grid; gap: 0.75rem; margin-top: 1.25rem; }
+  /* шрифт как в плитках «сохранится» */
+  /* шрифт как в плитках «сохранится» */
+  .im-item { display: flex; align-items: flex-start; gap: 0.625rem; font-size: var(--fs-body); line-height: 1.4; color: rgb(255 255 255 / 0.9); }
+  .im-item svg { flex: none; width: 1.25rem; height: 1.25rem; margin-top: 0.15em; color: rgb(255 255 255 / 0.6); }
+  .im-div { display: none; }
+  @media (min-width: 640px) { .im-chips { grid-template-columns: auto minmax(0, 1fr); gap: 1rem 3rem; } }
+  /* 4 колонки с разделителями: промежутки между текстом и линиями одинаковые,
+     последняя колонка доходит до правого отступа (ширину колонок по тексту подгоняет скрипт ниже) */
+  @media (min-width: 1280px) {
+    .im-chips { grid-template-columns: auto 1px auto 1px auto 1px auto; justify-content: space-between; column-gap: 1.5rem; }
+    .im-item { min-width: 0; }
+    .im-div { display: block; width: 1px; background: rgb(255 255 255 / 0.14); }
   }
 </style>
