@@ -13,7 +13,6 @@ import { serviceSchema } from '../../data/schema';
 const url = '/bankrotstvo-fizicheskih-lic/';
 const description = `Списание долгов гражданам через Арбитражный суд Томской области: под ключ от ${rub(pricing.citizenTurnkey)}, рассрочка. Что сохранится, какие сделки оспорят.`;
 
-const CK = 'M20 6 9 17l-5-5';
 const written = ['Потребительские кредиты и кредитные карты', 'Микрозаймы (МФО)', 'Займы по распискам у людей и организаций', 'Долги по договорам с организациями', 'Налоги, сборы, штрафы и пени', 'Долги за ЖКХ до подачи заявления', 'Долги ИП по предпринимательской деятельности'];
 const notWritten = ['Алименты', 'Возмещение вреда жизни и здоровью', 'Долги по зарплате и выходным пособиям перед работниками', 'Субсидиарная ответственность и убытки, причинённые компании', 'Долги из-за мошенничества или умышленного уклонения', 'Текущие платежи: ЖКХ и налоги после подачи заявления'];
 const procedures = [
@@ -200,13 +199,12 @@ const faq = [
 
     <!-- Ограничения после -->
     <LpSection id="posle" chip="После процедуры" title="Какие ограничения будут после банкротства" lead="Последствия установлены ст. 213.30 закона о банкротстве и действуют с даты завершения процедуры" bg="grey">
-      <ul class="lp-after">
-        {after.map(([y, t]) => <li class="lp-card"><span class="lp-year tnum">{y}</span><span class="lp-t lp-t-dark">{nb(t)}</span></li>)}
-      </ul>
-      <p class="lp-strip lp-strip-ok">
-        <span class="lp-ic lp-ic-blue" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d={CK} /></svg></span>
-        <span>{nb('Работать по найму, открывать счета, ездить в отпуск и снова брать кредиты после процедуры можно')}</span>
-      </p>
+      <div class="ps-panel">
+        <dl class="ps-facts">
+          {after.map(([y, t]) => <div class="ps-fact"><dt>{nb(t)}</dt><dd class="tnum">{y}</dd></div>)}
+        </dl>
+        <p class="ps-ok"><span class="ps-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>{nb('Работать по найму, открывать счета, ездить в отпуск и снова брать кредиты после процедуры можно')}</span></p>
+      </div>
     </LpSection>
 
     <HomeQuiz />
@@ -248,7 +246,6 @@ const faq = [
   .lp-blue .lp-k { color: rgb(255 255 255 / 0.75); }
   .lp-big { margin-top: 0.75rem; font-family: var(--font-display); font-weight: 700; font-size: clamp(2.25rem, 3.6vw, 3.25rem); line-height: 1; letter-spacing: -0.03em; }
   .lp-t { margin-top: 0.875rem; font-size: var(--fs-body); line-height: 1.5; color: rgb(255 255 255 / 0.88); text-wrap: pretty; }
-  .lp-t-dark { color: #2a2d33; }
   .lp-t-muted { margin-top: 0.625rem; color: #5f646d; }
   .lp-h3 { margin-top: 0.75rem; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; color: #1d1e21; text-wrap: balance; }
   .lp-signs { margin-top: 1rem; }
@@ -271,9 +268,6 @@ const faq = [
   a.lp-strip:hover { box-shadow: inset 0 0 0 2px #034b8e; }
   .lp-strip > span:first-child { flex: 1; min-width: 16rem; }
   .lp-arrow { display: grid; flex: none; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 8px; background: #034b8e; color: #fff; }
-  .lp-strip-ok { justify-content: flex-start; flex-wrap: nowrap; gap: 1rem; }
-  .lp-strip-ok > span:first-child { flex: none; min-width: 0; }
-  .lp-strip-ok > span:last-child { flex: 1; }
   .lp-btn {
     display: inline-flex; flex: none; align-items: center; justify-content: center; min-height: 3.25rem; padding: 0 1.5rem;
     border-radius: 10px; background: #034b8e; color: #fff; font-weight: 500; text-decoration: none; transition: background-color 150ms var(--ease-out);
@@ -281,9 +275,6 @@ const faq = [
   .lp-btn:hover { background: #0a5aa6; }
   @media (max-width: 639px) { .lp-btn { width: 100%; } .lp-strip > span:first-child { min-width: 0; } }
 
-  .lp-ic { display: grid; flex: none; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 10px; }
-  .lp-ic svg { width: 1.25rem; height: 1.25rem; }
-  .lp-ic-blue { background: #034b8e; color: #fff; }
 
   .lp-grey { background: #f3f4f6; }
   .lp-card.is-main { box-shadow: inset 0 0 0 2px #034b8e; }
@@ -308,12 +299,6 @@ const faq = [
   .lp-docs li { display: grid; grid-template-columns: 2.5rem minmax(0, 1fr); gap: 1rem; align-items: center; padding: 1.125rem 1.25rem; border-radius: 14px; background: #f3f4f6; font-size: var(--fs-body); line-height: 1.45; color: #2a2d33; }
   .lp-num { font-family: var(--font-display); font-weight: 700; font-size: 1.125rem; color: #034b8e; }
 
-  .lp-after { display: grid; gap: clamp(0.5rem, 1vw, 0.75rem); }
-  @media (min-width: 640px) { .lp-after { grid-template-columns: 1fr 1fr; } }
-  @media (min-width: 1280px) { .lp-after { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
-  .lp-after .lp-card { gap: 0.75rem; }
-  .lp-year { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.75rem, 2.6vw, 2.25rem); line-height: 1; letter-spacing: -0.02em; color: #034b8e; }
-  .lp-after .lp-t { margin-top: 0; }
   /* Долги: как карточка «Что входит в сопровождение» — заголовок с ярлыком и список с квадратиками */
   .dg-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 1rem; margin-bottom: 1rem; }
   @media (max-width: 1023px) { .dg-head { flex-direction: column; align-items: flex-start; gap: 0.625rem; } }
@@ -322,6 +307,21 @@ const faq = [
   .dg-tag.is-grey { background: #f3f4f6; color: #5f646d; }
   .dg-list li { display: grid; grid-template-columns: 12px minmax(0, 1fr); gap: 0.875rem; padding: 0.4rem 0; font-size: var(--fs-body); line-height: 1.45; color: #1d1e21; }
   .dg-list.is-grey .lp-sq i { background: #9aa0a8; }
+  /* После процедуры: сине-чёрная панель (как «Стоимость»), стеклянная плашка как на первом экране */
+  .ps-panel { position: relative; overflow: hidden; padding: clamp(1.25rem, 2.4vw, 2.25rem); border-radius: 18px; background: linear-gradient(105deg, #034b8e 0%, #053a6e 45%, #0b1a30 100%); color: #fff; }
+  .ps-facts { display: grid; border-radius: 16px; background: rgb(255 255 255 / 0.08); box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.12); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); }
+  .ps-fact { position: relative; display: flex; align-items: baseline; justify-content: space-between; gap: 1rem; padding: 0.875rem 1.25rem; }
+  .ps-fact + .ps-fact::before { content: ''; position: absolute; top: 0; left: 1.25rem; right: 1.25rem; height: 1px; background: rgb(255 255 255 / 0.14); }
+  .ps-fact dt { font-size: 0.9375rem; line-height: 1.35; color: rgb(255 255 255 / 0.7); }
+  .ps-fact dd { flex: none; font-family: var(--font-display); font-weight: 700; font-size: clamp(1.375rem, 2.1vw, 2rem); line-height: 1.1; letter-spacing: -0.02em; }
+  @media (min-width: 1024px) {
+    .ps-facts { grid-template-columns: repeat(5, minmax(0, 1fr)); padding: 1.5rem 0; }
+    .ps-fact { flex-direction: column; align-items: stretch; justify-content: space-between; gap: 0.75rem; padding: 0 1.5rem; }
+    .ps-fact + .ps-fact::before { top: 8%; bottom: 8%; left: 0; right: auto; width: 1px; height: auto; background: rgb(255 255 255 / 0.18); }
+  }
+  .ps-ok { display: flex; align-items: center; gap: 0.875rem; margin-top: 1.25rem; font-size: var(--fs-body); line-height: 1.45; color: rgb(255 255 255 / 0.9); }
+  .ps-sq { display: grid; flex: none; grid-template-columns: 5px 5px; grid-auto-rows: 5px; gap: 2px; }
+  .ps-sq i { border-radius: 1px; background: #fff; }
   /* Сделки: серая карточка с цифрой (как статистика «Обо мне») + список с [01] (как «Услуги» на главной) */
   .sd-wrap { display: grid; gap: 1.5rem; }
   @media (min-width: 1024px) { .sd-wrap { grid-template-columns: minmax(0, 5fr) minmax(0, 8fr); gap: clamp(1.5rem, 3vw, 3.5rem); } }
