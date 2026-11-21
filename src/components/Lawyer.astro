@@ -24,7 +24,10 @@ const stats = [
         <dl class="lw-s">
           {stats.map((s) => <div><dt class="tnum">{s.value}</dt><dd>{s.label}</dd></div>)}
         </dl>
-        <a class="lw-a" href="/ob-upravlyayushchem/">Подробнее обо мне <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg></a>
+        <div class="lw-actions">
+          <a class="lw-btn" href="#zayavka">Бесплатная консультация</a>
+          <a class="lw-a" href="/ob-upravlyayushchem/">Подробнее обо мне <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg></a>
+        </div>
       </div>
       <figure class="lw-fig">
         <Image src={portrait} alt={person.name} widths={[480, 720, 1000]} sizes="(min-width: 1280px) 34vw, 80vw" class="lw-img" loading="lazy" />
@@ -47,7 +50,11 @@ const stats = [
   .lw-s { display: flex; flex-wrap: wrap; gap: 1rem 1.75rem; margin-top: 1.75rem; }
   .lw-s dt { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.5rem, 2vw, 1.875rem); line-height: 1.1; color: #1d1e21; }
   .lw-s dd { margin-top: 0.25rem; font-size: 0.9375rem; color: #7c818a; }
-  .lw-a { display: inline-flex; align-self: flex-start; align-items: center; gap: 0.375rem; margin-top: 1.75rem; font-weight: 600; font-size: var(--fs-body); color: #034b8e; text-decoration: none; }
+  .lw-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.75rem; margin-top: 1.75rem; }
+  .lw-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 3.25rem; padding: 0 1.75rem; border-radius: 10px; background: #034b8e; color: #fff; font-weight: 600; font-size: 1rem; text-decoration: none; transition: background-color 150ms var(--ease-out); }
+  .lw-btn:hover { background: #0a5aa6; }
+  @media (max-width: 639px) { .lw-btn { width: 100%; } }
+  .lw-a { display: inline-flex; align-items: center; gap: 0.375rem; font-weight: 600; font-size: var(--fs-body); color: #034b8e; text-decoration: none; }
   .lw-a:hover { text-decoration: underline; text-underline-offset: 3px; }
 
   /* фото: до 1280 px — под карточкой, шире — справа и выходит за верх подложки */

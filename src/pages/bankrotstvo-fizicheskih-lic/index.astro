@@ -82,6 +82,7 @@ const faq = [
   ]}
   faq={faq}
   topic="Банкротство гражданина"
+  expert
   schema={[serviceSchema({ name: 'Банкротство физических лиц', url, description, price: pricing.citizenTurnkey, serviceType: 'Сопровождение процедуры банкротства гражданина' })]}
   related={[
     { href: '/bankrotstvo-fizicheskih-lic/cherez-mfc/', label: 'Банкротство через МФЦ', text: 'Бесплатно при долге до 1 млн ₽ и оконченном исполнительном производстве.' },
@@ -90,11 +91,7 @@ const faq = [
   ]}
 >
   <Fragment slot="lead">
-    <p>
-      Банкротство гражданина — судебная процедура, после которой Арбитражный суд освобождает должника от долгов, которые он не может вернуть:
-      кредитов, микрозаймов, налогов, долгов за ЖКХ и по распискам. Проценты и пени перестают начисляться с первого определения суда,
-      звонки коллекторов прекращаются
-    </p>
+    <p>{nb('Законно спишу долги через Арбитражный суд: кредиты, микрозаймы, налоги, ЖКХ и расписки. Звонки коллекторов прекратятся')}</p>
   </Fragment>
 
   <Fragment slot="after">
@@ -121,6 +118,11 @@ const faq = [
       </a>
     </LpSection>
 
+    <HomeCases />
+
+    <!-- Кто ведёт дело -->
+    <Lawyer />
+
     <!-- Какие долги спишут -->
     <LpSection id="dolgi" chip="Долги" title="Какие долги спишут, а какие останутся" lead="После завершения процедуры суд освобождает от большинства долгов, которые были на дату заявления. Исключения — в ст. 213.28 закона о банкротстве" bg="grey">
       <div class="lp-two">
@@ -134,6 +136,8 @@ const faq = [
         </div>
       </div>
     </LpSection>
+
+    <HomeQuiz />
 
     <!-- Три процедуры -->
     <LpSection id="procedury" chip="Процедуры" title="Три процедуры: реструктуризация, реализация имущества, мировое соглашение" lead="Суд выбирает процедуру по доходам должника и позиции кредиторов. Большинство дел граждан идёт сразу через реализацию имущества">
@@ -186,12 +190,12 @@ const faq = [
     </LpSection>
 
     <!-- Порядок и сроки -->
-    <Steps />
+    <Steps compact />
 
     <!-- Документы -->
     <LpSection id="dokumenty" chip="Документы" title="Какие документы понадобятся" lead="Полный список зависит от ситуации, базовый набор — такой. Большую часть можно заказать через Госуслуги, с остальным помогу">
       <ol class="lp-docs">
-        {docs.map((t, i) => <li><span class="lp-num tnum">{String(i + 1).padStart(2, '0')}</span><span>{nb(t)}</span></li>)}
+        {docs.map((t, i) => <li><span class="lp-num tnum">[{String(i + 1).padStart(2, '0')}]</span><span>{nb(t)}</span></li>)}
       </ol>
     </LpSection>
 
@@ -208,11 +212,7 @@ const faq = [
       </div>
     </LpSection>
 
-    <!-- Кто ведёт дело -->
-    <Lawyer />
 
-    <HomeQuiz />
-    <HomeCases />
     <HomeReviews />
   </Fragment>
 </Page>
@@ -300,8 +300,8 @@ const faq = [
 
   .lp-docs { display: grid; gap: clamp(0.5rem, 1vw, 0.75rem); }
   @media (min-width: 768px) { .lp-docs { grid-template-columns: 1fr 1fr; } }
-  .lp-docs li { display: grid; grid-template-columns: 1.5rem minmax(0, 1fr); gap: 0.75rem; align-items: center; padding: 1.125rem 1.25rem; border-radius: 14px; background: #f3f4f6; font-size: var(--fs-body); line-height: 1.45; color: #2a2d33; }
-  .lp-num { font-family: var(--font-display); font-weight: 700; font-size: 1.125rem; color: #034b8e; }
+  .lp-docs li { display: grid; grid-template-columns: 2.25rem minmax(0, 1fr); gap: 0.75rem; align-items: center; padding: 1.125rem 1.25rem; border-radius: 14px; background: #f3f4f6; font-size: var(--fs-body); line-height: 1.45; color: #2a2d33; }
+  .lp-num { font-size: var(--fs-body); color: #8a8f98; }
 
   /* Долги: как карточка «Что входит в сопровождение» — заголовок с ярлыком и список с квадратиками */
   .dg-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 1rem; margin-bottom: 1rem; }
