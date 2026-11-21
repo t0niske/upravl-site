@@ -8,8 +8,7 @@ import Base from './Base.astro';
 import Byline from '../components/Byline.astro';
 import HomeFaq from '../components/HomeFaq.astro';
 import LeadForm from '../components/LeadForm.astro';
-import { contacts, knowMenu, person, heroStats } from '../data/site';
-import { reviewsSource } from '../data/reviews';
+import { contacts, knowMenu, person } from '../data/site';
 import portrait from '../assets/antonets-hero.png';
 import { nb } from '../data/typo';
 import { faqSchema, type Crumb } from '../data/schema';
@@ -71,19 +70,19 @@ const relArticles = knowMenu
       {cta && (
         <div class="ph-actions" data-ph-actions>
           <a href="#zayavka" class="ph-btn">Бесплатная консультация</a>
-          {expert && (
-            <a href="/ob-upravlyayushchem/" class="ph-expert">
-              <Image src={portrait} alt="" widths={[96, 160]} sizes="56px" class="ph-expert-img" loading="eager" />
-              <span class="ph-expert-txt">
-                <span class="ph-expert-name">{person.name}</span>
-                <span class="ph-expert-meta">{person.job}, {heroStats.years} · {reviewsSource.rating.toFixed(1).replace('.', ',')} на 2ГИС</span>
-              </span>
-            </a>
-          )}
         </div>
       )}
       {facts.length > 0 && (
-        <dl class="ph-facts">
+        <dl class={`ph-facts${expert ? ' has-person' : ''}`}>
+          {expert && (
+            <div class="ph-fact ph-person">
+              <dt class="sr-only">Ведёт дело</dt>
+              <dd>
+                <Image src={portrait} alt="" widths={[120, 180]} sizes="60px" class="ph-person-img" loading="eager" />
+                <span><b>{person.name}</b><span>{person.job.toLowerCase()}</span></span>
+              </dd>
+            </div>
+          )}
           {facts.map(([k, v]) => (
             <div class="ph-fact">
               <dt>{nb(k)}</dt>
@@ -226,6 +225,27 @@ const relArticles = knowMenu
     .ph-fact + .ph-fact::before { content: ''; position: absolute; top: 0; left: 1.25rem; right: 1.25rem; height: 1px; background: rgb(255 255 255 / 0.14); }
     .ph-fact dd { flex: none; font-size: 1.25rem; white-space: nowrap; text-align: right; }
   }
+  /* Юрист — первая ячейка полосы (вариант C, 21.11.2026). Отступ слева = отступу справа у последней цифры */
+  .ph-person { grid-column: 1 / -1; padding-bottom: 1.25rem; }
+  .ph-person::after { content: ''; position: absolute; left: 1.25rem; right: 1.25rem; bottom: 0; height: 1px; background: rgb(255 255 255 / 0.14); }
+  .ph-person dd { display: flex; align-items: center; gap: 0.875rem; font: inherit; letter-spacing: 0; text-align: left; white-space: normal; }
+  .ph-person-img { flex: none; width: 3.75rem; height: 3.75rem; border-radius: 12px; object-fit: cover; object-position: 50% 6%; background: #e6eef8; }
+  .ph-person b { display: block; font-family: var(--font-display); font-weight: 700; font-size: 1.125rem; line-height: 1.2; color: #fff; }
+  .ph-person b + span { display: block; margin-top: 0.25rem; font-size: 0.875rem; line-height: 1.3; color: rgb(255 255 255 / 0.7); }
+  .ph-person + .ph-fact::before { display: none; }
+  @media (min-width: 1024px) { .ph-person::after { left: 1.75rem; right: 1.75rem; } }
+  @media (max-width: 639px) {
+    .ph-person { padding: 0.875rem 1.25rem; }
+    .ph-person::after { display: none; }
+    .ph-person + .ph-fact::before { display: block; }
+  }
+  @media (min-width: 1280px) {
+    .ph-facts.has-person { grid-template-columns: minmax(0, 1.25fr) repeat(4, auto); align-items: center; }
+    .ph-facts.has-person .ph-fact dd { white-space: nowrap; }
+    .ph-person { grid-column: auto; padding-bottom: 0; }
+    .ph-person::after { display: none; }
+    .ph-person + .ph-fact::before { display: block; }
+  }
 
   /* Текст и липкая карточка */
   .pg { padding: clamp(2.5rem, 4vw, 3.5rem) 0 clamp(3rem, 5vw, 4.5rem); background: #fff; }
@@ -247,13 +267,6 @@ const relArticles = knowMenu
   .pg-card-phone:hover { color: #034b8e; }
 
   /* Плашка с управляющим рядом с кнопкой первого экрана */
-  .ph-expert { display: inline-flex; align-items: center; gap: 0.875rem; padding: 0.5rem 1.25rem 0.5rem 0.5rem; border-radius: 12px; background: rgb(255 255 255 / 0.1); color: #fff; text-decoration: none; transition: background-color 150ms var(--ease-out); }
-  .ph-expert:hover { background: rgb(255 255 255 / 0.16); }
-  .ph-expert-img { flex: none; width: 3.5rem; height: 3.5rem; border-radius: 10px; object-fit: cover; object-position: 50% 6%; background: #e6eef8; }
-  .ph-expert-txt { display: flex; flex-direction: column; gap: 0.125rem; }
-  .ph-expert-name { font-weight: 600; font-size: 1rem; line-height: 1.25; }
-  .ph-expert-meta { font-size: 0.875rem; line-height: 1.3; color: rgb(255 255 255 / 0.72); }
-  @media (max-width: 639px) { .ph-expert { width: 100%; } }
 
   /* Нижняя панель на телефоне */
   .mbar { position: fixed; z-index: 40; left: 0.75rem; right: 0.75rem; bottom: 0.75rem; display: none; gap: 0.5rem; padding: 0.5rem; border-radius: 16px; background: rgb(29 30 33 / 0.92); -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); box-shadow: 0 10px 30px rgb(0 0 0 / 0.2); transform: translateY(calc(100% + 1rem)); transition: transform 200ms var(--ease-out); }
