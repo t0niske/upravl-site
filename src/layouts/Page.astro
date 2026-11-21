@@ -8,14 +8,15 @@ import Base from './Base.astro';
 import Byline from '../components/Byline.astro';
 import HomeFaq from '../components/HomeFaq.astro';
 import LeadForm from '../components/LeadForm.astro';
-import { contacts } from '../data/site';
+import { contacts, knowMenu } from '../data/site';
 import { nb } from '../data/typo';
 import { faqSchema, type Crumb } from '../data/schema';
 import { Image } from 'astro:assets';
 import imgMyths from '../assets/blog/myths.jpg';
 import imgManager from '../assets/blog/manager.jpg';
-import imgSubsidiary from '../assets/blog/subsidiary.jpg';
-import { articles, fmtDate } from '../data/articles';
+import imgCourt from '../assets/blog/court.jpg';
+import imgMfc from '../assets/blog/mfc.jpg';
+import { articles } from '../data/articles';
 
 interface Props {
   title: string;
@@ -42,14 +43,21 @@ const allSchema = [...schema, ...(faq.length ? [faqSchema(faq)] : [])];
 // страница из блоков (без сплошного текста) — тогда отметка «Обновлено» уходит в синюю полосу
 const hasBody = Astro.slots.has('default');
 
-/** Блок «Статьи» внизу страницы: все статьи сайта, кроме текущей; обложки по адресу */
-const covers: Record<string, ImageMetadata> = {
-  '/stati/mify-o-bankrotstve-grazhdan/': imgMyths,
-  '/stati/kto-takoj-arbitrazhnyj-upravlyayushchij/': imgManager,
-  '/bankrotstvo-ur-lica/subsidiarnaya-otvetstvennost/': imgSubsidiary,
+/**
+ * Блок «Всё о банкротстве» внизу страницы: пункты меню шапки «Все о банкротстве», у которых уже есть страница.
+ * Рубрика — колонка меню. Текущая страница не показывается, максимум 3 карточки.
+ */
+const relInfo: Record<string, { img: ImageMetadata; text: string }> = {
+  '/bankrotstvo-fizicheskih-lic/': { img: imgCourt, text: 'Кому подходит, какие долги спишут, что сохранится из имущества и сколько это стоит' },
+  '/bankrotstvo-fizicheskih-lic/cherez-mfc/': { img: imgMfc, text: 'Бесплатно при долге до 1 млн ₽ и оконченном исполнительном производстве' },
+  '/stati/kto-takoj-arbitrazhnyj-upravlyayushchij/': { img: imgManager, text: articles.find((a) => a.href.includes('kto-takoj'))!.text },
+  '/stati/mify-o-bankrotstve-grazhdan/': { img: imgMyths, text: articles.find((a) => a.href.includes('mify'))!.text },
 };
 const here = Astro.url.pathname.replace(/\/?$/, '/');
-const relArticles = articles.filter((a) => !here.endsWith(a.href));
+const relArticles = knowMenu
+  .flatMap((c) => c.items.filter((i) => i.href && relInfo[i.href]).map((i) => ({ href: i.href, label: i.label, tag: c.title, ...relInfo[i.href] })))
+  .filter((a) => !here.endsWith(a.href))
+  .slice(0, 3);
 ---
 <Base title={title} description={description} crumbs={crumbs} schema={allSchema} ogType={ogType}>
   <Fragment slot="top">
@@ -104,17 +112,17 @@ const relArticles = articles.filter((a) => !here.endsWith(a.href));
     <section class="rel" aria-labelledby="related-title">
       <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
         <div class="rel-head">
-          <h2 id="related-title" class="rel-title">Статьи о банкротстве</h2>
+          <h2 id="related-title" class="rel-title">Всё о банкротстве</h2>
           <a href="/stati/" class="rel-all">Все статьи <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg></a>
         </div>
         <ul class="rel-grid">
           {relArticles.map((a) => (
             <li>
               <a href={a.href} class="rel-card">
-                {covers[a.href] && <Image src={covers[a.href]} alt="" widths={[400, 640]} sizes="(min-width: 768px) 30vw, 90vw" class="rel-img" loading="lazy" />}
+                <Image src={a.img} alt="" widths={[400, 640]} sizes="(min-width: 768px) 30vw, 90vw" class="rel-img" loading="lazy" />
                 <span class="rel-body">
-                  <span class="rel-meta"><span class="rel-tag">Статья</span><time datetime={a.updated}>обновлено {fmtDate(a.updated)}</time></span>
-                  <span class="rel-name">{nb(a.short)}</span>
+                  <span class="rel-meta"><span class="rel-tag">{a.tag}</span></span>
+                  <span class="rel-name">{nb(a.label)}</span>
                   <span class="rel-text">{nb(a.text.replace(/\.$/, ''))}</span>
                   <span class="rel-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14" /></svg></span>
                 </span>
