@@ -174,14 +174,14 @@ const faq = [
     <!-- Сделки -->
     <LpSection id="sdelki" chip="Сделки" title="Какие сделки могут оспорить" lead={`Финансовый управляющий обязан проверить сделки за ${law.challengePeriodYears} года до принятия заявления. Если сделка навредила кредиторам, её признают недействительной, а имущество вернут в конкурсную массу`}>
       <div class="sd-wrap">
-        <div class="sd-dark">
+        <div class="sd-card">
           <p class="sd-num">{law.challengePeriodYears} года</p>
           <p class="sd-cap">{nb('за этот срок финансовый управляющий проверяет все сделки должника')}</p>
           <p class="sd-note">{nb('Поэтому сделки за последние три года разбираем до подачи заявления. Иногда безопаснее подождать или выбрать другую процедуру')}</p>
           <a href="#zayavka" class="lp-btn sd-btn">Обсудить мою ситуацию</a>
         </div>
         <ol class="sd-list">
-          {deals.map((t, i) => <li><span class="sd-n tnum">{String(i + 1).padStart(2, '0')}</span><span>{nb(t)}</span></li>)}
+          {deals.map((t, i) => <li><span class="sd-n tnum">[{String(i + 1).padStart(2, '0')}]</span><span>{nb(t)}</span></li>)}
         </ol>
       </div>
     </LpSection>
@@ -319,20 +319,19 @@ const faq = [
   .lp-after .lp-card { gap: 0.75rem; }
   .lp-year { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.75rem, 2.6vw, 2.25rem); line-height: 1; letter-spacing: -0.02em; color: #034b8e; }
   .lp-after .lp-t { margin-top: 0; }
-  /* Сделки: тёмная карточка «3 года» с кнопкой + нумерованный список */
-  .sd-wrap { display: grid; gap: 0.75rem; }
-  @media (min-width: 1024px) { .sd-wrap { grid-template-columns: minmax(0, 5fr) minmax(0, 8fr); } }
-  .sd-dark { display: flex; flex-direction: column; padding: clamp(1.25rem, 2vw, 1.75rem); border-radius: 18px; background: #1d1e21; color: #fff; }
-  .sd-num { font-family: var(--font-display); font-weight: 700; font-size: clamp(3rem, 5vw, 4.5rem); line-height: 1; letter-spacing: -0.03em; }
-  .sd-cap { margin-top: 0.75rem; font-size: var(--fs-body); line-height: 1.4; color: rgb(255 255 255 / 0.75); }
-  .sd-note { margin-top: auto; padding-top: 1.5rem; font-size: var(--fs-body); line-height: 1.4; }
-  .lp-btn.sd-btn { align-self: flex-start; margin-top: 1.25rem; background: #fff; color: #1d1e21; }
-  .lp-btn.sd-btn:hover { background: #e6eef8; }
+  /* Сделки: серая карточка с цифрой (как статистика «Обо мне») + список с [01] (как «Услуги» на главной) */
+  .sd-wrap { display: grid; gap: 1.5rem; }
+  @media (min-width: 1024px) { .sd-wrap { grid-template-columns: minmax(0, 5fr) minmax(0, 8fr); gap: clamp(1.5rem, 3vw, 3.5rem); } }
+  .sd-card { display: flex; flex-direction: column; padding: clamp(1.25rem, 1.8vw, 2rem) clamp(1.25rem, 1.6vw, 1.75rem); border-radius: 16px; background: #f3f4f6; }
+  .sd-num { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.25rem, 3.2vw, 3rem); line-height: 1; letter-spacing: -0.02em; color: #1d1e21; }
+  .sd-cap { margin-top: 0.5rem; font-size: var(--fs-body); line-height: 1.45; color: #7c818a; text-wrap: pretty; }
+  .sd-note { margin-top: auto; padding-top: 2rem; font-size: var(--fs-body); line-height: 1.45; color: #1d1e21; }
+  .lp-btn.sd-btn { align-self: flex-start; margin-top: 1.25rem; }
   @media (max-width: 639px) { .lp-btn.sd-btn { align-self: stretch; } }
-  .sd-list { padding: 0.25rem clamp(1.25rem, 2vw, 1.75rem); border-radius: 18px; background: #f3f4f6; }
-  .sd-list li { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 0.75rem; padding: 0.875rem 0; font-size: var(--fs-body); line-height: 1.4; color: #2a2d33; }
-  .sd-list li + li { border-top: 1px solid rgb(29 30 33 / 0.08); }
-  .sd-n { font-weight: 600; color: #034b8e; }
+  .sd-list li { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); gap: 1rem; padding: 1rem 0; border-top: 1px solid rgb(29 30 33 / 0.1); font-size: var(--fs-body); line-height: 1.45; color: #1d1e21; }
+  .sd-list li:last-child { border-bottom: 1px solid rgb(29 30 33 / 0.1); }
+  .sd-n { color: #8a8f98; }
+  @media (max-width: 639px) { .sd-list li { grid-template-columns: 2.75rem minmax(0, 1fr); gap: 0.75rem; } }
   /* Имущество: плитки «останется» + тёмная плашка «могут продать» */
   .im-grid { display: grid; gap: 0.75rem; }
   @media (min-width: 640px) { .im-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
