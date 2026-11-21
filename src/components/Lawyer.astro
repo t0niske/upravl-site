@@ -1,0 +1,73 @@
+---
+/**
+ * Блок про юриста: белая карточка с текстом и цифрами слева, фото справа выходит за верх серой подложки,
+ * плашка с именем как на первом экране главной. Цифры — те же, что в блоке «Обо мне».
+ */
+import { Image } from 'astro:assets';
+import { nb } from '../data/typo';
+import { person } from '../data/site';
+import portrait from '../assets/antonets-hero.png';
+
+const stats = [
+  { value: '25+ лет', label: 'в банкротстве' },
+  { value: '250+', label: 'процедур банкротства' },
+  { value: '320+ млн ₽', label: 'списанных долгов' },
+];
+---
+
+<section class="lw-sec" aria-labelledby="yurist-title">
+  <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
+    <div class="lw">
+      <div class="lw-card">
+        <h2 id="yurist-title" class="lw-h">Дело ведёт <span>арбитражный управляющий</span> с опытом 25+ лет</h2>
+        <p class="lw-t">{nb('Документы, суд и переписку с кредиторами беру на себя. На первой встрече смотрю документы и говорю, подходит ли вам банкротство')}</p>
+        <dl class="lw-s">
+          {stats.map((s) => <div><dt class="tnum">{s.value}</dt><dd>{s.label}</dd></div>)}
+        </dl>
+        <a class="lw-a" href="/ob-upravlyayushchem/">Подробнее обо мне <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg></a>
+      </div>
+      <figure class="lw-fig">
+        <Image src={portrait} alt={person.name} widths={[480, 720, 1000]} sizes="(min-width: 1280px) 34vw, 80vw" class="lw-img" loading="lazy" />
+        <figcaption class="lw-badge">
+          <span>{person.name}</span>
+          <span>{person.job}</span>
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<style>
+  .lw-sec { padding: clamp(3.5rem, 6vw, 6rem) 0 clamp(2.5rem, 4vw, 3.5rem); background: #fff; }
+  .lw { position: relative; display: grid; gap: 0.75rem; padding: 0.75rem; border-radius: 28px; background: #f3f4f6; }
+  .lw-card { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: center; padding: clamp(1.5rem, 3vw, 3rem); border-radius: 22px; background: #fff; }
+  .lw-h { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h2); line-height: 1.08; letter-spacing: -0.025em; color: #1d1e21; text-wrap: balance; }
+  .lw-h span { color: #034b8e; }
+  .lw-t { margin-top: 1.25rem; max-width: 36rem; font-size: var(--fs-lead); line-height: 1.4; color: #5f646d; text-wrap: pretty; }
+  .lw-s { display: flex; flex-wrap: wrap; gap: 1rem 1.75rem; margin-top: 1.75rem; }
+  .lw-s dt { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.5rem, 2vw, 1.875rem); line-height: 1.1; color: #1d1e21; }
+  .lw-s dd { margin-top: 0.25rem; font-size: 0.9375rem; color: #7c818a; }
+  .lw-a { display: inline-flex; align-self: flex-start; align-items: center; gap: 0.375rem; margin-top: 1.75rem; font-weight: 600; font-size: var(--fs-body); color: #034b8e; text-decoration: none; }
+  .lw-a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+  /* фото: до 1280 px — под карточкой, шире — справа и выходит за верх подложки */
+  .lw-fig { position: relative; display: flex; justify-content: center; height: clamp(20rem, 70vw, 26rem); }
+  .lw-img { position: absolute; bottom: 0; left: 50%; width: auto; height: 100%; transform: translateX(-50%); }
+  .lw-badge {
+    position: absolute; z-index: 1; right: 0.5rem; bottom: 0.5rem; left: 0.5rem;
+    padding: 1rem 1.25rem; border-radius: 16px; background: rgb(255 255 255 / 0.72);
+    -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+    font-size: 1rem; line-height: 1.25; color: #1d1e21;
+  }
+  .lw-badge span { display: block; }
+  .lw-badge span:first-child { font-family: var(--font-display); font-weight: 700; font-size: 1.2em; }
+  .lw-badge span + span { margin-top: 0.25rem; color: #5f646d; }
+  @media (min-width: 640px) { .lw-badge { left: auto; } .lw-s { gap: 1.25rem 2.5rem; } }
+  @media (min-width: 1280px) {
+    .lw { grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 0; min-height: 28rem; }
+    .lw-fig { position: static; height: auto; }
+    .lw-img { left: auto; right: 16%; height: calc(100% + 3.5rem); transform: none; }
+    .lw-badge { right: 1.75rem; bottom: 1.75rem; padding: 1.25rem 1.5rem; font-size: 1.125rem; }
+  }
+  @media (min-width: 1280px) and (max-width: 1439px) { .lw-img { right: 10%; } }
+</style>

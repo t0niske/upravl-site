@@ -7,6 +7,7 @@ import HomePrice from '../../components/HomePrice.astro';
 import { nb } from '../../data/typo';
 import HomeCases from '../../components/HomeCases.astro';
 import HomeReviews from '../../components/HomeReviews.astro';
+import Lawyer from '../../components/Lawyer.astro';
 import { pricing, law, rub } from '../../data/site';
 import { serviceSchema } from '../../data/schema';
 
@@ -206,6 +207,9 @@ const faq = [
         <p class="ps-ok"><span class="ps-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>{nb('Работать по найму, открывать счета, ездить в отпуск и снова брать кредиты после процедуры можно')}</span></p>
       </div>
     </LpSection>
+
+    <!-- Кто ведёт дело -->
+    <Lawyer />
 
     <HomeQuiz />
     <HomeCases />
