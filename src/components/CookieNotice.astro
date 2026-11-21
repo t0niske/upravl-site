@@ -8,7 +8,7 @@
 <div class="ck" data-cookie hidden role="region" aria-label="Уведомление о cookies">
   <p class="ck-text">
     Сайт использует cookies: они нужны для работы карты и подсчёта посещений.
-    Подробнее — в <a href="/politika-konfidencialnosti/#cookie">политике конфиденциальности</a>
+    Подробнее&nbsp;— в&nbsp;<a href="/politika-konfidencialnosti/#cookie">политике конфиденциальности</a>
   </p>
   <button type="button" class="ck-btn" data-cookie-ok>Понятно</button>
 </div>
@@ -36,7 +36,9 @@
   }
   .ck[hidden] { display: none; }
   @media (min-width: 640px) { .ck { left: 1.5rem; right: auto; bottom: 1.5rem; flex-wrap: nowrap; } }
-  .ck-text { flex: 1; font-size: 0.875rem; line-height: 1.45; }
+  .ck-text { flex: 1 1 100%; font-size: 0.875rem; line-height: 1.45; }
+  .ck-btn { width: 100%; }
+  @media (min-width: 640px) { .ck-text { flex: 1; } .ck-btn { width: auto; } }
   .ck-text a { color: #fff; }
   .ck-btn {
     flex: none; min-height: 2.75rem; padding: 0 1.25rem; border-radius: 10px; background: #fff; color: #034b8e;
