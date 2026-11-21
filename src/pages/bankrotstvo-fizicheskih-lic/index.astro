@@ -195,7 +195,7 @@ const faq = [
     <!-- Документы -->
     <LpSection id="dokumenty" chip="Документы" title="Какие документы понадобятся" lead="Полный список зависит от ситуации, базовый набор — такой. Большую часть можно заказать через Госуслуги, с остальным помогу">
       <ol class="lp-docs">
-        {docs.map((t, i) => <li><span class="lp-num tnum">[{String(i + 1).padStart(2, '0')}]</span><span>{nb(t)}</span></li>)}
+        {docs.map((t, i) => <li><span class="lp-num tnum">{String(i + 1).padStart(2, '0')}</span><span>{nb(t)}</span></li>)}
       </ol>
     </LpSection>
 
@@ -300,8 +300,8 @@ const faq = [
 
   .lp-docs { display: grid; gap: clamp(0.5rem, 1vw, 0.75rem); }
   @media (min-width: 768px) { .lp-docs { grid-template-columns: 1fr 1fr; } }
-  .lp-docs li { display: grid; grid-template-columns: 2.25rem minmax(0, 1fr); gap: 0.75rem; align-items: center; padding: 1.125rem 1.25rem; border-radius: 14px; background: #f3f4f6; font-size: var(--fs-body); line-height: 1.45; color: #2a2d33; }
-  .lp-num { font-size: var(--fs-body); color: #8a8f98; }
+  .lp-docs li { display: grid; grid-template-columns: 1.5rem minmax(0, 1fr); gap: 0.75rem; align-items: center; padding: 1.125rem 1.25rem; border-radius: 14px; background: #f3f4f6; font-size: var(--fs-body); line-height: 1.45; color: #2a2d33; }
+  .lp-num { font-family: var(--font-display); font-weight: 700; font-size: 1.125rem; color: #034b8e; }
 
   /* Долги: как карточка «Что входит в сопровождение» — заголовок с ярлыком и список с квадратиками */
   .dg-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 1rem; margin-bottom: 1rem; }
