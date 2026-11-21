@@ -59,7 +59,7 @@ const included = [
         <div class="hp-actions">
           <a href="#zayavka" class="hp-btn">Бесплатная консультация</a>
           <a href="/yuridicheskie-uslugi/" class="hp-link">
-            Цены на другие юридические услуги
+            Цены на другие юридические&nbsp;услуги
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
           </a>
         </div>
@@ -114,7 +114,9 @@ const included = [
   }
   .hp-btn:hover { background: #0a5aa6; }
   .hp-btn:active { transform: scale(0.98); }
-  .hp-link { display: inline-flex; align-self: flex-start; align-items: center; gap: 0.5rem; font-size: var(--fs-body); font-weight: 500; color: #034b8e; text-decoration: none; }
+  .hp-link { display: flex; align-items: center; justify-content: center; gap: 0.5rem; min-height: clamp(3.25rem, 4vw, 4rem); padding: 0.5rem 1.25rem; border-radius: 10px; background: #e6eef8; font-size: clamp(1rem, 1.15vw, 1.25rem); font-weight: 500; line-height: 1.25; color: #034b8e; text-align: center; text-decoration: none; transition: background-color 150ms var(--ease-out); }
+  .hp-link:hover { background: #d9e6f5; }
+  .hp-link svg { flex: none; }
   .hp-link svg { transition: transform 150ms var(--ease-out); }
   .hp-link:hover svg { transform: translateX(3px); }
   .hp-btn:focus-visible, .hp-link:focus-visible { outline: 2px solid #034b8e; outline-offset: 3px; }

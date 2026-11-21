@@ -76,6 +76,8 @@
   h2 { font-size: var(--fs-h2); line-height: 1.08; letter-spacing: -0.025em; font-weight: 700; }
   h3 { font-size: var(--fs-h3); line-height: 1.2; }
   p { text-wrap: pretty; }
+  /* телефон: строки на всю ширину (balance/pretty в Safari укорачивают строки и оставляют пустоту справа) */
+  @media (max-width: 767px) { h1, h2, h3, h4, p { text-wrap: wrap !important; } }
   a { @apply underline decoration-1 underline-offset-[3px]; text-decoration-color: color-mix(in srgb, currentColor 35%, transparent); transition: text-decoration-color 150ms var(--ease-out), color 150ms var(--ease-out); }
   a:hover { text-decoration-color: currentColor; }
   :focus-visible { outline: 2px solid var(--color-accent); outline-offset: 3px; border-radius: 4px; }
