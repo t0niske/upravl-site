@@ -72,12 +72,13 @@ const included = [
   .hp { padding: clamp(2.5rem, 4vw, 3.5rem) 0; background: #fff; }
   .hp-shell {
     display: grid; gap: clamp(1rem, 2.4vw, 2rem);
-    padding: clamp(0.5rem, 1.1vw, 1rem); border-radius: clamp(16px, 1.6vw, 24px);
+    padding: clamp(1rem, 2.4vw, 2.25rem); border-radius: clamp(16px, 1.6vw, 24px);
     background: linear-gradient(105deg, #034b8e 0%, #053a6e 45%, #0b1a30 100%); color: #fff;
   }
   @media (min-width: 1024px) { .hp-shell { grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr); } }
 
-  .hp-side { display: flex; flex-direction: column; padding: clamp(1rem, 2.4vw, 2.25rem); }
+  /* одинаковый отступ от края панели слева (текст) и справа (белая карточка) */
+  .hp-side { display: flex; flex-direction: column; }
   .hp-chip {
     display: inline-flex; align-self: flex-start; align-items: center; gap: 0.75rem;
     padding: 0.625rem 1.125rem; border-radius: 8px; background: rgb(255 255 255 / 0.1);
