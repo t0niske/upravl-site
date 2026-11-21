@@ -12,9 +12,9 @@ import { contacts } from '../data/site';
 import { nb } from '../data/typo';
 import { faqSchema, type Crumb } from '../data/schema';
 import { Image } from 'astro:assets';
-import imgSubsidiary from '../assets/photos/subsidiary.jpg';
-import imgOffice from '../assets/photos/office.jpg';
-import imgQuiz from '../assets/photos/quiz.jpg';
+import imgMyths from '../assets/blog/myths.jpg';
+import imgManager from '../assets/blog/manager.jpg';
+import imgSubsidiary from '../assets/blog/subsidiary.jpg';
 import { articles, fmtDate } from '../data/articles';
 
 interface Props {
@@ -44,8 +44,8 @@ const hasBody = Astro.slots.has('default');
 
 /** Блок «Статьи» внизу страницы: все статьи сайта, кроме текущей; обложки по адресу */
 const covers: Record<string, ImageMetadata> = {
-  '/stati/mify-o-bankrotstve-grazhdan/': imgQuiz,
-  '/stati/kto-takoj-arbitrazhnyj-upravlyayushchij/': imgOffice,
+  '/stati/mify-o-bankrotstve-grazhdan/': imgMyths,
+  '/stati/kto-takoj-arbitrazhnyj-upravlyayushchij/': imgManager,
   '/bankrotstvo-ur-lica/subsidiarnaya-otvetstvennost/': imgSubsidiary,
 };
 const here = Astro.url.pathname.replace(/\/?$/, '/');
