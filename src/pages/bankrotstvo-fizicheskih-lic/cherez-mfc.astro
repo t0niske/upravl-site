@@ -3,19 +3,24 @@ import Page from '../../layouts/Page.astro';
 import LpSection from '../../components/LpSection.astro';
 import Lawyer from '../../components/Lawyer.astro';
 import HomeReviews from '../../components/HomeReviews.astro';
+import { Image } from 'astro:assets';
 import { nb } from '../../data/typo';
+import imgCar from '../../assets/mfc/bad-car.jpg';
+import imgCreditors from '../../assets/mfc/bad-creditors.jpg';
+import imgDeals from '../../assets/mfc/bad-deals.jpg';
+import imgDebt from '../../assets/mfc/bad-debt.jpg';
 import { law, rub } from '../../data/site';
 import { serviceSchema } from '../../data/schema';
 
 const url = '/bankrotstvo-fizicheskih-lic/cherez-mfc/';
 const description = `Внесудебное банкротство в Томске: бесплатно, долг от ${rub(law.mfcMin)} до ${rub(law.mfcMax)}, около ${law.mfcDurationMonths} месяцев. Проверю условия и список кредиторов до подачи.`;
 
-// Когда МФЦ — плохой выбор: [заголовок, пояснение]
-const bad: [string, string][] = [
-  ['Есть имущество, которое можно продать', 'Например, автомобиль. Тогда кредиторы вправе перевести дело в суд'],
-  ['Вы не уверены, что знаете всех кредиторов', 'Пропущенные долги не спишут, а повторно обратиться можно только через 5 лет'],
-  ['Были сделки с имуществом за последние годы', 'Кредитор может оспорить их уже в судебной процедуре'],
-  [`Долг больше ${rub(law.mfcMax)}`, 'Внесудебный порядок недоступен ни при каком доходе'],
+// Когда МФЦ — плохой выбор: [заголовок, пояснение, картинка]
+const bad: [string, string, ImageMetadata][] = [
+  ['Есть имущество, которое можно продать', 'Например, автомобиль. Тогда кредиторы вправе перевести дело в суд', imgCar],
+  ['Вы не уверены, что знаете всех кредиторов', 'Пропущенные долги не спишут, а повторно обратиться можно только через 5 лет', imgCreditors],
+  ['Были сделки с имуществом за последние годы', 'Кредитор может оспорить их уже в судебной процедуре', imgDeals],
+  [`Долг больше ${rub(law.mfcMax)}`, 'Внесудебный порядок недоступен ни при каком доходе', imgDebt],
 ];
 // Как подать заявление
 const steps = [
@@ -102,11 +107,14 @@ const faq = [
     <!-- Когда не подходит -->
     <LpSection id="ne-podhodit" chip="Ограничения" title="Когда МФЦ — плохой выбор" lead="В этих случаях внесудебная процедура не спишет долги или её прекратят. Тогда нужно судебное банкротство" bg="grey">
       <ul class="mf-grid">
-        {bad.map(([h, t], i) => (
+        {bad.map(([h, t, img], i) => (
           <li class="mf-card">
-            <span class="mf-n tnum">{String(i + 1).padStart(2, '0')}</span>
-            <h3 class="mf-h">{nb(h)}</h3>
-            <p class="mf-t">{nb(t)}</p>
+            <Image src={img} alt="" widths={[400, 640]} sizes="(min-width: 1280px) 22vw, (min-width: 768px) 45vw, 92vw" class="mf-img" loading="lazy" />
+            <div class="mf-body">
+              <span class="mf-n tnum">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="mf-h">{nb(h)}</h3>
+              <p class="mf-t">{nb(t)}</p>
+            </div>
           </li>
         ))}
       </ul>
@@ -249,8 +257,10 @@ const faq = [
   .mf-grid { display: grid; gap: 0.75rem; }
   @media (min-width: 768px) { .mf-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (min-width: 1280px) { .mf-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-  .mf-card { display: flex; flex-direction: column; padding: clamp(1.25rem, 2vw, 1.75rem); border-radius: 18px; background: #fff; }
+  .mf-card { display: flex; flex-direction: column; overflow: hidden; border-radius: 18px; background: #fff; }
+  .mf-img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
+  .mf-body { display: flex; flex-direction: column; padding: clamp(1.25rem, 2vw, 1.75rem); }
   .mf-n { font-family: var(--font-display); font-weight: 700; font-size: 1.125rem; color: #034b8e; }
-  .mf-h { margin-top: clamp(1rem, 2vw, 2rem); font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; color: #1d1e21; text-wrap: wrap; }
+  .mf-h { margin-top: 0.75rem; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; color: #1d1e21; text-wrap: wrap; }
   .mf-t { margin-top: 0.625rem; font-size: var(--fs-body); line-height: 1.45; color: #5f646d; }
 </style>
