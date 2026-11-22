@@ -17,6 +17,7 @@ for (const file of walk(out)) {
   s = s.replace(/((?:href|src|action|content)=["'])\/(?!\/)/g, `$1${base}/`);
   s = s.replace(/(srcset=["'])([^"']+)/g, (_, a, v) => a + v.replace(/(^|,\s*)\/(?!\/)/g, `$1${base}/`));
   s = s.replace(/url\(\s*(["']?)\/(?!\/)/g, `url($1${base}/`);
+  s = s.replace(/(content=["']\d+;\s*url=)\/(?!\/)/g, `$1${base}/`);
   if (ext === '.html') s = s.replace('<head>', '<head><meta name="robots" content="noindex, nofollow">');
   writeFileSync(file, s);
 }

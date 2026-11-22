@@ -126,7 +126,7 @@ export const services: (NavItem & { lead: string })[] = [
     lead: 'Списание долгов через Арбитражный суд Томской области. Под ключ — от 125 000 ₽, рассрочка.',
   },
   {
-    href: '/bankrotstvo-fizicheskih-lic/cherez-mfc/',
+    href: '/bankrotstvo-cherez-mfc/',
     label: 'Банкротство через МФЦ',
     lead: `Бесплатно, при долге от 25 000 до 1 000 000 ₽ и оконченном исполнительном производстве.`,
   },
@@ -176,7 +176,7 @@ export const servicesMenu: MenuColumn[] = [
     title: 'Гражданам',
     items: [
       { href: '/bankrotstvo-fizicheskih-lic/', label: 'Банкротство физических лиц', icon: 'court' },
-      { href: '/bankrotstvo-fizicheskih-lic/cherez-mfc/', label: 'Бесплатно через МФЦ', icon: 'mfc' },
+      { href: '/bankrotstvo-cherez-mfc/', label: 'Бесплатно через МФЦ', icon: 'mfc' },
       { href: '/bankrotstvo-ip/', label: 'Банкротство ИП', icon: 'store' },
       // «С ипотекой», «Пенсионерам» — добавить, когда появятся страницы (карта сайта v2, P1)
     ],
@@ -206,7 +206,7 @@ export const knowMenu: MenuColumn[] = [
     title: 'Как это работает',
     items: [
       { href: '/bankrotstvo-fizicheskih-lic/', label: 'Как проходит банкротство через суд' },
-      { href: '/bankrotstvo-fizicheskih-lic/cherez-mfc/', label: 'Как пройти банкротство через МФЦ' },
+      { href: '/bankrotstvo-cherez-mfc/', label: 'Как пройти банкротство через МФЦ' },
       { href: '/stati/kto-takoj-arbitrazhnyj-upravlyayushchij/', label: 'Кто такой арбитражный управляющий' },
       { href: '', label: 'Банкротство или реструктуризация' },
     ],

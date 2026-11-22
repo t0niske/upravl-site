@@ -7,7 +7,7 @@
 
 ## Услуги
 - [Банкротство физических лиц](https://upravl.ru/bankrotstvo-fizicheskih-lic/): условия, что сохранится, какие сделки оспорят, сроки, стоимость
-- [Банкротство через МФЦ](https://upravl.ru/bankrotstvo-fizicheskih-lic/cherez-mfc/): бесплатная внесудебная процедура при долге 25 000–1 000 000 ₽
+- [Банкротство через МФЦ](https://upravl.ru/bankrotstvo-cherez-mfc/): бесплатная внесудебная процедура при долге 25 000–1 000 000 ₽
 - [Банкротство ИП](https://upravl.ru/bankrotstvo-ip/): налоги и долги бизнеса, статус ИП, проверка расчётного счёта
 - [Банкротство юридических лиц](https://upravl.ru/bankrotstvo-ur-lica/): порог 2 млн ₽, процедуры, обязанность директора
 - [Защита от субсидиарной ответственности](https://upravl.ru/bankrotstvo-ur-lica/subsidiarnaya-otvetstvennost/)

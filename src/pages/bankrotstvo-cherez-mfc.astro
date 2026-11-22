@@ -1,19 +1,19 @@
 ---
-import Page from '../../layouts/Page.astro';
-import LpSection from '../../components/LpSection.astro';
-import Lawyer from '../../components/Lawyer.astro';
-import HomeReviews from '../../components/HomeReviews.astro';
+import Page from '../layouts/Page.astro';
+import LpSection from '../components/LpSection.astro';
+import Lawyer from '../components/Lawyer.astro';
+import HomeReviews from '../components/HomeReviews.astro';
 import { Image } from 'astro:assets';
-import { nb } from '../../data/typo';
-import imgCar from '../../assets/mfc/bad-car.jpg';
-import imgCreditors from '../../assets/mfc/bad-creditors.jpg';
-import imgDeals from '../../assets/mfc/bad-deals.jpg';
-import imgDebt from '../../assets/mfc/bad-debt.jpg';
-import heroBg from '../../assets/mfc/hero-bg.jpg';
-import { law, rub } from '../../data/site';
-import { serviceSchema } from '../../data/schema';
+import { nb } from '../data/typo';
+import imgCar from '../assets/mfc/bad-car.jpg';
+import imgCreditors from '../assets/mfc/bad-creditors.jpg';
+import imgDeals from '../assets/mfc/bad-deals.jpg';
+import imgDebt from '../assets/mfc/bad-debt.jpg';
+import heroBg from '../assets/mfc/hero-bg.jpg';
+import { law, rub } from '../data/site';
+import { serviceSchema } from '../data/schema';
 
-const url = '/bankrotstvo-fizicheskih-lic/cherez-mfc/';
+const url = '/bankrotstvo-cherez-mfc/';
 const description = `Внесудебное банкротство в Томске: бесплатно, долг от ${rub(law.mfcMin)} до ${rub(law.mfcMax)}, около ${law.mfcDurationMonths} месяцев. Проверю условия и список кредиторов до подачи.`;
 
 // Когда МФЦ — плохой выбор: [заголовок, пояснение, картинка]
