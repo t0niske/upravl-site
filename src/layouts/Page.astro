@@ -123,10 +123,8 @@ const relArticles = knowMenu
   {relArticles.length > 0 && (
     <section class="rel" aria-labelledby="related-title">
       <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
-        <div class="rel-head">
-          <h2 id="related-title" class="rel-title">Всё о банкротстве</h2>
-          <a href="/stati/" class="rel-all">Все статьи <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg></a>
-        </div>
+        <span class="rel-chip"><span class="rel-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Блог</span>
+        <h2 id="related-title" class="rel-title">Всё о банкротстве</h2>
         <ul class="rel-grid">
           {relArticles.map((a) => (
             <li>
@@ -142,6 +140,10 @@ const relArticles = knowMenu
             </li>
           ))}
         </ul>
+        <a href="/stati/" class="rel-more">
+          Все статьи блога
+          <span class="rel-more-ic" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
+        </a>
       </div>
     </section>
   )}
@@ -284,9 +286,14 @@ const relArticles = knowMenu
   .rel-img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; transition: transform 300ms var(--ease-out); }
   .rel-card:hover .rel-img { transform: scale(1.03); }
   .rel-body { position: relative; z-index: 1; display: flex; flex: 1; flex-direction: column; padding: clamp(1.25rem, 2vw, 1.75rem); background: #fff; }
-  .rel-head { display: flex; flex-wrap: wrap; align-items: flex-end; justify-content: space-between; gap: 1rem 2rem; }
-  .rel-all { display: inline-flex; align-items: center; gap: 0.375rem; font-weight: 600; font-size: var(--fs-body); color: #034b8e; text-decoration: none; }
-  .rel-all:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .rel-chip { display: inline-flex; align-items: center; gap: 0.75rem; margin-bottom: clamp(1.25rem, 2vw, 1.75rem); padding: 0.625rem 1.125rem; border-radius: 8px; background: #fff; font-size: clamp(1rem, 1.1vw, 1.1875rem); line-height: 1.2; color: #1d1e21; }
+  .rel-sq { display: grid; grid-template-columns: 5px 5px; grid-auto-rows: 5px; gap: 2px; }
+  .rel-sq i { width: 5px; height: 5px; border-radius: 1px; background: #034b8e; }
+  /* «Все статьи блога» — широкая белая плашка под карточками */
+  .rel-more { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-top: clamp(0.75rem, 1.4vw, 1.25rem); padding: 0.75rem 0.75rem 0.75rem clamp(1.25rem, 2vw, 1.75rem); border-radius: 16px; background: #fff; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; color: #1d1e21; text-decoration: none; transition: box-shadow 150ms var(--ease-out); }
+  .rel-more:hover { box-shadow: inset 0 0 0 2px #034b8e; }
+  .rel-more-ic { display: grid; flex: none; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 8px; background: #034b8e; color: #fff; }
+  .rel-more:focus-visible { outline: 2px solid #034b8e; outline-offset: 3px; }
   .rel-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 0.875rem; margin-bottom: 0.875rem; font-size: 0.875rem; color: #7c818a; }
   .rel-tag { padding: 0.3125rem 0.625rem; border-radius: 8px; background: #e6eef8; font-size: 0.875rem; font-weight: 500; line-height: 1.3; color: #034b8e; }
   .rel-name { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; }
