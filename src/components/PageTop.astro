@@ -8,13 +8,13 @@ import SiteHeader from './SiteHeader.astro';
 import court from '../assets/page-bg-desk.png';
 import type { Crumb } from '../data/schema';
 
-interface Props { crumbs?: Crumb[] }
-const { crumbs = [] } = Astro.props;
+interface Props { crumbs?: Crumb[]; bg?: ImageMetadata }
+const { crumbs = [], bg = court } = Astro.props;
 ---
 
 <section class="pt relative z-40 isolate overflow-hidden text-white">
   <div class="pt-bg absolute inset-0 -z-10" aria-hidden="true">
-    <Image src={court} alt="" widths={[960, 1600, 2400]} sizes="100vw" class="pt-court" loading="eager" />
+    <Image src={bg} alt="" widths={[960, 1600, 2400]} sizes="100vw" class="pt-court" loading="eager" />
   </div>
   <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
     <SiteHeader />

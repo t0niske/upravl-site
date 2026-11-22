@@ -36,10 +36,12 @@ interface Props {
   cta?: boolean;
   /** плашка с фото управляющего рядом с кнопкой на первом экране */
   expert?: boolean;
+  /** свой фон первого экрана */
+  heroBg?: ImageMetadata;
 }
 const {
   title, description, h1, eyebrow, crumbs, facts = [], faq = [], related = [], schema = [],
-  published, ogType = 'website', formTitle, formText, topic, cta = true, expert = false,
+  published, ogType = 'website', formTitle, formText, topic, cta = true, expert = false, heroBg,
 } = Astro.props;
 const allSchema = [...schema, ...(faq.length ? [faqSchema(faq)] : [])];
 // страница из блоков (без сплошного текста) — тогда отметка «Обновлено» уходит в синюю полосу
@@ -61,7 +63,7 @@ const relArticles = knowMenu
   .filter((a) => !here.endsWith(a.href))
   .slice(0, 3);
 ---
-<Base title={title} description={description} crumbs={crumbs} schema={allSchema} ogType={ogType}>
+<Base title={title} description={description} crumbs={crumbs} schema={allSchema} ogType={ogType} heroBg={heroBg}>
   <Fragment slot="top">
     <div class="ph">
       <h1 class="ph-title">{nb(h1)}</h1>
@@ -244,6 +246,8 @@ const relArticles = knowMenu
     .ph-person::after { display: none; }
     .ph-person + .ph-fact::before { display: block; }
   }
+  /* на широком экране имя в одну строку; на 1280–1439 может переноситься, чтобы не наезжать на цифры */
+  @media (min-width: 1440px) { .ph-person b { white-space: nowrap; } }
 
   /* Текст и липкая карточка */
   .pg { padding: clamp(2.5rem, 4vw, 3.5rem) 0 clamp(3rem, 5vw, 4.5rem); background: #fff; }

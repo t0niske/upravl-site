@@ -9,6 +9,7 @@ import imgCar from '../../assets/mfc/bad-car.jpg';
 import imgCreditors from '../../assets/mfc/bad-creditors.jpg';
 import imgDeals from '../../assets/mfc/bad-deals.jpg';
 import imgDebt from '../../assets/mfc/bad-debt.jpg';
+import heroBg from '../../assets/mfc/hero-bg.jpg';
 import { law, rub } from '../../data/site';
 import { serviceSchema } from '../../data/schema';
 
@@ -70,6 +71,7 @@ const faq = [
   faq={faq}
   topic="Банкротство через МФЦ"
   expert
+  heroBg={heroBg}
   formTitle="Проверю, пройдёт ли ваше заявление в МФЦ"
   formText="Если по условиям подходит МФЦ, скажу об этом прямо — судебная процедура вам не нужна. Помогу составить полный список кредиторов, чтобы ни один долг не остался."
   schema={[serviceSchema({ name: 'Внесудебное банкротство гражданина через МФЦ', url, description })]}
