@@ -239,7 +239,7 @@ const relArticles = knowMenu
   }
   @media (min-width: 1280px) {
     .ph-facts.has-person { grid-template-columns: minmax(0, 1.25fr) repeat(4, auto); align-items: center; }
-    .ph-facts.has-person .ph-fact dd { white-space: nowrap; }
+    .ph-facts.has-person .ph-fact:not(.ph-person) dd { white-space: nowrap; }
     .ph-person { grid-column: auto; padding-bottom: 0; }
     .ph-person::after { display: none; }
     .ph-person + .ph-fact::before { display: block; }
