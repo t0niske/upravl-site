@@ -1,7 +1,8 @@
 ---
 import Page from '../layouts/Page.astro';
 import LpSection from '../components/LpSection.astro';
-import Lawyer from '../components/Lawyer.astro';
+import portrait from '../assets/antonets-hero.png';
+import { person } from '../data/site';
 import HomeReviews from '../components/HomeReviews.astro';
 import { Image } from 'astro:assets';
 import { nb } from '../data/typo';
@@ -10,7 +11,7 @@ import imgCreditors from '../assets/mfc/bad-creditors.jpg';
 import imgDeals from '../assets/mfc/bad-deals.jpg';
 import imgDebt from '../assets/mfc/bad-debt.jpg';
 import heroBg from '../assets/mfc/hero-bg.jpg';
-import { law, rub } from '../data/site';
+import { law, pricing, rub } from '../data/site';
 import { serviceSchema } from '../data/schema';
 
 const url = '/bankrotstvo-cherez-mfc/';
@@ -30,6 +31,26 @@ const steps = [
   'Составьте список кредиторов по установленной форме: кто, по какому договору, сколько',
   'Подайте заявление в МФЦ по месту жительства или пребывания. МФЦ проверяет сведения и в течение нескольких рабочих дней включает их в ЕФРСБ',
   `Через ${law.mfcDurationMonths} месяцев процедура завершается, и долги из списка списываются`,
+];
+// Что такое: главное о процедуре и сравнение с судом
+const basics = [
+  'Процедура бесплатная: госпошлины и вознаграждения управляющему нет',
+  'Заявление гражданин подаёт сам в МФЦ по месту жительства или пребывания',
+  `Через ${law.mfcDurationMonths} месяцев после включения сведений в ЕФРСБ долги из заявления списываются`,
+  'Списывают только долги, которые указаны в заявлении',
+];
+const compare: [string, string, string][] = [
+  ['Стоимость', 'бесплатно', `от ${rub(pricing.citizenTurnkey)} + депозит ${rub(law.fuDeposit)}`],
+  ['Сумма долга', `от ${rub(law.mfcMin)} до ${rub(law.mfcMax)}`, 'любая'],
+  ['Кто ведёт', 'МФЦ, без суда и управляющего', 'Арбитражный суд и финансовый управляющий'],
+  ['Срок', `${law.mfcDurationMonths} месяцев`, `от ${law.realizationMonths} месяцев`],
+  ['Имущество', 'для тех, с кого взыскать нечего', 'имущество сверх защищённого продают на торгах'],
+];
+// Зачем юрист: три карточки под синей панелью
+const why: [string, string][] = [
+  ['Проверю, подходит ли вам МФЦ', 'Смотрю постановление пристава, сумму долгов и имущество. Если МФЦ не подходит, скажу прямо и объясню, какая процедура нужна'],
+  ['Соберу полный список кредиторов', 'По кредитным историям из всех бюро находим старые микрозаймы, долги, проданные коллекторам, налоги и ЖКХ. Пропущенный долг не спишут'],
+  ['Сниму риск возврата заявления', 'МФЦ возвращает заявление, если не то основание окончания производства, есть другое неоконченное производство или сумма вне пределов. Проверяю это до подачи'],
 ];
 const during = ['Кредиторы не могут взыскивать долги, указанные в заявлении', 'Перестают начисляться неустойки и проценты'];
 const limits = ['Брать новые кредиты и займы нельзя', 'О новом имуществе или доходе нужно сообщить, иначе кредиторы смогут оспорить процедуру'];
@@ -81,6 +102,26 @@ const faq = [
   </Fragment>
 
   <Fragment slot="after">
+    <!-- Что такое -->
+    <LpSection id="chto-eto" chip="Что это" title="Что такое банкротство через МФЦ" lead="Внесудебное банкротство — бесплатная процедура через МФЦ для граждан, с которых приставы ничего не смогли взыскать. Она проще судебной: заявление подаёте сами, суд и финансовый управляющий не нужны" bg="grey">
+      <div class="ce-wrap">
+        <div class="lp-card">
+          <h3 class="dg-h">Главное о процедуре</h3>
+          <ul class="dg-list ce-list">{basics.map((t) => <li><span class="lp-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>{nb(t)}</span></li>)}</ul>
+          <a href="#zayavka" class="lp-btn ce-btn">Проверить, подойдёт ли МФЦ</a>
+        </div>
+        <div class="lp-card ce-card">
+          <table class="ce-table">
+            <caption class="sr-only">Сравнение банкротства через МФЦ и через суд</caption>
+            <thead><tr><th scope="col"><span class="sr-only">Параметр</span></th><th scope="col" class="is-mfc">Через МФЦ</th><th scope="col">Через суд</th></tr></thead>
+            <tbody>
+              {compare.map(([k, a, b]) => <tr><th scope="row">{k}</th><td class="is-mfc">{nb(a)}</td><td>{nb(b)}</td></tr>)}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </LpSection>
+
     <!-- Кому подходит -->
     <LpSection id="komu" chip="Кому подходит" title="Кто может пройти банкротство через МФЦ" lead="Условия установлены ст. 223.2 закона о банкротстве. Основной сценарий — должник, с которого приставы ничего не смогли взыскать">
       <div class="lp-two">
@@ -103,8 +144,31 @@ const faq = [
       </a>
     </LpSection>
 
-    <!-- Кто ведёт дело -->
-    <Lawyer />
+    <!-- Зачем юрист, если процедура бесплатная -->
+    <section class="wy-sec" aria-labelledby="wy-title">
+      <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
+        <div class="wy-panel">
+          <div class="wy-text">
+            <h2 id="wy-title" class="wy-h"><span>Зачем юрист,</span> если процедура бесплатная?</h2>
+            <p class="wy-t">{nb('Одна ошибка в заявлении — и долг останется или МФЦ вернёт документы. А повторно обратиться можно только через 5 лет. Я веду дела о банкротстве больше 25 лет и знаю, где обычно ошибаются')}</p>
+            <a href="#zayavka" class="wy-btn">Бесплатная консультация</a>
+          </div>
+          <figure class="wy-fig">
+            <Image src={portrait} alt={person.name} widths={[480, 720, 1000]} sizes="(min-width: 1024px) 30vw, 1px" class="wy-img" loading="lazy" />
+            <figcaption class="wy-badge"><span>{person.name}</span><span>{person.job}</span></figcaption>
+          </figure>
+        </div>
+        <ol class="wy-cards">
+          {why.map(([h, t], i) => (
+            <li class="wy-card">
+              <span class="wy-steps" aria-hidden="true">{[0, 1, 2].map((k) => <i class:list={[k <= i && 'is-on']}></i>)}</span>
+              <h3 class="wy-ch">{nb(h)}</h3>
+              <p class="wy-ct">{nb(t)}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
 
     <!-- Когда не подходит -->
     <LpSection id="ne-podhodit" chip="Ограничения" title="Когда МФЦ — плохой выбор" lead="В этих случаях внесудебная процедура не спишет долги или её прекратят. Тогда нужно судебное банкротство" bg="grey">
@@ -255,6 +319,60 @@ const faq = [
   .sd-list li:last-child { border-bottom: 1px solid rgb(29 30 33 / 0.1); }
   .sd-n { color: #8a8f98; }
   @media (max-width: 639px) { .sd-list li { grid-template-columns: 2.75rem minmax(0, 1fr); gap: 0.75rem; } }
+  /* Что такое: карточка «главное» + таблица сравнения с судом */
+  .ce-wrap { display: grid; gap: clamp(0.75rem, 1.4vw, 1.25rem); }
+  @media (min-width: 1024px) { .ce-wrap { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
+  .ce-list { margin: 1rem 0 1.5rem; }
+  .lp-btn.ce-btn { align-self: flex-start; margin-top: auto; }
+  @media (max-width: 639px) { .lp-btn.ce-btn { align-self: stretch; } }
+  .ce-table { width: 100%; border-collapse: collapse; font-size: var(--fs-body); line-height: 1.4; color: #1d1e21; }
+  .ce-table th, .ce-table td { padding: 0.75rem 0.75rem 0.75rem 0; text-align: left; vertical-align: top; font-weight: 400; }
+  .ce-table thead th { padding-top: 0; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.15; letter-spacing: -0.015em; }
+  .ce-table thead th.is-mfc { color: #034b8e; }
+  .ce-table tbody tr { border-top: 1px solid rgb(29 30 33 / 0.1); }
+  .ce-table tbody th { width: 24%; font-size: 0.9375rem; color: #7c818a; }
+  .ce-table td { width: 38%; }
+  .ce-table td.is-mfc { font-weight: 600; color: #034b8e; }
+  .ce-table tbody tr:last-child > * { padding-bottom: 0; }
+  /* телефон: подпись строкой сверху, под ней две колонки «МФЦ / суд» */
+  @media (max-width: 639px) {
+    .ce-table thead tr, .ce-table tbody tr { display: grid; grid-template-columns: 1fr 1fr; column-gap: 1rem; }
+    .ce-table thead th:first-child { display: none; }
+    .ce-table thead th { padding: 0 0 0.75rem; font-size: 1.125rem; }
+    .ce-table tbody tr { padding: 0.75rem 0; }
+    .ce-table tbody th { grid-column: 1 / -1; width: auto; padding: 0 0 0.375rem; }
+    .ce-table td { width: auto; padding: 0; }
+    .ce-table tbody tr:last-child { padding-bottom: 0; }
+  }
+  /* Зачем юрист: синяя панель с вырезанным фото, под ней три белые карточки внахлёст */
+  .wy-sec { padding: clamp(3.5rem, 6vw, 6rem) 0 clamp(2.5rem, 4vw, 3.5rem); background: #fff; }
+  .wy-panel { position: relative; display: grid; padding: clamp(1.5rem, 3.4vw, 3.5rem) clamp(1.25rem, 3.4vw, 3.5rem) clamp(4rem, 7vw, 7.5rem); border-radius: clamp(18px, 1.8vw, 28px); background: linear-gradient(105deg, #034b8e 0%, #053a6e 45%, #0b1a30 100%); color: #fff; }
+  .wy-text { position: relative; z-index: 1; max-width: 40rem; }
+  .wy-h { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h2); line-height: 1.08; letter-spacing: -0.025em; color: #fff; }
+  .wy-h span { color: #9cc3ef; }
+  .wy-t { margin-top: 1.25rem; font-size: var(--fs-lead); line-height: 1.45; color: rgb(255 255 255 / 0.85); }
+  .wy-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 3.25rem; margin-top: 1.75rem; padding: 0 1.75rem; border-radius: 10px; background: #fff; color: #034b8e; font-weight: 600; font-size: 1rem; text-decoration: none; transition: background-color 150ms var(--ease-out); }
+  .wy-btn:hover { background: #e6eef8; }
+  @media (max-width: 639px) { .wy-btn { width: 100%; } }
+  .wy-fig { display: none; }
+  @media (min-width: 1024px) {
+    .wy-panel { min-height: 26rem; }
+    .wy-text { max-width: min(40rem, 56%); }
+    .wy-fig { position: absolute; display: block; right: 0; bottom: 0; top: 0; width: 42%; }
+    .wy-img { position: absolute; right: 12%; bottom: 0; width: auto; height: calc(100% + 3.5rem); }
+    .wy-badge { position: absolute; z-index: 1; right: 1.75rem; bottom: clamp(4rem, 7vw, 7.5rem); padding: 1rem 1.25rem; border-radius: 16px; background: rgb(255 255 255 / 0.72); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); font-size: 1rem; line-height: 1.25; color: #1d1e21; }
+    .wy-badge span { display: block; }
+    .wy-badge span:first-child { font-family: var(--font-display); font-weight: 700; font-size: 1.15em; }
+    .wy-badge span + span { margin-top: 0.25rem; color: #5f646d; }
+  }
+  .wy-cards { position: relative; z-index: 2; display: grid; gap: 0.75rem; margin: calc(-1 * clamp(2.5rem, 5vw, 5rem)) clamp(0.75rem, 2vw, 2rem) 0; padding: 0.75rem; border-radius: 22px; background: #f3f4f6; }
+  @media (min-width: 1024px) { .wy-cards { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .wy-card { padding: clamp(1.25rem, 2vw, 1.75rem); border-radius: 16px; background: #fff; }
+  .wy-steps { display: flex; gap: 4px; }
+  .wy-steps i { width: 10px; height: 10px; border-radius: 2px; background: #d7e3f1; }
+  .wy-steps i.is-on { background: #034b8e; }
+  .wy-ch { margin-top: 1rem; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; color: #1d1e21; }
+  .wy-ct { margin-top: 0.625rem; font-size: var(--fs-body); line-height: 1.45; color: #5f646d; }
   /* Когда МФЦ — плохой выбор: белые карточки с синим номером */
   .mf-grid { display: grid; gap: 0.75rem; }
   @media (min-width: 768px) { .mf-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
