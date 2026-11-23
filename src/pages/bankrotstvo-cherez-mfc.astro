@@ -46,6 +46,8 @@ const compare: [string, string, string][] = [
   ['Срок', `${law.mfcDurationMonths} месяцев`, `от ${law.realizationMonths} месяцев`],
   ['Имущество', 'для тех, с кого взыскать нечего', 'имущество сверх защищённого продают на торгах'],
 ];
+// Цифры — те же, что в блоке юриста и «Обо мне»
+const stats = [['25+ лет', 'в банкротстве'], ['250+', 'процедур банкротства'], ['320+ млн ₽', 'списанных долгов']];
 // Зачем юрист: три карточки под синей панелью
 const why: [string, string][] = [
   ['Проверю, подходит ли вам МФЦ', 'Смотрю постановление пристава, сумму долгов и имущество. Если МФЦ не подходит, скажу прямо и объясню, какая процедура нужна'],
@@ -150,7 +152,8 @@ const faq = [
         <div class="wy-panel">
           <div class="wy-text">
             <h2 id="wy-title" class="wy-h"><span>Зачем юрист,</span> если процедура бесплатная?</h2>
-            <p class="wy-t">{nb('Одна ошибка в заявлении — и долг останется или МФЦ вернёт документы. А повторно обратиться можно только через 5 лет. Я веду дела о банкротстве больше 25 лет и знаю, где обычно ошибаются')}</p>
+            <p class="wy-t">{nb('Одна ошибка в заявлении — и долг останется или МФЦ вернёт документы. А повторно обратиться можно только через 5 лет. Я знаю, где обычно ошибаются')}</p>
+            <dl class="wy-stats">{stats.map(([v, l]) => <div><dt class="tnum">{v}</dt><dd>{l}</dd></div>)}</dl>
             <a href="#zayavka" class="wy-btn">Бесплатная консультация</a>
           </div>
           <figure class="wy-fig">
@@ -351,6 +354,15 @@ const faq = [
   .wy-h { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h2); line-height: 1.08; letter-spacing: -0.025em; color: #fff; }
   .wy-h span { color: #9cc3ef; }
   .wy-t { margin-top: 1.25rem; font-size: var(--fs-lead); line-height: 1.45; color: rgb(255 255 255 / 0.85); }
+  .wy-stats { display: flex; flex-wrap: wrap; gap: 1rem 2.5rem; margin-top: 1.75rem; padding-top: 1.5rem; border-top: 1px solid rgb(255 255 255 / 0.16); }
+  .wy-stats dt { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.5rem, 2vw, 1.875rem); line-height: 1.1; letter-spacing: -0.02em; color: #fff; white-space: nowrap; }
+  .wy-stats dd { margin-top: 0.25rem; font-size: 0.9375rem; color: rgb(255 255 255 / 0.7); }
+  @media (max-width: 639px) {
+    .wy-stats { display: grid; gap: 0; padding-top: 0; }
+    .wy-stats > div { display: grid; grid-template-columns: 8.25rem minmax(0, 1fr); column-gap: 0.75rem; align-items: center; padding: 0.875rem 0; border-bottom: 1px solid rgb(255 255 255 / 0.12); }
+    .wy-stats dt { font-size: 1.5rem; }
+    .wy-stats dd { margin-top: 0; font-size: 1rem; }
+  }
   .wy-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 3.25rem; margin-top: 1.75rem; padding: 0 1.75rem; border-radius: 10px; background: #fff; color: #034b8e; font-weight: 600; font-size: 1rem; text-decoration: none; transition: background-color 150ms var(--ease-out); }
   .wy-btn:hover { background: #e6eef8; }
   @media (max-width: 639px) { .wy-btn { width: 100%; } }
