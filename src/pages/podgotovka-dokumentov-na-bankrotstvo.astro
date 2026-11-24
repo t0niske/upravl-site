@@ -6,6 +6,7 @@ import HomeReviews from '../components/HomeReviews.astro';
 import { nb } from '../data/typo';
 import { law, rub, pricing } from '../data/site';
 import { docs } from '../data/docs';
+import { priceGroups } from '../data/prices';
 import { serviceSchema } from '../data/schema';
 import heroBg from '../assets/dokumenty/hero-bg.jpg';
 import '../styles/lp.css';
@@ -20,9 +21,8 @@ const work: [string, string][] = [
   ['Пишу заявление о признании банкротом', 'с описанием долгов и имущества'],
   ['Составляю список кредиторов', 'кто, по какому договору и сколько'],
 ];
-// Самостоятельно с документами или под ключ
-const self = ['Заявление и список кредиторов готовлю я', 'В суд подаёте и на заседания ходите сами', `Депозит ${rub(law.fuDeposit)} и публикации оплачиваете отдельно`];
-const turnkey = ['Разбор долгов, имущества и сделок за 3 года', 'Сбор справок и выписок, заявление в суд', 'Представительство в Арбитражном суде', 'Сопровождение до определения о списании долгов'];
+// Цены — строки прайса (src/data/prices.ts)
+const rows = priceGroups.find((g) => g.id === 'bankrotstvo')!.rows.slice(0, 3);
 
 const faq = [
   {
@@ -36,10 +36,6 @@ const faq = [
   {
     q: 'Какие расходы будут кроме оплаты юриста?',
     a: `Закон требует внести ${rub(law.fuDeposit)} на депозит суда для вознаграждения финансового управляющего и оплатить публикации в ЕФРСБ и «Коммерсанте». Эти суммы платит любой заявитель.`,
-  },
-  {
-    q: 'Можно ли подать заявление самому?',
-    a: 'Да. Можно заказать только заявление и список кредиторов — от 12 000 ₽, а подать их в суд и ходить на заседания самостоятельно. Если понадобится помощь на заседании, представительство стоит от 5 000 ₽ за заседание.',
   },
   {
     q: 'За какой период нужны справки и выписки?',
@@ -78,7 +74,7 @@ const faq = [
   ]}
 >
   <Fragment slot="lead">
-    <p>{nb('Составлю заявление о признании банкротом и список кредиторов, подскажу, какие справки собрать. Подаёте в суд сами или со мной')}</p>
+    <p>{nb('Составлю заявление о признании банкротом и список кредиторов, подскажу, какие справки собрать. Большую часть можно заказать через Госуслуги')}</p>
   </Fragment>
 
   <Fragment slot="after">
@@ -107,22 +103,22 @@ const faq = [
     <!-- Кто готовит -->
     <Lawyer />
 
-    <!-- Сами или под ключ -->
-    <LpSection id="variant" chip="Варианты" title="Только документы или сопровождение под ключ" lead="Можно взять только подготовку документов, а в суд ходить самостоятельно" bg="grey">
-      <div class="lp-two">
-        <div class="lp-card">
-          <div class="dg-head"><h3 class="dg-h">Только документы</h3><span class="dg-tag is-grey">от 12 000 ₽</span></div>
-          <ul class="dg-list">{self.map((t) => <li><span class="lp-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>{nb(t)}</span></li>)}</ul>
+    <!-- Цены -->
+    <LpSection id="ceny" chip="Цены" title="Сколько стоит подготовка документов" lead="Обязательные расходы — депозит 25 000 ₽ и публикации — оплачиваются отдельно" bg="grey">
+      <section class="pr-card" aria-labelledby="doc-h">
+        <div>
+          <h3 id="doc-h" class="pr-h">Цены на услуги по банкротству</h3>
+          <p class="pr-t">{nb('Цена «от» — минимальная стоимость простого дела. Итоговую называю до начала работы и фиксирую в договоре')}</p>
         </div>
-        <div class="lp-card">
-          <div class="dg-head"><h3 class="dg-h">Под ключ</h3><span class="dg-tag">от {rub(pricing.citizenTurnkey)}</span></div>
-          <ul class="dg-list">{turnkey.map((t) => <li><span class="lp-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>{nb(t)}</span></li>)}</ul>
-        </div>
-      </div>
-      <a href="/bankrotstvo-fizicheskih-lic/" class="lp-strip">
-        <span>{nb(`Под ключ — рассрочка от ${rub(pricing.citizenInstallmentFrom)} в месяц.`)} {nb('Посмотрите, как проходит банкротство через суд')}</span>
-        <span class="lp-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
-      </a>
+        <ul>
+          {rows.map((r) => (
+            <li class="pr-row">
+              <span class="pr-s">{nb(r.service)}{r.note && <span class="pr-note">{nb(r.note)}</span>}</span>
+              <span class="pr-p tnum">{r.price}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
     </LpSection>
 
     <HomeReviews />

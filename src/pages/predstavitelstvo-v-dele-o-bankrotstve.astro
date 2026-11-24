@@ -7,6 +7,7 @@ import HomeReviews from '../components/HomeReviews.astro';
 import { nb } from '../data/typo';
 import { law, rub, pricing } from '../data/site';
 import { serviceSchema } from '../data/schema';
+import { priceGroups } from '../data/prices';
 import heroBg from '../assets/predstavitelstvo/hero-bg.jpg';
 import '../styles/lp.css';
 
@@ -21,17 +22,13 @@ const work: [string, string][] = [
   ['Имущество', 'отстаиваю то, что защищено законом: единственное жильё, вещи обихода, прожиточный минимум'],
   ['Завершение процедуры', 'заседание, на котором суд освобождает от долгов'],
 ];
-const single = ['Вы готовите заявление сами или заказываете его отдельно — от 12 000 ₽', 'Я прихожу на заседания, которые вам нужны', 'Удобно, если дело уже идёт и нужна помощь на конкретном этапе'];
-const turnkey = ['Разбор долгов, имущества и сделок за 3 года', 'Сбор справок и выписок, заявление в суд', 'Представительство на всех заседаниях', 'Сопровождение до определения о списании долгов'];
+// Цены — строки прайса (src/data/prices.ts)
+const rows = priceGroups.find((g) => g.id === 'bankrotstvo')!.rows.slice(0, 3);
 
 const faq = [
   {
     q: 'Сколько стоит представительство в деле о банкротстве?',
     a: `От 5 000 ₽ за одно заседание в деле о банкротстве гражданина. Если нужна вся процедура — сопровождение под ключ от ${rub(pricing.citizenTurnkey)} с рассрочкой от ${rub(pricing.citizenInstallmentFrom)} в месяц.`,
-  },
-  {
-    q: 'Можно ли подключиться, если дело уже идёт?',
-    a: 'Да. По номеру дела в картотеке арбитражных дел видно стадию процедуры, требования кредиторов и споры. Посмотрю дело и скажу, на каких заседаниях нужна помощь.',
   },
   {
     q: 'Представляете интересы компаний?',
@@ -65,7 +62,7 @@ const faq = [
   expert
   heroBg={heroBg}
   formTitle="Помогу на заседании"
-  formText="Пришлите номер дела или расскажите, на каком этапе процедура. Посмотрю материалы и скажу, на каких заседаниях нужна помощь."
+  formText="Расскажите коротко о своей ситуации. Скажу, чем могу помочь, и назову цену до начала работы."
   schema={[serviceSchema({ name: 'Представительство в деле о банкротстве гражданина', url, description, price: 5000, serviceType: 'Представление интересов в Арбитражном суде по делу о банкротстве' })]}
   related={[
     { href: '/bankrotstvo-fizicheskih-lic/', label: 'Банкротство физических лиц', text: 'Кому подходит, какие долги спишут, что сохранится.' },
@@ -74,7 +71,7 @@ const faq = [
   ]}
 >
   <Fragment slot="lead">
-    <p>{nb('Представляю граждан в Арбитражном суде Томской области: на отдельных заседаниях или на всём деле — от заявления до списания долгов')}</p>
+    <p>{nb('Представляю граждан в деле о банкротстве в Арбитражном суде Томской области — от 5 000 ₽ за заседание')}</p>
   </Fragment>
 
   <Fragment slot="after">
@@ -84,8 +81,8 @@ const faq = [
         <div class="sd-card">
           <p class="sd-num">от 5 000 ₽</p>
           <p class="sd-cap">{nb('за одно заседание в деле о банкротстве гражданина')}</p>
-          <p class="sd-note">{nb('Можно подключиться на любом этапе: по номеру дела видно стадию, требования кредиторов и споры')}</p>
-          <a href="#zayavka" class="lp-btn sd-btn">Прислать номер дела</a>
+          <p class="sd-note">{nb('Итоговую цену называю до начала работы и фиксирую в договоре')}</p>
+          <a href="#zayavka" class="lp-btn sd-btn">Обсудить дело</a>
         </div>
         <ol class="sd-list">
           {work.map(([h, t], i) => <li><span class="sd-n tnum">[{String(i + 1).padStart(2, '0')}]</span><span><b>{nb(h)}.</b> {nb(t.charAt(0).toUpperCase() + t.slice(1))}</span></li>)}
@@ -99,18 +96,22 @@ const faq = [
     <!-- Этапы -->
     <Steps />
 
-    <!-- Отдельные заседания или под ключ -->
-    <LpSection id="variant" chip="Варианты" title="Отдельные заседания или всё дело" lead="Можно оплачивать каждое заседание или взять сопровождение под ключ">
-      <div class="lp-two">
-        <div class="lp-card">
-          <div class="dg-head"><h3 class="dg-h">Отдельные заседания</h3><span class="dg-tag is-grey">от 5 000 ₽ за заседание</span></div>
-          <ul class="dg-list">{single.map((t) => <li><span class="lp-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>{nb(t)}</span></li>)}</ul>
+    <!-- Цены -->
+    <LpSection id="ceny" chip="Цены" title="Сколько стоит представительство">
+      <section class="pr-card" aria-labelledby="rep-h">
+        <div>
+          <h3 id="rep-h" class="pr-h">Цены на услуги по банкротству</h3>
+          <p class="pr-t">{nb('Цена «от» — минимальная стоимость простого дела. Итоговую называю до начала работы и фиксирую в договоре')}</p>
         </div>
-        <div class="lp-card">
-          <div class="dg-head"><h3 class="dg-h">Под ключ</h3><span class="dg-tag">от {rub(pricing.citizenTurnkey)}</span></div>
-          <ul class="dg-list">{turnkey.map((t) => <li><span class="lp-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>{nb(t)}</span></li>)}</ul>
-        </div>
-      </div>
+        <ul>
+          {rows.map((r) => (
+            <li class="pr-row">
+              <span class="pr-s">{nb(r.service)}{r.note && <span class="pr-note">{nb(r.note)}</span>}</span>
+              <span class="pr-p tnum">{r.price}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
     </LpSection>
 
     <HomeReviews />
