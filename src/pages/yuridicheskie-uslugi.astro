@@ -1,7 +1,11 @@
 ---
 import Page from '../layouts/Page.astro';
+import LpSection from '../components/LpSection.astro';
+import HomePrice from '../components/HomePrice.astro';
+import { nb } from '../data/typo';
 import { priceGroups } from '../data/prices';
-import { law, rub } from '../data/site';
+import { law, rub, pricing } from '../data/site';
+import heroBg from '../assets/ceny/hero-bg.jpg';
 
 const url = '/yuridicheskie-uslugi/';
 const description = 'Цены на юруслуги в Томске: банкротство гражданина под ключ от 125 000 ₽, иск в арбитраж от 10 000 ₽, суд от 15 000 ₽. Консультация бесплатно.';
@@ -12,54 +16,140 @@ const offerCatalog = {
     g.rows.map((r) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: r.service }, description: `${r.price}${r.note ? `, ${r.note}` : ''}`, priceCurrency: 'RUB' })),
   ),
 };
+// подписи к разделам прайса
+const groupLead: Record<string, string> = {
+  konsultacii: 'Устная консультация бесплатна. Письменная — с анализом документов и правовой позицией',
+  bankrotstvo: 'Сопровождение под ключ и отдельные услуги для граждан, компаний и кредиторов',
+  'arbitrazhnyj-sud': 'Споры с участием организаций и ИП, кроме дел о банкротстве',
+  'sudy-obshchej-yurisdikcii': 'Споры граждан в районных и областных судах',
+};
+const extra = [
+  'Публикации в ЕФРСБ и газете «Коммерсантъ», почтовые расходы',
+  'Государственная пошлина по искам — по ст. 333.19 и 333.21 Налогового кодекса',
+  'Оценка имущества, если её требует процедура',
+  'Транспортные и командировочные расходы по делам вне Томска',
+];
 ---
 
 <Page
   title="Цены на юридические услуги в Томске"
   description={description}
-  h1="Юридические услуги и цены"
+  h1="Цены на юридические услуги в Томске"
+  eyebrow="Прайс"
   crumbs={[{ name: 'Цены', href: url }]}
+  facts={[
+    ['Устная консультация', 'бесплатно'],
+    ['Банкротство под ключ', `от ${rub(pricing.citizenTurnkey)}`],
+    ['Рассрочка', `от ${rub(pricing.citizenInstallmentFrom)}/мес`],
+    ['Депозит управляющему', rub(law.fuDeposit)],
+  ]}
   topic="Юридическая услуга"
+  expert
+  heroBg={heroBg}
   schema={[offerCatalog]}
   related={[
     { href: '/bankrotstvo-fizicheskih-lic/', label: 'Банкротство физических лиц', text: 'Что входит в сопровождение под ключ.' },
-    { href: '/bankrotstvo-ur-lica/', label: 'Банкротство организаций', text: 'Процедуры и риски для директора.' },
+    { href: '/bankrotstvo-ur-lica/', label: 'Банкротство ООО', text: 'Процедуры и риски для директора.' },
     { href: '/bankrotstvo-ur-lica/kreditoram/', label: 'Кредиторам', text: 'Возврат долга через банкротство должника.' },
   ]}
 >
   <Fragment slot="lead">
-    <p>
-      Устная консультация — бесплатно. Цена «от» означает минимальную стоимость простого дела; итоговую называю до начала работы, после того как
-      увижу документы, и фиксирую в договоре. Транспортные и командировочные расходы по делам вне Томска оплачиваются отдельно
-    </p>
+    <p>{nb('Итоговую цену называю до начала работы, после того как увижу документы, и фиксирую в договоре. Устная консультация — бесплатно')}</p>
   </Fragment>
 
-  {priceGroups.map((g) => (
-    <section id={g.id} class="not-prose mt-10 scroll-mt-6 first:mt-0">
-      <h2 class="text-[1.5rem]">{g.title}</h2>
-      <div class="mt-4 overflow-x-auto">
-        <table class="table-clean min-w-[30rem]">
-          <thead><tr><th scope="col">Услуга</th><th scope="col" class="w-44 text-right">Стоимость</th></tr></thead>
-          <tbody>
-            {g.rows.map((r) => (
-              <tr>
-                <td>{r.service}{r.note && <span class="mt-0.5 block text-sm text-muted">{r.note}</span>}</td>
-                <td class="tnum whitespace-nowrap text-right font-medium">{r.price}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </section>
-  ))}
+  <Fragment slot="after">
+    <!-- Стоимость банкротства -->
+    <HomePrice />
 
-  <h2>Обязательные расходы, которые не входят в гонорар</h2>
-  <p>Эти суммы требует закон, их платит любой заявитель — с юристом или без:</p>
-  <ul>
-    <li>депозит на вознаграждение финансового управляющего в деле гражданина — {rub(law.fuDeposit)};</li>
-    <li>публикации в ЕФРСБ и газете «Коммерсантъ», почтовые расходы;</li>
-    <li>государственная пошлина по искам — по ст. 333.19 и 333.21 Налогового кодекса;</li>
-    <li>оценка имущества, если её требует процедура.</li>
-  </ul>
-  <p class="text-sm text-muted">Цены действуют на дату обновления страницы и не являются публичной офертой.</p>
+    <!-- Прайс -->
+    <LpSection id="prais" chip="Прайс" title="Все услуги и цены" lead="Цена «от» — минимальная стоимость простого дела. Итог зависит от объёма документов, сложности и числа заседаний" bg="grey">
+      <nav class="pr-nav" aria-label="Разделы прайса">
+        {priceGroups.map((g) => <a href={`#${g.id}`} class="pr-pill">{g.title}</a>)}
+      </nav>
+      <div class="pr-groups">
+        {priceGroups.map((g) => (
+          <section id={g.id} class="pr-card" aria-labelledby={`${g.id}-h`}>
+            <div class="pr-side">
+              <h3 id={`${g.id}-h`} class="pr-h">{nb(g.title)}</h3>
+              {groupLead[g.id] && <p class="pr-t">{nb(groupLead[g.id])}</p>}
+            </div>
+            <ul class="pr-rows">
+              {g.rows.map((r) => (
+                <li class="pr-row">
+                  <span class="pr-s">{nb(r.service)}{r.note && <span class="pr-note">{nb(r.note)}</span>}</span>
+                  <span class="pr-p tnum">{r.price}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))}
+      </div>
+    </LpSection>
+
+    <!-- Обязательные расходы -->
+    <LpSection id="rashody" chip="Расходы" title="Обязательные расходы, которые не входят в гонорар" lead="Эти суммы требует закон, их платит любой заявитель — с юристом или без">
+      <div class="lp-two">
+        <div class="lp-card lp-blue">
+          <p class="lp-k">Депозит управляющему</p>
+          <p class="lp-big tnum">{rub(law.fuDeposit)}</p>
+          <p class="lp-t">{nb('в деле о банкротстве гражданина — на вознаграждение финансового управляющего. Вносится на депозит суда вместе с заявлением')}</p>
+          <p class="bl-foot">{nb(`Если в процедуре продают имущество, управляющий по закону получает ещё ${law.fuPercent} % от вырученной суммы`)}</p>
+        </div>
+        <div class="lp-card">
+          <p class="lp-k">Кроме депозита</p>
+          <h3 class="lp-h3">Что ещё оплачивается отдельно</h3>
+          <ul class="lp-signs">
+            {extra.map((t) => <li><span class="lp-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>{nb(t)}</span></li>)}
+          </ul>
+        </div>
+      </div>
+      <p class="pr-legal">{nb('Цены действуют на дату обновления страницы и не являются публичной офертой.')}</p>
+    </LpSection>
+  </Fragment>
 </Page>
+
+<style>
+  /* Прайс */
+  .pr-nav { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: clamp(1rem, 1.6vw, 1.5rem); }
+  .pr-pill { display: inline-flex; align-items: center; min-height: 2.75rem; padding: 0 1.125rem; border-radius: 10px; background: #fff; font-size: 1rem; font-weight: 500; color: #1d1e21; text-decoration: none; transition: background-color 150ms var(--ease-out), color 150ms var(--ease-out); }
+  .pr-pill:hover { background: #034b8e; color: #fff; }
+  /* телефон: разделы прайса — одной прокручиваемой строкой */
+  @media (max-width: 639px) {
+    .pr-nav { flex-wrap: nowrap; overflow-x: auto; margin-inline: -1rem; padding-inline: 1rem; scrollbar-width: none; }
+    .pr-nav::-webkit-scrollbar { display: none; }
+    .pr-pill { flex: none; }
+  }
+  .pr-groups { display: grid; gap: clamp(0.75rem, 1.4vw, 1.25rem); }
+  .pr-card { display: grid; gap: 1rem 3rem; padding: clamp(1.25rem, 2vw, 2rem); border-radius: 18px; background: #fff; scroll-margin-top: 7rem; }
+  @media (min-width: 1024px) { .pr-card { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); } }
+  .pr-h { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; color: #1d1e21; }
+  .pr-t { margin-top: 0.625rem; font-size: var(--fs-body); line-height: 1.45; color: #5f646d; text-wrap: pretty; }
+  .pr-row { display: flex; align-items: baseline; justify-content: space-between; gap: 1.5rem; padding: 0.875rem 0; border-top: 1px solid rgb(29 30 33 / 0.1); }
+  .pr-row:first-child { padding-top: 0; border-top: 0; }
+  .pr-row:last-child { padding-bottom: 0; }
+  @media (min-width: 1024px) { .pr-row:first-child { padding-top: 0.125rem; } }
+  .pr-s { font-size: var(--fs-body); line-height: 1.4; color: #1d1e21; }
+  .pr-note { display: block; margin-top: 0.25rem; font-size: 0.9375rem; line-height: 1.4; color: #7c818a; }
+  .pr-p { flex: none; font-family: var(--font-display); font-weight: 700; font-size: clamp(1.125rem, 1.4vw, 1.375rem); line-height: 1.2; color: #034b8e; white-space: nowrap; }
+  @media (max-width: 639px) {
+    .pr-row { flex-direction: column; gap: 0.375rem; }
+  }
+  .pr-legal { margin-top: clamp(0.75rem, 1.4vw, 1.25rem); font-size: 0.9375rem; color: #7c818a; }
+
+  .lp-two { display: grid; gap: clamp(0.75rem, 1.4vw, 1.25rem); }
+  @media (min-width: 768px) { .lp-two { grid-template-columns: 1fr 1fr; } }
+  .lp-card { display: flex; flex-direction: column; padding: clamp(1.25rem, 2vw, 1.75rem); border-radius: 18px; background: #f3f4f6; color: #1d1e21; }
+  .lp-blue { background: linear-gradient(135deg, #034b8e 0%, #053a6e 60%, #0b1a30 100%); color: #fff; }
+  .lp-k { font-size: 0.9375rem; color: #7c818a; }
+  .lp-blue .lp-k { color: rgb(255 255 255 / 0.75); }
+  .lp-big { margin-top: 0.75rem; font-family: var(--font-display); font-weight: 700; font-size: clamp(2.25rem, 3.6vw, 3.25rem); line-height: 1; letter-spacing: -0.03em; }
+  .lp-t { margin-top: 0.875rem; font-size: var(--fs-body); line-height: 1.5; color: rgb(255 255 255 / 0.88); text-wrap: pretty; }
+  .bl-foot { margin-top: auto; padding-top: 1rem; border-top: 1px solid rgb(255 255 255 / 0.18); font-size: 0.9375rem; line-height: 1.45; color: rgb(255 255 255 / 0.75); }
+  .lp-blue .lp-t { margin-bottom: 1.5rem; }
+  .lp-h3 { margin-top: 0.75rem; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; color: #1d1e21; text-wrap: balance; }
+  .lp-signs { margin-top: 1rem; }
+  .lp-signs li { display: grid; grid-template-columns: 12px minmax(0, 1fr); gap: 0.875rem; padding: 0.625rem 0; border-top: 1px solid rgb(29 30 33 / 0.1); font-size: var(--fs-body); line-height: 1.4; color: #2a2d33; }
+  .lp-signs li:last-child { padding-bottom: 0; }
+  .lp-sq { display: grid; grid-template-columns: 5px 5px; grid-auto-rows: 5px; gap: 2px; margin-top: 0.45em; }
+  .lp-sq i { width: 5px; height: 5px; border-radius: 1px; background: #034b8e; }
+</style>
