@@ -4,6 +4,7 @@ import LpSection from '../components/LpSection.astro';
 import portrait from '../assets/antonets-glasses.png';
 import { person } from '../data/site';
 import HomeReviews from '../components/HomeReviews.astro';
+import Steps from '../components/Steps.astro';
 import { Image } from 'astro:assets';
 import { nb } from '../data/typo';
 import imgCar from '../assets/mfc/bad-car.jpg';
@@ -24,13 +25,14 @@ const bad: [string, string, ImageMetadata][] = [
   ['Были сделки с имуществом за последние годы', 'Кредитор может оспорить их уже в судебной процедуре', imgDeals],
   [`Долг больше ${rub(law.mfcMax)}`, 'Внесудебный порядок недоступен ни при каком доходе', imgDebt],
 ];
-// Как подать заявление
-const steps = [
-  'Получите постановление об окончании исполнительного производства на Госуслугах или у пристава и проверьте основание — п. 4 ч. 1 ст. 46',
-  'Закажите кредитные истории во всех бюро, чтобы найти все долги, включая проданные коллекторам',
-  'Составьте список кредиторов по установленной форме: кто, по какому договору, сколько',
-  'Подайте заявление в МФЦ по месту жительства или пребывания. МФЦ проверяет сведения и в течение нескольких рабочих дней включает их в ЕФРСБ',
-  `Через ${law.mfcDurationMonths} месяцев процедура завершается, и долги из списка списываются`,
+// Этапы: от проверки условий до списания
+const stages = [
+  { title: 'Консультация', time: 'бесплатно', text: 'Смотрю постановление пристава, сумму долгов и имущество. Если МФЦ не подходит, скажу прямо и объясню, какая процедура нужна' },
+  { title: 'Постановление пристава', time: 'Госуслуги или ФССП', text: 'Получаем постановление об окончании исполнительного производства и проверяем основание — п. 4 ч. 1 ст. 46' },
+  { title: 'Список кредиторов', time: 'до подачи', text: 'По кредитным историям из всех бюро находим все долги, включая проданные коллекторам, и составляем список по форме' },
+  { title: 'Подача в МФЦ', time: 'несколько рабочих дней', text: 'Вы подаёте паспорт, заявление и список в МФЦ по месту жительства. МФЦ проверяет сведения и включает их в ЕФРСБ' },
+  { title: 'Процедура', time: `${law.mfcDurationMonths} месяцев`, text: 'Действует мораторий: кредиторы не взыскивают долги из заявления, неустойки и проценты не начисляются' },
+  { title: 'Списание долгов', time: 'результат', text: 'Процедура завершается, и долги из заявления списываются' },
 ];
 // Что такое: главное о процедуре и сравнение с судом
 const basics = [
@@ -54,8 +56,8 @@ const stats = [['25+ лет', 'в банкротстве'], ['250+', 'проце
 // Зачем юрист: три карточки под синей панелью
 const why: [string, string][] = [
   ['Проверю, подходит ли вам МФЦ', 'Смотрю постановление пристава, сумму долгов и имущество. Если МФЦ не подходит, скажу прямо и объясню, какая процедура нужна'],
-  ['Соберу полный список кредиторов', 'По кредитным историям из всех бюро находим старые микрозаймы, долги, проданные коллекторам, налоги и ЖКХ. Пропущенный долг не спишут'],
-  ['Сниму риск возврата заявления', 'МФЦ возвращает заявление, если не то основание окончания производства, есть другое неоконченное производство или сумма вне пределов. Проверяю это до подачи'],
+  ['Соберу полный список кредиторов', 'По кредитным историям из всех бюро находим старые микрозаймы, долги, проданные коллекторам, налоги и ЖКХ'],
+  ['Сниму риск возврата заявления', 'До подачи проверяю основание окончания производства, другие производства и сумму долга — всё, из-за чего МФЦ возвращает документы'],
 ];
 const during = ['Кредиторы не могут взыскивать долги, указанные в заявлении', 'Перестают начисляться неустойки и проценты'];
 const limits = ['Брать новые кредиты и займы, давать поручительства нельзя', 'О новом имуществе или доходе нужно сообщить в МФЦ в течение 5 рабочих дней, тогда процедуру прекратят. Если промолчать, кредитор вправе обратиться в суд'];
@@ -128,12 +130,12 @@ const faq = [
     </LpSection>
 
     <!-- Кому подходит -->
-    <LpSection id="komu" chip="Кому подходит" title="Кто может пройти банкротство через МФЦ" lead="Условия установлены ст. 223.2 закона о банкротстве. Основной сценарий — должник, с которого приставы ничего не смогли взыскать">
+    <LpSection id="komu" chip="Кому подходит" title="Кому подходит банкротство через МФЦ" lead="Условия установлены ст. 223.2 закона о банкротстве. Важны сумма долга и то, чем закончилось исполнительное производство">
       <div class="lp-two">
         <div class="lp-card lp-blue">
           <p class="lp-k">Сумма долгов</p>
           <p class="lp-big tnum">до {rub(law.mfcMax)}</p>
-          <p class="lp-t">{nb(`общая сумма — от ${rub(law.mfcMin)} до ${rub(law.mfcMax)} включительно. Через ${law.mfcDurationMonths} месяцев после включения в реестр долги из заявления списываются`)}</p>
+          <p class="lp-t">{nb(`общая сумма — от ${rub(law.mfcMin)} до ${rub(law.mfcMax)} включительно. Сюда входят и долги, срок оплаты которых ещё не наступил, алименты и поручительства`)}</p>
         </div>
         <div class="lp-card">
           <p class="lp-k">Главное условие</p>
@@ -147,6 +149,26 @@ const faq = [
         <span>{nb('Есть и другие основания: для пенсионеров и получателей пособия на ребёнка, а также если долг по исполнительному документу не взыскан 7 лет. Детали проверю на консультации')}</span>
         <span class="lp-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
       </a>
+      <div class="km-sub">
+        <h3 class="km-h">Когда МФЦ — плохой выбор</h3>
+        <p class="km-t">{nb('В этих случаях внесудебная процедура не спишет долги или её прекратят. Тогда нужно судебное банкротство')}</p>
+      </div>
+      <ul class="mf-grid">
+        {bad.map(([h, t, img], i) => (
+          <li class="mf-card">
+            <Image src={img} alt="" widths={[400, 640]} sizes="(min-width: 1280px) 22vw, (min-width: 768px) 45vw, 92vw" class="mf-img" loading="lazy" />
+            <div class="mf-body">
+              <span class="mf-n tnum">{String(i + 1).padStart(2, '0')}</span>
+              <h3 class="mf-h">{nb(h)}</h3>
+              <p class="mf-t">{nb(t)}</p>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <a href="/bankrotstvo-fizicheskih-lic/" class="lp-strip">
+        <span>{nb(`Долг больше ${rub(law.mfcMax)}, есть имущество или сделки?`)}<br class="lp-br" /> {nb('Посмотрите, как проходит судебное банкротство и сколько оно стоит')}</span>
+        <span class="lp-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
+      </a>
     </LpSection>
 
     <!-- Зачем юрист, если процедура бесплатная -->
@@ -155,7 +177,7 @@ const faq = [
         <div class="wy-panel">
           <div class="wy-text">
             <h2 id="wy-title" class="wy-h"><span>Зачем юрист,</span> если процедура бесплатная?</h2>
-            <p class="wy-t">{nb('Одна ошибка в заявлении — и долг останется или МФЦ вернёт документы. А повторно обратиться можно только через 5 лет. Я знаю, где обычно ошибаются')}</p>
+            <p class="wy-t">{nb('Одна ошибка в заявлении — и долг останется или МФЦ вернёт документы. Я знаю, где обычно ошибаются')}</p>
             <dl class="wy-stats">{stats.map(([v, l]) => <div><dt class="tnum">{v}</dt><dd>{l}</dd></div>)}</dl>
             <a href="#zayavka" class="wy-btn">Бесплатная консультация</a>
           </div>
@@ -176,43 +198,12 @@ const faq = [
       </div>
     </section>
 
-    <!-- Когда не подходит -->
-    <LpSection id="ne-podhodit" chip="Ограничения" title="Когда МФЦ — плохой выбор" lead="В этих случаях внесудебная процедура не спишет долги или её прекратят. Тогда нужно судебное банкротство" bg="grey">
-      <ul class="mf-grid">
-        {bad.map(([h, t, img], i) => (
-          <li class="mf-card">
-            <Image src={img} alt="" widths={[400, 640]} sizes="(min-width: 1280px) 22vw, (min-width: 768px) 45vw, 92vw" class="mf-img" loading="lazy" />
-            <div class="mf-body">
-              <span class="mf-n tnum">{String(i + 1).padStart(2, '0')}</span>
-              <h3 class="mf-h">{nb(h)}</h3>
-              <p class="mf-t">{nb(t)}</p>
-            </div>
-          </li>
-        ))}
-      </ul>
-      <a href="/bankrotstvo-fizicheskih-lic/" class="lp-strip">
-        <span>{nb(`Долг больше ${rub(law.mfcMax)}, есть имущество или сделки?`)}<br class="lp-br" /> {nb('Посмотрите, как проходит судебное банкротство и сколько оно стоит')}</span>
-        <span class="lp-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
-      </a>
-    </LpSection>
 
-    <!-- Как подать -->
-    <LpSection id="kak-podat" chip="Порядок" title="Как подать заявление" lead="Процедуру запускает сам гражданин через МФЦ. Главное — не пропустить ни одного кредитора">
-      <div class="sd-wrap">
-        <div class="sd-card">
-          <p class="sd-num">{law.mfcDurationMonths} месяцев</p>
-          <p class="sd-cap">{nb('после включения сведений в ЕФРСБ долги из заявления списываются')}</p>
-          <p class="sd-note">{nb('Долги перед кредиторами, которых нет в заявлении, не спишут. Это самая частая ошибка, поэтому список проверяем до подачи')}</p>
-          <a href="#zayavka" class="lp-btn sd-btn">Проверить мои условия</a>
-        </div>
-        <ol class="sd-list">
-          {steps.map((t, i) => <li><span class="sd-n tnum">[{String(i + 1).padStart(2, '0')}]</span><span>{nb(t)}</span></li>)}
-        </ol>
-      </div>
-    </LpSection>
+    <!-- Этапы -->
+    <Steps steps={stages} titleA="Помогу подготовить заявление —" titleB="от проверки условий до списания долгов" note={`${law.mfcDurationMonths} месяцев считаются с даты включения сведений в ЕФРСБ.`} noteLink={false} />
 
     <!-- Во время процедуры -->
-    <LpSection id="vo-vremya" chip="Во время процедуры" title="Что происходит во время процедуры" lead="С даты включения сведений в ЕФРСБ вводится мораторий на взыскание долгов из заявления" bg="grey">
+    <LpSection id="vo-vremya" chip="Во время и после" title="Что изменится во время и после процедуры" lead="С даты включения сведений в ЕФРСБ вводится мораторий на взыскание долгов из заявления. После списания действуют ограничения">
       <div class="lp-two">
         <div class="lp-card">
           <div class="dg-head"><h3 class="dg-h">Мораторий</h3><span class="dg-tag">защищает от кредиторов</span></div>
@@ -223,17 +214,14 @@ const faq = [
           <ul class="dg-list is-grey">{limits.map((t) => <li><span class="lp-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>{nb(t)}</span></li>)}</ul>
         </div>
       </div>
-    </LpSection>
-
-    <!-- После процедуры -->
-    <LpSection id="posle" chip="После процедуры" title="Какие ограничения будут после списания" lead="Последствия похожи на судебное банкротство и действуют с даты завершения процедуры">
-      <div class="ps-panel">
+      <div class="ps-panel vp-after">
+        <h3 class="ps-h">После списания</h3>
         <dl class="ps-facts">
           {after.map(([y, t]) => <div class="ps-fact"><dt>{nb(t)}</dt><dd class="tnum">{y}</dd></div>)}
         </dl>
-        <p class="ps-ok"><span class="ps-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>{nb('Если заявление вернули, подать его снова можно не раньше чем через месяц после возврата')}</span></p>
       </div>
     </LpSection>
+
 
     <HomeReviews />
   </Fragment>
@@ -313,18 +301,6 @@ const faq = [
   .ps-sq { display: grid; flex: none; grid-template-columns: 5px 5px; grid-auto-rows: 5px; gap: 2px; }
   .ps-sq i { border-radius: 1px; background: #fff; }
   /* Сделки: серая карточка с цифрой (как статистика «Обо мне») + список с [01] (как «Услуги» на главной) */
-  .sd-wrap { display: grid; gap: 1.5rem; }
-  @media (min-width: 1024px) { .sd-wrap { grid-template-columns: minmax(0, 5fr) minmax(0, 8fr); gap: clamp(1.5rem, 3vw, 3.5rem); } }
-  .sd-card { display: flex; flex-direction: column; padding: clamp(1.25rem, 1.8vw, 2rem) clamp(1.25rem, 1.6vw, 1.75rem); border-radius: 16px; background: #f3f4f6; }
-  .sd-num { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.25rem, 3.2vw, 3rem); line-height: 1; letter-spacing: -0.02em; color: #1d1e21; }
-  .sd-cap { margin-top: 0.5rem; font-size: var(--fs-body); line-height: 1.45; color: #7c818a; text-wrap: pretty; }
-  .sd-note { margin-top: auto; padding-top: 2rem; font-size: var(--fs-body); line-height: 1.45; color: #1d1e21; }
-  .lp-btn.sd-btn { align-self: flex-start; margin-top: 1.25rem; }
-  @media (max-width: 639px) { .lp-btn.sd-btn { align-self: stretch; } }
-  .sd-list li { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); gap: 1rem; padding: 1rem 0; border-top: 1px solid rgb(29 30 33 / 0.1); font-size: var(--fs-body); line-height: 1.45; color: #1d1e21; }
-  .sd-list li:last-child { border-bottom: 1px solid rgb(29 30 33 / 0.1); }
-  .sd-n { color: #8a8f98; }
-  @media (max-width: 639px) { .sd-list li { grid-template-columns: 2.75rem minmax(0, 1fr); gap: 0.75rem; } }
   /* Что такое: карточка «главное» + таблица сравнения с судом */
   .ce-wrap { display: grid; gap: clamp(0.75rem, 1.4vw, 1.25rem); }
   @media (min-width: 1024px) { .ce-wrap { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
@@ -398,4 +374,12 @@ const faq = [
   .mf-n { font-family: var(--font-display); font-weight: 700; font-size: 1.125rem; color: #034b8e; }
   .mf-h { margin-top: 0.75rem; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; color: #1d1e21; text-wrap: wrap; }
   .mf-t { margin-top: 0.625rem; font-size: var(--fs-body); line-height: 1.45; color: #5f646d; }
+  /* Объединённые блоки */
+  .km-sub { margin: clamp(2.5rem, 4vw, 3.5rem) 0 clamp(1.25rem, 2vw, 1.75rem); }
+  .km-h { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.5rem, 2.2vw, 2rem); line-height: 1.12; letter-spacing: -0.02em; color: #1d1e21; }
+  .km-t { margin-top: 0.75rem; max-width: 52rem; font-size: var(--fs-body); line-height: 1.5; color: #5f646d; text-wrap: pretty; }
+  :global(.lps:not(.is-grey)) .mf-card { background: #f3f4f6; }
+  :global(.lps:not(.is-grey)) .dg-tag.is-grey { background: #fff; }
+  .vp-after { margin-top: clamp(0.75rem, 1.4vw, 1.25rem); }
+  .ps-h { margin-bottom: 1.25rem; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.15; letter-spacing: -0.015em; color: #fff; }
 </style>
