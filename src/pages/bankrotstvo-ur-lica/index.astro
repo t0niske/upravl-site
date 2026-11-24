@@ -1,10 +1,55 @@
 ---
 import Page from '../../layouts/Page.astro';
+import LpSection from '../../components/LpSection.astro';
+import Lawyer from '../../components/Lawyer.astro';
+import HomeReviews from '../../components/HomeReviews.astro';
+import heroBg from '../../assets/ooo/hero-bg.jpg';
+import { nb } from '../../data/typo';
 import { law, rub } from '../../data/site';
 import { serviceSchema } from '../../data/schema';
 
 const url = '/bankrotstvo-ur-lica/';
 const description = `Банкротство ООО в Томске: порог ${rub(law.companyThreshold)}, процедуры и сроки, обязанность директора подать заявление за месяц, риск субсидиарки.`;
+
+// Ст. 9: когда руководитель обязан подать заявление
+const duty = [
+  'расчёт с одним кредитором делает невозможным расчёт с остальными',
+  'взыскание на имущество сделает невозможной хозяйственную деятельность',
+  'у компании есть признаки неплатёжеспособности или недостаточности имущества',
+  'долг по зарплате и выходным пособиям не погашен больше трёх месяцев',
+  'участники или собственник приняли решение обратиться в суд',
+];
+// Основные процедуры
+const mainProc = [
+  { name: 'Наблюдение', rows: [['Зачем', 'анализ финансов, реестр требований, первое собрание кредиторов'], ['Кто управляет', 'директор, крупные сделки — с согласия временного управляющего'], ['Срок', 'обычно несколько месяцев']] },
+  { name: 'Конкурсное производство', rows: [['Зачем', 'продажа имущества и расчёты с кредиторами'], ['Кто управляет', 'конкурсный управляющий'], ['Срок', '6 месяцев, продлевается']] },
+];
+const rareProc: [string, string, string][] = [
+  ['Финансовое оздоровление', 'погашение долгов по графику, директор под контролем административного управляющего', 'до 2 лет'],
+  ['Внешнее управление', 'восстановление платёжеспособности по плану, управляет внешний управляющий', 'до 18 месяцев + 6'],
+  ['Мировое соглашение', 'договорённость с кредиторами, дело прекращается, управляет директор', 'на любой стадии'],
+];
+// Что происходит с компанией
+const observation = [
+  'Директор продолжает руководить компанией',
+  'Требования кредиторов принимаются только в деле о банкротстве',
+  'Исполнительные производства приостанавливаются',
+  'Штрафные санкции не начисляются, дивиденды не выплачиваются',
+  'Сделки дороже 5 % активов, займы, поручительства и уступки — только с согласия временного управляющего',
+];
+const bankruptcy = [
+  'Полномочия директора прекращаются: он передаёт управляющему документы, печати и имущество',
+  'Управляющий проводит инвентаризацию и оценку, продаёт имущество на электронных торгах',
+  'Деньги распределяют по очереди: текущие платежи, вред жизни и здоровью, зарплата, остальные кредиторы. Залоговые — в особом порядке',
+  'Параллельно управляющий оспаривает сделки и решает, есть ли основания для субсидиарной ответственности',
+];
+// Чем помогаю
+const help = [
+  { who: 'Собственникам и директору', text: 'Оценить риски, выбрать момент подачи, подготовить документы и позицию по сделкам, сопровождать в суде', href: '#zayavka', link: 'Обсудить ситуацию' },
+  { who: 'Контролирующим лицам', text: 'Защитить от субсидиарной ответственности и взыскания убытков', href: '/bankrotstvo-ur-lica/subsidiarnaya-otvetstvennost/', link: 'О субсидиарной ответственности' },
+  { who: 'Кредиторам', text: 'Инициировать банкротство должника, включиться в реестр, оспорить сделки, контролировать управляющего', href: '/bankrotstvo-ur-lica/kreditoram/', link: 'Если вы кредитор' },
+];
+const alternatives = ['Договориться с кредиторами', 'Провести добровольную ликвидацию, если активов достаточно', 'Реструктурировать долг'];
 
 const faq = [
   {
@@ -24,14 +69,16 @@ const faq = [
     a: 'По общему правилу нет: компания отвечает своим имуществом. Но в деле о банкротстве директора, участников и других контролирующих лиц могут привлечь к субсидиарной ответственности — за опоздание с заявлением, вывод активов, искажение отчётности. Тогда долг взыскивают с человека лично, и личное банкротство его не спишет.',
   },
 ];
+
+const arrow = '<path d="M5 12h14M13 6l6 6-6 6" />';
 ---
 
 <Page
-  title="Банкротство юридических лиц в Томске — ООО"
+  title="Банкротство ООО в Томске — юридических лиц"
   description={description}
-  h1="Банкротство юридических лиц в Томске"
+  h1="Банкротство ООО в Томске"
   eyebrow="Для бизнеса"
-  crumbs={[{ name: 'Банкротство организаций', href: url }]}
+  crumbs={[{ name: 'Банкротство ООО', href: url }]}
   facts={[
     ['Порог для заявления кредитора', rub(law.companyThreshold)],
     ['Срок для директора', '1 месяц'],
@@ -40,6 +87,8 @@ const faq = [
   ]}
   faq={faq}
   topic="Банкротство организации"
+  expert
+  heroBg={heroBg}
   formTitle="Оценю риски для компании и директора"
   formText="Расскажите, какие долги и активы у компании и кто кредиторы. Скажу, какая процедура реалистична, сколько она займёт и где риск субсидиарной ответственности."
   schema={[serviceSchema({ name: 'Банкротство юридических лиц', url, description, serviceType: 'Сопровождение банкротства организации' })]}
@@ -50,81 +99,186 @@ const faq = [
   ]}
 >
   <Fragment slot="lead">
-    <p>
-      Банкротство организации — судебная процедура, в которой арбитражный управляющий продаёт имущество компании, рассчитывается с кредиторами
-      по очереди и ликвидирует её. Для собственников это законный способ закрыть бизнес с долгами, для кредиторов — способ получить деньги и
-      проверить, куда ушли активы
-    </p>
-    <p>
-      Кредитор может подать на ООО при долге от {rub(law.companyThreshold)}, просроченном больше трёх месяцев. Директор обязан обратиться в суд
-      в течение месяца после появления признаков банкротства — опоздание чаще всего и приводит к субсидиарной ответственности.
-    </p>
+    <p>{nb('Законный способ закрыть бизнес с долгами. Оценю риски для директора, подготовлю позицию по сделкам и сопровожу дело до ликвидации компании')}</p>
   </Fragment>
 
-  <h2>Когда руководитель обязан подать заявление</h2>
-  <p>Ст. 9 закона о банкротстве требует, чтобы руководитель обратился в суд не позднее месяца с даты, когда возникло хотя бы одно обстоятельство:</p>
-  <ul>
-    <li>расчёт с одним кредитором делает невозможным расчёт с остальными;</li>
-    <li>взыскание на имущество сделает невозможной хозяйственную деятельность;</li>
-    <li>у компании есть признаки неплатёжеспособности или недостаточности имущества;</li>
-    <li>долг по зарплате и выходным пособиям не погашен больше трёх месяцев;</li>
-    <li>участники или собственник приняли решение обратиться в суд.</li>
-  </ul>
-  <p>
-    Если руководитель пропустил срок, его могут привлечь к субсидиарной ответственности по обязательствам, возникшим после этой даты
-    (ст. 61.12). Подробно — на странице <a href="/bankrotstvo-ur-lica/subsidiarnaya-otvetstvennost/">о защите от субсидиарной ответственности</a>.
-  </p>
+  <Fragment slot="after">
+    <!-- Когда директор обязан подать -->
+    <LpSection id="kogda" chip="Обязанность директора" title="Когда руководитель обязан подать заявление" lead={`Кредитор может подать на ООО при долге от ${rub(law.companyThreshold)}, просроченном больше трёх месяцев. Но у директора своя обязанность — по ст. 9 закона о банкротстве`} bg="grey">
+      <div class="lp-two">
+        <div class="lp-card lp-blue">
+          <p class="lp-k">Срок для директора</p>
+          <p class="lp-big">1 месяц</p>
+          <p class="lp-t">{nb('с даты, когда возникло хотя бы одно из обстоятельств. Опоздание — главная причина субсидиарной ответственности: директор отвечает лично по обязательствам, возникшим после этой даты (ст. 61.12)')}</p>
+          <p class="bl-q">{nb('Срок уже пропущен или кредиторы готовят иск к директору?')}</p>
+          <a href="/bankrotstvo-ur-lica/subsidiarnaya-otvetstvennost/" class="bl-btn">Как защититься от субсидиарки</a>
+        </div>
+        <div class="lp-card">
+          <p class="lp-k">Обстоятельства</p>
+          <h3 class="lp-h3">Подать заявление нужно, если</h3>
+          <ul class="lp-signs">
+            {duty.map((t) => <li><span class="lp-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>{nb(t)}</span></li>)}
+          </ul>
+        </div>
+      </div>
+    </LpSection>
 
-  <h2>Процедуры банкротства организации</h2>
-  <p>
-    Закон предусматривает пять процедур, но большинство дел проходит только две: наблюдение и конкурсное производство.
-    Финансовое оздоровление и внешнее управление вводят редко — когда у бизнеса есть реальный шанс восстановиться.
-  </p>
-  <div class="not-prose overflow-x-auto">
-    <table class="table-clean min-w-[36rem]">
-      <thead><tr><th scope="col">Процедура</th><th scope="col">Зачем</th><th scope="col">Кто управляет компанией</th><th scope="col">Срок</th></tr></thead>
-      <tbody>
-        <tr><td class="font-medium">Наблюдение</td><td>анализ финансов, реестр требований, первое собрание кредиторов</td><td>директор, крупные сделки — с согласия временного управляющего</td><td>обычно несколько месяцев</td></tr>
-        <tr><td class="font-medium">Финансовое оздоровление</td><td>погашение долгов по графику</td><td>директор под контролем административного управляющего</td><td>до 2 лет</td></tr>
-        <tr><td class="font-medium">Внешнее управление</td><td>восстановление платёжеспособности по плану</td><td>внешний управляющий</td><td>до 18 месяцев + 6</td></tr>
-        <tr><td class="font-medium">Конкурсное производство</td><td>продажа имущества и расчёты с кредиторами</td><td>конкурсный управляющий</td><td>6 месяцев, продлевается</td></tr>
-        <tr><td class="font-medium">Мировое соглашение</td><td>договорённость с кредиторами, прекращение дела</td><td>директор</td><td>на любой стадии</td></tr>
-      </tbody>
-    </table>
-  </div>
+    <!-- Кто ведёт дело -->
+    <Lawyer />
 
-  <h2>Что происходит с компанией в наблюдении</h2>
-  <p>
-    Наблюдение вводится, когда суд признаёт заявление обоснованным. Компания продолжает работать, но с ограничениями:
-    требования кредиторов принимаются только в деле о банкротстве, исполнительные производства приостанавливаются,
-    штрафные санкции не начисляются, дивиденды не выплачиваются. Сделки с имуществом дороже 5 % активов, займы, поручительства
-    и уступки требуют согласия временного управляющего.
-  </p>
+    <!-- Процедуры -->
+    <LpSection id="procedury" chip="Процедуры" title="Процедуры банкротства организации" lead="Закон предусматривает пять процедур, но большинство дел проходит только две: наблюдение и конкурсное производство" bg="grey">
+      <div class="lp-two">
+        {mainProc.map((pr) => (
+          <div class="lp-card pr-card">
+            <div class="dg-head"><h3 class="dg-h">{pr.name}</h3><span class="dg-tag">большинство дел</span></div>
+            <dl class="pr-dl">
+              {pr.rows.map(([k, v]) => <div><dt>{k}</dt><dd>{nb(v)}</dd></div>)}
+            </dl>
+          </div>
+        ))}
+      </div>
+      <div class="rr">
+        <p class="rr-h">{nb('Вводят редко — когда у бизнеса есть шанс восстановиться')}</p>
+        <ul class="rr-list">
+          {rareProc.map(([n, t, d]) => (
+            <li class="rr-item">
+              <span class="rr-name">{n}</span>
+              <span class="rr-t">{nb(t)}</span>
+              <span class="rr-d">{nb(d)}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </LpSection>
 
-  <h2>Конкурсное производство: что будет с имуществом и директором</h2>
-  <p>
-    После признания компании банкротом полномочия директора прекращаются — он передаёт управляющему документы, печати и имущество.
-    Управляющий проводит инвентаризацию и оценку, продаёт имущество на электронных торгах и распределяет деньги по очерёдности:
-    текущие платежи, затем требования за вред жизни и здоровью, зарплата работников, остальные кредиторы. Залоговые кредиторы
-    получают деньги от продажи предмета залога в особом порядке.
-  </p>
-  <p>
-    Параллельно управляющий оспаривает подозрительные сделки и решает, есть ли основания для субсидиарной ответственности. Для директора
-    этот этап — самый рискованный: позицию по сделкам нужно готовить заранее, а не после заявления управляющего.
-  </p>
+    <!-- Что происходит с компанией -->
+    <LpSection id="kompaniya" chip="Компания" title="Что происходит с компанией в процедуре" lead="В наблюдении компания работает с ограничениями. После признания банкротом управление переходит к конкурсному управляющему">
+      <div class="lp-two">
+        <div class="lp-card">
+          <div class="dg-head"><h3 class="dg-h">Наблюдение</h3><span class="dg-tag">компания работает</span></div>
+          <ul class="dg-list">{observation.map((t) => <li><span class="lp-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>{nb(t)}</span></li>)}</ul>
+        </div>
+        <div class="lp-card">
+          <div class="dg-head"><h3 class="dg-h">Конкурсное производство</h3><span class="dg-tag is-grey">директор отстранён</span></div>
+          <ul class="dg-list is-grey">{bankruptcy.map((t) => <li><span class="lp-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>{nb(t)}</span></li>)}</ul>
+        </div>
+      </div>
+      <p class="km-note">{nb('Для директора конкурсное производство — самый рискованный этап: позицию по сделкам нужно готовить заранее, а не после заявления управляющего')}</p>
+    </LpSection>
 
-  <h2>Чем помогаю</h2>
-  <ul>
-    <li><strong>Собственникам и директору</strong> — оценить риски, выбрать момент подачи, подготовить документы и позицию по сделкам, сопровождать в суде.</li>
-    <li><strong>Контролирующим лицам</strong> — защитить от субсидиарной ответственности и взыскания убытков.</li>
-    <li><strong>Кредиторам</strong> — инициировать банкротство должника, включиться в реестр, оспорить сделки, контролировать управляющего.</li>
-  </ul>
-  <p>Цены на отдельные услуги — в <a href="/yuridicheskie-uslugi/">прайсе</a>: заявление о банкротстве юрлица — от 15 000 ₽, представительство — от 5 000 ₽ за заседание.</p>
+    <!-- Не лучший путь -->
+    <LpSection id="alternativy" chip="Альтернативы" title="Когда банкротство организации — не лучший путь" lead="Если у компании нет ни имущества, ни дебиторской задолженности, а долгов немного, процедура может не окупиться: расходы на неё лягут на заявителя" bg="grey">
+      <div class="al">
+        <p class="al-h">{nb('Что иногда разумнее')}</p>
+        <ol class="al-list">
+          {alternatives.map((t, i) => <li><span class="al-n tnum">{String(i + 1).padStart(2, '0')}</span><span>{nb(t)}</span></li>)}
+        </ol>
+        <p class="al-t">{nb('На консультации сравниваем варианты по деньгам и рискам для директора')}</p>
+      </div>
+    </LpSection>
 
-  <h2>Когда банкротство организации — не лучший путь</h2>
-  <p>
-    Если у компании нет ни имущества, ни дебиторской задолженности, а долгов немного, процедура может не окупиться: расходы на неё лягут на заявителя.
-    Иногда разумнее договориться с кредиторами, провести добровольную ликвидацию при достаточности активов или реструктурировать долг.
-    На консультации сравниваем варианты по деньгам и рискам для директора.
-  </p>
+    <!-- Чем помогаю -->
+    <LpSection id="pomoshch" chip="Чем помогаю" title="С чем приходят ко мне по банкротству компаний" lead="Работаю на стороне должника, контролирующих лиц и кредиторов">
+      <ul class="hl-grid">
+        {help.map((h) => (
+          <li class="hl-card">
+            <h3 class="mf-h">{h.who}</h3>
+            <p class="mf-t">{nb(h.text)}</p>
+            <a href={h.href} class="hl-a">{h.link} <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={arrow} /></a>
+          </li>
+        ))}
+      </ul>
+      <a href="/yuridicheskie-uslugi/" class="lp-strip">
+        <span>{nb('Заявление о банкротстве юрлица — от 15 000 ₽, представительство — от 5 000 ₽ за заседание.')} {nb('Цены на все услуги — в прайсе')}</span>
+        <span class="lp-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={arrow} /></span>
+      </a>
+    </LpSection>
+
+    <HomeReviews />
+  </Fragment>
 </Page>
+
+<style>
+  .lp-two { display: grid; gap: clamp(0.75rem, 1.4vw, 1.25rem); }
+  @media (min-width: 768px) { .lp-two { grid-template-columns: 1fr 1fr; } }
+  .lp-card { display: flex; flex-direction: column; padding: clamp(1.25rem, 2vw, 1.75rem); border-radius: 18px; background: #fff; color: #1d1e21; }
+  :global(.lps:not(.is-grey)) .lp-card:not(.lp-blue) { background: #f3f4f6; }
+  .lp-blue { background: linear-gradient(135deg, #034b8e 0%, #053a6e 60%, #0b1a30 100%); color: #fff; }
+  .lp-k { font-size: 0.9375rem; color: #7c818a; }
+  .lp-blue .lp-k { color: rgb(255 255 255 / 0.75); }
+  .lp-big { margin-top: 0.75rem; font-family: var(--font-display); font-weight: 700; font-size: clamp(2.25rem, 3.6vw, 3.25rem); line-height: 1; letter-spacing: -0.03em; }
+  .lp-t { margin-top: 0.875rem; font-size: var(--fs-body); line-height: 1.5; color: rgb(255 255 255 / 0.88); text-wrap: pretty; }
+  .lp-h3 { margin-top: 0.75rem; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; color: #1d1e21; text-wrap: balance; }
+  .lp-signs { margin-top: 1rem; }
+  .lp-signs li { display: grid; grid-template-columns: 12px minmax(0, 1fr); gap: 0.875rem; padding: 0.625rem 0; border-top: 1px solid rgb(29 30 33 / 0.1); font-size: var(--fs-body); line-height: 1.4; color: #2a2d33; }
+  .lp-signs li:last-child { padding-bottom: 0; }
+  .lp-sq { display: grid; grid-template-columns: 5px 5px; grid-auto-rows: 5px; gap: 2px; margin-top: 0.45em; }
+  .lp-sq i { width: 5px; height: 5px; border-radius: 1px; background: #034b8e; }
+  .bl-q { margin-top: auto; padding-top: 2rem; font-size: var(--fs-body); line-height: 1.45; color: #fff; font-weight: 500; }
+  .bl-btn { display: inline-flex; align-self: flex-start; align-items: center; justify-content: center; min-height: 3.25rem; margin-top: 1rem; padding: 0 1.75rem; border-radius: 10px; background: #fff; color: #034b8e; font-weight: 600; font-size: 1rem; text-decoration: none; transition: background-color 150ms var(--ease-out); }
+  .bl-btn:hover { background: #e6eef8; }
+  @media (max-width: 639px) { .bl-btn { align-self: stretch; } }
+  .lp-br { display: none; }
+  @media (min-width: 1024px) { .lp-br { display: inline; } }
+
+  .lp-strip {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem;
+    margin-top: clamp(0.75rem, 1.2vw, 1rem); padding: clamp(1rem, 1.4vw, 1.25rem) clamp(1.25rem, 2vw, 2rem);
+    border-radius: 16px; background: #f3f4f6; font-size: var(--fs-body); line-height: 1.45; color: #1d1e21; text-decoration: none;
+    transition: box-shadow 150ms var(--ease-out);
+  }
+  :global(.lps.is-grey) .lp-strip { background: #fff; }
+  a.lp-strip:hover { box-shadow: inset 0 0 0 2px #034b8e; }
+  .lp-strip > span:first-child { flex: 1; min-width: 16rem; }
+  .lp-arrow { display: grid; flex: none; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 8px; background: #034b8e; color: #fff; }
+  @media (max-width: 639px) { .lp-strip > span:first-child { min-width: 0; } }
+
+  .dg-head { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.75rem 1rem; margin-bottom: 1rem; }
+  @media (max-width: 639px) { .dg-head { flex-wrap: nowrap; } .dg-h { flex: none; max-width: 60%; } .dg-tag { min-width: 0; padding: 0.3125rem 0.625rem; font-size: 0.8125rem; text-align: center; } }
+  .dg-h { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.15; letter-spacing: -0.015em; color: #1d1e21; }
+  .dg-tag { padding: 0.375rem 0.75rem; border-radius: 8px; background: #e6eef8; font-size: 0.9375rem; font-weight: 500; line-height: 1.3; color: #034b8e; }
+  .dg-tag.is-grey { background: #fff; color: #5f646d; }
+  .dg-list li { display: grid; grid-template-columns: 12px minmax(0, 1fr); gap: 0.875rem; padding: 0.4rem 0; font-size: var(--fs-body); line-height: 1.45; color: #1d1e21; }
+  .dg-list.is-grey .lp-sq i { background: #9aa0a8; }
+
+  /* Процедуры: две основные карточки + тёмная плашка с редкими */
+  .pr-dl > div { padding: 0.75rem 0; border-top: 1px solid rgb(29 30 33 / 0.1); }
+  .pr-dl > div:last-child { padding-bottom: 0; }
+  .pr-dl dt { font-size: 0.875rem; color: #7c818a; }
+  .pr-dl dd { margin-top: 0.25rem; font-size: var(--fs-body); line-height: 1.4; color: #1d1e21; }
+  @media (min-width: 1024px) {
+    .pr-dl > div { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: 1rem; align-items: baseline; }
+    .pr-dl dd { margin-top: 0; }
+  }
+  .rr { margin-top: clamp(0.75rem, 1.4vw, 1.25rem); padding: clamp(1.25rem, 2vw, 1.75rem); border-radius: 18px; background: #1d1e21; color: #fff; }
+  .rr-h { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; }
+  .rr-list { display: grid; gap: 1.25rem; margin-top: 1.25rem; }
+  @media (min-width: 1024px) { .rr-list { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; } }
+  .rr-item { display: flex; flex-direction: column; gap: 0.375rem; }
+  @media (min-width: 1024px) { .rr-item { padding: 0 2rem; } .rr-item:first-child { padding-left: 0; } .rr-item:last-child { padding-right: 0; } .rr-item + .rr-item { border-left: 1px solid rgb(255 255 255 / 0.14); } }
+  @media (max-width: 1023px) { .rr-item + .rr-item { padding-top: 1.25rem; border-top: 1px solid rgb(255 255 255 / 0.14); } }
+  .rr-name { font-weight: 600; font-size: var(--fs-body); }
+  .rr-t { font-size: var(--fs-body); line-height: 1.45; color: rgb(255 255 255 / 0.75); }
+  .rr-d { align-self: flex-start; margin-top: 0.375rem; padding: 0.25rem 0.625rem; border-radius: 8px; background: rgb(255 255 255 / 0.1); font-size: 0.9375rem; color: #fff; }
+
+  .km-note { margin-top: clamp(0.75rem, 1.4vw, 1.25rem); padding: clamp(1rem, 1.4vw, 1.25rem) clamp(1.25rem, 2vw, 2rem); border-radius: 16px; background: #e6eef8; font-size: var(--fs-body); line-height: 1.45; color: #034b8e; font-weight: 500; }
+
+  /* Альтернативы: белая карточка с нумерованными вариантами в ряд */
+  .al { padding: clamp(1.25rem, 2vw, 1.75rem); border-radius: 18px; background: #fff; }
+  .al-h { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; color: #1d1e21; }
+  .al-list { display: grid; gap: 0.75rem; margin-top: 1.25rem; }
+  @media (min-width: 768px) { .al-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .al-list li { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 0.5rem; align-items: baseline; padding: 1rem 1.25rem; border-radius: 14px; background: #f3f4f6; font-size: var(--fs-body); line-height: 1.4; color: #1d1e21; }
+  .al-n { font-family: var(--font-display); font-weight: 700; font-size: 1.125rem; color: #034b8e; }
+  .al-t { margin-top: 1.25rem; font-size: var(--fs-body); line-height: 1.45; color: #5f646d; }
+
+  /* Чем помогаю: три карточки со ссылками */
+  .hl-grid { display: grid; gap: clamp(0.75rem, 1.4vw, 1.25rem); }
+  @media (min-width: 1024px) { .hl-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+  .hl-card { display: flex; flex-direction: column; padding: clamp(1.25rem, 2vw, 1.75rem); border-radius: 18px; background: #f3f4f6; }
+  .mf-h { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; color: #1d1e21; }
+  .mf-t { margin-top: 0.625rem; font-size: var(--fs-body); line-height: 1.45; color: #5f646d; }
+  .hl-a { display: inline-flex; align-items: center; gap: 0.375rem; margin-top: auto; padding-top: 1.25rem; font-weight: 600; font-size: 1rem; color: #034b8e; text-decoration: none; }
+  .hl-a:hover { color: #0a5aa6; }
+</style>
