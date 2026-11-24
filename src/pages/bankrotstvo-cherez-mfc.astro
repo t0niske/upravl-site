@@ -5,6 +5,7 @@ import portrait from '../assets/antonets-glasses.png';
 import { person } from '../data/site';
 import HomeReviews from '../components/HomeReviews.astro';
 import Steps from '../components/Steps.astro';
+import HomeQuiz from '../components/HomeQuiz.astro';
 import { Image } from 'astro:assets';
 import { nb } from '../data/typo';
 import imgCar from '../assets/mfc/bad-car.jpg';
@@ -128,6 +129,9 @@ const faq = [
         </div>
       </div>
     </LpSection>
+
+    <!-- Квиз -->
+    <HomeQuiz variant="mfc" />
 
     <!-- Кому подходит -->
     <LpSection id="komu" chip="Кому подходит" title="Кому подходит банкротство через МФЦ" lead="Условия установлены ст. 223.2 закона о банкротстве. Важны сумма долга и то, чем закончилось исполнительное производство">
