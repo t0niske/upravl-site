@@ -9,7 +9,7 @@ import { law, rub } from '../../data/site';
 import { serviceSchema } from '../../data/schema';
 
 const url = '/bankrotstvo-ur-lica/';
-const description = `Банкротство ООО в Томске: порог ${rub(law.companyThreshold)}, процедуры и сроки, обязанность директора подать заявление за месяц, риск субсидиарки.`;
+const description = `Банкротство ООО и АО в Томске: порог ${rub(law.companyThreshold)}, процедуры и сроки, обязанность директора подать заявление за месяц, риск субсидиарки.`;
 
 // Ст. 9: когда руководитель обязан подать заявление
 const duty = [
@@ -74,11 +74,11 @@ const arrow = '<path d="M5 12h14M13 6l6 6-6 6" />';
 ---
 
 <Page
-  title="Банкротство ООО в Томске — юридических лиц"
+  title="Банкротство ООО и АО в Томске"
   description={description}
-  h1="Банкротство ООО в Томске"
+  h1="Банкротство ООО и АО в Томске"
   eyebrow="Для бизнеса"
-  crumbs={[{ name: 'Банкротство ООО', href: url }]}
+  crumbs={[{ name: 'Банкротство ООО и АО', href: url }]}
   facts={[
     ['Порог для заявления кредитора', rub(law.companyThreshold)],
     ['Срок для директора', '1 месяц'],

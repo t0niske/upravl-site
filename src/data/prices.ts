@@ -1,5 +1,5 @@
 /** ◐ Прайс со старого сайта (2020). Подтвердить актуальность перед запуском. */
-export type PriceRow = { service: string; price: string; note?: string };
+export type PriceRow = { service: string; price: string; note?: string; id?: string };
 export type PriceGroup = { id: string; title: string; rows: PriceRow[] };
 
 export const priceGroups: PriceGroup[] = [
@@ -17,8 +17,8 @@ export const priceGroups: PriceGroup[] = [
     title: 'Дела о банкротстве',
     rows: [
       { service: 'Банкротство гражданина под ключ: заявление, суд, сопровождение до списания долгов', price: 'от 125 000 ₽', note: 'рассрочка от 10 000 ₽ в месяц; обязательные расходы оплачиваются отдельно' },
-      { service: 'Заявление о признании гражданина банкротом', price: 'от 12 000 ₽' },
-      { service: 'Представительство в деле о банкротстве гражданина', price: 'от 5 000 ₽', note: 'за одно заседание' },
+      { id: 'zayavlenie-grazhdanina', service: 'Заявление о признании гражданина банкротом', price: 'от 12 000 ₽' },
+      { id: 'predstavitelstvo-grazhdanina', service: 'Представительство в деле о банкротстве гражданина', price: 'от 5 000 ₽', note: 'за одно заседание' },
       { service: 'Заявление о признании юридического лица банкротом', price: 'от 15 000 ₽' },
       { service: 'Представительство в деле о банкротстве юридического лица', price: 'от 5 000 ₽', note: 'за одно заседание' },
       { service: 'Сопровождение кредитора в деле о банкротстве', price: 'от 70 000 ₽', note: 'зависит от сложности и числа заседаний' },

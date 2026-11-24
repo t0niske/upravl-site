@@ -172,30 +172,29 @@ export type NavGroup = NavItem & { children?: MenuLink[]; columns?: MenuColumn[]
 
 /** Широкая панель «Услуги»: две колонки + карточка квиза. Цены — отдельным пунктом. */
 export const servicesMenu: MenuColumn[] = [
+  // Состав пунктов — по ответу заказчика (24.11.2026)
   {
     title: 'Гражданам',
     items: [
       { href: '/bankrotstvo-fizicheskih-lic/', label: 'Банкротство физических лиц', icon: 'court' },
-      { href: '/bankrotstvo-cherez-mfc/', label: 'Бесплатно через МФЦ', icon: 'mfc' },
       { href: '/bankrotstvo-ip/', label: 'Банкротство ИП', icon: 'store' },
-      // «С ипотекой», «Пенсионерам» — добавить, когда появятся страницы (карта сайта v2, P1)
+      { href: '/yuridicheskie-uslugi/#konsultacii', label: 'Консультации по вопросам банкротства', icon: 'doc' },
+      { href: '/yuridicheskie-uslugi/#zayavlenie-grazhdanina', label: 'Подготовка документов', icon: 'doc' },
+      { href: '/yuridicheskie-uslugi/#predstavitelstvo-grazhdanina', label: 'Представление интересов в арбитражных судах', icon: 'court' },
     ],
   },
   {
     title: 'Бизнесу',
     items: [
-      { href: '/bankrotstvo-ur-lica/', label: 'Банкротство ООО', icon: 'briefcase' },
-      { href: '/bankrotstvo-ur-lica/subsidiarnaya-otvetstvennost/', label: 'Защита от субсидиарной ответственности', icon: 'shield' },
-      { href: '/bankrotstvo-ur-lica/kreditoram/', label: 'Кредиторам', icon: 'doc' },
+      { href: '/bankrotstvo-ur-lica/', label: 'Проведение процедур банкротства ООО и АО', icon: 'briefcase' },
+      { href: '/bankrotstvo-ur-lica/subsidiarnaya-otvetstvennost/', label: 'Защита КДЛ от субсидиарной ответственности', icon: 'shield' },
+      { href: '/bankrotstvo-ur-lica/kreditoram/', label: 'Представление интересов в делах о банкротстве ЮЛ', icon: 'doc' },
     ],
   },
   {
-    // «Прочие юридические услуги» со старого сайта: ведут в разделы прайса
     title: 'Другие услуги',
     items: [
-      { href: '/yuridicheskie-uslugi/#konsultacii', label: 'Консультации и документы', icon: 'doc' },
-      { href: '/yuridicheskie-uslugi/#arbitrazhnyj-sud', label: 'Арбитражный суд', icon: 'court' },
-      { href: '/yuridicheskie-uslugi/#sudy-obshchej-yurisdikcii', label: 'Суды общей юрисдикции', icon: 'court' },
+      { href: '/yuridicheskie-uslugi/#arbitrazhnyj-sud', label: 'Юридические услуги в арбитражных судах', icon: 'court' },
     ],
   },
 ];

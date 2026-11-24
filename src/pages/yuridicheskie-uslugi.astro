@@ -75,7 +75,7 @@ const extra = [
             </div>
             <ul class="pr-rows">
               {g.rows.map((r) => (
-                <li class="pr-row">
+                <li class="pr-row" id={r.id}>
                   <span class="pr-s">{nb(r.service)}{r.note && <span class="pr-note">{nb(r.note)}</span>}</span>
                   <span class="pr-p tnum">{r.price}</span>
                 </li>
@@ -125,6 +125,8 @@ const extra = [
   .pr-h { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; color: #1d1e21; }
   .pr-t { margin-top: 0.625rem; font-size: var(--fs-body); line-height: 1.45; color: #5f646d; text-wrap: pretty; }
   .pr-row { display: flex; align-items: baseline; justify-content: space-between; gap: 1.5rem; padding: 0.875rem 0; border-top: 1px solid rgb(29 30 33 / 0.1); }
+  .pr-row { scroll-margin-top: 7rem; }
+  .pr-row:target .pr-s { color: #034b8e; font-weight: 600; }
   .pr-row:first-child { padding-top: 0; border-top: 0; }
   .pr-row:last-child { padding-bottom: 0; }
   @media (min-width: 1024px) { .pr-row:first-child { padding-top: 0.125rem; } }
