@@ -5,6 +5,7 @@ import { orgSchema, websiteSchema, breadcrumbSchema, type Crumb } from '../data/
 import PageTop from '../components/PageTop.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 import CookieNotice from '../components/CookieNotice.astro';
+import ToTop from '../components/ToTop.astro';
 
 interface Props {
   title: string;
@@ -76,6 +77,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
 
     <SiteFooter />
     <CookieNotice />
+    <ToTop />
 
   </body>
 </html>

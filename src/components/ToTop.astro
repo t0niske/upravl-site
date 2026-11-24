@@ -1,0 +1,59 @@
+---
+/**
+ * Кнопка «Наверх»: появляется, когда пролистали больше полутора экранов.
+ * Справа внизу; на телефоне поднимается над нижней панелью «Бесплатная консультация» и над плашкой cookies.
+ */
+---
+
+<button type="button" class="tt" data-totop aria-label="Наверх" tabindex="-1">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" /></svg>
+</button>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('[data-totop]');
+  if (btn) {
+    const gap = () => (window.innerWidth >= 640 ? 24 : 12);
+    let ticking = false;
+    const update = () => {
+      ticking = false;
+      const on = window.scrollY > window.innerHeight * 1.5;
+      btn.classList.toggle('is-on', on);
+      btn.tabIndex = on ? 0 : -1;
+      // поднимаем над видимыми закреплёнными плашками внизу (моб. панель, cookies)
+      let bottom = gap();
+      document.querySelectorAll<HTMLElement>('.mbar.is-on, .ck').forEach((el) => {
+        if (el.hidden || getComputedStyle(el).display === 'none') return;
+        const r = el.getBoundingClientRect();
+        if (r.height && r.top < window.innerHeight && r.right > btn.getBoundingClientRect().left) bottom = Math.max(bottom, window.innerHeight - r.top + 8);
+      });
+      btn.style.bottom = `${bottom}px`;
+    };
+    const onScroll = () => { if (!ticking) { ticking = true; requestAnimationFrame(update); } };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    // моб. панель выезжает с анимацией — пересчитываем после неё
+    document.addEventListener('transitionend', onScroll);
+    btn.addEventListener('click', () => {
+      const smooth = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: smooth ? 'smooth' : 'auto' });
+    });
+    update();
+  }
+</script>
+
+<style>
+  .tt {
+    position: fixed; z-index: 45; right: 0.75rem; bottom: 0.75rem;
+    display: grid; place-items: center; width: 3rem; height: 3rem;
+    border-radius: 12px; background: rgb(29 30 33 / 0.92); color: #fff; cursor: pointer;
+    -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px);
+    box-shadow: 0 10px 30px rgb(0 0 0 / 0.18);
+    opacity: 0; pointer-events: none; transform: translateY(0.75rem);
+    transition: opacity 200ms var(--ease-out), transform 200ms var(--ease-out), background-color 150ms var(--ease-out), bottom 200ms var(--ease-out);
+  }
+  @media (min-width: 640px) { .tt { right: 1.5rem; width: 3.5rem; height: 3.5rem; } }
+  .tt.is-on { opacity: 1; pointer-events: auto; transform: none; }
+  .tt:hover { background: #034b8e; }
+  .tt:active { transform: scale(0.96); }
+  .tt:focus-visible { outline: 2px solid #034b8e; outline-offset: 3px; }
+</style>
