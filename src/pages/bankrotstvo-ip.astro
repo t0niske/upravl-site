@@ -4,6 +4,8 @@ import LpSection from '../components/LpSection.astro';
 import Steps from '../components/Steps.astro';
 import HomePrice from '../components/HomePrice.astro';
 import HomeReviews from '../components/HomeReviews.astro';
+import Lawyer from '../components/Lawyer.astro';
+import HomeCases from '../components/HomeCases.astro';
 import { nb } from '../data/typo';
 import { law, rub, pricing } from '../data/site';
 import { serviceSchema } from '../data/schema';
@@ -131,6 +133,12 @@ const faq = [
         <span class="lp-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
       </a>
     </LpSection>
+
+    <!-- Завершённые дела -->
+    <HomeCases />
+
+    <!-- Кто ведёт дело -->
+    <Lawyer />
 
     <!-- Что проверит управляющий -->
     <LpSection id="proverka-upravlyayushchego" chip="Риски" title="Что проверит финансовый управляющий у ИП" lead="Платежи и сделки предпринимателя проверяют строже, чем у обычного гражданина" bg="grey">
