@@ -76,9 +76,6 @@ export const law = {
   fuPercent: 7, // % от сумм, вырученных от реализации имущества и погашения требований
   citizenDutyThreshold: 500000, // долг, при котором гражданин ОБЯЗАН подать заявление
   companyThreshold: 2000000, // порог для дела о банкротстве юрлица (107-ФЗ от 29.05.2024)
-  mfcMin: 25000,
-  mfcMax: 1000000,
-  mfcDurationMonths: 6,
   restructuringYears: 3,
   realizationMonths: 6,
   challengePeriodYears: 3, // глубина оспаривания сделок
@@ -124,11 +121,6 @@ export const services: (NavItem & { lead: string })[] = [
     href: '/bankrotstvo-fizicheskih-lic/',
     label: 'Банкротство физических лиц',
     lead: 'Списание долгов через Арбитражный суд Томской области. Под ключ — от 125 000 ₽, рассрочка.',
-  },
-  {
-    href: '/bankrotstvo-cherez-mfc/',
-    label: 'Банкротство через МФЦ',
-    lead: `Бесплатно, при долге от 25 000 до 1 000 000 ₽ и оконченном исполнительном производстве.`,
   },
   {
     href: '/bankrotstvo-ip/',
@@ -205,7 +197,6 @@ export const knowMenu: MenuColumn[] = [
     title: 'Как это работает',
     items: [
       { href: '/bankrotstvo-fizicheskih-lic/', label: 'Как проходит банкротство через суд' },
-      { href: '/bankrotstvo-cherez-mfc/', label: 'Как пройти банкротство через МФЦ' },
       { href: '/stati/kto-takoj-arbitrazhnyj-upravlyayushchij/', label: 'Кто такой арбитражный управляющий' },
       { href: '', label: 'Банкротство или реструктуризация' },
     ],

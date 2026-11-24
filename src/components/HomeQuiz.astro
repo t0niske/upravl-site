@@ -9,17 +9,10 @@ import { Image } from 'astro:assets';
 import { contacts } from '../data/site';
 import iconWhatsapp from '../assets/icons/whatsapp.png';
 import iconMax from '../assets/icons/max.png';
-import { questions as generalQuestions } from '../data/quiz';
-import { mfcQuestions } from '../data/quiz-mfc';
+import { questions } from '../data/quiz';
 
-interface Props { variant?: 'general' | 'mfc' }
-const { variant = 'general' } = Astro.props;
-const questions: readonly { name: string; q: string; hint: string; options: readonly (readonly [string, string])[]; stop?: readonly string[] }[] =
-  variant === 'mfc' ? mfcQuestions : generalQuestions;
-const heading = variant === 'mfc' ? 'Проверьте, подойдёт ли вам банкротство через МФЦ' : 'Узнайте, можно ли списать ваши долги через банкротство';
-const leadText = variant === 'mfc'
-  ? `${questions.length} вопросов займут минуту. Увидите предварительный вывод, а точный ответ дам после проверки постановления пристава на бесплатной консультации`
-  : `${questions.length} вопросов займут пару минут. Увидите предварительный вывод и главные риски, а точный ответ дам после разбора документов на бесплатной консультации`;
+const heading = 'Узнайте, можно ли списать ваши долги через банкротство';
+const leadText = `${questions.length} вопросов займут пару минут. Увидите предварительный вывод и главные риски, а точный ответ дам после разбора документов на бесплатной консультации`;
 
 const debts: [string, string][] = [
   ['card', 'Кредиты и карты'],
@@ -66,7 +59,7 @@ const messengers = [
         </div>
       </div>
 
-      <div class="hq-card" data-hq data-variant={variant}>
+      <div class="hq-card" data-hq>
         <!-- Вопросы по одному -->
         <form class="hq-steps" data-hq-form>
           <div class="hq-progress">
@@ -74,7 +67,7 @@ const messengers = [
             <span class="hq-bar" aria-hidden="true"><i data-hq-bar></i></span>
           </div>
           {questions.map((item, idx) => (
-            <fieldset class="hq-q" data-hq-step={idx} data-stop={item.stop?.join(',')} hidden={idx !== 0}>
+            <fieldset class="hq-q" data-hq-step={idx} hidden={idx !== 0}>
               <legend class="hq-q-title">{soft(nb(item.q))}</legend>
               <p class="hq-q-hint">{soft(nb(item.hint))}</p>
               <div class="hq-opts">
@@ -278,7 +271,6 @@ const messengers = [
 
 <script>
   import { decide, summary, type A } from '../data/quiz';
-  import { decideMfc, summaryMfc } from '../data/quiz-mfc';
   import { nb, soft } from '../data/typo';
 
   document.querySelectorAll<HTMLElement>('[data-hq]').forEach((root) => {
@@ -288,7 +280,6 @@ const messengers = [
     const count = form.querySelector<HTMLElement>('[data-hq-count]')!;
     const bar = form.querySelector<HTMLElement>('[data-hq-bar]')!;
     const back = form.querySelector<HTMLButtonElement>('[data-hq-back]')!;
-    const mfc = root.dataset.variant === 'mfc';
     let i = 0;
 
     const show = (n: number) => {
@@ -301,7 +292,7 @@ const messengers = [
 
     const finish = () => {
       const a: A = Object.fromEntries([...new FormData(form).entries()].map(([k, v]) => [k, String(v)]));
-      const r = mfc ? decideMfc(a) : decide(a);
+      const r = decide(a);
       result.querySelector('[data-r-title]')!.textContent = soft(nb(r.title));
       result.querySelector('[data-r-text]')!.textContent = soft(nb(r.text));
       const ul = result.querySelector('[data-r-notes]')!;
@@ -309,7 +300,7 @@ const messengers = [
       r.notes.forEach((n) => { const li = document.createElement('li'); li.textContent = soft(nb(n)); ul.appendChild(li); });
       form.hidden = true;
       result.hidden = false;
-      const text = mfc ? summaryMfc(a, r.title) : summary(a, r.title);
+      const text = summary(a, r.title);
       document.querySelectorAll<HTMLInputElement>('[data-quiz-field]').forEach((f) => (f.value = text));
       result.querySelector<HTMLElement>('[data-r-title]')!.focus?.();
     };
@@ -321,9 +312,8 @@ const messengers = [
       if (t.type !== 'radio') return;
       // короткая пауза, чтобы было видно выбранный вариант
       setTimeout(() => {
-        // ответы, после которых остальные вопросы не влияют на вывод (data-stop); на главной — долг меньше 25 000 ₽
-        const stops = (steps[i].dataset.stop || '').split(',');
-        if (stops.includes(t.value) || (!mfc && t.name === 'debt' && t.value === 'lt25')) return finish();
+        // при долге меньше 25 000 ₽ остальные вопросы не влияют на вывод
+        if (t.name === 'debt' && t.value === 'lt25') return finish();
         if (i < steps.length - 1) show(i + 1);
         else finish();
       }, 220);
