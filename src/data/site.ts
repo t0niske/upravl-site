@@ -170,9 +170,9 @@ export const servicesMenu: MenuColumn[] = [
     items: [
       { href: '/bankrotstvo-fizicheskih-lic/', label: 'Банкротство физических лиц', icon: 'court' },
       { href: '/bankrotstvo-ip/', label: 'Банкротство ИП', icon: 'store' },
-      { href: '/yuridicheskie-uslugi/#konsultacii', label: 'Консультации по вопросам банкротства', icon: 'doc' },
-      { href: '/yuridicheskie-uslugi/#zayavlenie-grazhdanina', label: 'Подготовка документов', icon: 'doc' },
-      { href: '/yuridicheskie-uslugi/#predstavitelstvo-grazhdanina', label: 'Представление интересов в арбитражных судах', icon: 'court' },
+      { href: '/konsultaciya-po-bankrotstvu/', label: 'Консультации по вопросам банкротства', icon: 'doc' },
+      { href: '/podgotovka-dokumentov-na-bankrotstvo/', label: 'Подготовка документов', icon: 'doc' },
+      { href: '/predstavitelstvo-v-dele-o-bankrotstve/', label: 'Представление интересов в арбитражных судах', icon: 'court' },
     ],
   },
   {
@@ -186,7 +186,7 @@ export const servicesMenu: MenuColumn[] = [
   {
     title: 'Другие услуги',
     items: [
-      { href: '/yuridicheskie-uslugi/#arbitrazhnyj-sud', label: 'Юридические услуги в арбитражных судах', icon: 'court' },
+      { href: '/yuridicheskie-uslugi-v-arbitrazhnyh-sudah/', label: 'Юридические услуги в арбитражных судах', icon: 'court' },
     ],
   },
 ];

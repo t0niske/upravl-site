@@ -1,0 +1,125 @@
+---
+import Page from '../layouts/Page.astro';
+import LpSection from '../components/LpSection.astro';
+import Lawyer from '../components/Lawyer.astro';
+import HomeReviews from '../components/HomeReviews.astro';
+import { nb } from '../data/typo';
+import { law, rub, pricing } from '../data/site';
+import { docs } from '../data/docs';
+import { serviceSchema } from '../data/schema';
+import heroBg from '../assets/dokumenty/hero-bg.jpg';
+import '../styles/lp.css';
+
+const url = '/podgotovka-dokumentov-na-bankrotstvo/';
+const description = 'Подготовка документов на банкротство в Томске: заявление о признании банкротом и список кредиторов — от 12 000 ₽. Помогу собрать справки.';
+
+// Что делаю
+const work: [string, string][] = [
+  ['Проверяю, подходит ли банкротство', 'смотрю долги, доходы, имущество и сделки за 3 года'],
+  ['Составляю список документов', 'под вашу ситуацию: большую часть можно заказать через Госуслуги'],
+  ['Пишу заявление о признании банкротом', 'с описанием долгов и имущества'],
+  ['Составляю список кредиторов', 'кто, по какому договору и сколько'],
+];
+// Самостоятельно с документами или под ключ
+const self = ['Заявление и список кредиторов готовлю я', 'В суд подаёте и на заседания ходите сами', `Депозит ${rub(law.fuDeposit)} и публикации оплачиваете отдельно`];
+const turnkey = ['Разбор долгов, имущества и сделок за 3 года', 'Сбор справок и выписок, заявление в суд', 'Представительство в Арбитражном суде', 'Сопровождение до определения о списании долгов'];
+
+const faq = [
+  {
+    q: 'Сколько стоит подготовка заявления о банкротстве?',
+    a: 'Заявление о признании гражданина банкротом — от 12 000 ₽. Если нужен ещё и суд, представительство стоит от 5 000 ₽ за заседание, а сопровождение под ключ — от 125 000 ₽.',
+  },
+  {
+    q: 'Где взять справки и выписки?',
+    a: 'Большую часть документов можно заказать через Госуслуги: сведения о трудовой деятельности, выписку из Социального фонда, выписку из ЕГРН. Выписки по счетам дают банки. С остальным помогу.',
+  },
+  {
+    q: 'Какие расходы будут кроме оплаты юриста?',
+    a: `Закон требует внести ${rub(law.fuDeposit)} на депозит суда для вознаграждения финансового управляющего и оплатить публикации в ЕФРСБ и «Коммерсанте». Эти суммы платит любой заявитель.`,
+  },
+];
+---
+
+<Page
+  title="Подготовка документов на банкротство в Томске"
+  description={description}
+  h1="Подготовка документов на банкротство"
+  eyebrow="Для граждан"
+  crumbs={[{ name: 'Подготовка документов', href: url }]}
+  facts={[
+    ['Заявление о банкротстве', 'от 12 000 ₽'],
+    ['Договор или другой документ', 'от 3 000 ₽'],
+    ['Депозит управляющему', rub(law.fuDeposit)],
+    ['Сопровождение под ключ', `от ${rub(pricing.citizenTurnkey)}`],
+  ]}
+  faq={faq}
+  topic="Подготовка документов на банкротство"
+  expert
+  heroBg={heroBg}
+  formTitle="Подготовлю заявление о банкротстве"
+  formText="Расскажите коротко о долгах и имуществе. Скажу, какие документы собрать, и подготовлю заявление и список кредиторов."
+  schema={[serviceSchema({ name: 'Подготовка документов на банкротство гражданина', url, description, price: 12000, serviceType: 'Составление заявления о признании гражданина банкротом' })]}
+  related={[
+    { href: '/bankrotstvo-fizicheskih-lic/', label: 'Банкротство физических лиц', text: 'Кому подходит, какие долги спишут, что сохранится.' },
+    { href: '/predstavitelstvo-v-dele-o-bankrotstve/', label: 'Представление интересов в суде', text: 'Заседания в Арбитражном суде Томской области.' },
+    { href: '/konsultaciya-po-bankrotstvu/', label: 'Консультация', text: 'Устная — бесплатно, письменная — от 3 000 ₽.' },
+  ]}
+>
+  <Fragment slot="lead">
+    <p>{nb('Составлю заявление о признании банкротом и список кредиторов, подскажу, какие справки собрать. Подаёте в суд сами или со мной')}</p>
+  </Fragment>
+
+  <Fragment slot="after">
+    <!-- Какие документы -->
+    <LpSection id="dokumenty" chip="Документы" title="Какие документы понадобятся" lead="Полный список зависит от ситуации, базовый набор — такой. Большую часть можно заказать через Госуслуги, с остальным помогу" bg="grey">
+      <ol class="dc-grid">
+        {docs.map((t, i) => <li><span class="dc-n tnum">{String(i + 1).padStart(2, '0')}</span><span>{nb(t)}</span></li>)}
+      </ol>
+    </LpSection>
+
+    <!-- Что делаю -->
+    <LpSection id="chto-delayu" chip="Что делаю" title="Что входит в подготовку документов" lead="От проверки ситуации до готового заявления в суд">
+      <div class="sd-wrap">
+        <div class="sd-card">
+          <p class="sd-num">от 12 000 ₽</p>
+          <p class="sd-cap">{nb('заявление о признании гражданина банкротом')}</p>
+          <p class="sd-note">{nb('Сделки за последние три года разбираем до подачи заявления: финансовый управляющий обязан их проверить, и позицию лучше подготовить заранее')}</p>
+          <a href="#zayavka" class="lp-btn sd-btn">Заказать заявление</a>
+        </div>
+        <ol class="sd-list">
+          {work.map(([h, t], i) => <li><span class="sd-n tnum">[{String(i + 1).padStart(2, '0')}]</span><span><b>{nb(h)}.</b> {nb(t.charAt(0).toUpperCase() + t.slice(1))}</span></li>)}
+        </ol>
+      </div>
+    </LpSection>
+
+    <!-- Кто готовит -->
+    <Lawyer />
+
+    <!-- Сами или под ключ -->
+    <LpSection id="variant" chip="Варианты" title="Только документы или сопровождение под ключ" lead="Можно взять только подготовку документов, а в суд ходить самостоятельно" bg="grey">
+      <div class="lp-two">
+        <div class="lp-card">
+          <div class="dg-head"><h3 class="dg-h">Только документы</h3><span class="dg-tag is-grey">от 12 000 ₽</span></div>
+          <ul class="dg-list">{self.map((t) => <li><span class="lp-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>{nb(t)}</span></li>)}</ul>
+        </div>
+        <div class="lp-card">
+          <div class="dg-head"><h3 class="dg-h">Под ключ</h3><span class="dg-tag">от {rub(pricing.citizenTurnkey)}</span></div>
+          <ul class="dg-list">{turnkey.map((t) => <li><span class="lp-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>{nb(t)}</span></li>)}</ul>
+        </div>
+      </div>
+      <a href="/bankrotstvo-fizicheskih-lic/" class="lp-strip">
+        <span>{nb(`Под ключ — рассрочка от ${rub(pricing.citizenInstallmentFrom)} в месяц.`)} {nb('Посмотрите, как проходит банкротство через суд')}</span>
+        <span class="lp-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
+      </a>
+    </LpSection>
+
+    <HomeReviews />
+  </Fragment>
+</Page>
+
+<style>
+  .dc-grid { display: grid; gap: clamp(0.5rem, 1vw, 0.75rem); }
+  @media (min-width: 768px) { .dc-grid { grid-template-columns: 1fr 1fr; } }
+  .dc-grid li { display: grid; grid-template-columns: 1.75rem minmax(0, 1fr); gap: 0.75rem; align-items: center; padding: 1.125rem 1.25rem; border-radius: 14px; background: #fff; font-size: var(--fs-body); line-height: 1.45; color: #2a2d33; }
+  .dc-n { font-family: var(--font-display); font-weight: 700; font-size: 1.125rem; color: #034b8e; }
+</style>
