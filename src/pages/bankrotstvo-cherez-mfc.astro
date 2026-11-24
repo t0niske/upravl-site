@@ -186,7 +186,7 @@ const faq = [
             <a href="#zayavka" class="wy-btn">Бесплатная консультация</a>
           </div>
           <figure class="wy-fig">
-            <Image src={portrait} alt={person.name} widths={[480, 720, 1000]} sizes="(min-width: 1024px) 30vw, 1px" class="wy-img" loading="lazy" />
+            <Image src={portrait} alt={person.name} widths={[480, 720, 1000]} sizes="(min-width: 1024px) 30vw, 80vw" class="wy-img" loading="lazy" />
             <figcaption class="wy-badge"><span>{person.name}</span><span>{person.job}</span></figcaption>
           </figure>
         </div>
@@ -349,13 +349,20 @@ const faq = [
   .wy-btn { display: inline-flex; align-items: center; justify-content: center; min-height: 3.25rem; margin-top: 1.75rem; padding: 0 1.75rem; border-radius: 10px; background: #fff; color: #034b8e; font-weight: 600; font-size: 1rem; text-decoration: none; transition: background-color 150ms var(--ease-out); }
   .wy-btn:hover { background: #e6eef8; }
   @media (max-width: 639px) { .wy-btn { width: 100%; } }
-  .wy-fig { display: none; }
+  /* телефон и планшет: фото под текстом внутри синей панели, низ фото — у низа панели (карточки заходят на него, как на широком экране) */
+  .wy-fig { position: relative; height: clamp(20rem, 80vw, 26rem); margin: 1.75rem 0 calc(-1 * clamp(4rem, 7vw, 7.5rem)); }
+  .wy-img { position: absolute; left: 50%; bottom: 0; width: auto; height: 100%; transform: translateX(-50%); }
+  .wy-badge { position: absolute; z-index: 1; left: 0; bottom: 3.5rem; padding: 0.875rem 1rem; border-radius: 14px; background: rgb(255 255 255 / 0.72); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); font-size: 0.9375rem; line-height: 1.25; color: #1d1e21; }
+  .wy-badge span { display: block; }
+  .wy-badge span:first-child { font-family: var(--font-display); font-weight: 700; font-size: 1.1em; }
+  .wy-badge span + span { margin-top: 0.25rem; color: #5f646d; }
+  @media (max-width: 1023px) { .wy-sec { padding-top: 0.5rem; } }
   @media (min-width: 1024px) {
     .wy-panel { min-height: 26rem; }
     .wy-text { max-width: min(40rem, 56%); }
-    .wy-fig { position: absolute; display: block; right: 0; bottom: 0; top: 0; width: 42%; }
-    .wy-img { position: absolute; right: 12%; bottom: 0; width: auto; height: calc(100% + 3.5rem); }
-    .wy-badge { position: absolute; z-index: 1; right: 1.75rem; bottom: clamp(4rem, 7vw, 7.5rem); padding: 1rem 1.25rem; border-radius: 16px; background: rgb(255 255 255 / 0.72); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); font-size: 1rem; line-height: 1.25; color: #1d1e21; }
+    .wy-fig { position: absolute; display: block; right: 0; bottom: 0; top: 0; width: 42%; height: auto; margin: 0; }
+    .wy-img { position: absolute; left: auto; right: 12%; bottom: 0; width: auto; height: calc(100% + 3.5rem); transform: none; }
+    .wy-badge { position: absolute; z-index: 1; left: auto; right: 1.75rem; bottom: clamp(4rem, 7vw, 7.5rem); padding: 1rem 1.25rem; border-radius: 16px; background: rgb(255 255 255 / 0.72); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); font-size: 1rem; line-height: 1.25; color: #1d1e21; }
     .wy-badge span { display: block; }
     .wy-badge span:first-child { font-family: var(--font-display); font-weight: 700; font-size: 1.15em; }
     .wy-badge span + span { margin-top: 0.25rem; color: #5f646d; }

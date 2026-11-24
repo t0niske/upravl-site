@@ -6,6 +6,7 @@ import HomePrice from '../components/HomePrice.astro';
 import HomeReviews from '../components/HomeReviews.astro';
 import Lawyer from '../components/Lawyer.astro';
 import HomeCases from '../components/HomeCases.astro';
+import heroBg from '../assets/ip/hero-bg.jpg';
 import { nb } from '../data/typo';
 import { law, rub, pricing } from '../data/site';
 import { serviceSchema } from '../data/schema';
@@ -80,6 +81,7 @@ const faq = [
   faq={faq}
   topic="Банкротство ИП"
   expert
+  heroBg={heroBg}
   schema={[serviceSchema({ name: 'Банкротство индивидуального предпринимателя', url, description })]}
   related={[
     { href: '/bankrotstvo-fizicheskih-lic/', label: 'Банкротство физических лиц', text: 'ИП банкротится по правилам для граждан — все детали здесь.' },
