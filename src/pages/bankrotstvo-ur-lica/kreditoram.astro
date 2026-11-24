@@ -1,10 +1,32 @@
 ---
 import Page from '../../layouts/Page.astro';
+import LpSection from '../../components/LpSection.astro';
+import Lawyer from '../../components/Lawyer.astro';
+import HomeReviews from '../../components/HomeReviews.astro';
+import heroBg from '../../assets/kreditoram/hero-bg.jpg';
+import { nb } from '../../data/typo';
 import { law, rub } from '../../data/site';
 import { serviceSchema } from '../../data/schema';
 
 const url = '/bankrotstvo-ur-lica/kreditoram/';
 const description = 'Кредитор в деле о банкротстве: заявление на должника, включение в реестр, оспаривание сделок, субсидиарка. Томск, от 70 000 ₽.';
+
+// Когда банкротство не подходит кредитору
+const notFit = [
+  'у должника нет активов',
+  'нет сделок, которые можно оспорить',
+  'нет платёжеспособных контролирующих лиц',
+];
+// Что делаю для кредитора
+const work: [string, string][] = [
+  ['Анализ должника', 'имущество, сделки, связанные компании, перспективы возврата — до подачи заявления'],
+  ['Заявление о банкротстве должника', 'с кандидатурой управляющего или СРО'],
+  ['Включение в реестр', 'в срок и с правильной очерёдностью, в том числе залоговых требований'],
+  ['Возражения', 'против требований «дружественных» кредиторов, которые размывают реестр'],
+  ['Оспаривание сделок', 'возврат имущества должника в конкурсную массу'],
+  ['Субсидиарная ответственность', 'заявление к директору и владельцам, если управляющий бездействует'],
+  ['Контроль управляющего', 'участие в собраниях, жалобы на действия и бездействие'],
+];
 
 const faq = [
   {
@@ -27,7 +49,7 @@ const faq = [
   description={description}
   h1="Сопровождение кредиторов в делах о банкротстве"
   eyebrow="Для кредиторов"
-  crumbs={[{ name: 'Банкротство организаций', href: '/bankrotstvo-ur-lica/' }, { name: 'Кредиторам', href: url }]}
+  crumbs={[{ name: 'Банкротство ООО', href: '/bankrotstvo-ur-lica/' }, { name: 'Кредиторам', href: url }]}
   facts={[
     ['Сопровождение кредитора', 'от 70 000 ₽'],
     ['Порог против ООО', rub(law.companyThreshold)],
@@ -36,6 +58,8 @@ const faq = [
   ]}
   faq={faq}
   topic="Кредитор в деле о банкротстве"
+  expert
+  heroBg={heroBg}
   formTitle="Оценю шансы вернуть долг"
   formText="Назовите должника и сумму долга. Посмотрю дело о банкротстве, если оно уже идёт, реестр и сделки должника и скажу, что реально можно получить."
   schema={[serviceSchema({ name: 'Сопровождение кредитора в деле о банкротстве', url, description, price: 70000 })]}
@@ -46,40 +70,143 @@ const faq = [
   ]}
 >
   <Fragment slot="lead">
-    <p>
-      Если должник не платит и выводит активы, дело о банкротстве даёт кредитору инструменты, которых нет у приставов: оспаривание сделок
-      за три года, взыскание с директора и владельцев через субсидиарную ответственность, контроль за продажей имущества
-    </p>
-    <p>
-      Сопровождаю кредиторов от 70 000 ₽ — сумма зависит от сложности дела и числа заседаний. Банкротство не подходит, когда у должника
-      нет ни активов, ни сделок для оспаривания, ни платёжеспособных контролирующих лиц: тогда расходы на процедуру могут превысить возврат.
-    </p>
+    <p>{nb('Помогу вернуть долг через дело о банкротстве, если должник не платит и выводит активы: оспорю сделки, взыщу с директора и владельцев, проконтролирую управляющего')}</p>
   </Fragment>
 
-  <h2>Что делаю для кредитора</h2>
-  <ul>
-    <li><strong>Анализ должника</strong> — имущество, сделки, связанные компании, перспективы возврата до подачи заявления.</li>
-    <li><strong>Заявление о банкротстве должника</strong> с кандидатурой управляющего или СРО.</li>
-    <li><strong>Включение в реестр</strong> требований в срок и с правильной очерёдностью, в том числе залоговых.</li>
-    <li><strong>Возражения</strong> против требований «дружественных» кредиторов, которые размывают реестр.</li>
-    <li><strong>Оспаривание сделок</strong> должника и возврат имущества в конкурсную массу.</li>
-    <li><strong>Субсидиарная ответственность</strong> — заявление к директору и владельцам, если управляющий бездействует.</li>
-    <li><strong>Контроль управляющего</strong> — участие в собраниях, жалобы на действия и бездействие.</li>
-  </ul>
+  <Fragment slot="after">
+    <!-- Когда банкротство выгоднее приставов -->
+    <LpSection id="zachem" chip="Зачем" title="Что даёт кредитору дело о банкротстве" lead="Инструменты, которых нет у приставов: оспаривание сделок, взыскание с директора и владельцев, контроль за продажей имущества" bg="grey">
+      <div class="lp-two">
+        <div class="lp-card lp-blue">
+          <p class="lp-k">Когда банкротство выгоднее приставов</p>
+          <p class="lp-big">{nb('Активы выводятся')}</p>
+          <p class="lp-t">{nb(`Только в деле о банкротстве можно оспорить сделки за ${law.challengePeriodYears} года и привлечь контролирующих лиц к субсидиарной ответственности. Если имущество есть и его не прячут, исполнительное производство быстрее и дешевле`)}</p>
+          <a href="#zayavka" class="bl-btn">Оценить шансы вернуть долг</a>
+        </div>
+        <div class="lp-card">
+          <p class="lp-k">Когда не подходит</p>
+          <h3 class="lp-h3">Расходы могут превысить возврат, если</h3>
+          <ul class="lp-signs">
+            {notFit.map((t) => <li><span class="lp-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>{nb(t)}</span></li>)}
+          </ul>
+          <p class="lp-foot">{nb('Поэтому до подачи проверяю активы, сделки и связанные компании должника')}</p>
+        </div>
+      </div>
+    </LpSection>
 
-  <h2>Когда подавать на банкротство должника</h2>
-  <p>
-    Против организации — если требования от {rub(law.companyThreshold)} не исполнены больше трёх месяцев и подтверждены решением суда
-    (банки и налоговая — в особом порядке). Против гражданина или ИП — при долге от {rub(law.citizenDutyThreshold)}, просроченном больше трёх месяцев.
-  </p>
-  <p>
-    Первому заявителю выгоднее: он предлагает управляющего и раньше видит документы должника. Но он же рискует оплатить расходы процедуры,
-    если имущества у должника не окажется. Поэтому сначала проверяем активы.
-  </p>
+    <!-- Кто ведёт дело -->
+    <Lawyer />
 
-  <h2>Если дело уже идёт</h2>
-  <p>
-    Пришлите номер дела — по картотеке арбитражных дел и ЕФРСБ видно стадию, реестр, отчёты управляющего и оспоренные сделки.
-    Главное — не пропустить двухмесячный срок на включение в реестр с даты публикации о введении процедуры.
-  </p>
+    <!-- Когда подавать -->
+    <LpSection id="kogda" chip="Когда подавать" title="Когда можно подать на банкротство должника" lead="Пороги и сроки разные для организаций и граждан" bg="grey">
+      <div class="lp-two">
+        <div class="lp-card">
+          <p class="lp-k">Против организации</p>
+          <p class="lp-big is-dark tnum">от {rub(law.companyThreshold)}</p>
+          <p class="lp-t is-dark">{nb('требования не исполнены больше трёх месяцев и подтверждены решением суда. Банки и налоговая подают в особом порядке')}</p>
+        </div>
+        <div class="lp-card">
+          <p class="lp-k">Против гражданина или ИП</p>
+          <p class="lp-big is-dark tnum">от {rub(law.citizenDutyThreshold)}</p>
+          <p class="lp-t is-dark">{nb('долг просрочен больше трёх месяцев')}</p>
+        </div>
+      </div>
+      <a href="#zayavka" class="lp-strip">
+        <span>{nb('Первому заявителю выгоднее: он предлагает управляющего и раньше видит документы должника. Но он же рискует оплатить расходы процедуры, если имущества не окажется — поэтому сначала проверяем активы')}</span>
+        <span class="lp-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
+      </a>
+    </LpSection>
+
+    <!-- Что делаю -->
+    <LpSection id="rabota" chip="Что делаю" title="Что делаю для кредитора" lead="Веду дело с первого анализа должника до расчётов с кредиторами">
+      <div class="sd-wrap">
+        <div class="sd-card">
+          <p class="sd-num">от 70 000 ₽</p>
+          <p class="sd-cap">{nb('сопровождение кредитора — сумма зависит от сложности дела и числа заседаний')}</p>
+          <p class="sd-note">{nb('Начинаю с анализа должника: если вернуть деньги через банкротство нереально, скажу об этом до расходов на процедуру')}</p>
+          <a href="#zayavka" class="lp-btn sd-btn">Обсудить дело</a>
+        </div>
+        <ol class="sd-list">
+          {work.map(([h, t], i) => <li><span class="sd-n tnum">[{String(i + 1).padStart(2, '0')}]</span><span><b>{nb(h)}.</b> {nb(t.charAt(0).toUpperCase() + t.slice(1))}</span></li>)}
+        </ol>
+      </div>
+    </LpSection>
+
+    <!-- Если дело уже идёт -->
+    <LpSection id="delo-idet" chip="Дело уже идёт" title="Если дело о банкротстве уже идёт" lead="Главное — не пропустить срок на включение в реестр требований" bg="grey">
+      <div class="lp-two">
+        <div class="lp-card lp-blue">
+          <p class="lp-k">Срок на включение в реестр</p>
+          <p class="lp-big">2 месяца</p>
+          <p class="lp-t">{nb('с даты публикации о введении процедуры. Кто опоздал, получит деньги после реестровых кредиторов, то есть обычно ничего')}</p>
+        </div>
+        <div class="lp-card">
+          <p class="lp-k">Что сделать</p>
+          <h3 class="lp-h3">Пришлите номер дела</h3>
+          <p class="lp-t is-dark">{nb('По картотеке арбитражных дел и ЕФРСБ видно стадию, реестр, отчёты управляющего и оспоренные сделки. Скажу, что реально можно получить')}</p>
+          <a href="#zayavka" class="lp-btn bl-own">Отправить номер дела</a>
+        </div>
+      </div>
+    </LpSection>
+
+    <HomeReviews />
+  </Fragment>
 </Page>
+
+<style>
+  .lp-two { display: grid; gap: clamp(0.75rem, 1.4vw, 1.25rem); }
+  @media (min-width: 768px) { .lp-two { grid-template-columns: 1fr 1fr; } }
+  .lp-card { display: flex; flex-direction: column; padding: clamp(1.25rem, 2vw, 1.75rem); border-radius: 18px; background: #fff; color: #1d1e21; }
+  :global(.lps:not(.is-grey)) .lp-card:not(.lp-blue) { background: #f3f4f6; }
+  .lp-blue { background: linear-gradient(135deg, #034b8e 0%, #053a6e 60%, #0b1a30 100%); color: #fff; }
+  .lp-k { font-size: 0.9375rem; color: #7c818a; }
+  .lp-blue .lp-k { color: rgb(255 255 255 / 0.75); }
+  .lp-big { margin-top: 0.75rem; font-family: var(--font-display); font-weight: 700; font-size: clamp(2rem, 3.2vw, 3rem); line-height: 1.05; letter-spacing: -0.03em; }
+  .lp-big.is-dark { color: #1d1e21; }
+  .lp-t { margin-top: 0.875rem; font-size: var(--fs-body); line-height: 1.5; color: rgb(255 255 255 / 0.88); text-wrap: pretty; }
+  .lp-t.is-dark { color: #5f646d; }
+  .lp-blue .lp-t { margin-bottom: 1.5rem; }
+  .lp-h3 { margin-top: 0.75rem; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; color: #1d1e21; text-wrap: balance; }
+  .lp-signs { margin-top: 1rem; }
+  .lp-signs li { display: grid; grid-template-columns: 12px minmax(0, 1fr); gap: 0.875rem; padding: 0.625rem 0; border-top: 1px solid rgb(29 30 33 / 0.1); font-size: var(--fs-body); line-height: 1.4; color: #2a2d33; }
+  .lp-sq { display: grid; grid-template-columns: 5px 5px; grid-auto-rows: 5px; gap: 2px; margin-top: 0.45em; }
+  .lp-sq i { width: 5px; height: 5px; border-radius: 1px; background: #034b8e; }
+  .lp-foot { margin-top: auto; padding-top: 1rem; border-top: 1px solid rgb(29 30 33 / 0.1); font-size: 0.9375rem; line-height: 1.45; color: #7c818a; }
+  .bl-btn { display: inline-flex; align-self: flex-start; align-items: center; justify-content: center; min-height: 3.25rem; margin-top: auto; padding: 0 1.75rem; border-radius: 10px; background: #fff; color: #034b8e; font-weight: 600; font-size: 1rem; text-decoration: none; transition: background-color 150ms var(--ease-out); }
+  .bl-btn:hover { background: #e6eef8; }
+  .lp-btn {
+    display: inline-flex; flex: none; align-items: center; justify-content: center; min-height: 3.25rem; padding: 0 1.5rem;
+    border-radius: 10px; background: #034b8e; color: #fff; font-weight: 500; text-decoration: none; transition: background-color 150ms var(--ease-out);
+  }
+  .lp-btn:hover { background: #0a5aa6; }
+  .lp-btn.bl-own { align-self: flex-start; margin-top: auto; }
+  .lp-card .lp-t.is-dark:has(+ .bl-own) { margin-bottom: 1.5rem; }
+  @media (max-width: 639px) { .bl-btn, .lp-btn.bl-own { align-self: stretch; } }
+
+  .lp-strip {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem;
+    margin-top: clamp(0.75rem, 1.2vw, 1rem); padding: clamp(1rem, 1.4vw, 1.25rem) clamp(1.25rem, 2vw, 2rem);
+    border-radius: 16px; background: #f3f4f6; font-size: var(--fs-body); line-height: 1.45; color: #1d1e21; text-decoration: none;
+    transition: box-shadow 150ms var(--ease-out);
+  }
+  :global(.lps.is-grey) .lp-strip { background: #fff; }
+  a.lp-strip:hover { box-shadow: inset 0 0 0 2px #034b8e; }
+  .lp-strip > span:first-child { flex: 1; min-width: 16rem; }
+  .lp-arrow { display: grid; flex: none; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 8px; background: #034b8e; color: #fff; }
+  @media (max-width: 639px) { .lp-strip > span:first-child { min-width: 0; } }
+
+  /* Что делаю: карточка с ценой + список */
+  .sd-wrap { display: grid; gap: 1.5rem; }
+  @media (min-width: 1024px) { .sd-wrap { grid-template-columns: minmax(0, 5fr) minmax(0, 8fr); gap: clamp(1.5rem, 3vw, 3.5rem); } }
+  .sd-card { display: flex; flex-direction: column; padding: clamp(1.25rem, 1.8vw, 2rem) clamp(1.25rem, 1.6vw, 1.75rem); border-radius: 16px; background: #f3f4f6; }
+  .sd-num { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.25rem, 3.2vw, 3rem); line-height: 1; letter-spacing: -0.02em; color: #1d1e21; }
+  .sd-cap { margin-top: 0.5rem; font-size: var(--fs-body); line-height: 1.45; color: #7c818a; text-wrap: pretty; }
+  .sd-note { margin-top: auto; padding-top: 2rem; font-size: var(--fs-body); line-height: 1.45; color: #1d1e21; }
+  .lp-btn.sd-btn { align-self: flex-start; margin-top: 1.25rem; }
+  @media (max-width: 639px) { .lp-btn.sd-btn { align-self: stretch; } }
+  .sd-list li { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); gap: 1rem; padding: 1rem 0; border-top: 1px solid rgb(29 30 33 / 0.1); font-size: var(--fs-body); line-height: 1.45; color: #2a2d33; }
+  .sd-list li:last-child { border-bottom: 1px solid rgb(29 30 33 / 0.1); }
+  .sd-list b { font-weight: 600; color: #1d1e21; }
+  .sd-n { color: #8a8f98; }
+  @media (max-width: 639px) { .sd-list li { grid-template-columns: 2.75rem minmax(0, 1fr); gap: 0.75rem; } }
+</style>
