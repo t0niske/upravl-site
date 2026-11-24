@@ -35,12 +35,13 @@ interface Props {
   cta?: boolean;
   /** плашка с фото управляющего рядом с кнопкой на первом экране */
   expert?: boolean;
+  faqTitle?: string;
   /** свой фон первого экрана */
   heroBg?: ImageMetadata;
 }
 const {
   title, description, h1, eyebrow, crumbs, facts = [], faq = [], related = [], schema = [],
-  published, ogType = 'website', formTitle, formText, topic, cta = true, expert = false, heroBg,
+  published, ogType = 'website', formTitle, formText, topic, cta = true, expert = false, heroBg, faqTitle,
 } = Astro.props;
 const allSchema = [...schema, ...(faq.length ? [faqSchema(faq)] : [])];
 // страница из блоков (без сплошного текста) — тогда отметка «Обновлено» уходит в синюю полосу
@@ -117,7 +118,7 @@ const relArticles = knowMenu
 
   <slot name="after" />
 
-  {faq.length > 0 && <HomeFaq items={faq} />}
+  {faq.length > 0 && <HomeFaq items={faq} title={faqTitle} />}
 
   {relArticles.length > 0 && (
     <section class="rel" aria-labelledby="related-title">

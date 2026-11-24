@@ -7,7 +7,7 @@
 import { nb } from '../data/typo';
 import { contacts } from '../data/site';
 
-interface Props { items: { q: string; a: string }[] }
+interface Props { items: { q: string; a: string }[]; title?: string }
 const { items } = Astro.props;
 ---
 
@@ -22,7 +22,7 @@ const { items } = Astro.props;
           </span>
           Вопросы
         </span>
-        <h2 id="faq-title" class="fq-title">{nb('Частые вопросы о банкротстве')}</h2>
+        <h2 id="faq-title" class="fq-title">{nb(Astro.props.title ?? 'Частые вопросы о банкротстве')}</h2>
         <div class="fq-card">
           <p class="fq-card-title">{nb('Не нашли свой вопрос?')}</p>
           <p class="fq-card-text">{nb('Позвоните или напишите — отвечу сам, первая консультация бесплатно')}</p>
