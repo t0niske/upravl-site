@@ -9,6 +9,8 @@
 import { nb } from '../data/typo';
 import { pricing, law, rub } from '../data/site';
 
+interface Props { title?: string }
+const { title = 'Сколько стоит банкротство гражданина' } = Astro.props;
 const total = pricing.citizenTurnkey + law.fuDeposit;
 const included = [
   'Разбор долгов, имущества и сделок за 3 года',
@@ -30,7 +32,7 @@ const included = [
           </span>
           Стоимость
         </span>
-        <h2 id="price-title" class="hp-title">{nb('Сколько стоит банкротство гражданина')}</h2>
+        <h2 id="price-title" class="hp-title">{nb(title)}</h2>
         <dl class="hp-tiles">
           <div class="hp-tile"><dt>{nb('юридическое сопровождение под ключ')}</dt><dd class="tnum"><span class="hp-from">от</span>&nbsp;{rub(pricing.citizenTurnkey)}</dd></div>
           <div class="hp-tile"><dt>{nb('депозит на вознаграждение финансового управляющего')}</dt><dd class="tnum">{rub(law.fuDeposit)}</dd></div>

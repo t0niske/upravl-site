@@ -1,10 +1,46 @@
 ---
 import Page from '../layouts/Page.astro';
+import LpSection from '../components/LpSection.astro';
+import Steps from '../components/Steps.astro';
+import HomePrice from '../components/HomePrice.astro';
+import HomeReviews from '../components/HomeReviews.astro';
+import { nb } from '../data/typo';
 import { law, rub, pricing } from '../data/site';
 import { serviceSchema } from '../data/schema';
 
 const url = '/bankrotstvo-ip/';
-const description = 'Банкротство ИП в Томске: списание налогов и долгов по бизнесу, что будет со статусом ИП и имуществом, какие платежи проверит управляющий.';
+const description = `Банкротство ИП в Томске: списание налогов и долгов по бизнесу, сопровождение от ${rub(pricing.citizenTurnkey)}. Что будет со статусом ИП, работниками и имуществом.`;
+
+// Главное: ИП банкротится как гражданин
+const basics = [
+  'ИП банкротится по правилам для граждан: в Арбитражном суде, с финансовым управляющим',
+  'Списывают и личные долги, и долги по бизнесу, включая налоги, взносы, пени и штрафы',
+  'После признания банкротом регистрация ИП утрачивает силу автоматически',
+  'Закрывать ИП заранее не обязательно: долги по бизнесу от этого не исчезнут',
+];
+// Сравнение: гражданин / ИП
+const compare: [string, string, string][] = [
+  ['Какие долги спишут', 'личные', 'личные и по бизнесу, включая налоги и взносы'],
+  ['Имущество', 'сверх защищённого продают на торгах', 'то же, включая имущество для бизнеса, кроме защищённого ст. 446 ГПК'],
+  ['Выписки', 'по личным счетам и картам за 3 года', 'плюс расчётный счёт за 3 года: управляющий проверяет каждый платёж'],
+  ['Работники', '—', 'увольнение, долги по зарплате не списываются'],
+  ['После процедуры', '—', 'новое ИП — через 5 лет'],
+];
+// Что проверит управляющий
+const checks = [
+  'Движение денег по расчётному счёту и личным картам за 3 года',
+  'Продажу оборудования, транспорта, товарных остатков, особенно связанным лицам',
+  'Погашение долгов отдельным кредиторам перед подачей заявления',
+  'Снятие наличных без подтверждения расходов',
+  'Соответствие доходов в декларациях реальному обороту',
+];
+// Что будет с бизнесом
+const business: [string, string][] = [
+  ['Налоги и взносы', 'Начисленные до подачи заявления списываются. Начисленные после возбуждения дела — текущие платежи, их нужно платить'],
+  ['Работники', 'Трудовые договоры нужно расторгнуть. Долги по зарплате и выходным пособиям не списываются, их гасят в первую очередь'],
+  ['Имущество бизнеса', 'Оборудование, транспорт и товар продают на торгах. Сохраняется только то, что защищено ст. 446 ГПК'],
+  ['Статус ИП', 'Прекращается после признания банкротом. Снова зарегистрироваться предпринимателем можно через 5 лет'],
+];
 
 const faq = [
   {
@@ -29,17 +65,18 @@ const faq = [
 <Page
   title="Банкротство ИП в Томске — долги и налоги бизнеса"
   description={description}
-  h1="Банкротство индивидуального предпринимателя"
-  eyebrow="Для ИП"
+  h1="Банкротство ИП в Томске"
+  eyebrow="Для индивидуальных предпринимателей"
   crumbs={[{ name: 'Банкротство ИП', href: url }]}
   facts={[
-    ['Суд', 'Арбитражный суд Томской области'],
-    ['Порог по заявлению кредитора', rub(law.citizenDutyThreshold)],
+    ['Сопровождение', `от ${rub(pricing.citizenTurnkey)}`],
     ['Депозит управляющему', rub(law.fuDeposit)],
+    ['Налоги и долги бизнеса', 'списываются'],
     ['Новое ИП', 'через 5 лет'],
   ]}
   faq={faq}
   topic="Банкротство ИП"
+  expert
   schema={[serviceSchema({ name: 'Банкротство индивидуального предпринимателя', url, description })]}
   related={[
     { href: '/bankrotstvo-fizicheskih-lic/', label: 'Банкротство физических лиц', text: 'ИП банкротится по правилам для граждан — все детали здесь.' },
@@ -48,56 +85,172 @@ const faq = [
   ]}
 >
   <Fragment slot="lead">
-    <p>
-      Индивидуальный предприниматель банкротится по правилам для граждан: в Арбитражном суде, с финансовым управляющим и с итоговым списанием долгов —
-      и личных, и по бизнесу, включая налоги и взносы. Статус ИП после признания банкротом прекращается
-    </p>
-    <p>
-      Главный риск ИП — сделки и платежи за 3 года до заявления: вывод денег со счёта, продажа оборудования, расчёты с «своими» кредиторами.
-      Их проверяют строже, чем у обычного гражданина, поэтому начинаем с анализа выписок.
-    </p>
+    <p>{nb('Спишу долги ИП через Арбитражный суд — личные и по бизнесу, включая налоги и взносы. Начинаем с разбора выписок по счёту: это главный риск предпринимателя')}</p>
   </Fragment>
 
-  <h2>Чем банкротство ИП отличается от банкротства гражданина</h2>
-  <p>Процедуры те же — реструктуризация, реализация имущества, мировое соглашение. Отличия — в деталях, которые влияют на исход:</p>
-  <div class="not-prose overflow-x-auto">
-    <table class="table-clean min-w-[32rem]">
-      <thead><tr><th scope="col">Вопрос</th><th scope="col">Гражданин</th><th scope="col">ИП</th></tr></thead>
-      <tbody>
-        <tr><td>Долги по бизнесу и налоги</td><td>—</td><td>списываются вместе с личными</td></tr>
-        <tr><td>Имущество для бизнеса</td><td>—</td><td>продаётся, кроме защищённого ст. 446 ГПК</td></tr>
-        <tr><td>Выписки по расчётному счёту</td><td>не нужны</td><td>за 3 года, управляющий проверяет каждый платёж</td></tr>
-        <tr><td>Работники</td><td>—</td><td>увольнение, зарплатные долги не списываются</td></tr>
-        <tr><td>Регистрация после процедуры</td><td>—</td><td>новое ИП — через 5 лет</td></tr>
-      </tbody>
-    </table>
-  </div>
+  <Fragment slot="after">
+    <!-- Чем отличается -->
+    <LpSection id="otlichiya" chip="Отличия" title="Чем банкротство ИП отличается от банкротства гражданина" lead="Процедуры те же: реструктуризация, реализация имущества, мировое соглашение. Отличия — в деталях, которые влияют на исход" bg="grey">
+      <div class="ce-wrap">
+        <div class="lp-card">
+          <h3 class="dg-h">Главное</h3>
+          <ul class="dg-list ce-list">{basics.map((t) => <li><span class="lp-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>{nb(t)}</span></li>)}</ul>
+          <a href="#zayavka" class="lp-btn ce-btn">Обсудить мою ситуацию</a>
+        </div>
+        <div class="lp-card">
+          <table class="ce-table">
+            <caption class="sr-only">Сравнение банкротства гражданина и ИП</caption>
+            <thead><tr><th scope="col"><span class="sr-only">Вопрос</span></th><th scope="col">Гражданин</th><th scope="col" class="is-ip">ИП</th></tr></thead>
+            <tbody>
+              {compare.map(([k, a, b]) => <tr><th scope="row">{k}</th><td>{nb(a)}</td><td class="is-ip">{nb(b)}</td></tr>)}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </LpSection>
 
-  <h2>Когда предпринимателю пора подавать заявление</h2>
-  <p>
-    Обязанность наступает, когда долги достигли {rub(law.citizenDutyThreshold)} и расплатиться со всеми кредиторами невозможно —
-    заявление нужно подать в течение 30 рабочих дней. Кредитор может подать на ИП сам, если долг от {rub(law.citizenDutyThreshold)}
-    просрочен больше трёх месяцев, а налоговая — после того как требования не исполнены в срок.
-  </p>
-  <p>
-    Подать заявление самому выгоднее: вы выбираете момент, готовите документы и позицию по сделкам. Когда процедуру запускает кредитор,
-    он же предлагает финансового управляющего.
-  </p>
+    <!-- Когда подавать -->
+    <LpSection id="kogda" chip="Когда подавать" title="Когда предпринимателю пора подавать заявление" lead="Закон различает обязанность ИП подать заявление и право кредиторов подать на него">
+      <div class="lp-two">
+        <div class="lp-card lp-blue">
+          <p class="lp-k">Обязаны подать</p>
+          <p class="lp-big tnum">от {rub(law.citizenDutyThreshold)}</p>
+          <p class="lp-t">{nb('долга, и расплатиться со всеми кредиторами невозможно. Заявление нужно подать в течение 30 рабочих дней')}</p>
+        </div>
+        <div class="lp-card">
+          <p class="lp-k">Могут подать на вас</p>
+          <h3 class="lp-h3">Кредитор или налоговая</h3>
+          <ul class="lp-signs">
+            {[`кредитор — если долг от ${rub(law.citizenDutyThreshold)} просрочен больше трёх месяцев`, 'налоговая — после того как требования не исполнены в срок'].map((t) => <li><span class="lp-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>{nb(t)}</span></li>)}
+          </ul>
+        </div>
+      </div>
+      <a href="#zayavka" class="lp-strip">
+        <span>{nb('Подать заявление самому выгоднее: вы выбираете момент и готовите позицию по сделкам. Когда процедуру запускает кредитор, он же предлагает управляющего')}</span>
+        <span class="lp-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
+      </a>
+    </LpSection>
 
-  <h2>Что проверит управляющий у ИП</h2>
-  <ul>
-    <li>движение денег по расчётному счёту и личным картам за 3 года;</li>
-    <li>продажу оборудования, транспорта, товарных остатков, особенно связанным лицам;</li>
-    <li>погашение долгов отдельным кредиторам перед подачей заявления;</li>
-    <li>снятие наличных без подтверждения расходов;</li>
-    <li>соответствие доходов в декларациях реальному обороту.</li>
-  </ul>
-  <p>Если в выписках есть спорные операции, готовим объяснения и документы до подачи — это решает, освободит ли суд от долгов.</p>
+    <!-- Что проверит управляющий -->
+    <LpSection id="proverka-upravlyayushchego" chip="Риски" title="Что проверит финансовый управляющий у ИП" lead="Платежи и сделки предпринимателя проверяют строже, чем у обычного гражданина" bg="grey">
+      <div class="sd-wrap">
+        <div class="sd-card">
+          <p class="sd-num">{law.challengePeriodYears} года</p>
+          <p class="sd-cap">{nb('за этот срок управляющий проверяет расчётный счёт, карты и сделки')}</p>
+          <p class="sd-note">{nb('Если в выписках есть спорные операции, готовим объяснения и документы до подачи. От этого зависит, освободит ли суд от долгов')}</p>
+          <a href="#zayavka" class="lp-btn sd-btn">Разобрать мои выписки</a>
+        </div>
+        <ol class="sd-list">
+          {checks.map((t, i) => <li><span class="sd-n tnum">[{String(i + 1).padStart(2, '0')}]</span><span>{nb(t)}</span></li>)}
+        </ol>
+      </div>
+    </LpSection>
 
-  <h2>Стоимость</h2>
-  <p>
-    Цена зависит от оборота, числа кредиторов и сделок, поэтому называю её после разбора документов. Ориентир — сопровождение банкротства
-    гражданина под ключ — от {rub(pricing.citizenTurnkey)}; у ИП с активным оборотом работы больше. Обязательный депозит на вознаграждение
-    управляющего — {rub(law.fuDeposit)}.
-  </p>
+    <!-- Что будет с бизнесом -->
+    <LpSection id="biznes" chip="Бизнес" title="Что будет с бизнесом" lead="Налоги, работники, имущество и статус ИП — главное, о чём спрашивают предприниматели">
+      <ul class="bz-grid">
+        {business.map(([h, t], i) => (
+          <li class="bz-card">
+            <span class="mf-n tnum">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="mf-h">{nb(h)}</h3>
+            <p class="mf-t">{nb(t)}</p>
+          </li>
+        ))}
+      </ul>
+    </LpSection>
+
+    <!-- Этапы -->
+    <Steps />
+
+    <!-- Стоимость -->
+    <HomePrice title="Сколько стоит банкротство ИП" />
+
+    <HomeReviews />
+  </Fragment>
 </Page>
+
+<style>
+  .lp-two { display: grid; gap: clamp(0.75rem, 1.4vw, 1.25rem); }
+  @media (min-width: 768px) { .lp-two { grid-template-columns: 1fr 1fr; } }
+  .lp-card { display: flex; flex-direction: column; padding: clamp(1.25rem, 2vw, 1.75rem); border-radius: 18px; background: #fff; color: #1d1e21; }
+  :global(.lps:not(.is-grey)) .lp-card:not(.lp-blue) { background: #f3f4f6; }
+  .lp-blue { background: linear-gradient(135deg, #034b8e 0%, #053a6e 60%, #0b1a30 100%); color: #fff; }
+  .lp-k { font-size: 0.9375rem; color: #7c818a; }
+  .lp-blue .lp-k { color: rgb(255 255 255 / 0.75); }
+  .lp-big { margin-top: 0.75rem; font-family: var(--font-display); font-weight: 700; font-size: clamp(2.25rem, 3.6vw, 3.25rem); line-height: 1; letter-spacing: -0.03em; }
+  .lp-t { margin-top: 0.875rem; font-size: var(--fs-body); line-height: 1.5; color: rgb(255 255 255 / 0.88); text-wrap: pretty; }
+  .lp-h3 { margin-top: 0.75rem; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; color: #1d1e21; text-wrap: balance; }
+  .lp-signs { margin-top: 1rem; }
+  .lp-signs li { display: grid; grid-template-columns: 12px minmax(0, 1fr); gap: 0.875rem; padding: 0.625rem 0; border-top: 1px solid rgb(29 30 33 / 0.1); font-size: var(--fs-body); line-height: 1.4; color: #2a2d33; }
+  .lp-signs li:last-child { padding-bottom: 0; }
+  .lp-sq { display: grid; grid-template-columns: 5px 5px; grid-auto-rows: 5px; gap: 2px; margin-top: 0.45em; }
+  .lp-sq i { width: 5px; height: 5px; border-radius: 1px; background: #034b8e; }
+
+  .lp-strip {
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem 2rem;
+    margin-top: clamp(0.75rem, 1.2vw, 1rem); padding: clamp(1rem, 1.4vw, 1.25rem) clamp(1.25rem, 2vw, 2rem);
+    border-radius: 16px; background: #f3f4f6; font-size: var(--fs-body); line-height: 1.45; color: #1d1e21; text-decoration: none;
+    transition: box-shadow 150ms var(--ease-out);
+  }
+  :global(.lps.is-grey) .lp-strip { background: #fff; }
+  a.lp-strip:hover { box-shadow: inset 0 0 0 2px #034b8e; }
+  .lp-strip > span:first-child { flex: 1; min-width: 16rem; }
+  .lp-arrow { display: grid; flex: none; place-items: center; width: 2.75rem; height: 2.75rem; border-radius: 8px; background: #034b8e; color: #fff; }
+  .lp-btn {
+    display: inline-flex; flex: none; align-items: center; justify-content: center; min-height: 3.25rem; padding: 0 1.5rem;
+    border-radius: 10px; background: #034b8e; color: #fff; font-weight: 500; text-decoration: none; transition: background-color 150ms var(--ease-out);
+  }
+  .lp-btn:hover { background: #0a5aa6; }
+  @media (max-width: 639px) { .lp-btn { width: 100%; } .lp-strip > span:first-child { min-width: 0; } }
+
+  /* Главное + сравнение (как «Что это» на странице МФЦ) */
+  .dg-h { font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.15; letter-spacing: -0.015em; color: #1d1e21; }
+  .dg-list li { display: grid; grid-template-columns: 12px minmax(0, 1fr); gap: 0.875rem; padding: 0.4rem 0; font-size: var(--fs-body); line-height: 1.45; color: #1d1e21; }
+  .ce-wrap { display: grid; gap: clamp(0.75rem, 1.4vw, 1.25rem); }
+  @media (min-width: 1024px) { .ce-wrap { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
+  .ce-list { margin: 1rem 0 1.5rem; }
+  .lp-btn.ce-btn { align-self: flex-start; margin-top: auto; }
+  @media (max-width: 639px) { .lp-btn.ce-btn { align-self: stretch; } }
+  .ce-table { width: 100%; border-collapse: collapse; font-size: var(--fs-body); line-height: 1.4; color: #1d1e21; }
+  .ce-table th, .ce-table td { padding: 0.75rem 0.75rem 0.75rem 0; text-align: left; vertical-align: top; font-weight: 400; }
+  .ce-table thead th { padding-top: 0; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.15; letter-spacing: -0.015em; }
+  .ce-table thead th.is-ip { color: #034b8e; }
+  .ce-table tbody tr { border-top: 1px solid rgb(29 30 33 / 0.1); }
+  .ce-table tbody th { width: 24%; font-size: 0.9375rem; color: #7c818a; }
+  .ce-table td { width: 38%; }
+  .ce-table td.is-ip { font-weight: 600; color: #034b8e; }
+  .ce-table tbody tr:last-child > * { padding-bottom: 0; }
+  /* телефон: подпись строкой сверху, под ней две колонки «гражданин / ИП» */
+  @media (max-width: 639px) {
+    .ce-table thead tr, .ce-table tbody tr { display: grid; grid-template-columns: 1fr 1fr; column-gap: 1rem; }
+    .ce-table thead th:first-child { display: none; }
+    .ce-table thead th { padding: 0 0 0.75rem; font-size: 1.125rem; }
+    .ce-table tbody tr { padding: 0.75rem 0; }
+    .ce-table tbody th { grid-column: 1 / -1; width: auto; padding: 0 0 0.375rem; }
+    .ce-table td { width: auto; padding: 0; }
+    .ce-table tbody tr:last-child { padding-bottom: 0; }
+  }
+
+  /* Риски: карточка с цифрой + список с [01] (как «Сделки» на странице физлиц) */
+  .sd-wrap { display: grid; gap: 1.5rem; }
+  @media (min-width: 1024px) { .sd-wrap { grid-template-columns: minmax(0, 5fr) minmax(0, 8fr); gap: clamp(1.5rem, 3vw, 3.5rem); } }
+  .sd-card { display: flex; flex-direction: column; padding: clamp(1.25rem, 1.8vw, 2rem) clamp(1.25rem, 1.6vw, 1.75rem); border-radius: 16px; background: #fff; }
+  .sd-num { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.25rem, 3.2vw, 3rem); line-height: 1; letter-spacing: -0.02em; color: #1d1e21; }
+  .sd-cap { margin-top: 0.5rem; font-size: var(--fs-body); line-height: 1.45; color: #7c818a; text-wrap: pretty; }
+  .sd-note { margin-top: auto; padding-top: 2rem; font-size: var(--fs-body); line-height: 1.45; color: #1d1e21; }
+  .lp-btn.sd-btn { align-self: flex-start; margin-top: 1.25rem; }
+  @media (max-width: 639px) { .lp-btn.sd-btn { align-self: stretch; } }
+  .sd-list li { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); gap: 1rem; padding: 1rem 0; border-top: 1px solid rgb(29 30 33 / 0.1); font-size: var(--fs-body); line-height: 1.45; color: #1d1e21; }
+  .sd-list li:last-child { border-bottom: 1px solid rgb(29 30 33 / 0.1); }
+  .sd-n { color: #8a8f98; }
+  @media (max-width: 639px) { .sd-list li { grid-template-columns: 2.75rem minmax(0, 1fr); gap: 0.75rem; } }
+
+  /* Бизнес: 4 серые карточки с синим номером (как «Когда МФЦ — плохой выбор», без картинок) */
+  .bz-grid { display: grid; gap: clamp(0.75rem, 1.4vw, 1.25rem); }
+  @media (min-width: 640px) { .bz-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1280px) { .bz-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .bz-card { display: flex; flex-direction: column; padding: clamp(1.25rem, 2vw, 1.75rem); border-radius: 18px; background: #f3f4f6; }
+  .mf-n { font-family: var(--font-display); font-weight: 700; font-size: 1.125rem; color: #034b8e; }
+  .mf-h { margin-top: 0.75rem; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; color: #1d1e21; }
+  .mf-t { margin-top: 0.625rem; font-size: var(--fs-body); line-height: 1.45; color: #5f646d; }
+</style>
