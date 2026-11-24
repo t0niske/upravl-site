@@ -7,7 +7,7 @@ import HomeReviews from '../components/HomeReviews.astro';
 import { nb } from '../data/typo';
 import { law, rub, pricing } from '../data/site';
 import { serviceSchema } from '../data/schema';
-import { priceGroups } from '../data/prices';
+import HomePrice from '../components/HomePrice.astro';
 import heroBg from '../assets/predstavitelstvo/hero-bg.jpg';
 import '../styles/lp.css';
 
@@ -22,8 +22,6 @@ const work: [string, string][] = [
   ['Имущество', 'отстаиваю то, что защищено законом: единственное жильё, вещи обихода, прожиточный минимум'],
   ['Завершение процедуры', 'заседание, на котором суд освобождает от долгов'],
 ];
-// Цены — строки прайса (src/data/prices.ts)
-const rows = priceGroups.find((g) => g.id === 'bankrotstvo')!.rows.slice(0, 3);
 
 const faq = [
   {
@@ -97,22 +95,7 @@ const faq = [
     <Steps />
 
     <!-- Цены -->
-    <LpSection id="ceny" chip="Цены" title="Сколько стоит представительство">
-      <section class="pr-card" aria-labelledby="rep-h">
-        <div>
-          <h3 id="rep-h" class="pr-h">Цены на услуги по банкротству</h3>
-          <p class="pr-t">{nb('Цена «от» — минимальная стоимость простого дела. Итоговую называю до начала работы и фиксирую в договоре')}</p>
-        </div>
-        <ul>
-          {rows.map((r) => (
-            <li class="pr-row">
-              <span class="pr-s">{nb(r.service)}{r.note && <span class="pr-note">{nb(r.note)}</span>}</span>
-              <span class="pr-p tnum">{r.price}</span>
-            </li>
-          ))}
-        </ul>
-      </section>
-    </LpSection>
+    <HomePrice title="Сколько стоит представительство" tiles={[['заявление о признании гражданина банкротом', 12000, true], ['депозит на вознаграждение финансового управляющего', law.fuDeposit], ['под ключ — рассрочка в месяц', pricing.citizenInstallmentFrom, true]]} totalLabel="Представительство — за одно заседание" totalSum={5000} tag={null} incTitle={`Если нужно всё дело — под ключ от ${rub(pricing.citizenTurnkey)}`} />
 
     <HomeReviews />
   </Fragment>
