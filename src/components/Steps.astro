@@ -65,7 +65,7 @@ const {
         </li>
       ))}
     </ol>
-    <p class="st-note">{nb(note)} {noteLink && Astro.url.pathname !== '/bankrotstvo-fizicheskih-lic/' && <a href="/bankrotstvo-fizicheskih-lic/">Условия, документы и последствия</a>}</p>
+    {(note || noteLink) && <p class="st-note">{nb(note)} {noteLink && Astro.url.pathname !== '/bankrotstvo-fizicheskih-lic/' && <a href="/bankrotstvo-fizicheskih-lic/">Условия, документы и последствия</a>}</p>}
   </div>
 </section>
 

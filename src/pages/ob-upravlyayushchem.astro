@@ -12,6 +12,7 @@ import doc1999 from '../assets/doc-fsdn-1999.jpg';
 import docMinjust from '../assets/doc-minjust-2003.jpg';
 import docTipkia from '../assets/doc-tipkia-2016.jpg';
 import docDexter from '../assets/doc-dexter-2018.jpg';
+import mapImg from '../assets/map/regions.svg';
 import '../styles/lp.css';
 
 const url = '/ob-upravlyayushchem/';
@@ -23,18 +24,16 @@ const profile = {
   mainEntity: { '@id': PERSON_ID },
 };
 
-const registry: [string, string][] = [
-  ['СРО арбитражных управляющих', person.sro],
-  ['Регистрационный номер в реестре', person.registryNumber],
-  ['ИНН', person.inn],
-].filter(([, v]) => Boolean(v)) as [string, string][];
 
-const timeline: [string, string][] = [
-  ['1999', 'Сдал экзамен по программе обучения специалистов по антикризисному управлению ФСДН России (свидетельство № 7 от 04.03.1999, Томский политехнический университет). Начало работы в антикризисном управлении'],
-  ['2003', 'Сдал теоретический экзамен по единой программе подготовки арбитражных управляющих (Минюст России)'],
-  [String(person.citizensSinceYear), 'Начал вести процедуры банкротства граждан — через год после вступления в силу главы X закона о банкротстве'],
-  ['2016', 'Повышение квалификации «Банкротство предприятий: изменения законодательства и арбитражная практика»'],
-  ['2018', 'Повышение профессиональной подготовки арбитражных управляющих'],
+// Профессиональный путь — этапами; год в ярлыке, тексты из прежнего списка и дипломов
+const path = [
+  { title: 'Юридическое образование', time: '1992', text: 'Окончил Томский государственный университет по специальности «Правоведение», квалификация — юрист' },
+  { title: 'Антикризисное управление', time: '1999', text: 'Сдал экзамен по программе обучения специалистов по антикризисному управлению ФСДН России (свидетельство № 7 от 04.03.1999, Томский политехнический университет)' },
+  { title: 'Экзамен арбитражного управляющего', time: '2003', text: 'Сдал теоретический экзамен по единой программе подготовки арбитражных управляющих (Минюст России)' },
+  { title: 'Экономическое образование', time: '2007', text: 'Окончил Томский государственный университет систем управления и радиоэлектроники (ТУСУР) по специальности «Финансы и кредит», квалификация — экономист' },
+  { title: 'Банкротство граждан', time: String(person.citizensSinceYear), text: 'Начал вести процедуры банкротства граждан — через год после вступления в силу главы X закона о банкротстве' },
+  { title: 'Повышение квалификации', time: '2016 и 2018', text: '«Банкротство предприятий: изменения законодательства и арбитражная практика» и повышение профессиональной подготовки арбитражных управляющих' },
+  { title: 'Обучение при СРО', time: 'ежегодно', text: 'Повышение квалификации арбитражных управляющих при СРО' },
 ];
 
 const docs = [
@@ -75,25 +74,28 @@ const principles = [
 
   <Fragment slot="after">
     <!-- Кто я -->
-    <LpSection id="kto-ya" chip="Обо мне" title="Арбитражный управляющий из Томска" lead="Консультирую граждан и предпринимателей, представляю должников, кредиторов и других участников дел о банкротстве в Арбитражном суде Томской области и судах общей юрисдикции" bg="grey">
-      <div class="ky">
-        <div class="lp-card lp-blue">
-          <p class="lp-k">Реестр арбитражных управляющих</p>
-          <dl class="rg">
-            {registry.map(([k, v]) => <div><dt>{k}</dt><dd class="tnum">{v}</dd></div>)}
-          </dl>
-          <p class="lp-foot">{nb('Сведения об арбитражных управляющих публикуются в Едином федеральном реестре сведений о банкротстве — их можно проверить по ИНН')}</p>
-          <a href="#zayavka" class="bl-btn">Бесплатная консультация</a>
-        </div>
-        <div class="lp-card">
-          <p class="lp-k">Профессиональный путь</p>
-          <ol class="tl">
-            {timeline.map(([y, t]) => <li><span class="tl-y tnum">{y}</span><span>{nb(t)}</span></li>)}
-          </ol>
-          <a href="/dela/" class="lp-btn is-bottom">Завершённые дела</a>
+    <section id="geografiya" class="ky" aria-labelledby="kto-ya-title">
+      <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
+        <div class="ky-top">
+          <div class="ky-text">
+            <span class="ky-chip"><span class="ky-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>География</span>
+            <h2 id="kto-ya-title" class="ky-title">{nb('Где я веду дела')}</h2>
+            <p class="ky-regions">Помогаю гражданам и&nbsp;компаниям с&nbsp;банкротством в&nbsp;Сибири и&nbsp;на&nbsp;юге России&nbsp;— в&nbsp;<b>Томской</b>, <b>Новосибирской</b> и&nbsp;<b>Кемеровской</b> областях, <b>Алтайском</b> и&nbsp;<b>Краснодарском</b> краях</p>
+            <div class="ky-online">
+              <p class="ky-online-k">Онлайн-консультация</p>
+              <p class="ky-online-t">{nb('Консультирую в Telegram и WhatsApp — без поездки в офис')}</p>
+              <a href="#zayavka" class="bl-btn">Записаться на консультацию</a>
+            </div>
+          </div>
+          <figure class="ky-map">
+            <img src={mapImg.src} width={mapImg.width} height={mapImg.height} alt="Карта России: Томская, Кемеровская, Новосибирская области, Алтайский и Краснодарский края" loading="lazy" decoding="async" />
+          </figure>
         </div>
       </div>
-    </LpSection>
+    </section>
+
+    <!-- Профессиональный путь -->
+    <Steps id="put" chip="Путь" titleA="Профессиональный путь" titleB="" steps={path} note="" noteLink={false} />
 
     <!-- Документы -->
     <LpSection id="dokumenty" chip="Документы" title="Документы о квалификации" lead="Свидетельства о сдаче экзаменов и повышении квалификации. Скан можно открыть в полном размере">
@@ -113,25 +115,31 @@ const principles = [
 
     <HomeCases />
 
-    <!-- Как работаю -->
-    <Steps id="kak-rabotayu" chip="Как работаю" titleA="Как я работаю" titleB="" steps={principles} note={`Офис: ${contacts.addressFull}. Приём ${contacts.hours.toLowerCase()}.`} noteLink={false} bg="white" />
 
     <HomeReviews />
+
+    <!-- Как работаю -->
+    <Steps id="kak-rabotayu" chip="Как работаю" titleA="Как я работаю" titleB="" steps={principles} note={`Офис: ${contacts.addressFull}. Приём ${contacts.hours.toLowerCase()}.`} noteLink={false} />
+
   </Fragment>
 </Page>
 
 <style>
-  .ky { display: grid; gap: clamp(0.75rem, 1.4vw, 1.25rem); }
-  @media (min-width: 1024px) { .ky { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
-  .ky .lp-blue .lp-foot { margin-top: auto; margin-bottom: 1.5rem; padding-top: 1rem; }
-  .ky .lp-blue .bl-btn { margin-top: 0; }
-  .rg { display: grid; margin-top: 1rem; margin-bottom: 1.5rem; }
-  .rg > div { padding: 0.875rem 0; border-top: 1px solid rgb(255 255 255 / 0.18); }
-  .rg dt { font-size: 0.9375rem; color: rgb(255 255 255 / 0.7); }
-  .rg dd { margin-top: 0.25rem; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; color: #fff; }
-  .tl { margin-top: 1rem; margin-bottom: 1.5rem; }
-  .tl li { display: grid; grid-template-columns: 3.25rem minmax(0, 1fr); gap: 1rem; padding: 0.75rem 0; border-top: 1px solid rgb(29 30 33 / 0.1); font-size: var(--fs-body); line-height: 1.45; color: #2a2d33; }
-  .tl-y { font-family: var(--font-display); font-weight: 700; color: #034b8e; }
+  .ky { padding: clamp(2.5rem, 4vw, 3.5rem) 0; background: #fff; }
+  .ky-top { display: grid; gap: clamp(1.5rem, 3vw, 3rem); }
+  @media (min-width: 1024px) { .ky-top { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; } }
+  .ky-chip { display: inline-flex; align-items: center; gap: 0.75rem; margin-bottom: clamp(1.25rem, 2vw, 1.75rem); padding: 0.625rem 1.125rem; border-radius: 8px; background: #f3f4f6; font-size: clamp(1rem, 1.1vw, 1.1875rem); line-height: 1.2; color: #1d1e21; }
+  .ky-sq { display: grid; grid-template-columns: 5px 5px; grid-auto-rows: 5px; gap: 2px; }
+  .ky-sq i { width: 5px; height: 5px; border-radius: 1px; background: #034b8e; }
+  .ky-title { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h2); line-height: 1.08; letter-spacing: -0.025em; color: #1d1e21; text-wrap: pretty; }
+  .ky-regions { margin-top: 1rem; font-size: var(--fs-lead); line-height: 1.45; color: #1d1e21; text-wrap: pretty; }
+  .ky-regions b { font-weight: 600; color: #034b8e; }
+  .ky-online { margin-top: clamp(1.5rem, 2.4vw, 2rem); padding: clamp(1.25rem, 2vw, 1.75rem); border-radius: 18px; background: linear-gradient(135deg, #034b8e 0%, #053a6e 60%, #0b1a30 100%); color: #fff; }
+  .ky-online-k { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h3); line-height: 1.15; }
+  .ky-online-t { margin-top: 0.625rem; margin-bottom: 1.25rem; font-size: var(--fs-body); line-height: 1.45; color: rgb(255 255 255 / 0.88); text-wrap: pretty; }
+  @media (max-width: 639px) { .ky-online .bl-btn { width: 100%; } }
+  .ky-map { margin: 0; }
+  .ky-map img { display: block; width: 100%; height: auto; }
 
   .dc { display: grid; gap: clamp(0.75rem, 1.4vw, 1.25rem); }
   @media (min-width: 640px) { .dc { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
