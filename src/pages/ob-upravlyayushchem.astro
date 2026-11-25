@@ -4,6 +4,7 @@ import Page from '../layouts/Page.astro';
 import LpSection from '../components/LpSection.astro';
 import HomeCases from '../components/HomeCases.astro';
 import HomeReviews from '../components/HomeReviews.astro';
+import Steps from '../components/Steps.astro';
 import { nb } from '../data/typo';
 import { person, contacts, SITE_URL } from '../data/site';
 import { personSchema, PERSON_ID } from '../data/schema';
@@ -43,11 +44,12 @@ const docs = [
   { img: docDexter, year: '2018', title: 'Свидетельство о повышении квалификации', text: 'Повышение уровня профессиональной подготовки арбитражных управляющих, 24 академических часа, ООО «Декстер»', alt: 'Свидетельство ООО «Декстер» о повышении профессиональной подготовки арбитражных управляющих, 2018 год' },
 ];
 
-const principles: [string, string][] = [
-  ['Сначала — стоит ли вообще', 'Если банкротство не нужно или опасно из-за сделок, говорю об этом на первой консультации'],
-  ['Без посредников', 'Вы общаетесь с практикующим арбитражным управляющим, а не с менеджером колл-центра'],
-  ['Цена до начала работы', 'Гонорар и обязательные расходы называю заранее и фиксирую в договоре'],
-  ['Конфиденциальность', 'Сведения о долгах и семье используются только в вашем деле'],
+// «Как я работаю» — этапами; тексты прежние, в ярлыках — когда это происходит
+const principles = [
+  { title: 'Сначала — стоит ли вообще', time: 'первая консультация', text: 'Если банкротство не нужно или опасно из-за сделок, говорю об этом на первой консультации' },
+  { title: 'Цена до начала работы', time: 'в договоре', text: 'Гонорар и обязательные расходы называю заранее и фиксирую в договоре' },
+  { title: 'Без посредников', time: 'всё дело', text: 'Вы общаетесь с практикующим арбитражным управляющим, а не с менеджером колл-центра' },
+  { title: 'Конфиденциальность', time: 'долги и семья', text: 'Сведения о долгах и семье используются только в вашем деле' },
 ];
 ---
 
@@ -112,17 +114,7 @@ const principles: [string, string][] = [
     <HomeCases />
 
     <!-- Как работаю -->
-    <LpSection id="kak-rabotayu" chip="Как работаю" title="Как я работаю" lead={`Офис: ${contacts.addressFull}. Приём ${contacts.hours.toLowerCase()}`}>
-      <ul class="bz-grid is-4">
-        {principles.map(([h, t], i) => (
-          <li class="bz-card">
-            <span class="bz-n tnum">{String(i + 1).padStart(2, '0')}</span>
-            <h3 class="bz-h">{nb(h)}</h3>
-            <p class="bz-t">{nb(t)}</p>
-          </li>
-        ))}
-      </ul>
-    </LpSection>
+    <Steps id="kak-rabotayu" chip="Как работаю" titleA="Как я работаю" titleB="" steps={principles} note={`Офис: ${contacts.addressFull}. Приём ${contacts.hours.toLowerCase()}.`} noteLink={false} bg="white" />
 
     <HomeReviews />
   </Fragment>

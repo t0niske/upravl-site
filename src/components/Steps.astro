@@ -8,7 +8,7 @@ import { nb } from '../data/typo';
 import { law } from '../data/site';
 
 type Step = { title: string; time: string; text: string };
-interface Props { steps?: Step[]; titleA?: string; titleB?: string; note?: string; noteLink?: boolean }
+interface Props { steps?: Step[]; titleA?: string; titleB?: string; note?: string; noteLink?: boolean; chip?: string; id?: string; bg?: 'grey' | 'white' }
 const defaultSteps: Step[] = [
   { title: 'Заявка', time: 'пара минут', text: 'Оставьте заявку на сайте или позвоните, чтобы договориться о бесплатной консультации' },
   { title: 'Консультация', time: 'бесплатно', text: 'Разбираем долги, доходы, имущество и сделки за 3 года. Говорю, какая процедура подходит и есть ли риски' },
@@ -23,21 +23,24 @@ const {
   titleB = 'от первых документов до решения суда',
   note = 'Сроки ориентировочные: точные зависят от загрузки суда и сложности дела.',
   noteLink = true,
+  chip = 'Этапы',
+  id = 'etapy',
+  bg = 'grey',
 } = Astro.props;
 ---
 
-<section id="etapy" class="steps" aria-labelledby="steps-title">
+<section id={id} class={`steps${bg === 'white' ? ' is-white' : ''}`} aria-labelledby={`${id}-title`}>
   <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
     <span class="st-chip">
       <span class="grid grid-cols-2 gap-[2px]" aria-hidden="true">
         <i class="size-[5px] rounded-[1px] bg-[#034B8E]"></i><i class="size-[5px] rounded-[1px] bg-[#034B8E]"></i>
         <i class="size-[5px] rounded-[1px] bg-[#034B8E]"></i><i class="size-[5px] rounded-[1px] bg-[#034B8E]"></i>
       </span>
-      Этапы
+      {chip}
     </span>
 
     <div class="mt-[clamp(1.5rem,3.4vw,3.5rem)] flex items-end justify-between gap-8">
-      <h2 id="steps-title" class="st-title">{nb(titleA)}<br class="hidden lg:inline" /> {nb(titleB)}</h2>
+      <h2 id={`${id}-title`} class="st-title">{nb(titleA)}{titleB && <><br class="hidden lg:inline" /> {nb(titleB)}</>}</h2>
       <div class="hidden shrink-0 gap-4 lg:flex">
         <button type="button" class="st-arrow" data-st-prev aria-label="Предыдущие этапы">
           <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M19 12H5M11 6l-6 6 6 6" /></svg>
@@ -138,4 +141,7 @@ const {
 
   .st-note { margin-top: clamp(1.25rem, 2vw, 2rem); max-width: 48rem; font-size: clamp(0.875rem, 0.95vw, 1rem); line-height: 1.45; color: #7c818a; }
   .st-note a { color: #034b8e; }
+  /* белый вариант — карточки серые */
+  .steps.is-white { background: #fff; }
+  .is-white .st-chip, .is-white .st-head, .is-white .st-body { background: #f3f4f6; }
 </style>
