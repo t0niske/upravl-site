@@ -5,6 +5,7 @@ import LpSection from '../components/LpSection.astro';
 import HomeCases from '../components/HomeCases.astro';
 import HomeReviews from '../components/HomeReviews.astro';
 import Steps from '../components/Steps.astro';
+import Lawyer from '../components/Lawyer.astro';
 import { nb } from '../data/typo';
 import { person, contacts, heroStats, pricing, SITE_URL } from '../data/site';
 import { personSchema, PERSON_ID } from '../data/schema';
@@ -93,7 +94,44 @@ const principles = [
   </Fragment>
 
   <Fragment slot="after">
-    <!-- Кто я -->
+    <!-- Профессиональный путь -->
+    <LpSection id="put" chip="Путь" title="Профессиональный путь">
+      <ol class="tl">
+        {path.map((p) => (
+          <li class="tl-i">
+            <span class="tl-y tnum">{p.year}</span>
+            <span class="tl-mark" aria-hidden="true"><i></i></span>
+            <h3 class="tl-h">{nb(p.title)}</h3>
+            <p class="tl-t">{nb(p.text)}</p>
+          </li>
+        ))}
+      </ol>
+    </LpSection>
+
+    <!-- Документы -->
+    <LpSection id="dokumenty" chip="Документы" title="Документы о квалификации" lead="Дипломы, свидетельства о сдаче экзаменов и повышении квалификации. Скан можно открыть в полном размере" bg="grey">
+      <ul class="dc">
+        {docs.map((d) => (
+          <li>
+            <a href={d.img.src} target="_blank" rel="noopener" class="dc-card" aria-label={`Открыть скан: ${d.title}, ${d.year}`}>
+              <span class="dc-scan"><Image src={d.img} alt={d.alt} widths={[320, 640]} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw" class="dc-img" loading="lazy" /></span>
+              <span class="bz-n tnum">{d.year}</span>
+              <span class="dc-h">{nb(d.title)}</span>
+              <span class="bz-t">{nb(d.text)}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+      <div class="ck">
+        <p class="ck-k">Сведения в реестре арбитражных управляющих</p>
+        <dl class="ck-dl">
+        {checkRows.map(([k, v]) => <div><dt>{nb(k)}</dt><dd class="tnum">{nb(v)}</dd></div>)}
+        </dl>
+        <p class="ck-t">{nb('По ИНН или номеру в реестре сведения об арбитражном управляющем можно найти в Едином федеральном реестре сведений о банкротстве')}</p>
+      </div>
+    </LpSection>
+
+    <!-- География -->
     <section id="geografiya" class="ky" aria-labelledby="kto-ya-title">
       <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
         <div class="ky-top">
@@ -114,53 +152,26 @@ const principles = [
       </div>
     </section>
 
-    <!-- Профессиональный путь -->
-    <LpSection id="put" chip="Путь" title="Профессиональный путь" bg="grey">
-      <ol class="tl">
-        {path.map((p) => (
-          <li class="tl-i">
-            <span class="tl-y tnum">{p.year}</span>
-            <span class="tl-mark" aria-hidden="true"><i></i></span>
-            <h3 class="tl-h">{nb(p.title)}</h3>
-            <p class="tl-t">{nb(p.text)}</p>
-          </li>
-        ))}
-      </ol>
-    </LpSection>
+    <!-- Кто ведёт дело — тот же блок, что на страницах услуг -->
+    <Lawyer />
 
-    <!-- Документы -->
-    <LpSection id="dokumenty" chip="Документы" title="Документы о квалификации" lead="Дипломы, свидетельства о сдаче экзаменов и повышении квалификации. Скан можно открыть в полном размере">
-      <ul class="dc">
-        {docs.map((d) => (
-          <li>
-            <a href={d.img.src} target="_blank" rel="noopener" class="dc-card" aria-label={`Открыть скан: ${d.title}, ${d.year}`}>
-              <span class="dc-scan"><Image src={d.img} alt={d.alt} widths={[320, 640]} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw" class="dc-img" loading="lazy" /></span>
-              <span class="bz-n tnum">{d.year}</span>
-              <span class="dc-h">{nb(d.title)}</span>
-              <span class="bz-t">{nb(d.text)}</span>
-            </a>
-          </li>
-        ))}
-      </ul>
-    </LpSection>
-
-
-
-
-
-
-    <!-- Сведения в реестре -->
-    <section id="reestr" class="ck-sec" aria-label="Сведения в реестре арбитражных управляющих">
-      <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
-        <div class="ck">
-          <p class="ck-k">Сведения в реестре арбитражных управляющих</p>
-          <dl class="ck-dl">
-          {checkRows.map(([k, v]) => <div><dt>{nb(k)}</dt><dd class="tnum">{nb(v)}</dd></div>)}
-          </dl>
-          <p class="ck-t">{nb('По ИНН или номеру в реестре сведения об арбитражном управляющем можно найти в Едином федеральном реестре сведений о банкротстве')}</p>
+    <!-- Подход -->
+    <LpSection id="podhod" chip="Подход" title="Чем мой подход отличается" lead="Консультирую сам — в офисе в Томске или онлайн. Цену называю до начала работы и фиксирую в договоре" bg="grey">
+      <div class="lp-two">
+        <div class="lp-card lp-blue">
+          <p class="lp-k">Моя задача</p>
+          <p class="lp-h3 pa-h-w">{nb('Законно списать долги — или честно сказать, что банкротство не нужно')}</p>
+          <p class="lp-t">{nb('Если банкротство вам не подходит или опасно из-за сделок, говорю об этом на первой консультации')}</p>
+          <a href="#zayavka" class="bl-btn">Бесплатная консультация</a>
+        </div>
+        <div class="lp-card">
+          <p class="lp-k">Главное преимущество</p>
+          <p class="lp-h3">{nb('Дело ведёт арбитражный управляющий, а не посредник')}</p>
+          <p class="lp-t is-dark">{nb(`Экзамен арбитражного управляющего сдал в 2003 году, провёл ${person.proceduresText} в пяти регионах. Помощников на консультациях нет — отвечаю сам`)}</p>
         </div>
       </div>
-    </section>
+    </LpSection>
+
 
     <HomeReviews />
 
@@ -215,7 +226,7 @@ const principles = [
   .tl-i::before { content: ''; position: absolute; left: calc(0.75rem - 1px); top: 0.6rem; bottom: -0.6rem; width: 2px; background: #c9d6e6; }
   .tl-i:last-child::before { display: none; }
   .tl-mark { grid-column: 1; grid-row: 1; display: grid; place-items: start center; padding-top: 0.35rem; }
-  .tl-mark i { position: relative; z-index: 1; width: 0.875rem; height: 0.875rem; border-radius: 50%; background: #034b8e; box-shadow: 0 0 0 4px #f3f4f6; }
+  .tl-mark i { position: relative; z-index: 1; width: 0.875rem; height: 0.875rem; border-radius: 50%; background: #034b8e; box-shadow: 0 0 0 4px #fff; }
   .tl-y, .tl-h, .tl-t { grid-column: 2; }
   .tl-y { grid-row: 1; font-family: var(--font-display); font-weight: 700; font-size: clamp(1.5rem, 2.2vw, 2.25rem); line-height: 1; letter-spacing: -0.02em; color: #034b8e; }
   .tl-h { margin-top: 0.625rem; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; color: #1d1e21; }
@@ -233,8 +244,8 @@ const principles = [
     .tl-h { margin-top: 0; }
   }
 
-  .ck-sec { padding: clamp(2.5rem, 4vw, 3.5rem) 0; background: #f3f4f6; }
-  .ck { padding: clamp(1.25rem, 2vw, 1.75rem); border-radius: 18px; background: linear-gradient(135deg, #034b8e 0%, #053a6e 60%, #0b1a30 100%); color: #fff; }
+  .pa-h-w { color: #fff; }
+  .ck { margin-top: clamp(0.75rem, 1.4vw, 1.25rem); padding: clamp(1.25rem, 2vw, 1.75rem); border-radius: 18px; background: linear-gradient(135deg, #034b8e 0%, #053a6e 60%, #0b1a30 100%); color: #fff; }
   .ck-k { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h3); line-height: 1.15; }
   .ck-dl { display: grid; gap: 1rem 2rem; margin-top: 1rem; }
   @media (min-width: 768px) { .ck-dl { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1fr); } }
@@ -255,10 +266,13 @@ const principles = [
   .of-btn { margin-top: 1.75rem; }
 
 
+
   .dc { display: grid; gap: clamp(0.75rem, 1.4vw, 1.25rem); }
   @media (min-width: 640px) { .dc { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (min-width: 1024px) { .dc { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   .dc-card { display: flex; flex-direction: column; height: 100%; padding: clamp(1rem, 1.6vw, 1.5rem); border-radius: 18px; background: #f3f4f6; color: inherit; text-decoration: none; transition: box-shadow 150ms var(--ease-out); }
+  :global(.lps.is-grey) .dc-card { background: #fff; }
+  :global(.lps.is-grey) .dc-scan { background: #f3f4f6; }
   .dc-card:hover { box-shadow: inset 0 0 0 2px #034b8e; }
   .dc-scan { display: block; margin-bottom: 1.25rem; padding: 0.75rem; border-radius: 12px; background: #fff; }
   .dc-img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: contain; }

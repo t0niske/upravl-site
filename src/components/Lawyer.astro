@@ -8,6 +8,8 @@ import { nb } from '../data/typo';
 import { person } from '../data/site';
 import portrait from '../assets/antonets-hero.png';
 
+const onAbout = Astro.url.pathname.replace(/\/?$/, '/').endsWith('/ob-upravlyayushchem/');
+
 const stats = [
   { value: '25+ лет', label: 'в банкротстве' },
   { value: '250+', label: 'процедур банкротства' },
@@ -26,7 +28,7 @@ const stats = [
         </dl>
         <div class="lw-actions">
           <a class="lw-btn" href="#zayavka">Бесплатная консультация</a>
-          <a class="lw-a" href="/ob-upravlyayushchem/">Подробнее обо мне <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg></a>
+          {!onAbout && <a class="lw-a" href="/ob-upravlyayushchem/">Подробнее обо мне <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 6l6 6-6 6" /></svg></a>}
         </div>
       </div>
       <figure class="lw-fig">
