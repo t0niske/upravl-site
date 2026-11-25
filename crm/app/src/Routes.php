@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Bot\Webhook;
 use App\Crm\App as Crm;
 use App\Leads\Migrator;
 use App\Support\Env;
 use App\Visits\Collector;
 
 /**
- * Маршруты CRM: POST /api/visit (счётчик заходов) и /crm/* (админка). Заявки принимает public/lead.php сайта.
+ * Маршруты CRM: POST /api/visit (счётчик заходов), POST /api/max-bot (бот MAX) и /crm/* (админка). Заявки принимает public/lead.php сайта.
  * Возвращает true, если запрос обработан.
  */
 final class Routes
@@ -20,6 +21,7 @@ final class Routes
         $path = rtrim($path, '/') ?: '/';
         $route = match (true) {
             $path === '/api/visit' => 'visit',
+            $path === '/api/max-bot' => 'bot',
             $path === '/crm', str_starts_with($path, '/crm/') => 'crm',
             default => null,
         };
@@ -35,6 +37,8 @@ final class Routes
 
         if ($route === 'visit') {
             self::visit($method);
+        } elseif ($route === 'bot') {
+            Webhook::handle($method);
         } else {
             Crm::handle($method, $path);
         }

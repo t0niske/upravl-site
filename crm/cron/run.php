@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 require dirname(__DIR__) . '/app/bootstrap.php';
 
+use App\Bot\Store as BotStore;
 use App\Leads\Audit;
 use App\Leads\Actor;
 use App\Leads\Clock;
@@ -52,8 +53,9 @@ try {
         file_put_contents($marker, $now->format('Y-m-d'));
         $leads = Leads::cleanup($now, (int) Env::get('LEADS_RETENTION_MONTHS', '12'));
         $visits = Visits::cleanup($now);
+        $botUsers = BotStore::cleanup($now, (int) Env::get('VISITS_RETENTION_MONTHS', '3'));
         RateLimiter::cleanup();
-        Log::write('cron.log', "Очистка: заявок $leads, заходов $visits");
+        Log::write('cron.log', "Очистка: заявок $leads, заходов $visits, собеседников бота $botUsers");
 
         if ($leads > 0) {
             Audit::log(Actor::system(), 'retention', null, "Удалено заявок по сроку хранения: $leads");

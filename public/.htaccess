@@ -31,8 +31,8 @@ RewriteRule ^(wp-admin|wp-includes|wp-content|wp-json)(/.*)?$ - [G,L]
 RewriteRule ^(wp-login|xmlrpc|wp-cron|i)\.php$ - [G,L]
 RewriteRule ^home/?$ / [R=301,L]
 
-# --- CRM: админка /crm и счётчик заходов /api/visit (код CRM вне сайта, ~/bankrotstvo70-crm) ---
-RewriteRule ^(?:crm(?:/.*)?|api/visit)$ /crm.php [L]
+# --- CRM: админка /crm, счётчик заходов /api/visit и бот MAX /api/max-bot (код CRM вне сайта, ~/bankrotstvo70-crm) ---
+RewriteRule ^(?:crm(?:/.*)?|api/visit|api/max-bot)$ /crm.php [L]
 
 # Слеш на конце для страниц-каталогов
 RewriteCond %{REQUEST_FILENAME} !-f
