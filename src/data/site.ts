@@ -236,7 +236,7 @@ export const headerNav: NavGroup[] = [
     label: 'Цены',
     // 25.11.2026: общая страница со всеми ценами + «Рассрочка»; калькулятор — позже, когда будут цифры публикаций
     children: [
-      { href: '/yuridicheskie-uslugi/', label: 'Все цены', icon: 'list' },
+      { href: '/yuridicheskie-uslugi/', label: 'Стоимость услуг', icon: 'list' },
       { href: '/bankrotstvo-v-rassrochku/', label: 'Рассрочка', icon: 'calendar' },
     ],
   },
