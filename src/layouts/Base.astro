@@ -15,6 +15,8 @@ interface Props {
   heroBg?: ImageMetadata;
   /** большой портрет управляющего справа на первом экране, фон — только градиент */
   heroPortrait?: boolean;
+  /** object-position фона первого экрана */
+  heroBgPos?: string;
   schema?: Record<string, unknown>[];
   noindex?: boolean;
   ogType?: 'website' | 'article';
@@ -22,7 +24,7 @@ interface Props {
   hideHeader?: boolean;
 }
 
-const { title, description, crumbs = [], schema = [], noindex = false, ogType = 'website', hideHeader = false, heroBg, heroPortrait = false } = Astro.props;
+const { title, description, crumbs = [], schema = [], noindex = false, ogType = 'website', hideHeader = false, heroBg, heroPortrait = false, heroBgPos } = Astro.props;
 const path = Astro.url.pathname;
 const canonical = new URL(path, SITE_URL).href;
 const ogImage = `${SITE_URL}/og/antonec.jpg`;
@@ -69,7 +71,7 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-3 focus:top-3 focus:z-50 focus:rounded focus:bg-white focus:px-3 focus:py-2">К содержанию</a>
 
     {!hideHeader && (
-      <PageTop crumbs={crumbs} bg={heroBg} portrait={heroPortrait}>
+      <PageTop crumbs={crumbs} bg={heroBg} portrait={heroPortrait} bgPos={heroBgPos}>
         {Astro.slots.has('top') && <slot name="top" />}
       </PageTop>
     )}

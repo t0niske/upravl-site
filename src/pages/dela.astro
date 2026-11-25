@@ -1,79 +1,116 @@
 ---
-import Base from '../layouts/Base.astro';
-import CaseGrid from '../components/CaseGrid.astro';
-import CaseStory from '../components/CaseStory.astro';
-import LeadForm from '../components/LeadForm.astro';
-import Byline from '../components/Byline.astro';
-import { cases, recentCases, rub, maskCase, SITE_URL } from '../data/site';
+import Page from '../layouts/Page.astro';
+import LpSection from '../components/LpSection.astro';
+import { cases, recentCases, rub, maskCase, courtOf, SITE_URL } from '../data/site';
 import { nb } from '../data/typo';
+import heroBg from '../assets/dela/hero-bg.jpg';
+import '../styles/lp.css';
 
+/**
+ * «Дела» блоками (25.11.2026): свежие дела карточками, дела прошлых лет — строками как в прайсе,
+ * пояснения (почему нет имён, что значит «списано», нет гарантий) — в частых вопросах. Тексты — с прежней страницы.
+ */
+const url = '/dela/';
+type Row = { head: string; big: boolean; text: string; date: string; dateIso: string; debtor: string; court: string; months?: number; number: string };
+const rows: Row[] = [
+  ...recentCases.map((c) => ({ head: c.title, big: false, text: c.text, date: c.finished.split('-').reverse().join('.'), dateIso: c.finished, debtor: c.debtor, court: courtOf(c.number), months: c.months, number: c.number })),
+  ...cases.map((c) => ({ head: rub(c.amount), big: true, text: 'Суд завершил реализацию имущества и освободил от долгов', date: c.finishedLabel, dateIso: c.finished, debtor: c.debtor, court: 'Арбитражный суд Томской области', number: c.number })),
+];
 const all = recentCases.length + cases.length;
+const pastTotal = cases.reduce((s, c) => s + c.amount, 0);
+const description = `${all} завершённых дел о банкротстве граждан: суд освободил от долгов. Свежие дела 2025–2026 и прошлых лет — имена и номера дел скрыты.`;
+
 const itemList = {
   '@type': 'ItemList',
   name: 'Завершённые дела о банкротстве граждан',
-  url: `${SITE_URL}/dela/`,
+  url: `${SITE_URL}${url}`,
   numberOfItems: all,
   itemListElement: [
     ...recentCases.map((c) => `Дело № ${maskCase(c.number)}: ${c.title}`),
     ...cases.map((c) => `Дело № ${maskCase(c.number)}: списано ${rub(c.amount)}`),
   ].map((name, i) => ({ '@type': 'ListItem', position: i + 1, name })),
 };
+
+const faq = [
+  {
+    q: 'Почему на сайте нет имён, номеров дел и копий определений?',
+    a: 'В определениях указаны дата рождения, адрес, ИНН и СНИЛС должника. Сведения о банкротстве и так публикуются в ЕФРСБ, но размещать их на коммерческом сайте ради рекламы мы не будем. По полному номеру дела в картотеке видно имя должника, поэтому номера тоже скрыты.',
+  },
+  {
+    q: 'Что значит «списано»?',
+    a: 'Это сумма требований кредиторов, от исполнения которых суд освободил должника по итогам процедуры. Деньги, вырученные от продажи имущества (если оно было), к этому моменту уже распределены между кредиторами.',
+  },
+  {
+    q: 'Гарантирует ли это результат в моём деле?',
+    a: 'Нет. Освобождение от долгов зависит от добросовестности должника, сделок за последние годы и решения суда. Гарантировать списание по закону нельзя — честно оцениваю перспективы на консультации.',
+  },
+];
 ---
 
-<Base
-  title="Завершённые дела о банкротстве — номера и истории"
-  description={`${all} дел, где граждане освобождены от долгов: свежие дела 2025–2026 и прошлых лет. Имена и номера дел скрыты.`}
-  crumbs={[{ name: 'Дела', href: '/dela/' }]}
+<Page
+  title="Завершённые дела о банкротстве — истории"
+  description={description}
+  h1="Завершённые дела о банкротстве граждан"
+  eyebrow="Дела"
+  crumbs={[{ name: 'Обо мне', href: '/ob-upravlyayushchem/' }, { name: 'Завершённые дела', href: url }]}
+  faq={faq}
+  faqTitle="Как читать эти дела"
+  topic="Консультация"
+  heroBg={heroBg}
+  blog={false}
   schema={[itemList]}
+  formTitle="Разберу вашу ситуацию бесплатно"
+  formText="Расскажите коротко о долгах и имуществе. Перезвоню и скажу, подходит ли вам банкротство."
 >
-  <section class="wrap pt-6 md:pt-10">
-    <h1>Завершённые дела о банкротстве граждан</h1>
-    <div class="prose-legal lead-answer mt-6">
-      <p>
-        {nb('Дела, которые я вёл финансовым управляющим и в которых суд освободил граждан от долгов. Имена и номера дел скрыты, чтобы не раскрывать клиентов.')}
-      </p>
-    </div>
-    <Byline />
-  </section>
+  <Fragment slot="lead">
+    <p>{nb('Дела, которые я вёл финансовым управляющим и в которых суд освободил граждан от долгов. Имена и номера дел скрыты, чтобы не раскрывать клиентов')}</p>
+  </Fragment>
 
-  <section class="mx-auto mt-10 w-full max-w-[100rem] px-4 sm:px-[3.25rem]" aria-labelledby="recent-title">
-    <h2 id="recent-title">{nb(`Последние завершённые дела — ${recentCases.length}`)}</h2>
-    <ul class="dela-grid mt-6">
-      {recentCases.map((c) => <li><CaseStory c={c} /></li>)}
-    </ul>
-  </section>
-
-  <section class="wrap mt-16" aria-labelledby="past-title">
-    <h2 id="past-title">{nb(`Дела прошлых лет — ${cases.length}`)}</h2>
-    <p class="mt-3 text-ink-2">{nb(`По этим делам в сумме списано ${rub(cases.reduce((s, c) => s + c.amount, 0))}`)}</p>
-    <div class="mt-8"><CaseGrid /></div>
-  </section>
-
-  <section class="wrap mt-16">
-    <div class="prose-legal">
-      <h2>Почему на сайте нет имён, номеров дел и копий определений</h2>
-      <p>
-        В определениях указаны дата рождения, адрес, ИНН и СНИЛС должника. Сведения о банкротстве и так публикуются в ЕФРСБ, но размещать их
-        на коммерческом сайте ради рекламы мы не будем. По полному номеру дела в картотеке видно имя должника, поэтому номера тоже скрыты.
-      </p>
-      <h2>Что значит «списано»</h2>
-      <p>
-        Это сумма требований кредиторов, от исполнения которых суд освободил должника по итогам процедуры. Деньги, вырученные от продажи
-        имущества (если оно было), к этому моменту уже распределены между кредиторами.
-      </p>
-      <h2>Гарантирует ли это результат в вашем деле</h2>
-      <p>
-        Нет. Освобождение от долгов зависит от добросовестности должника, сделок за последние годы и решения суда.
-        Гарантировать списание по закону нельзя — честно оцениваю перспективы на консультации.
-      </p>
-    </div>
-  </section>
-
-  <div class="mt-24"><LeadForm /></div>
-</Base>
+  <Fragment slot="after">
+    <LpSection id="dela-list" chip="Дела" title="Завершённые дела" lead={`${all} дел, в которых суд освободил граждан от долгов. Номера дел скрыты`} bg="grey">
+      <ul class="dr-list">
+        {rows.map((r) => (
+          <li class="dr">
+            <div class="dr-main">
+              <p class="dr-k">{r.big ? 'Долг списан в размере' : 'Итог'}</p>
+              <p class:list={['dr-head', r.big && 'is-big', 'tnum']}>{r.big ? r.head : nb(r.head)}</p>
+              <p class="dr-text">{nb(r.text)}</p>
+            </div>
+            <div class="dr-card">
+              <div class="dr-pills">
+                <span class="dr-pill tnum">Завершено: <time datetime={r.dateIso}>{r.date}</time></span>
+                <span class="dr-pill is-ok">Освобождён от долгов</span>
+              </div>
+              <dl class="dr-dl">
+                <div><dt>Должник</dt><dd>{r.debtor}</dd></div>
+                <div><dt>Номер дела</dt><dd class="tnum">{maskCase(r.number)}</dd></div>
+                <div><dt>Суд</dt><dd>{nb(r.court)}</dd></div>
+                {r.months && <div><dt>Срок процедуры</dt><dd class="tnum">{r.months}&nbsp;мес.</dd></div>}
+              </dl>
+            </div>
+          </li>
+        ))}
+      </ul>
+      <p class="dl-note">{nb('Данные — из определений арбитражных судов о завершении процедуры и освобождении от обязательств. Имена, копии определений и полные номера дел не публикуем, чтобы не раскрывать клиентов')}</p>
+    </LpSection>
+  </Fragment>
+</Page>
 
 <style>
-  .dela-grid { display: grid; gap: clamp(1rem, 1.5vw, 1.75rem); grid-template-columns: repeat(auto-fill, minmax(min(100%, 22rem), 1fr)); }
-  .dela-grid > li { display: flex; }
-  .dela-grid > li > :global(*) { flex: 1; }
+  .dr-list { display: grid; gap: clamp(0.75rem, 1.2vw, 1rem); }
+  .dr { display: grid; gap: 0.75rem; padding: 0.75rem; border-radius: 22px; background: #fff; }
+  @media (min-width: 1024px) { .dr { grid-template-columns: minmax(0, 6fr) minmax(0, 5fr); align-items: stretch; } }
+  .dr-main { display: flex; flex-direction: column; padding: clamp(0.75rem, 1.4vw, 1.25rem); }
+  .dr-k { font-size: 0.9375rem; color: #7c818a; }
+  .dr-head { margin-top: 0.5rem; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; color: #034b8e; text-wrap: pretty; }
+  .dr-head.is-big { font-weight: 700; font-size: clamp(1.75rem, 2.6vw, 2.5rem); line-height: 1.05; letter-spacing: -0.02em; white-space: nowrap; }
+  .dr-text { margin-top: auto; padding-top: 1rem; font-size: var(--fs-body); line-height: 1.45; color: #5f646d; text-wrap: pretty; }
+  .dr-card { display: flex; flex-direction: column; padding: clamp(1rem, 1.6vw, 1.5rem); border-radius: 16px; background: #f3f4f6; }
+  .dr-pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .dr-pill { padding: 0.5rem 0.875rem; border-radius: 999px; background: #fff; font-size: 0.9375rem; line-height: 1.2; color: #5f646d; }
+  .dr-pill.is-ok { background: #034b8e; color: #fff; font-weight: 500; }
+  .dr-dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem 1.5rem; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid rgb(29 30 33 / 0.1); }
+  .dr-dl dt { font-size: 0.875rem; color: #7c818a; }
+  .dr-dl dd { margin-top: 0.25rem; font-family: var(--font-display); font-weight: 600; font-size: 1.0625rem; line-height: 1.3; color: #1d1e21; }
+  .dl-note { margin-top: 1rem; max-width: 48rem; font-size: 0.9375rem; line-height: 1.45; color: #7c818a; }
 </style>

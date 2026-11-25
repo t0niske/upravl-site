@@ -46,10 +46,14 @@ interface Props {
   /** кнопка первого экрана: куда ведёт и подпись (по умолчанию — форма заявки) */
   ctaHref?: string;
   ctaLabel?: string;
+  /** false — без блока «Всё о банкротстве» */
+  blog?: boolean;
+  /** object-position фона первого экрана, напр. '80% 20%' */
+  heroBgPos?: string;
 }
 const {
   title, description, h1, eyebrow, crumbs, facts = [], faq = [], related = [], schema = [],
-  published, ogType = 'website', formTitle, formText, topic, cta = true, expert = false, heroBg, heroPortrait = false, heroStats, faqTitle, ctaHref = '#zayavka', ctaLabel = 'Бесплатная консультация',
+  published, ogType = 'website', formTitle, formText, topic, cta = true, expert = false, heroBg, heroPortrait = false, heroStats, faqTitle, ctaHref = '#zayavka', ctaLabel = 'Бесплатная консультация', blog = true, heroBgPos,
 } = Astro.props;
 const allSchema = [...schema, ...(faq.length ? [faqSchema(faq)] : [])];
 // страница из блоков (без сплошного текста) — тогда отметка «Обновлено» уходит в синюю полосу
@@ -70,7 +74,7 @@ const relArticles = knowMenu
   .filter((a) => !here.endsWith(a.href))
   .slice(0, 3);
 ---
-<Base title={title} description={description} crumbs={crumbs} schema={allSchema} ogType={ogType} heroBg={heroBg} heroPortrait={heroPortrait}>
+<Base title={title} description={description} crumbs={crumbs} schema={allSchema} ogType={ogType} heroBg={heroBg} heroPortrait={heroPortrait} heroBgPos={heroBgPos}>
   <Fragment slot="top">
     <div class="ph">
       <h1 class="ph-title">{nb(h1)}</h1>
@@ -129,7 +133,7 @@ const relArticles = knowMenu
 
   {faq.length > 0 && <HomeFaq items={faq} title={faqTitle} />}
 
-  {relArticles.length > 0 && (
+  {blog && relArticles.length > 0 && (
     <section class="rel" aria-labelledby="related-title">
       <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
         <span class="rel-chip"><span class="rel-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Блог</span>

@@ -37,14 +37,7 @@ const extra = [
   h1="Цены на юридические услуги в Томске"
   eyebrow="Прайс"
   crumbs={[{ name: 'Цены', href: url }]}
-  facts={[
-    ['Устная консультация', 'бесплатно'],
-    ['Банкротство под ключ', `от ${rub(pricing.citizenTurnkey)}`],
-    ['Рассрочка', `от ${rub(pricing.citizenInstallmentFrom)}/мес`],
-    ['Депозит управляющему', rub(law.fuDeposit)],
-  ]}
   topic="Юридическая услуга"
-  expert
   heroBg={heroBg}
   schema={[offerCatalog]}
   related={[
@@ -87,17 +80,17 @@ const extra = [
     </LpSection>
 
     <!-- Обязательные расходы -->
-    <LpSection id="rashody" chip="Расходы" title="Обязательные расходы, которые не входят в гонорар" lead="Эти суммы требует закон, их платит любой заявитель — с юристом или без">
+    <LpSection id="rashody" chip="Расходы" title="Обязательные расходы по закону" lead={`Депозит ${rub(law.fuDeposit)} уже учтён в итоговой сумме банкротства гражданина «от ${rub(pricing.citizenTurnkey + law.fuDeposit)}». Остальное оплачивается по факту и зависит от дела`}>
       <div class="lp-two">
         <div class="lp-card lp-blue">
-          <p class="lp-k">Депозит управляющему</p>
+          <p class="lp-k">{`Уже входит в итог от ${rub(pricing.citizenTurnkey + law.fuDeposit)}`}</p>
           <p class="lp-big tnum">{rub(law.fuDeposit)}</p>
-          <p class="lp-t">{nb('в деле о банкротстве гражданина — на вознаграждение финансового управляющего. Вносится на депозит суда вместе с заявлением')}</p>
+          <p class="lp-t">{nb('Депозит на вознаграждение финансового управляющего в деле о банкротстве гражданина. Вносится на депозит суда вместе с заявлением')}</p>
           <p class="bl-foot">{nb(`Если в процедуре продают имущество, управляющий по закону получает ещё ${law.fuPercent} % от вырученной суммы`)}</p>
         </div>
         <div class="lp-card">
-          <p class="lp-k">Кроме депозита</p>
-          <h3 class="lp-h3">Что ещё оплачивается отдельно</h3>
+          <p class="lp-k">По факту</p>
+          <h3 class="lp-h3">Что зависит от дела</h3>
           <ul class="lp-signs">
             {extra.map((t) => <li><span class="lp-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>{nb(t)}</span></li>)}
           </ul>

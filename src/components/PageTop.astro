@@ -10,15 +10,15 @@ import portraitImg from '../assets/antonets-hero.png';
 import { person } from '../data/site';
 import type { Crumb } from '../data/schema';
 
-interface Props { crumbs?: Crumb[]; bg?: ImageMetadata; portrait?: boolean }
-const { crumbs = [], portrait = false } = Astro.props;
+interface Props { crumbs?: Crumb[]; bg?: ImageMetadata; portrait?: boolean; bgPos?: string }
+const { crumbs = [], portrait = false, bgPos } = Astro.props;
 // с портретом фон — только градиент (как на главной), если свой фон не передан явно
 const bg = Astro.props.bg ?? (portrait ? undefined : court);
 ---
 
 <section class={`pt relative z-40 isolate overflow-hidden text-white${portrait ? ' has-portrait' : ''}${bg ? '' : ' no-img'}`}>
   <div class="pt-bg absolute inset-0 -z-10" aria-hidden="true">
-    {bg && <Image src={bg} alt="" widths={[960, 1600, 2400]} sizes="100vw" class="pt-court" loading="eager" />}
+    {bg && <Image src={bg} alt="" widths={[960, 1600, 2400]} sizes="100vw" class="pt-court" style={bgPos ? `object-position:${bgPos}` : undefined} loading="eager" />}
   </div>
   <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
     <SiteHeader />
