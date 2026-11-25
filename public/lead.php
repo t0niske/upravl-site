@@ -29,6 +29,8 @@ $config = is_file(__DIR__ . '/lead-config.php') ? require __DIR__ . '/lead-confi
 $mailTo = $config['mail_to'] ?? '';
 $tgToken = $config['telegram_bot_token'] ?? '';
 $tgChat = $config['telegram_chat_id'] ?? '';
+$maxToken = $config['max_bot_token'] ?? '';
+$maxChat = (string)($config['max_chat_id'] ?? '');
 
 // Ловушка для ботов: скрытое поле должно быть пустым
 if (!empty($_POST['website'])) {
@@ -87,6 +89,23 @@ if ($tgToken !== '' && $tgChat !== '' && function_exists('curl_init')) {
     ]);
     $res = curl_exec($ch);
     $sent = $res !== false && (json_decode((string)$res, true)['ok'] ?? false);
+    curl_close($ch);
+}
+
+// MAX: заявка в групповой чат (бот добавлен в группу, chat_id взят из события bot_added).
+// API: https://dev.max.ru/docs-api/methods/POST/messages/ — токен в заголовке Authorization без Bearer.
+if ($maxToken !== '' && $maxChat !== '' && function_exists('curl_init')) {
+    $ch = curl_init('https://platform-api2.max.ru/messages?chat_id=' . rawurlencode($maxChat) . '&disable_link_preview=true');
+    curl_setopt_array($ch, [
+        CURLOPT_POST => true,
+        CURLOPT_HTTPHEADER => ['Authorization: ' . $maxToken, 'Content-Type: application/json'],
+        CURLOPT_POSTFIELDS => json_encode(['text' => mb_substr($text, 0, 4000), 'notify' => true], JSON_UNESCAPED_UNICODE),
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 8,
+    ]);
+    $res = curl_exec($ch);
+    $code = (int)curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $sent = ($res !== false && $code === 200 && (json_decode((string)$res, true)['success'] ?? true) !== false) || $sent;
     curl_close($ch);
 }
 
