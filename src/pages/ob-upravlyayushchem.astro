@@ -6,13 +6,16 @@ import HomeCases from '../components/HomeCases.astro';
 import HomeReviews from '../components/HomeReviews.astro';
 import Steps from '../components/Steps.astro';
 import { nb } from '../data/typo';
-import { person, contacts, heroStats, SITE_URL } from '../data/site';
+import { person, contacts, heroStats, pricing, SITE_URL } from '../data/site';
 import { personSchema, PERSON_ID } from '../data/schema';
+import docTgu from '../assets/doc-diploma-tgu-1992.jpg';
 import doc1999 from '../assets/doc-fsdn-1999.jpg';
+import docTusur from '../assets/doc-diploma-tusur-2007.jpg';
 import docMinjust from '../assets/doc-minjust-2003.jpg';
 import docTipkia from '../assets/doc-tipkia-2016.jpg';
 import docDexter from '../assets/doc-dexter-2018.jpg';
 import mapImg from '../assets/map/regions.svg';
+import officeImg from '../assets/photos/office.jpg';
 import '../styles/lp.css';
 
 const url = '/ob-upravlyayushchem/';
@@ -36,13 +39,30 @@ const path = [
 ];
 
 const docs = [
+  { img: docTgu, year: '1992', title: 'Диплом юриста', text: 'Томский государственный университет им. В. В. Куйбышева, специальность «Правоведение». УВ № 094320', alt: 'Диплом Томского государственного университета по специальности «Правоведение», квалификация юрист, 1992 год' },
   { img: doc1999, year: '1999', title: 'Свидетельство ФСДН России', text: 'О сдаче экзамена по программе обучения специалистов по антикризисному управлению, № 7 от 04.03.1999', alt: 'Свидетельство ФСДН России о сдаче экзамена по антикризисному управлению, 1999 год' },
   { img: docMinjust, year: '2003', title: 'Свидетельство Минюста России', text: 'О сдаче теоретического экзамена по единой программе подготовки арбитражных управляющих. Серия АА № 002916, выдано 22.12.2003', alt: 'Свидетельство Министерства юстиции РФ о сдаче теоретического экзамена по единой программе подготовки арбитражных управляющих, 2003 год' },
+  { img: docTusur, year: '2007', title: 'Диплом экономиста', text: 'Томский государственный университет систем управления и радиоэлектроники, специальность «Финансы и кредит». ВСГ 1863152', alt: 'Диплом ТУСУР по специальности «Финансы и кредит», квалификация экономист, 2007 год' },
   { img: docTipkia, year: '2016', title: 'Удостоверение о повышении квалификации', text: '«Банкротство предприятий: изменения законодательства и арбитражная практика», 24 часа, 16–19.11.2016', alt: 'Удостоверение о повышении квалификации, Томск, ноябрь 2016 года' },
   { img: docDexter, year: '2018', title: 'Свидетельство о повышении квалификации', text: 'Повышение уровня профессиональной подготовки арбитражных управляющих, 24 академических часа, ООО «Декстер»', alt: 'Свидетельство ООО «Декстер» о повышении профессиональной подготовки арбитражных управляющих, 2018 год' },
 ];
 
 // «Как я работаю» — этапами; тексты прежние, в ярлыках — когда это происходит
+const checkRows: [string, string][] = [
+  ['СРО', person.sro],
+  ['Номер в сводном реестре', person.registryNumber],
+  ['ИНН', person.inn],
+];
+
+const faq = [
+  { q: 'Как проверить арбитражного управляющего?', a: `По ИНН ${person.inn} или номеру ${person.registryNumber} в сводном реестре арбитражных управляющих — сведения публикуются в Едином федеральном реестре сведений о банкротстве. Я состою в ${person.sro}.` },
+  { q: 'В каких регионах вы ведёте дела?', a: 'В Томской, Новосибирской и Кемеровской областях, Алтайском и Краснодарском краях. Из других городов можно проконсультироваться онлайн.' },
+  { q: 'Можно ли проконсультироваться онлайн?', a: `Да, в Telegram или WhatsApp — без поездки в офис. Устная консультация — ${pricing.consultation}.` },
+  { q: 'Кто будет консультировать и вести дело?', a: 'Я сам. Помощников на консультациях нет — на вопросы отвечаю лично.' },
+  { q: 'Какое у вас образование?', a: 'Два высших: юридическое — Томский государственный университет, 1992 год, и экономическое — ТУСУР, 2007 год. Экзамен арбитражного управляющего сдал в 2003 году, каждый год повышаю квалификацию при СРО.' },
+  { q: 'Где находится офис?', a: `${contacts.addressFull}. Приём ${contacts.hours.toLowerCase()}.` },
+];
+
 const principles = [
   { title: 'Сначала — стоит ли вообще', time: 'первая консультация', text: 'Если банкротство не нужно или опасно из-за сделок, говорю об этом на первой консультации' },
   { title: 'Цена до начала работы', time: 'в договоре', text: 'Гонорар и обязательные расходы называю заранее и фиксирую в договоре' },
@@ -63,6 +83,8 @@ const principles = [
     { icon: 'ruble', value: heroStats.written, label: heroStats.writtenLabel },
   ]}
   topic="Консультация"
+  faq={faq}
+  faqTitle="Частые вопросы об управляющем"
   heroPortrait
   schema={[personSchema(), profile]}
 >
@@ -107,12 +129,12 @@ const principles = [
     </LpSection>
 
     <!-- Документы -->
-    <LpSection id="dokumenty" chip="Документы" title="Документы о квалификации" lead="Свидетельства о сдаче экзаменов и повышении квалификации. Скан можно открыть в полном размере">
+    <LpSection id="dokumenty" chip="Документы" title="Документы о квалификации" lead="Дипломы, свидетельства о сдаче экзаменов и повышении квалификации. Скан можно открыть в полном размере">
       <ul class="dc">
         {docs.map((d) => (
           <li>
             <a href={d.img.src} target="_blank" rel="noopener" class="dc-card" aria-label={`Открыть скан: ${d.title}, ${d.year}`}>
-              <span class="dc-scan"><Image src={d.img} alt={d.alt} widths={[320, 640]} sizes="(min-width: 1280px) 22vw, (min-width: 640px) 45vw, 90vw" class="dc-img" loading="lazy" /></span>
+              <span class="dc-scan"><Image src={d.img} alt={d.alt} widths={[320, 640]} sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 90vw" class="dc-img" loading="lazy" /></span>
               <span class="bz-n tnum">{d.year}</span>
               <span class="dc-h">{nb(d.title)}</span>
               <span class="bz-t">{nb(d.text)}</span>
@@ -122,13 +144,49 @@ const principles = [
       </ul>
     </LpSection>
 
-    <HomeCases />
 
+
+
+
+
+    <!-- Сведения в реестре -->
+    <section id="reestr" class="ck-sec" aria-label="Сведения в реестре арбитражных управляющих">
+      <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
+        <div class="ck">
+          <p class="ck-k">Сведения в реестре арбитражных управляющих</p>
+          <dl class="ck-dl">
+          {checkRows.map(([k, v]) => <div><dt>{nb(k)}</dt><dd class="tnum">{nb(v)}</dd></div>)}
+          </dl>
+          <p class="ck-t">{nb('По ИНН или номеру в реестре сведения об арбитражном управляющем можно найти в Едином федеральном реестре сведений о банкротстве')}</p>
+        </div>
+      </div>
+    </section>
 
     <HomeReviews />
 
+    <HomeCases />
+
     <!-- Как работаю -->
-    <Steps id="kak-rabotayu" chip="Как работаю" titleA="Как я работаю" titleB="" steps={principles} note={`Офис: ${contacts.addressFull}. Приём ${contacts.hours.toLowerCase()}.`} noteLink={false} />
+    <Steps id="kak-rabotayu" chip="Как работаю" titleA="Как я работаю" titleB="" steps={principles} note="" noteLink={false} bg="white" />
+
+    <!-- Офис и связь -->
+    <LpSection id="ofis" chip="Офис" title="Офис и связь" bg="grey">
+      <div class="of">
+        <Image src={officeImg} alt="Кабинет арбитражного управляющего Антонца в офисе на ул. Тверской, 14" widths={[480, 800, 1200]} sizes="(min-width: 1024px) 50vw, 100vw" class="of-img" loading="lazy" />
+        <div class="lp-card of-card">
+          <p class="lp-k">Адрес</p>
+          <p class="of-v">{nb(`г. Томск, ${contacts.street}`).replace(', оф.', ', оф.')}</p>
+          <a href={contacts.yandexMapsUrl} target="_blank" rel="noopener" class="of-link">Открыть на карте</a>
+          <p class="lp-k of-gap">Приём</p>
+          <p class="of-v">{contacts.hoursDays}</p>
+          <p class="of-s">{contacts.hoursNote}</p>
+          <p class="lp-k of-gap">Телефоны</p>
+          <p class="of-v"><a href={contacts.phoneHref} class="tnum">{contacts.phone}</a><br /><a href={contacts.phone2Href} class="tnum">{contacts.phone2}</a></p>
+          <p class="of-s">{nb('Онлайн-консультация — в Telegram или WhatsApp')}</p>
+          <a href="#zayavka" class="lp-btn is-bottom of-btn">Записаться на консультацию</a>
+        </div>
+      </div>
+    </LpSection>
 
   </Fragment>
 </Page>
@@ -175,9 +233,31 @@ const principles = [
     .tl-h { margin-top: 0; }
   }
 
+  .ck-sec { padding: clamp(2.5rem, 4vw, 3.5rem) 0; background: #f3f4f6; }
+  .ck { padding: clamp(1.25rem, 2vw, 1.75rem); border-radius: 18px; background: linear-gradient(135deg, #034b8e 0%, #053a6e 60%, #0b1a30 100%); color: #fff; }
+  .ck-k { font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h3); line-height: 1.15; }
+  .ck-dl { display: grid; gap: 1rem 2rem; margin-top: 1rem; }
+  @media (min-width: 768px) { .ck-dl { grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr) minmax(0, 1fr); } }
+  .ck-dl > div { padding-top: 0.875rem; border-top: 1px solid rgb(255 255 255 / 0.18); }
+  .ck-dl dt { font-size: 0.9375rem; line-height: 1.35; color: rgb(255 255 255 / 0.7); }
+  .ck-dl dd { margin-top: 0.375rem; font-family: var(--font-display); font-weight: 600; font-size: clamp(1.125rem, 1.4vw, 1.375rem); line-height: 1.25; }
+  .ck-t { margin-top: 1rem; font-size: 0.9375rem; line-height: 1.45; color: rgb(255 255 255 / 0.75); }
+
+  .of { display: grid; gap: clamp(0.75rem, 1.4vw, 1.25rem); }
+  @media (min-width: 1024px) { .of { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); } }
+  .of-img { display: block; width: 100%; height: 100%; min-height: 18rem; object-fit: cover; border-radius: 18px; }
+  .of-v { margin-top: 0.375rem; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.3; color: #1d1e21; }
+  .of-v a { color: inherit; text-decoration: none; }
+  .of-v a:hover { color: #034b8e; }
+  .of-s { margin-top: 0.375rem; font-size: var(--fs-body); line-height: 1.45; color: #5f646d; }
+  .of-gap { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid rgb(29 30 33 / 0.1); }
+  .of-link { display: inline-block; margin-top: 0.5rem; font-size: var(--fs-body); color: #034b8e; }
+  .of-btn { margin-top: 1.75rem; }
+
+
   .dc { display: grid; gap: clamp(0.75rem, 1.4vw, 1.25rem); }
   @media (min-width: 640px) { .dc { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (min-width: 1280px) { .dc { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  @media (min-width: 1024px) { .dc { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   .dc-card { display: flex; flex-direction: column; height: 100%; padding: clamp(1rem, 1.6vw, 1.5rem); border-radius: 18px; background: #f3f4f6; color: inherit; text-decoration: none; transition: box-shadow 150ms var(--ease-out); }
   .dc-card:hover { box-shadow: inset 0 0 0 2px #034b8e; }
   .dc-scan { display: block; margin-bottom: 1.25rem; padding: 0.75rem; border-radius: 12px; background: #fff; }
