@@ -3,6 +3,7 @@ import Page from '../../layouts/Page.astro';
 import LpSection from '../../components/LpSection.astro';
 import Lawyer from '../../components/Lawyer.astro';
 import HomeReviews from '../../components/HomeReviews.astro';
+import Steps from '../../components/Steps.astro';
 import heroBg from '../../assets/subsidiary/hero-bg.jpg';
 import { nb } from '../../data/typo';
 import { serviceSchema } from '../../data/schema';
@@ -40,11 +41,12 @@ const defense: [string, string][] = [
   ['Снижение размера', 'Если ответственность неизбежна: раскрытие информации, размер реального вреда'],
 ];
 // Что сделать сейчас
-const now: [string, string][] = [
-  ['Не выводите имущество', 'И не рассчитывайтесь с «удобными» кредиторами — это первое, что проверит управляющий'],
-  ['Сохраните документы', 'Первичку, договоры, переписку — то, что подтвердит экономический смысл решений'],
-  ['Зафиксируйте дату', 'Когда появились признаки неплатёжеспособности и что решили: план восстановления или заявление в суд'],
-  ['Обсудите с юристом', 'До того, как заявление подаст кредитор или налоговая'],
+// «Что сделать сейчас» — этапами; тексты прежние, ярлыки — по смыслу текстов
+const now = [
+  { title: 'Не выводите имущество', time: 'проверит управляющий', text: 'И не рассчитывайтесь с «удобными» кредиторами — это первое, что проверит управляющий' },
+  { title: 'Сохраните документы', time: 'экономический смысл', text: 'Первичку, договоры, переписку — то, что подтвердит экономический смысл решений' },
+  { title: 'Зафиксируйте дату', time: 'признаки неплатёжеспособности', text: 'Когда появились признаки неплатёжеспособности и что решили: план восстановления или заявление в суд' },
+  { title: 'Обсудите с юристом', time: 'до заявления кредитора', text: 'До того, как заявление подаст кредитор или налоговая' },
 ];
 
 const faq = [
@@ -153,17 +155,7 @@ const faq = [
     </LpSection>
 
     <!-- Что сделать сейчас -->
-    <LpSection id="seychas" chip="Если компания на грани" title="Что сделать сейчас, если компания на грани банкротства" lead="Эти шаги снижают риск ещё до того, как дело о банкротстве возбуждено" bg="grey">
-      <ul class="bz-grid">
-        {now.map(([h, t], i) => (
-          <li class="bz-card">
-            <span class="mf-n tnum">{String(i + 1).padStart(2, '0')}</span>
-            <h3 class="mf-h">{nb(h)}</h3>
-            <p class="mf-t">{nb(t)}</p>
-          </li>
-        ))}
-      </ul>
-    </LpSection>
+    <Steps id="seychas" chip="Если компания на грани" titleA="Что сделать сейчас, если компания" titleB="на грани банкротства" steps={now} note="Эти шаги снижают риск ещё до того, как дело о банкротстве возбуждено." noteLink={false} />
 
     <HomeReviews />
   </Fragment>
@@ -229,7 +221,4 @@ const faq = [
   @media (min-width: 640px) { .bz-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (min-width: 1280px) { .bz-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
   .bz-card { display: flex; flex-direction: column; padding: clamp(1.25rem, 2vw, 1.75rem); border-radius: 18px; background: #fff; }
-  .mf-n { font-family: var(--font-display); font-weight: 700; font-size: 1.125rem; color: #034b8e; }
-  .mf-h { margin-top: 0.75rem; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; color: #1d1e21; }
-  .mf-t { margin-top: 0.625rem; font-size: var(--fs-body); line-height: 1.45; color: #5f646d; }
 </style>
