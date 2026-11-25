@@ -252,7 +252,7 @@ export const headerNav: NavGroup[] = [
     href: '/ob-upravlyayushchem/',
     label: 'Обо мне',
     children: [
-      { href: '/ob-upravlyayushchem/', label: 'Опыт и документы', icon: 'award' },
+      { href: '/ob-upravlyayushchem/', label: 'Обо мне', icon: 'award' },
       { href: '/dela/', label: 'Завершённые дела', icon: 'doc' },
     ],
   },
