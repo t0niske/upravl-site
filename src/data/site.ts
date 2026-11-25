@@ -234,12 +234,10 @@ export const headerNav: NavGroup[] = [
   {
     href: '/yuridicheskie-uslugi/',
     label: 'Цены',
-    // страницы «Стоимость», «Калькулятор», «Рассрочка» в плане (карта сайта v2); пока ведут на прайс
+    // 25.11.2026: общая страница со всеми ценами + «Рассрочка»; калькулятор — позже, когда будут цифры публикаций
     children: [
-      { href: '/yuridicheskie-uslugi/', label: 'Стоимость банкротства', icon: 'ruble' },
-      { href: '/yuridicheskie-uslugi/', label: 'Калькулятор полной цены', icon: 'calc' },
-      { href: '/yuridicheskie-uslugi/', label: 'Рассрочка', icon: 'calendar' },
-      { href: '/yuridicheskie-uslugi/', label: 'Юридические услуги и цены', icon: 'list' },
+      { href: '/yuridicheskie-uslugi/', label: 'Все цены', icon: 'list' },
+      { href: '/bankrotstvo-v-rassrochku/', label: 'Рассрочка', icon: 'calendar' },
     ],
   },
   {
