@@ -6,6 +6,7 @@
  */
 import Base from './Base.astro';
 import Byline from '../components/Byline.astro';
+import HeroStats, { type HeroStat } from '../components/HeroStats.astro';
 import HomeFaq from '../components/HomeFaq.astro';
 import LeadForm from '../components/LeadForm.astro';
 import { contacts, knowMenu, person } from '../data/site';
@@ -40,10 +41,12 @@ interface Props {
   heroBg?: ImageMetadata;
   /** большой портрет справа на первом экране (как на главной), фон — градиент */
   heroPortrait?: boolean;
+  /** цифры со значками в стиле главной вместо стеклянной полосы */
+  heroStats?: HeroStat[];
 }
 const {
   title, description, h1, eyebrow, crumbs, facts = [], faq = [], related = [], schema = [],
-  published, ogType = 'website', formTitle, formText, topic, cta = true, expert = false, heroBg, heroPortrait = false, faqTitle,
+  published, ogType = 'website', formTitle, formText, topic, cta = true, expert = false, heroBg, heroPortrait = false, heroStats, faqTitle,
 } = Astro.props;
 const allSchema = [...schema, ...(faq.length ? [faqSchema(faq)] : [])];
 // страница из блоков (без сплошного текста) — тогда отметка «Обновлено» уходит в синюю полосу
@@ -74,7 +77,8 @@ const relArticles = knowMenu
           <a href="#zayavka" class="ph-btn">Бесплатная консультация</a>
         </div>
       )}
-      {facts.length > 0 && (
+      {heroStats && <HeroStats stats={heroStats} />}
+      {!heroStats && facts.length > 0 && (
         <dl class={`ph-facts${expert ? ' has-person' : ''}`}>
           {expert && (
             <div class="ph-fact ph-person">

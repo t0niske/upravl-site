@@ -6,7 +6,7 @@ import HomeCases from '../components/HomeCases.astro';
 import HomeReviews from '../components/HomeReviews.astro';
 import Steps from '../components/Steps.astro';
 import { nb } from '../data/typo';
-import { person, contacts, SITE_URL } from '../data/site';
+import { person, contacts, heroStats, SITE_URL } from '../data/site';
 import { personSchema, PERSON_ID } from '../data/schema';
 import doc1999 from '../assets/doc-fsdn-1999.jpg';
 import docMinjust from '../assets/doc-minjust-2003.jpg';
@@ -25,15 +25,14 @@ const profile = {
 };
 
 
-// Профессиональный путь — этапами; год в ярлыке, тексты из прежнего списка и дипломов
+// Профессиональный путь — линейная шкала; тексты из прежнего списка и дипломов
 const path = [
-  { title: 'Юридическое образование', time: '1992', text: 'Окончил Томский государственный университет по специальности «Правоведение», квалификация — юрист' },
-  { title: 'Антикризисное управление', time: '1999', text: 'Сдал экзамен по программе обучения специалистов по антикризисному управлению ФСДН России (свидетельство № 7 от 04.03.1999, Томский политехнический университет)' },
-  { title: 'Экзамен арбитражного управляющего', time: '2003', text: 'Сдал теоретический экзамен по единой программе подготовки арбитражных управляющих (Минюст России)' },
-  { title: 'Экономическое образование', time: '2007', text: 'Окончил Томский государственный университет систем управления и радиоэлектроники (ТУСУР) по специальности «Финансы и кредит», квалификация — экономист' },
-  { title: 'Банкротство граждан', time: String(person.citizensSinceYear), text: 'Начал вести процедуры банкротства граждан — через год после вступления в силу главы X закона о банкротстве' },
-  { title: 'Повышение квалификации', time: '2016 и 2018', text: '«Банкротство предприятий: изменения законодательства и арбитражная практика» и повышение профессиональной подготовки арбитражных управляющих' },
-  { title: 'Обучение при СРО', time: 'ежегодно', text: 'Повышение квалификации арбитражных управляющих при СРО' },
+  { year: '1992', title: 'Юридическое образование', text: 'Томский государственный университет, «Правоведение», квалификация — юрист' },
+  { year: '1999', title: 'Антикризисное управление', text: 'Экзамен по программе обучения специалистов по антикризисному управлению ФСДН России' },
+  { year: '2003', title: 'Арбитражный управляющий', text: 'Теоретический экзамен по единой программе подготовки арбитражных управляющих (Минюст России)' },
+  { year: '2007', title: 'Экономическое образование', text: 'ТУСУР, «Финансы и кредит», квалификация — экономист' },
+  { year: String(person.citizensSinceYear), title: 'Банкротство граждан', text: 'Начал вести процедуры банкротства граждан — через год после вступления в силу главы X закона о банкротстве' },
+  { year: 'Сейчас', title: 'Обучение', text: 'Повышение квалификации в 2016 и 2018 годах, ежегодно — при СРО' },
 ];
 
 const docs = [
@@ -58,18 +57,17 @@ const principles = [
   h1={person.name}
   eyebrow="Арбитражный управляющий · Томск"
   crumbs={[{ name: 'Обо мне', href: url }]}
-  facts={[
-    ['В банкротстве', `с ${person.sinceYear} года`],
-    ['Процедур банкротства', '250+'],
-    ['Списано долгов', '320+ млн ₽'],
-    ['Банкротство граждан', `с ${person.citizensSinceYear} года`],
+  heroStats={[
+    { icon: 'scales', value: heroStats.years, label: heroStats.yearsLabel },
+    { icon: 'folder', value: '250+', label: 'процедур банкротства' },
+    { icon: 'ruble', value: heroStats.written, label: heroStats.writtenLabel },
   ]}
   topic="Консультация"
   heroPortrait
   schema={[personSchema(), profile]}
 >
   <Fragment slot="lead">
-    <p>{nb(`Работаю в антикризисном управлении и банкротстве с ${person.sinceYear} года, с ${person.citizensSinceYear} года веду дела о банкротстве граждан. Провёл ${person.proceduresText} в нескольких регионах России`)}</p>
+    <p>{nb('Арбитражный управляющий из Томска. Консультирую граждан и предпринимателей, представляю должников, кредиторов и других участников дел о банкротстве в арбитражных судах и судах общей юрисдикции')}</p>
   </Fragment>
 
   <Fragment slot="after">
@@ -95,7 +93,18 @@ const principles = [
     </section>
 
     <!-- Профессиональный путь -->
-    <Steps id="put" chip="Путь" titleA="Профессиональный путь" titleB="" steps={path} note="" noteLink={false} />
+    <LpSection id="put" chip="Путь" title="Профессиональный путь" bg="grey">
+      <ol class="tl">
+        {path.map((p) => (
+          <li class="tl-i">
+            <span class="tl-y tnum">{p.year}</span>
+            <span class="tl-mark" aria-hidden="true"><i></i></span>
+            <h3 class="tl-h">{nb(p.title)}</h3>
+            <p class="tl-t">{nb(p.text)}</p>
+          </li>
+        ))}
+      </ol>
+    </LpSection>
 
     <!-- Документы -->
     <LpSection id="dokumenty" chip="Документы" title="Документы о квалификации" lead="Свидетельства о сдаче экзаменов и повышении квалификации. Скан можно открыть в полном размере">
@@ -140,6 +149,31 @@ const principles = [
   @media (max-width: 639px) { .ky-online .bl-btn { width: 100%; } }
   .ky-map { margin: 0; }
   .ky-map img { display: block; width: 100%; height: auto; }
+
+  /* Путь: на телефоне — вертикальная шкала слева, с 1024px — горизонтальная */
+  .tl { --gap: clamp(2rem, 3.5vw, 4rem); position: relative; display: grid; }
+  .tl-i { position: relative; display: grid; grid-template-columns: 1.5rem minmax(0, 1fr); column-gap: 1rem; padding-bottom: 1.75rem; }
+  .tl-i:last-child { padding-bottom: 0; }
+  .tl-i::before { content: ''; position: absolute; left: calc(0.75rem - 1px); top: 0.6rem; bottom: -0.6rem; width: 2px; background: #c9d6e6; }
+  .tl-i:last-child::before { display: none; }
+  .tl-mark { grid-column: 1; grid-row: 1; display: grid; place-items: start center; padding-top: 0.35rem; }
+  .tl-mark i { position: relative; z-index: 1; width: 0.875rem; height: 0.875rem; border-radius: 50%; background: #034b8e; box-shadow: 0 0 0 4px #f3f4f6; }
+  .tl-y, .tl-h, .tl-t { grid-column: 2; }
+  .tl-y { grid-row: 1; font-family: var(--font-display); font-weight: 700; font-size: clamp(1.5rem, 2.2vw, 2.25rem); line-height: 1; letter-spacing: -0.02em; color: #034b8e; }
+  .tl-h { margin-top: 0.625rem; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; color: #1d1e21; }
+  .tl-t { margin-top: 0.625rem; font-size: var(--fs-body); line-height: 1.45; color: #5f646d; text-wrap: pretty; }
+  @media (min-width: 1024px) {
+    .tl { grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--gap); row-gap: clamp(2.5rem, 4vw, 3.5rem); }
+    .tl-i { display: flex; flex-direction: column; padding-bottom: 0; }
+    .tl-i::before { display: none; }
+    .tl-mark { position: relative; display: flex; justify-content: flex-start; align-items: center; height: 0.875rem; margin: 1rem 0 1.25rem; padding: 0; }
+    .tl-mark::before { content: ''; position: absolute; left: 0; right: calc(-1 * var(--gap)); top: calc(50% - 1px); height: 2px; background: #c9d6e6; }
+    .tl-i:nth-child(3n) .tl-mark::before { right: 0; background: linear-gradient(90deg, #c9d6e6, transparent); }
+    .tl-t { max-width: 26rem; }
+    .tl-mark i { position: relative; display: block; }
+    .tl-y { order: -1; }
+    .tl-h { margin-top: 0; }
+  }
 
   .dc { display: grid; gap: clamp(0.75rem, 1.4vw, 1.25rem); }
   @media (min-width: 640px) { .dc { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
