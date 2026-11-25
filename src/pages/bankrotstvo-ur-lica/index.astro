@@ -49,7 +49,11 @@ const help = [
   { who: 'Контролирующим лицам', text: 'Защитить от субсидиарной ответственности и взыскания убытков', href: '/bankrotstvo-ur-lica/subsidiarnaya-otvetstvennost/', link: 'О субсидиарной ответственности' },
   { who: 'Кредиторам', text: 'Инициировать банкротство должника, включиться в реестр, оспорить сделки, контролировать управляющего', href: '/bankrotstvo-ur-lica/kreditoram/', link: 'Если вы кредитор' },
 ];
-const alternatives = ['Договориться с кредиторами', 'Провести добровольную ликвидацию, если активов достаточно', 'Реструктурировать долг'];
+const alternatives: [string, string][] = [
+  ['Договориться с кредиторами', 'Отсрочка, рассрочка или частичное прощение долга по соглашению — без суда и расходов на процедуру'],
+  ['Провести добровольную ликвидацию', 'Если активов хватает, чтобы рассчитаться со всеми кредиторами, компанию закрывают через ликвидацию, а не через банкротство'],
+  ['Реструктурировать долг', 'Изменить график платежей или условия договора с банком или контрагентом, чтобы компания продолжила работу'],
+];
 
 const faq = [
   {
@@ -172,7 +176,7 @@ const arrow = '<path d="M5 12h14M13 6l6 6-6 6" />';
       <div class="al">
         <p class="al-h">{nb('Что иногда разумнее')}</p>
         <ol class="al-list">
-          {alternatives.map((t, i) => <li><span class="al-n tnum">{String(i + 1).padStart(2, '0')}</span><span>{nb(t)}</span></li>)}
+          {alternatives.map(([h, t], i) => <li><span class="al-n tnum">{String(i + 1).padStart(2, '0')}</span><span><span class="al-h3">{nb(h)}</span><span class="al-d">{nb(t)}</span></span></li>)}
         </ol>
         <p class="al-t">{nb('На консультации сравниваем варианты по деньгам и рискам для директора')}</p>
       </div>
@@ -270,6 +274,8 @@ const arrow = '<path d="M5 12h14M13 6l6 6-6 6" />';
   .al-list { display: grid; gap: 0.75rem; margin-top: 1.25rem; }
   @media (min-width: 768px) { .al-list { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   .al-list li { display: grid; grid-template-columns: 2rem minmax(0, 1fr); gap: 0.5rem; align-items: baseline; padding: 1rem 1.25rem; border-radius: 14px; background: #f3f4f6; font-size: var(--fs-body); line-height: 1.4; color: #1d1e21; }
+  .al-h3 { display: block; font-family: var(--font-display); font-weight: 600; font-size: 1.25rem; line-height: 1.2; letter-spacing: -0.015em; color: #1d1e21; }
+  .al-d { display: block; margin-top: 0.375rem; font-size: 0.9375rem; line-height: 1.45; color: #5f646d; text-wrap: pretty; }
   .al-n { font-family: var(--font-display); font-weight: 700; font-size: 1.125rem; color: #034b8e; }
   .al-t { margin-top: 1.25rem; font-size: var(--fs-body); line-height: 1.45; color: #5f646d; }
 

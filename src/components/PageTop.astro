@@ -6,15 +6,19 @@
 import { Image } from 'astro:assets';
 import SiteHeader from './SiteHeader.astro';
 import court from '../assets/page-bg-desk.png';
+import portraitImg from '../assets/antonets-hero.png';
+import { person } from '../data/site';
 import type { Crumb } from '../data/schema';
 
-interface Props { crumbs?: Crumb[]; bg?: ImageMetadata }
-const { crumbs = [], bg = court } = Astro.props;
+interface Props { crumbs?: Crumb[]; bg?: ImageMetadata; portrait?: boolean }
+const { crumbs = [], portrait = false } = Astro.props;
+// с портретом фон — только градиент (как на главной), если свой фон не передан явно
+const bg = Astro.props.bg ?? (portrait ? undefined : court);
 ---
 
-<section class="pt relative z-40 isolate overflow-hidden text-white">
+<section class={`pt relative z-40 isolate overflow-hidden text-white${portrait ? ' has-portrait' : ''}${bg ? '' : ' no-img'}`}>
   <div class="pt-bg absolute inset-0 -z-10" aria-hidden="true">
-    <Image src={bg} alt="" widths={[960, 1600, 2400]} sizes="100vw" class="pt-court" loading="eager" />
+    {bg && <Image src={bg} alt="" widths={[960, 1600, 2400]} sizes="100vw" class="pt-court" loading="eager" />}
   </div>
   <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
     <SiteHeader />
@@ -34,6 +38,11 @@ const { crumbs = [], bg = court } = Astro.props;
     <div class="pt-body">
       <slot />
     </div>
+    {portrait && (
+      <figure class="pt-fig">
+        <Image src={portraitImg} alt={`${person.name}, арбитражный управляющий`} widths={[480, 720, 1000]} sizes="(min-width: 1024px) 36vw, 80vw" class="pt-photo" loading="eager" fetchpriority="high" />
+      </figure>
+    )}
   </div>
 </section>
 
@@ -54,5 +63,30 @@ const { crumbs = [], bg = court } = Astro.props;
   .pt-crumbs a:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
   .pt-crumbs span[aria-hidden] { color: rgb(255 255 255 / 0.4); }
   .pt-body:empty { display: none; }
+  /* без картинки — свечение как на главной */
+  .no-img .pt-bg::after {
+    background:
+      radial-gradient(40% 60% at 78% 50%, rgb(30 92 168 / 0.38), transparent 70%),
+      linear-gradient(0deg, rgb(11 40 80 / 0.55) 0%, transparent 35%);
+  }
+  /* большой портрет: на телефоне — под текстом, на десктопе — справа, стоит на нижнем краю */
+  .pt-fig { display: flex; justify-content: center; margin: 1.5rem -1rem calc(-1 * clamp(2.5rem, 5vw, 4.5rem)); }
+  .pt-photo { display: block; width: min(82%, 20rem); height: auto; }
+  @media (min-width: 1024px) {
+    .has-portrait .pt-body { position: relative; z-index: 1; max-width: 50%; }
+    /* цифры 2×2, чтобы не залезали на портрет */
+    .has-portrait :global(.ph-facts) { grid-template-columns: repeat(2, minmax(0, 1fr)); row-gap: 1.25rem; }
+    .has-portrait :global(.ph-fact:nth-child(odd)::before) { display: none; }
+    .has-portrait :global(.ph-fact dd), .has-portrait :global(.ph-fact dt) { white-space: nowrap; }
+  }
+  @media (min-width: 1440px) {
+    .has-portrait .pt-body { max-width: 64%; }
+    .has-portrait :global(.ph-facts) { grid-template-columns: repeat(4, auto); row-gap: 0; }
+    .has-portrait :global(.ph-fact:nth-child(odd):not(:first-child)::before) { display: block; }
+  }
+  @media (min-width: 1024px) {
+    .pt-fig { position: absolute; top: 6.5rem; right: max(3.25rem, calc((100vw - 100rem) / 2 + 3.25rem)); bottom: 0; margin: 0; pointer-events: none; }
+    .pt-photo { width: auto; height: 100%; max-width: none; object-fit: contain; object-position: bottom; }
+  }
   .pt-body { margin-top: clamp(1rem, 2vw, 1.75rem); }
 </style>

@@ -38,10 +38,12 @@ interface Props {
   faqTitle?: string;
   /** свой фон первого экрана */
   heroBg?: ImageMetadata;
+  /** большой портрет справа на первом экране (как на главной), фон — градиент */
+  heroPortrait?: boolean;
 }
 const {
   title, description, h1, eyebrow, crumbs, facts = [], faq = [], related = [], schema = [],
-  published, ogType = 'website', formTitle, formText, topic, cta = true, expert = false, heroBg, faqTitle,
+  published, ogType = 'website', formTitle, formText, topic, cta = true, expert = false, heroBg, heroPortrait = false, faqTitle,
 } = Astro.props;
 const allSchema = [...schema, ...(faq.length ? [faqSchema(faq)] : [])];
 // страница из блоков (без сплошного текста) — тогда отметка «Обновлено» уходит в синюю полосу
@@ -62,7 +64,7 @@ const relArticles = knowMenu
   .filter((a) => !here.endsWith(a.href))
   .slice(0, 3);
 ---
-<Base title={title} description={description} crumbs={crumbs} schema={allSchema} ogType={ogType} heroBg={heroBg}>
+<Base title={title} description={description} crumbs={crumbs} schema={allSchema} ogType={ogType} heroBg={heroBg} heroPortrait={heroPortrait}>
   <Fragment slot="top">
     <div class="ph">
       <h1 class="ph-title">{nb(h1)}</h1>

@@ -1,18 +1,23 @@
 ---
 import { Image } from 'astro:assets';
-import Base from '../layouts/Base.astro';
-import LeadForm from '../components/LeadForm.astro';
-import Byline from '../components/Byline.astro';
-import { person, contacts, cases, SITE_URL } from '../data/site';
+import Page from '../layouts/Page.astro';
+import LpSection from '../components/LpSection.astro';
+import HomeCases from '../components/HomeCases.astro';
+import HomeReviews from '../components/HomeReviews.astro';
+import { nb } from '../data/typo';
+import { person, contacts, SITE_URL } from '../data/site';
 import { personSchema, PERSON_ID } from '../data/schema';
-import photo from '../assets/antonec.jpg';
+import doc1999 from '../assets/doc-fsdn-1999.jpg';
 import docMinjust from '../assets/doc-minjust-2003.jpg';
 import docTipkia from '../assets/doc-tipkia-2016.jpg';
 import docDexter from '../assets/doc-dexter-2018.jpg';
+import '../styles/lp.css';
 
+const url = '/ob-upravlyayushchem/';
+const description = 'Антонец Юрий Анатольевич — арбитражный управляющий в Томске с 1999 года: 250+ процедур, экзамен Минюста 2003 г., документы и реестр.';
 const profile = {
   '@type': 'ProfilePage',
-  url: `${SITE_URL}/ob-upravlyayushchem/`,
+  url: `${SITE_URL}${url}`,
   name: `${person.name} — арбитражный управляющий`,
   mainEntity: { '@id': PERSON_ID },
 };
@@ -23,99 +28,126 @@ const registry: [string, string][] = [
   ['ИНН', person.inn],
 ].filter(([, v]) => Boolean(v)) as [string, string][];
 
+const timeline: [string, string][] = [
+  ['1999', 'Сдал экзамен по программе обучения специалистов по антикризисному управлению ФСДН России (свидетельство № 7 от 04.03.1999, Томский политехнический университет). Начало работы в антикризисном управлении'],
+  ['2003', 'Сдал теоретический экзамен по единой программе подготовки арбитражных управляющих (Минюст России)'],
+  [String(person.citizensSinceYear), 'Начал вести процедуры банкротства граждан — через год после вступления в силу главы X закона о банкротстве'],
+  ['2016', 'Повышение квалификации «Банкротство предприятий: изменения законодательства и арбитражная практика»'],
+  ['2018', 'Повышение профессиональной подготовки арбитражных управляющих'],
+];
+
 const docs = [
-  { img: docMinjust, year: '2003', title: 'Свидетельство Минюста России', text: 'О сдаче теоретического экзамена по единой программе подготовки арбитражных управляющих. Серия АА № 002916, рег. № 34/002901, выдано 22.12.2003, Томск.', alt: 'Свидетельство Министерства юстиции РФ о сдаче теоретического экзамена по единой программе подготовки арбитражных управляющих на имя Антонца Ю. А., 2003 год' },
-  { img: docTipkia, year: '2016', title: 'Удостоверение о повышении квалификации', text: '«Банкротство предприятий: изменения законодательства и арбитражная практика», 24 часа. ФГБОУ ДПО «Томский институт переподготовки кадров и агробизнеса», 16–19.11.2016.', alt: 'Удостоверение о повышении квалификации по программе «Банкротство предприятий: изменения законодательства и арбитражная практика», Томск, ноябрь 2016 года' },
-  { img: docDexter, year: '2018', title: 'Свидетельство о повышении квалификации', text: 'Повышение уровня профессиональной подготовки арбитражных управляющих по законодательству о банкротстве, 24 академических часа. ООО «Декстер».', alt: 'Свидетельство ООО «Декстер» о повышении профессиональной подготовки арбитражных управляющих, 24 академических часа, 2018 год' },
+  { img: doc1999, year: '1999', title: 'Свидетельство ФСДН России', text: 'О сдаче экзамена по программе обучения специалистов по антикризисному управлению, № 7 от 04.03.1999', alt: 'Свидетельство ФСДН России о сдаче экзамена по антикризисному управлению, 1999 год' },
+  { img: docMinjust, year: '2003', title: 'Свидетельство Минюста России', text: 'О сдаче теоретического экзамена по единой программе подготовки арбитражных управляющих. Серия АА № 002916, выдано 22.12.2003', alt: 'Свидетельство Министерства юстиции РФ о сдаче теоретического экзамена по единой программе подготовки арбитражных управляющих, 2003 год' },
+  { img: docTipkia, year: '2016', title: 'Удостоверение о повышении квалификации', text: '«Банкротство предприятий: изменения законодательства и арбитражная практика», 24 часа, 16–19.11.2016', alt: 'Удостоверение о повышении квалификации, Томск, ноябрь 2016 года' },
+  { img: docDexter, year: '2018', title: 'Свидетельство о повышении квалификации', text: 'Повышение уровня профессиональной подготовки арбитражных управляющих, 24 академических часа, ООО «Декстер»', alt: 'Свидетельство ООО «Декстер» о повышении профессиональной подготовки арбитражных управляющих, 2018 год' },
+];
+
+const principles: [string, string][] = [
+  ['Сначала — стоит ли вообще', 'Если банкротство не нужно или опасно из-за сделок, говорю об этом на первой консультации'],
+  ['Без посредников', 'Вы общаетесь с практикующим арбитражным управляющим, а не с менеджером колл-центра'],
+  ['Цена до начала работы', 'Гонорар и обязательные расходы называю заранее и фиксирую в договоре'],
+  ['Конфиденциальность', 'Сведения о долгах и семье используются только в вашем деле'],
 ];
 ---
 
-<Base
+<Page
   title="Антонец Юрий Анатольевич — арбитражный управляющий"
-  description="Арбитражный управляющий в Томске с 1999 года: экзамен Минюста 2003 г., повышение квалификации, завершённые дела. Документы и контакты."
-  crumbs={[{ name: 'Об управляющем', href: '/ob-upravlyayushchem/' }]}
+  description={description}
+  h1={person.name}
+  eyebrow="Арбитражный управляющий · Томск"
+  crumbs={[{ name: 'Обо мне', href: url }]}
+  facts={[
+    ['В банкротстве', `с ${person.sinceYear} года`],
+    ['Процедур банкротства', '250+'],
+    ['Списано долгов', '320+ млн ₽'],
+    ['Банкротство граждан', `с ${person.citizensSinceYear} года`],
+  ]}
+  topic="Консультация"
+  heroPortrait
   schema={[personSchema(), profile]}
 >
-  <section class="wrap grid gap-10 pt-6 md:grid-cols-[1fr_1.5fr] md:pt-10">
-    <figure>
-      <Image src={photo} alt="Юрий Анатольевич Антонец, арбитражный управляющий, портрет в деловом костюме" widths={[360, 600]} sizes="(min-width: 768px) 400px, 90vw" class="aspect-[4/5] w-full rounded-[18px] object-cover object-top" loading="eager" />
-    </figure>
-    <div>
-      <p class="eyebrow">Арбитражный управляющий · Томск</p>
-      <h1 class="mt-2">{person.name}</h1>
-      <div class="prose-legal lead-answer mt-6">
-        <p>
-          Арбитражный управляющий из Томска. Работает в антикризисном управлении и банкротстве с {person.sinceYear} года,
-          с {person.citizensSinceYear} года ведёт дела о банкротстве граждан. По собственным данным — {person.proceduresText} в нескольких регионах России.
-        </p>
-        <p>
-          Консультирует граждан и предпринимателей, представляет должников, кредиторов и других участников дел о банкротстве в Арбитражном суде
-          Томской области и судах общей юрисдикции.
-        </p>
+  <Fragment slot="lead">
+    <p>{nb(`Работаю в антикризисном управлении и банкротстве с ${person.sinceYear} года, с ${person.citizensSinceYear} года веду дела о банкротстве граждан. Провёл ${person.proceduresText} в нескольких регионах России`)}</p>
+  </Fragment>
+
+  <Fragment slot="after">
+    <!-- Кто я -->
+    <LpSection id="kto-ya" chip="Обо мне" title="Арбитражный управляющий из Томска" lead="Консультирую граждан и предпринимателей, представляю должников, кредиторов и других участников дел о банкротстве в Арбитражном суде Томской области и судах общей юрисдикции" bg="grey">
+      <div class="ky">
+        <div class="lp-card lp-blue">
+          <p class="lp-k">Реестр арбитражных управляющих</p>
+          <dl class="rg">
+            {registry.map(([k, v]) => <div><dt>{k}</dt><dd class="tnum">{v}</dd></div>)}
+          </dl>
+          <p class="lp-foot">{nb('Сведения об арбитражных управляющих публикуются в Едином федеральном реестре сведений о банкротстве — их можно проверить по ИНН')}</p>
+          <a href="#zayavka" class="bl-btn">Бесплатная консультация</a>
+        </div>
+        <div class="lp-card">
+          <p class="lp-k">Профессиональный путь</p>
+          <ol class="tl">
+            {timeline.map(([y, t]) => <li><span class="tl-y tnum">{y}</span><span>{nb(t)}</span></li>)}
+          </ol>
+          <a href="/dela/" class="lp-btn is-bottom">Завершённые дела</a>
+        </div>
       </div>
-      <Byline />
-      {registry.length > 0 && (
-        <dl class="mt-8 grid gap-3 sm:grid-cols-2">
-          {registry.map(([k, v]) => <div class="card p-4"><dt class="text-sm text-muted">{k}</dt><dd class="font-medium">{v}</dd></div>)}
-        </dl>
-      )}
-      {person.fedresursUrl && <p class="mt-4"><a href={person.fedresursUrl} rel="noopener" target="_blank">Карточка в Едином федеральном реестре сведений о банкротстве</a></p>}
-    </div>
-  </section>
+    </LpSection>
 
-  <section class="wrap mt-24" aria-labelledby="timeline-title">
-    <h2 id="timeline-title">Профессиональный путь</h2>
-    <ol class="mt-8 max-w-[46rem] border-l-2 border-line pl-6">
-      {[
-        ['1999', 'Сдал экзамен по программе обучения специалистов по антикризисному управлению ФСДН России (свидетельство № 7 от 04.03.1999, Томский политехнический университет). Начало работы в антикризисном управлении.'],
-        ['2003', 'Сдал теоретический экзамен по единой программе подготовки арбитражных управляющих (Минюст России).'],
-        [String(person.citizensSinceYear), 'Начал вести процедуры банкротства граждан — через год после вступления в силу главы X закона о банкротстве.'],
-        ['2016', 'Повышение квалификации «Банкротство предприятий: изменения законодательства и арбитражная практика».'],
-        ['2018', 'Повышение профессиональной подготовки арбитражных управляющих.'],
-        ['2017–2022', `Завершённые дела граждан с освобождением от долгов — ${cases.length} из них опубликованы на сайте с номерами.`],
-      ].map(([y, t]) => (
-        <li class="relative pb-7 last:pb-0">
-          <span class="absolute -left-[1.95rem] top-2 h-2.5 w-2.5 rounded-full border-2 border-paper bg-ink-2" aria-hidden="true"></span>
-          <p class="font-mono text-[0.875rem] text-muted tnum">{y}</p>
-          <p class="mt-1 text-ink-2">{t}</p>
-        </li>
-      ))}
-    </ol>
-    <p class="mt-6"><a href="/dela/">Посмотреть завершённые дела</a></p>
-  </section>
-
-  <section class="wrap mt-24" aria-labelledby="docs-title">
-    <h2 id="docs-title">Документы о квалификации</h2>
-    <ul class="mt-8 grid gap-6 md:grid-cols-3">
-      {docs.map((d) => (
-        <li>
-          <article class="h-full overflow-hidden rounded-[14px] border border-line bg-card">
-            <a href={d.img.src} target="_blank" rel="noopener" aria-label={`Открыть: ${d.title}, ${d.year}`}>
-              <Image src={d.img} alt={d.alt} widths={[400, 800]} sizes="(min-width: 768px) 360px, 90vw" class="aspect-[4/3] w-full bg-paper-2 object-contain p-3" />
+    <!-- Документы -->
+    <LpSection id="dokumenty" chip="Документы" title="Документы о квалификации" lead="Свидетельства о сдаче экзаменов и повышении квалификации. Скан можно открыть в полном размере">
+      <ul class="dc">
+        {docs.map((d) => (
+          <li>
+            <a href={d.img.src} target="_blank" rel="noopener" class="dc-card" aria-label={`Открыть скан: ${d.title}, ${d.year}`}>
+              <span class="dc-scan"><Image src={d.img} alt={d.alt} widths={[320, 640]} sizes="(min-width: 1280px) 22vw, (min-width: 640px) 45vw, 90vw" class="dc-img" loading="lazy" /></span>
+              <span class="bz-n tnum">{d.year}</span>
+              <span class="dc-h">{nb(d.title)}</span>
+              <span class="bz-t">{nb(d.text)}</span>
             </a>
-            <div class="p-5">
-              <p class="font-mono text-[0.8125rem] text-muted">{d.year}</p>
-              <h3 class="mt-1 font-sans text-base font-medium">{d.title}</h3>
-              <p class="mt-2 text-[0.95rem] text-muted">{d.text}</p>
-            </div>
-          </article>
-        </li>
-      ))}
-    </ul>
-  </section>
-
-  <section class="wrap mt-24" aria-labelledby="principles-title">
-    <div class="prose-legal">
-      <h2 id="principles-title">Как я работаю</h2>
-      <ul>
-        <li><strong>Сначала — стоит ли вообще.</strong> Если банкротство не нужно или опасно из-за сделок, говорю об этом на первой консультации.</li>
-        <li><strong>Без посредников.</strong> Вы общаетесь с практикующим арбитражным управляющим, а не с менеджером колл-центра.</li>
-        <li><strong>Цена до начала работы.</strong> Гонорар и обязательные расходы называю заранее и фиксирую в договоре.</li>
-        <li><strong>Конфиденциальность.</strong> Сведения о долгах и семье используются только в вашем деле.</li>
+          </li>
+        ))}
       </ul>
-      <p>Офис: {contacts.addressFull}. Приём {contacts.hours.toLowerCase()}.</p>
-    </div>
-  </section>
+    </LpSection>
 
-  <div class="mt-24"><LeadForm /></div>
-</Base>
+    <HomeCases />
+
+    <!-- Как работаю -->
+    <LpSection id="kak-rabotayu" chip="Как работаю" title="Как я работаю" lead={`Офис: ${contacts.addressFull}. Приём ${contacts.hours.toLowerCase()}`}>
+      <ul class="bz-grid is-4">
+        {principles.map(([h, t], i) => (
+          <li class="bz-card">
+            <span class="bz-n tnum">{String(i + 1).padStart(2, '0')}</span>
+            <h3 class="bz-h">{nb(h)}</h3>
+            <p class="bz-t">{nb(t)}</p>
+          </li>
+        ))}
+      </ul>
+    </LpSection>
+
+    <HomeReviews />
+  </Fragment>
+</Page>
+
+<style>
+  .ky { display: grid; gap: clamp(0.75rem, 1.4vw, 1.25rem); }
+  @media (min-width: 1024px) { .ky { grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); } }
+  .ky .lp-blue .lp-foot { margin-top: auto; margin-bottom: 1.5rem; padding-top: 1rem; }
+  .ky .lp-blue .bl-btn { margin-top: 0; }
+  .rg { display: grid; margin-top: 1rem; margin-bottom: 1.5rem; }
+  .rg > div { padding: 0.875rem 0; border-top: 1px solid rgb(255 255 255 / 0.18); }
+  .rg dt { font-size: 0.9375rem; color: rgb(255 255 255 / 0.7); }
+  .rg dd { margin-top: 0.25rem; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; color: #fff; }
+  .tl { margin-top: 1rem; margin-bottom: 1.5rem; }
+  .tl li { display: grid; grid-template-columns: 3.25rem minmax(0, 1fr); gap: 1rem; padding: 0.75rem 0; border-top: 1px solid rgb(29 30 33 / 0.1); font-size: var(--fs-body); line-height: 1.45; color: #2a2d33; }
+  .tl-y { font-family: var(--font-display); font-weight: 700; color: #034b8e; }
+
+  .dc { display: grid; gap: clamp(0.75rem, 1.4vw, 1.25rem); }
+  @media (min-width: 640px) { .dc { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (min-width: 1280px) { .dc { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+  .dc-card { display: flex; flex-direction: column; height: 100%; padding: clamp(1rem, 1.6vw, 1.5rem); border-radius: 18px; background: #f3f4f6; color: inherit; text-decoration: none; transition: box-shadow 150ms var(--ease-out); }
+  .dc-card:hover { box-shadow: inset 0 0 0 2px #034b8e; }
+  .dc-scan { display: block; margin-bottom: 1.25rem; padding: 0.75rem; border-radius: 12px; background: #fff; }
+  .dc-img { display: block; width: 100%; height: auto; aspect-ratio: 4 / 3; object-fit: contain; }
+  .dc-card .bz-t { display: block; }
+  .dc-h { display: block; margin-top: 0.5rem; font-family: var(--font-display); font-weight: 600; font-size: 1.125rem; line-height: 1.25; color: #1d1e21; }
+</style>

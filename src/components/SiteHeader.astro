@@ -47,9 +47,9 @@ const messengers = [
                       {col.items.map((c) => (
                         <li>
                           {c.href ? (
-                            <a href={c.href} class="menu-item">{c.label}</a>
+                            <a href={c.href} class="menu-item">{nb(c.label)}</a>
                           ) : (
-                            <span class="menu-item is-soon">{c.label}</span>
+                            <span class="menu-item is-soon">{nb(c.label)}</span>
                           )}
                         </li>
                       ))}
@@ -85,7 +85,7 @@ const messengers = [
             <div class="menu-drop absolute top-full left-0 z-40 pt-3">
               <ul class="menu-panel min-w-[16rem] px-5 py-3">
                 {i.children.map((c) => (
-                  <li><a href={c.href} class="menu-item">{c.label}</a></li>
+                  <li><a href={c.href} class="menu-item">{nb(c.label)}</a></li>
                 ))}
               </ul>
             </div>
@@ -136,7 +136,7 @@ const messengers = [
               </summary>
               <ul class="m-sub">
                 {i.children.map((c) => (
-                  <li>{c.href ? <a href={c.href} class="m-link" aria-current={path === c.href ? 'page' : undefined}>{c.label}</a> : <span class="m-link is-soon">{c.label}</span>}</li>
+                  <li>{c.href ? <a href={c.href} class="m-link" aria-current={path === c.href ? 'page' : undefined}>{nb(c.label)}</a> : <span class="m-link is-soon">{nb(c.label)}</span>}</li>
                 ))}
               </ul>
             </details>
