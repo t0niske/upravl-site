@@ -26,8 +26,17 @@ Migrator::run();
 $password = getenv('CRM_PASSWORD') ?: null;
 
 if ($password === null) {
-    echo 'Пароль (не меньше ' . Staff::MIN_PASSWORD . ' символов): ';
+    // Ввод пароля без показа на экране (в терминале сервера по ssh -t).
+    $hide = DIRECTORY_SEPARATOR === '/' && stream_isatty(STDIN);
+    echo 'Пароль (не меньше ' . Staff::MIN_PASSWORD . ' символов, на экране не отображается): ';
+    if ($hide) {
+        shell_exec('stty -echo');
+    }
     $password = trim((string) fgets(STDIN));
+    if ($hide) {
+        shell_exec('stty echo');
+    }
+    echo "\n";
 }
 
 $error = Staff::validate($login, $name, $password, true);
