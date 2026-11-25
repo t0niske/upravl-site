@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig({
-  site: 'https://upravl.ru',
+  site: 'https://bankrotstvo70.ru',
   trailingSlash: 'always',
   devToolbar: { enabled: false },
   // без сжатия HTML: иначе теряется пробел на переносе строки перед ссылкой («проверьте<a>»)

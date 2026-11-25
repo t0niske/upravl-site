@@ -2,4 +2,4 @@ User-agent: *
 Allow: /
 Disallow: /lead.php
 
-Sitemap: https://upravl.ru/sitemap-index.xml
+Sitemap: https://bankrotstvo70.ru/sitemap-index.xml

@@ -4,7 +4,7 @@
  * Откуда каждый факт и что надо проверить: seo/BRANDCORE.md
  */
 
-export const SITE_URL = 'https://upravl.ru';
+export const SITE_URL = 'https://bankrotstvo70.ru';
 
 /** Дата последней содержательной проверки контента (видна на страницах и уходит в dateModified). */
 export const CONTENT_UPDATED = '2026-11-13';

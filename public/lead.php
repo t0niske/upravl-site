@@ -64,7 +64,7 @@ $hits[] = time();
 @file_put_contents($rateFile, implode(',', $hits));
 
 $lines = [
-    'Новая заявка с сайта upravl.ru',
+    'Новая заявка с сайта bankrotstvo70.ru',
     'Имя: ' . ($name !== '' ? $name : '—'),
     'Телефон: ' . $phone,
     'Тема: ' . ($topic !== '' ? $topic : '—'),
@@ -91,9 +91,9 @@ if ($tgToken !== '' && $tgChat !== '' && function_exists('curl_init')) {
 }
 
 if ($mailTo !== '') {
-    $host = preg_replace('/[^a-z0-9.\-]/i', '', $_SERVER['HTTP_HOST'] ?? 'upravl.ru');
+    $host = preg_replace('/[^a-z0-9.\-]/i', '', $_SERVER['HTTP_HOST'] ?? 'bankrotstvo70.ru');
     $headers = [
-        'From: =?UTF-8?B?' . base64_encode('Сайт upravl.ru') . '?= <noreply@' . $host . '>',
+        'From: =?UTF-8?B?' . base64_encode('Сайт bankrotstvo70.ru') . '?= <noreply@' . $host . '>',
         'Content-Type: text/plain; charset=UTF-8',
         'Content-Transfer-Encoding: 8bit',
     ];
