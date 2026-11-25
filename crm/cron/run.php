@@ -38,6 +38,8 @@ if ($lock === false || !flock($lock, LOCK_EX | LOCK_NB)) {
 
 try {
     $now = Clock::now();
+    // отметка «планировщик жив»: время последнего запуска
+    @file_put_contents(APP_ROOT . '/storage/cron.last', Clock::sql($now));
     $closed = Visits::finalize($now);
 
     if ($closed > 0) {
