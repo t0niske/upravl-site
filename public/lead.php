@@ -3,17 +3,20 @@
  * Обработчик заявок с сайта. Работает на обычном PHP-хостинге (PHP 7.4+).
  * Настройки — в lead-config.php рядом (создать из lead-config.example.php).
  * Отвечает JSON для fetch-запросов и редиректом на /spasibo/ для обычной отправки формы без JS.
+ * Если рядом с сайтом есть CRM (~/bankrotstvo70-crm, PHP 8.1+), заявка записывается и туда — с привязкой
+ * к заходу на сайт по cookie счётчика sd_vid / sd_sid. Сбой CRM не мешает письму и сообщению в MAX.
  */
 declare(strict_types=1);
 
 $wantsJson = stripos($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json') !== false;
+$leadId = 0;
 
 function respond(bool $ok, string $error = '', int $code = 200): void {
-    global $wantsJson;
+    global $wantsJson, $leadId;
     http_response_code($code);
     if ($wantsJson) {
         header('Content-Type: application/json; charset=utf-8');
-        echo json_encode(['ok' => $ok, 'error' => $error], JSON_UNESCAPED_UNICODE);
+        echo json_encode(['ok' => $ok, 'error' => $error, 'lead' => $leadId], JSON_UNESCAPED_UNICODE);
     } else {
         header('Location: ' . ($ok ? '/spasibo/' : '/kontakty/'), true, 303);
     }
@@ -65,8 +68,25 @@ if (count($hits) >= 5) respond(false, 'rate', 429);
 $hits[] = time();
 @file_put_contents($rateFile, implode(',', $hits));
 
+// CRM: заявка в базу и связь с заходом на сайт (код CRM вне сайта; локально — путь в переменной B70_CRM)
+$crmRoot = getenv('B70_CRM') ?: dirname(__DIR__, 2) . '/bankrotstvo70-crm';
+if (PHP_VERSION_ID >= 80100 && is_file($crmRoot . '/app/bootstrap.php')) {
+    try {
+        require_once $crmRoot . '/app/bootstrap.php';
+        $leadId = App\Leads\Leads::createFromSite([
+            'name' => $name, 'phone' => $phone, 'topic' => $topic, 'page' => $page, 'message' => $message, 'quiz' => $quiz,
+            'ip' => $ip, 'user_agent' => (string)($_SERVER['HTTP_USER_AGENT'] ?? ''),
+            'visitor_id' => (string)($_COOKIE['sd_vid'] ?? ''), 'visit_id' => (string)($_COOKIE['sd_sid'] ?? ''),
+        ]);
+    } catch (Throwable $e) {
+        if (class_exists('App\Leads\Log')) {
+            App\Leads\Log::error('Заявка не записана в CRM', $e);
+        }
+    }
+}
+
 $lines = [
-    'Новая заявка с сайта bankrotstvo70.ru',
+    $leadId > 0 ? "Новая заявка №$leadId с сайта bankrotstvo70.ru" : 'Новая заявка с сайта bankrotstvo70.ru',
     'Имя: ' . ($name !== '' ? $name : '—'),
     'Телефон: ' . $phone,
     'Тема: ' . ($topic !== '' ? $topic : '—'),
@@ -75,9 +95,11 @@ $lines = [
 if ($quiz !== '') $lines[] = $quiz;
 if ($message !== '') $lines[] = "Сообщение:\n" . $message;
 $lines[] = 'Время: ' . date('d.m.Y H:i');
+if ($leadId > 0) $lines[] = 'В CRM: https://bankrotstvo70.ru/crm/lead/' . $leadId;
 $text = implode("\n", $lines);
 
-$sent = false;
+// Заявка записана в CRM — уже не потеряется, даже если письмо или MAX не ушли
+$sent = $leadId > 0;
 
 if ($tgToken !== '' && $tgChat !== '' && function_exists('curl_init')) {
     $ch = curl_init('https://api.telegram.org/bot' . $tgToken . '/sendMessage');

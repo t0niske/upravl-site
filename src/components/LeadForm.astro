@@ -127,7 +127,12 @@ const messengers = [
         form.reset();
         show('Заявка отправлена. Перезвоню в рабочее время; если вопрос срочный — звоните по телефону', true);
         (window as any).ym?.((window as any).YM_ID, 'reachGoal', 'lead');
+        // счётчик CRM: на какой странице оставили заявку (public/js/visits.js)
+        const visits = (window as any).B70visits;
+        visits?.event('lead', data.lead ? String(data.lead) : '');
+        visits?.flush();
       } catch {
+        (window as any).B70visits?.event('form_error', form.id || 'zayavka');
         show('Не получилось отправить заявку. Позвоните, пожалуйста: +7 (913) 889-35-36 или +7 (3822) 30-02-15', false);
       } finally {
         btn.disabled = false;
