@@ -8,8 +8,11 @@ Options -Indexes
 RewriteEngine On
 RewriteBase /
 
-# HTTPS и без www (один канонический хост)
-RewriteCond %{HTTPS} off [OR]
+# HTTPS и без www (один канонический хост).
+# На REG.RU перед Apache стоит nginx: %{HTTPS} там всегда off, протокол — в X-Forwarded-Proto
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP:X-Forwarded-Proto} !https
+RewriteRule ^(.*)$ https://bankrotstvo70.ru/$1 [R=301,L]
 RewriteCond %{HTTP_HOST} ^www\. [NC]
 RewriteRule ^(.*)$ https://bankrotstvo70.ru/$1 [R=301,L]
 
