@@ -1,4 +1,4 @@
-# upravl.ru — статический сайт (Astro). Apache / shared-хостинг.
+# bankrotstvo70.ru — статический сайт (Astro). Apache / shared-хостинг.
 AddDefaultCharset UTF-8
 DirectoryIndex index.html
 ErrorDocument 404 /404.html
@@ -11,7 +11,7 @@ RewriteBase /
 # HTTPS и без www (один канонический хост)
 RewriteCond %{HTTPS} off [OR]
 RewriteCond %{HTTP_HOST} ^www\. [NC]
-RewriteRule ^(.*)$ https://upravl.ru/$1 [R=301,L]
+RewriteRule ^(.*)$ https://bankrotstvo70.ru/$1 [R=301,L]
 
 # --- Старые статьи WordPress (301, без цепочек) ---
 RewriteRule ^2020/01/23/ /stati/mify-o-bankrotstve-grazhdan/ [R=301,L]
