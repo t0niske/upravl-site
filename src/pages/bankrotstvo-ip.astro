@@ -2,6 +2,7 @@
 import Page from '../layouts/Page.astro';
 import LpSection from '../components/LpSection.astro';
 import Steps from '../components/Steps.astro';
+import Services from '../components/Services.astro';
 import HomePrice from '../components/HomePrice.astro';
 import HomeReviews from '../components/HomeReviews.astro';
 import Lawyer from '../components/Lawyer.astro';
@@ -89,7 +90,7 @@ const faq = [
 
   <Fragment slot="after">
     <!-- Чем отличается -->
-    <LpSection id="otlichiya" chip="Отличия" title="Чем банкротство ИП отличается от банкротства гражданина" lead="Процедуры те же: реструктуризация, реализация имущества, мировое соглашение. Отличия — в деталях, которые влияют на исход" bg="grey">
+    <LpSection id="otlichiya" chip="Отличия" title="Чем банкротство ИП отличается от банкротства гражданина" lead="Процедуры те же: реструктуризация, реализация имущества, мировое соглашение. Отличия — в деталях, которые влияют на исход">
       <div class="ce-wrap">
         <div class="lp-card">
           <h3 class="dg-h">Главное</h3>
@@ -109,7 +110,7 @@ const faq = [
     </LpSection>
 
     <!-- Когда подавать -->
-    <LpSection id="kogda" chip="Когда подавать" title="Когда предпринимателю пора подавать заявление" lead="Закон различает обязанность ИП подать заявление и право кредиторов подать на него">
+    <LpSection id="kogda" chip="Когда подавать" title="Когда предпринимателю пора подавать заявление" lead="Закон различает обязанность ИП подать заявление и право кредиторов подать на него" bg="grey">
       <div class="lp-two">
         <div class="lp-card lp-blue">
           <p class="lp-k">Обязаны подать</p>
@@ -130,29 +131,25 @@ const faq = [
       </a>
     </LpSection>
 
-    <!-- Завершённые дела -->
-    <HomeCases />
-
     <!-- Кто ведёт дело -->
     <Lawyer />
 
+    <!-- Завершённые дела -->
+    <HomeCases />
+
     <!-- Что проверит управляющий -->
-    <LpSection id="proverka-upravlyayushchego" chip="Риски" title="Что проверит финансовый управляющий у ИП" lead="Платежи и сделки предпринимателя проверяют строже, чем у обычного гражданина" bg="grey">
-      <div class="sd-wrap">
-        <div class="sd-card">
-          <p class="sd-num">{law.challengePeriodYears} года</p>
-          <p class="sd-cap">{nb('за этот срок управляющий проверяет расчётный счёт, карты и сделки')}</p>
-          <p class="sd-note">{nb('Если в выписках есть спорные операции, готовим объяснения и документы до подачи. От этого зависит, освободит ли суд от долгов')}</p>
-          <a href="#zayavka" class="lp-btn sd-btn">Разобрать мои выписки</a>
-        </div>
-        <ol class="sd-list">
-          {checks.map((t, i) => <li><span class="sd-n tnum">[{String(i + 1).padStart(2, '0')}]</span><span>{nb(t)}</span></li>)}
-        </ol>
-      </div>
-    </LpSection>
+    <Services
+      id="proverka-upravlyayushchego"
+      chip="Риски"
+      title="Что проверит финансовый управляющий у ИП"
+      lead="Платежи и сделки предпринимателя проверяют строже, чем у обычного гражданина"
+      btnHref="#zayavka"
+      btnLabel="Разобрать мои выписки"
+      items={checks.map((title) => ({ title }))}
+    />
 
     <!-- Что будет с бизнесом -->
-    <LpSection id="biznes" chip="Бизнес" title="Что будет с бизнесом" lead="Налоги, работники, имущество и статус ИП — главное, о чём спрашивают предприниматели">
+    <LpSection id="biznes" chip="Бизнес" title="Что будет с бизнесом" lead="Налоги, работники, имущество и статус ИП — главное, о чём спрашивают предприниматели" bg="grey">
       <ul class="bz-grid">
         {business.map(([h, t], i) => (
           <li class="bz-card">
@@ -165,7 +162,7 @@ const faq = [
     </LpSection>
 
     <!-- Этапы -->
-    <Steps />
+    <Steps bg="white" />
 
     <!-- Стоимость -->
     <HomePrice title="Сколько стоит банкротство ИП" />
@@ -237,18 +234,6 @@ const faq = [
   }
 
   /* Риски: карточка с цифрой + список с [01] (как «Сделки» на странице физлиц) */
-  .sd-wrap { display: grid; gap: 1.5rem; }
-  @media (min-width: 1024px) { .sd-wrap { grid-template-columns: minmax(0, 5fr) minmax(0, 8fr); gap: clamp(1.5rem, 3vw, 3.5rem); } }
-  .sd-card { display: flex; flex-direction: column; padding: clamp(1.25rem, 1.8vw, 2rem) clamp(1.25rem, 1.6vw, 1.75rem); border-radius: 16px; background: #fff; }
-  .sd-num { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.25rem, 3.2vw, 3rem); line-height: 1; letter-spacing: -0.02em; color: #1d1e21; }
-  .sd-cap { margin-top: 0.5rem; font-size: var(--fs-body); line-height: 1.45; color: #7c818a; text-wrap: pretty; }
-  .sd-note { margin-top: auto; padding-top: 2rem; font-size: var(--fs-body); line-height: 1.45; color: #1d1e21; }
-  .lp-btn.sd-btn { align-self: flex-start; margin-top: 1.25rem; }
-  @media (max-width: 639px) { .lp-btn.sd-btn { align-self: stretch; } }
-  .sd-list li { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); gap: 1rem; padding: 1rem 0; border-top: 1px solid rgb(29 30 33 / 0.1); font-size: var(--fs-body); line-height: 1.45; color: #1d1e21; }
-  .sd-list li:last-child { border-bottom: 1px solid rgb(29 30 33 / 0.1); }
-  .sd-n { color: #8a8f98; }
-  @media (max-width: 639px) { .sd-list li { grid-template-columns: 2.75rem minmax(0, 1fr); gap: 0.75rem; } }
 
   /* Бизнес: 4 серые карточки с синим номером (как «Когда МФЦ — плохой выбор», без картинок) */
   .bz-grid { display: grid; gap: clamp(0.75rem, 1.4vw, 1.25rem); }
