@@ -14,9 +14,11 @@ interface Props { crumbs?: Crumb[]; bg?: ImageMetadata; portrait?: boolean; bgPo
 const { crumbs = [], portrait = false, bgPos } = Astro.props;
 // с портретом фон — только градиент (как на главной), если свой фон не передан явно
 const bg = Astro.props.bg ?? (portrait ? undefined : court);
+// плашка с именем на портрете, как на главной; на «Обо мне» имя уже в заголовке
+const nameBadge = portrait && !Astro.url.pathname.endsWith('/ob-upravlyayushchem/');
 ---
 
-<section class={`pt relative z-40 isolate overflow-hidden text-white${portrait ? ' has-portrait' : ''}${bg ? '' : ' no-img'}`}>
+<section class={`pt relative z-40 isolate overflow-hidden text-white${portrait ? ' has-portrait' : ''}${bg ? ' has-bg' : ' no-img'}`}>
   <div class="pt-bg absolute inset-0 -z-10" aria-hidden="true">
     {bg && <Image src={bg} alt="" widths={[960, 1600, 2400]} sizes="100vw" class="pt-court" style={bgPos ? `object-position:${bgPos}` : undefined} loading="eager" />}
   </div>
@@ -41,6 +43,12 @@ const bg = Astro.props.bg ?? (portrait ? undefined : court);
     {portrait && (
       <figure class="pt-fig">
         <Image src={portraitImg} alt={`${person.name}, арбитражный управляющий`} widths={[480, 720, 1000]} sizes="(min-width: 1024px) 36vw, 80vw" class="pt-photo" loading="eager" fetchpriority="high" />
+        {nameBadge && (
+          <figcaption class="pt-name">
+            <span>{person.name}</span>
+            <span>Арбитражный управляющий</span>
+          </figcaption>
+        )}
       </figure>
     )}
   </div>
@@ -89,4 +97,26 @@ const bg = Astro.props.bg ?? (portrait ? undefined : court);
     .pt-photo { width: auto; height: 100%; max-width: none; object-fit: contain; object-position: bottom; }
   }
   .pt-body { margin-top: clamp(1rem, 2vw, 1.75rem); }
+  /* плашка с именем — как на главной (HomeHero .hero-name) */
+  .pt-fig { position: relative; }
+  .pt-name {
+    position: absolute; right: 1rem; bottom: 1rem; padding: 0.875rem 1.25rem; border-radius: 16px;
+    background-color: rgb(255 255 255 / 0.12); backdrop-filter: blur(18px);
+    font-size: 1rem; line-height: 1.25; color: rgb(255 255 255 / 0.9); pointer-events: auto;
+  }
+  @supports (-webkit-backdrop-filter: blur(1px)) and (not (backdrop-filter: blur(1px))) { .pt-name { -webkit-backdrop-filter: blur(18px); } }
+  .pt-name span { display: block; }
+  .pt-name span:first-child { font-family: var(--font-display); font-weight: 700; font-size: 1.25em; color: #fff; }
+  .pt-name span + span { margin-top: 0.25rem; }
+  @media (min-width: 1024px) {
+    .pt-fig { position: absolute; }
+    .pt-name { right: 0; bottom: clamp(2.5rem, 5vw, 4.5rem); padding: 1.25rem 1.5rem; font-size: clamp(1rem, min(1.45vw, 2.6vh), 1.375rem); }
+    .pt-name span:first-child { font-size: 1.15em; }
+  }
+  /* страницы с фоновой картинкой: высота первого экрана не меньше, чем у страницы услуги с цифрами (~700px), текст по центру (26.11.2026) */
+  .has-bg, .has-portrait { display: flex; flex-direction: column; min-height: 43.75rem; }
+  .has-bg > div, .has-portrait > div { flex: 1; display: flex; flex-direction: column; }
+  .has-bg .pt-body, .has-portrait .pt-body { flex: 1; display: flex; flex-direction: column; justify-content: center; }
+  /* с портретом на компьютере — высота как у первого экрана главной (HomeHero) */
+  @media (min-width: 1024px) { .has-portrait { height: 100svh; min-height: 40rem; max-height: 75rem; } }
 </style>
