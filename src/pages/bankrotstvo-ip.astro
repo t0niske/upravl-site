@@ -233,13 +233,11 @@ const faq = [
     .ce-table tbody tr:last-child { padding-bottom: 0; }
   }
 
-  /* Риски: карточка с цифрой + список с [01] (как «Сделки» на странице физлиц) */
-
-  /* Бизнес: 4 серые карточки с синим номером (как «Когда МФЦ — плохой выбор», без картинок) */
+  /* Бизнес: 4 карточки с синим номером; блок на сером фоне — карточки белые (26.11.2026) */
   .bz-grid { display: grid; gap: clamp(0.75rem, 1.4vw, 1.25rem); }
   @media (min-width: 640px) { .bz-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (min-width: 1280px) { .bz-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
-  .bz-card { display: flex; flex-direction: column; padding: clamp(1.25rem, 2vw, 1.75rem); border-radius: 18px; background: #f3f4f6; }
+  .bz-card { display: flex; flex-direction: column; padding: clamp(1.25rem, 2vw, 1.75rem); border-radius: 18px; background: #fff; }
   .mf-n { font-family: var(--font-display); font-weight: 700; font-size: 1.125rem; color: #034b8e; }
   .mf-h { margin-top: 0.75rem; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3); line-height: 1.2; letter-spacing: -0.015em; color: #1d1e21; }
   .mf-t { margin-top: 0.625rem; font-size: var(--fs-body); line-height: 1.45; color: #5f646d; }

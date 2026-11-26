@@ -1,12 +1,15 @@
 ---
+import { Image } from 'astro:assets';
 import Page from '../layouts/Page.astro';
 import LpSection from '../components/LpSection.astro';
 import Lawyer from '../components/Lawyer.astro';
 import HomeReviews from '../components/HomeReviews.astro';
 import { nb } from '../data/typo';
-import { law, rub, pricing } from '../data/site';
+import { law, rub, pricing, contacts } from '../data/site';
 import { serviceSchema } from '../data/schema';
 import heroBg from '../assets/konsultaciya/hero-bg.jpg';
+import imgOffice from '../assets/photos/office.jpg';
+import imgOnline from '../assets/cases/phone.jpg';
 import '../styles/lp.css';
 
 const url = '/konsultaciya-po-bankrotstvu/';
@@ -79,20 +82,27 @@ const faq = [
 
   <Fragment slot="after">
     <!-- Устная и письменная -->
-    <LpSection id="formaty" chip="Форматы" title="Устная или письменная консультация" lead="Устной обычно достаточно, чтобы понять, подходит ли банкротство. Письменная нужна, когда важно получить позицию на бумаге" bg="grey">
+    <LpSection id="formaty" chip="Форматы" title="Консультация в офисе или онлайн" lead="Устная консультация — бесплатно, в любом формате" bg="grey">
       <div class="lp-two">
         <div class="lp-card lp-blue">
+          <Image src={imgOffice} alt="Кабинет арбитражного управляющего Антонца в офисе на ул. Тверской, 14" widths={[480, 800, 1200]} sizes="(min-width: 1024px) 45vw, 100vw" class="fm-img" loading="lazy" />
           <p class="lp-k">Устная консультация</p>
-          <p class="lp-big">бесплатно</p>
-          <p class="lp-t">{nb('Встреча в офисе или по телефону. Разбираю ситуацию и говорю, какая процедура подходит и есть ли риски')}</p>
+          <h3 class="fm-h">В офисе</h3>
+          <p class="lp-t">{nb(`Томск, ${contacts.street}. ${contacts.hoursDays}, ${contacts.hoursNote}`)}</p>
           <a href="#zayavka" class="bl-btn">Записаться</a>
         </div>
         <div class="lp-card">
-          <div class="dg-head"><h3 class="dg-h">Письменная консультация</h3><span class="dg-tag is-grey">зависит от объёма документов</span></div>
-          <p class="lp-t is-dark">{nb('Анализ документов и правовая позиция по вашему вопросу — в письменном виде')}</p>
-          <p class="dg-price">от 3 000 ₽</p>
+          <Image src={imgOnline} alt="Телефон и чашка кофе на столе" widths={[480, 800, 1200]} sizes="(min-width: 1024px) 45vw, 100vw" class="fm-img" loading="lazy" />
+          <p class="lp-k">Устная консультация</p>
+          <h3 class="fm-h is-dark">Онлайн</h3>
+          <p class="lp-t is-dark">{nb('В Telegram или WhatsApp — без поездки в офис. Подойдёт, если вы не в Томске: помогаю с банкротством в Новосибирской и Кемеровской областях, Алтайском и Краснодарском краях')}</p>
+          <a href="#zayavka" class="lp-btn is-bottom">Записаться</a>
         </div>
       </div>
+      <a href="#zayavka" class="lp-strip">
+        <span>{nb('Письменная консультация — анализ документов и правовая позиция по вашему вопросу, от 3 000 ₽. Цена зависит от объёма документов')}</span>
+        <span class="lp-arrow" aria-hidden="true"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6" /></svg></span>
+      </a>
     </LpSection>
 
     <!-- Что разберём -->
@@ -135,5 +145,10 @@ const faq = [
 </Page>
 
 <style>
+  /* картинки в карточках «Форматы» (26.11.2026) */
+  .fm-h { margin-top: 0.375rem; font-family: var(--font-display); font-weight: 700; font-size: clamp(1.75rem, 2.6vw, 2.5rem); line-height: 1.05; letter-spacing: -0.02em; color: #fff; }
+  .fm-h.is-dark { color: #1d1e21; }
+  .fm-h + .lp-t { margin-bottom: 1.5rem; }
+  .fm-img { display: block; width: 100%; aspect-ratio: 3 / 2; height: auto; object-fit: cover; border-radius: 12px; margin-bottom: clamp(1.25rem, 2vw, 1.75rem); }
   #chto-vzyat .lp-t.is-dark { margin-bottom: 1.5rem; }
 </style>
