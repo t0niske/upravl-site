@@ -1,6 +1,7 @@
 ---
 import Page from '../../layouts/Page.astro';
 import LpSection from '../../components/LpSection.astro';
+import Services from '../../components/Services.astro';
 import Lawyer from '../../components/Lawyer.astro';
 import HomeReviews from '../../components/HomeReviews.astro';
 import heroBg from '../../assets/kreditoram/hero-bg.jpg';
@@ -112,19 +113,15 @@ const faq = [
     </LpSection>
 
     <!-- Что делаю -->
-    <LpSection id="rabota" chip="Что делаю" title="Что делаю для кредитора" lead="Веду дело с первого анализа должника до расчётов с кредиторами">
-      <div class="sd-wrap">
-        <div class="sd-card">
-          <p class="sd-num">от 70 000 ₽</p>
-          <p class="sd-cap">{nb('сопровождение кредитора — сумма зависит от сложности дела и числа заседаний')}</p>
-          <p class="sd-note">{nb('Начинаю с анализа должника: если вернуть деньги через банкротство нереально, скажу об этом до расходов на процедуру')}</p>
-          <a href="#zayavka" class="lp-btn sd-btn">Обсудить дело</a>
-        </div>
-        <ol class="sd-list">
-          {work.map(([h, t], i) => <li><span class="sd-n tnum">[{String(i + 1).padStart(2, '0')}]</span><span><b>{nb(h)}.</b> {nb(t.charAt(0).toUpperCase() + t.slice(1))}</span></li>)}
-        </ol>
-      </div>
-    </LpSection>
+    <Services
+      id="rabota"
+      chip="Что делаю"
+      title="Что делаю для кредитора"
+      lead="Веду дело с первого анализа должника до расчётов с кредиторами"
+      btnHref="#zayavka"
+      btnLabel="Обсудить дело"
+      items={work.map(([title, t]) => ({ title, text: t.charAt(0).toUpperCase() + t.slice(1) }))}
+    />
 
     <!-- Если дело уже идёт -->
     <LpSection id="delo-idet" chip="Дело уже идёт" title="Если дело о банкротстве уже идёт" lead="Главное — не пропустить срок на включение в реестр требований" bg="grey">
@@ -190,17 +187,4 @@ const faq = [
   @media (max-width: 639px) { .lp-strip > span:first-child { min-width: 0; } }
 
   /* Что делаю: карточка с ценой + список */
-  .sd-wrap { display: grid; gap: 1.5rem; }
-  @media (min-width: 1024px) { .sd-wrap { grid-template-columns: minmax(0, 5fr) minmax(0, 8fr); gap: clamp(1.5rem, 3vw, 3.5rem); } }
-  .sd-card { display: flex; flex-direction: column; padding: clamp(1.25rem, 1.8vw, 2rem) clamp(1.25rem, 1.6vw, 1.75rem); border-radius: 16px; background: #f3f4f6; }
-  .sd-num { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.25rem, 3.2vw, 3rem); line-height: 1; letter-spacing: -0.02em; color: #1d1e21; }
-  .sd-cap { margin-top: 0.5rem; font-size: var(--fs-body); line-height: 1.45; color: #7c818a; text-wrap: pretty; }
-  .sd-note { margin-top: auto; padding-top: 2rem; font-size: var(--fs-body); line-height: 1.45; color: #1d1e21; }
-  .lp-btn.sd-btn { align-self: flex-start; margin-top: 1.25rem; }
-  @media (max-width: 639px) { .lp-btn.sd-btn { align-self: stretch; } }
-  .sd-list li { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); gap: 1rem; padding: 1rem 0; border-top: 1px solid rgb(29 30 33 / 0.1); font-size: var(--fs-body); line-height: 1.45; color: #2a2d33; }
-  .sd-list li:last-child { border-bottom: 1px solid rgb(29 30 33 / 0.1); }
-  .sd-list b { font-weight: 600; color: #1d1e21; }
-  .sd-n { color: #8a8f98; }
-  @media (max-width: 639px) { .sd-list li { grid-template-columns: 2.75rem minmax(0, 1fr); gap: 0.75rem; } }
 </style>

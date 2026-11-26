@@ -1,6 +1,7 @@
 ---
 import Page from '../../layouts/Page.astro';
 import LpSection from '../../components/LpSection.astro';
+import Services from '../../components/Services.astro';
 import Lawyer from '../../components/Lawyer.astro';
 import HomeReviews from '../../components/HomeReviews.astro';
 import Steps from '../../components/Steps.astro';
@@ -134,19 +135,15 @@ const faq = [
     </LpSection>
 
     <!-- Защита -->
-    <LpSection id="zashchita" chip="Защита" title="Как строится защита" lead="Презумпции вины опровержимы. Суды учитывают, что бизнес-решение могло быть разумным, даже если не сработало">
-      <div class="sd-wrap">
-        <div class="sd-card">
-          <p class="sd-num">от 100 000 ₽</p>
-          <p class="sd-cap">{nb('защита ответчика в Арбитражном суде Томской области — в зависимости от сложности и числа заседаний')}</p>
-          <p class="sd-note">{nb('Лучший момент начать — до того, как управляющий подал заявление: успеваем собрать документы и объяснения по каждой спорной сделке')}</p>
-          <a href="#zayavka" class="lp-btn sd-btn">Обсудить защиту</a>
-        </div>
-        <ol class="sd-list">
-          {defense.map(([h, t], i) => <li><span class="sd-n tnum">[{String(i + 1).padStart(2, '0')}]</span><span><b>{nb(h)}.</b> {nb(t)}</span></li>)}
-        </ol>
-      </div>
-    </LpSection>
+    <Services
+      id="zashchita"
+      chip="Защита"
+      title="Как строится защита"
+      lead="Презумпции вины опровержимы. Суды учитывают, что бизнес-решение могло быть разумным, даже если не сработало"
+      btnHref="#zayavka"
+      btnLabel="Обсудить защиту"
+      items={defense.map(([title, t]) => ({ title, text: t.charAt(0).toUpperCase() + t.slice(1) }))}
+    />
 
     <!-- Что сделать сейчас -->
     <Steps id="seychas" chip="Если компания на грани" titleA="Что сделать сейчас, если компания" titleB="на грани банкротства" steps={now} note="Эти шаги снижают риск ещё до того, как дело о банкротстве возбуждено." noteLink={false} />
@@ -196,19 +193,6 @@ const faq = [
   }
 
   /* Защита: карточка с ценой + список линий защиты */
-  .sd-wrap { display: grid; gap: 1.5rem; }
-  @media (min-width: 1024px) { .sd-wrap { grid-template-columns: minmax(0, 5fr) minmax(0, 8fr); gap: clamp(1.5rem, 3vw, 3.5rem); } }
-  .sd-card { display: flex; flex-direction: column; padding: clamp(1.25rem, 1.8vw, 2rem) clamp(1.25rem, 1.6vw, 1.75rem); border-radius: 16px; background: #f3f4f6; }
-  .sd-num { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.25rem, 3.2vw, 3rem); line-height: 1; letter-spacing: -0.02em; color: #1d1e21; }
-  .sd-cap { margin-top: 0.5rem; font-size: var(--fs-body); line-height: 1.45; color: #7c818a; text-wrap: pretty; }
-  .sd-note { margin-top: auto; padding-top: 2rem; font-size: var(--fs-body); line-height: 1.45; color: #1d1e21; }
-  .lp-btn.sd-btn { align-self: flex-start; margin-top: 1.25rem; }
-  @media (max-width: 639px) { .lp-btn.sd-btn { align-self: stretch; } }
-  .sd-list li { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); gap: 1rem; padding: 1rem 0; border-top: 1px solid rgb(29 30 33 / 0.1); font-size: var(--fs-body); line-height: 1.45; color: #2a2d33; }
-  .sd-list li:last-child { border-bottom: 1px solid rgb(29 30 33 / 0.1); }
-  .sd-list b { font-weight: 600; color: #1d1e21; }
-  .sd-n { color: #8a8f98; }
-  @media (max-width: 639px) { .sd-list li { grid-template-columns: 2.75rem minmax(0, 1fr); gap: 0.75rem; } }
 
   /* Что сделать сейчас: 4 белые карточки с синим номером */
   .bz-grid { display: grid; gap: clamp(0.75rem, 1.4vw, 1.25rem); }

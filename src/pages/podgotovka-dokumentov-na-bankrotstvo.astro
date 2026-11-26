@@ -1,6 +1,7 @@
 ---
 import Page from '../layouts/Page.astro';
 import LpSection from '../components/LpSection.astro';
+import Services from '../components/Services.astro';
 import Lawyer from '../components/Lawyer.astro';
 import HomeReviews from '../components/HomeReviews.astro';
 import { nb } from '../data/typo';
@@ -78,19 +79,15 @@ const faq = [
     </LpSection>
 
     <!-- Что делаю -->
-    <LpSection id="chto-delayu" chip="Что делаю" title="Что входит в подготовку документов" lead="От проверки ситуации до готового заявления в суд">
-      <div class="sd-wrap">
-        <div class="sd-card">
-          <p class="sd-num">от 12 000 ₽</p>
-          <p class="sd-cap">{nb('заявление о признании гражданина банкротом')}</p>
-          <p class="sd-note">{nb('Сделки за последние три года разбираем до подачи заявления: финансовый управляющий обязан их проверить, и позицию лучше подготовить заранее')}</p>
-          <a href="#zayavka" class="lp-btn sd-btn">Заказать заявление</a>
-        </div>
-        <ol class="sd-list">
-          {work.map(([h, t], i) => <li><span class="sd-n tnum">[{String(i + 1).padStart(2, '0')}]</span><span><b>{nb(h)}.</b> {nb(t.charAt(0).toUpperCase() + t.slice(1))}</span></li>)}
-        </ol>
-      </div>
-    </LpSection>
+    <Services
+      id="chto-delayu"
+      chip="Что делаю"
+      title="Что входит в подготовку документов"
+      lead="От проверки ситуации до готового заявления в суд"
+      btnHref="#zayavka"
+      btnLabel="Заказать заявление"
+      items={work.map(([title, t]) => ({ title, text: t.charAt(0).toUpperCase() + t.slice(1) }))}
+    />
 
     <!-- Кто готовит -->
     <Lawyer />
