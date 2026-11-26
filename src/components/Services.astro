@@ -40,7 +40,7 @@ const homeItems = [
 ];
 
 /** Те же стили на страницах услуг (26.11.2026): свой заголовок и список; пункты без href — без ссылки и плюса. */
-type Item = { href?: string; title: string; text: string };
+type Item = { href?: string; title: string; text?: string };
 interface Props { id?: string; chip?: string; title?: string; lead?: string; btnHref?: string; btnLabel?: string; items?: Item[]; bg?: 'white' | 'grey' }
 const {
   id = 'uslugi',
@@ -79,7 +79,7 @@ const hid = `${id}-title`;
               <span class="sv-num tnum">[{String(i + 1).padStart(2, '0')}]</span>
               <span class="sv-body">
                 <span class="sv-row-title">{nb(s.title)}</span>
-                <span class="sv-row-text">{nb(s.text)}</span>
+                {s.text && <span class="sv-row-text">{nb(s.text)}</span>}
               </span>
               {s.href && (
                 <span class="sv-plus" aria-hidden="true">

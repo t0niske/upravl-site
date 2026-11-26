@@ -3,6 +3,7 @@ import Page from '../../layouts/Page.astro';
 import HomeQuiz from '../../components/HomeQuiz.astro';
 import LpSection from '../../components/LpSection.astro';
 import Steps from '../../components/Steps.astro';
+import Services from '../../components/Services.astro';
 import HomePrice from '../../components/HomePrice.astro';
 import { nb } from '../../data/typo';
 import HomeCases from '../../components/HomeCases.astro';
@@ -167,19 +168,15 @@ const faq = [
     </LpSection>
 
     <!-- Сделки -->
-    <LpSection id="sdelki" chip="Сделки" title="Какие сделки могут оспорить" lead={`Финансовый управляющий обязан проверить сделки за ${law.challengePeriodYears} года до принятия заявления. Если сделка навредила кредиторам, её признают недействительной, а имущество вернут в конкурсную массу`}>
-      <div class="sd-wrap">
-        <div class="sd-card">
-          <p class="sd-num">{law.challengePeriodYears} года</p>
-          <p class="sd-cap">{nb('за этот срок финансовый управляющий проверяет все сделки должника')}</p>
-          <p class="sd-note">{nb('Поэтому сделки за последние три года разбираем до подачи заявления. Иногда безопаснее подождать или выбрать другую процедуру')}</p>
-          <a href="#zayavka" class="lp-btn sd-btn">Обсудить мою ситуацию</a>
-        </div>
-        <ol class="sd-list">
-          {deals.map((t, i) => <li><span class="sd-n tnum">[{String(i + 1).padStart(2, '0')}]</span><span>{nb(t)}</span></li>)}
-        </ol>
-      </div>
-    </LpSection>
+    <Services
+      id="sdelki"
+      chip="Сделки"
+      title="Какие сделки могут оспорить"
+      lead={`Финансовый управляющий обязан проверить сделки за ${law.challengePeriodYears} года до принятия заявления. Если сделка навредила кредиторам, её признают недействительной, а имущество вернут в конкурсную массу`}
+      btnHref="#zayavka"
+      btnLabel="Обсудить мою ситуацию"
+      items={deals.map((title) => ({ title }))}
+    />
 
     <!-- Порядок и сроки -->
     <Steps />
@@ -326,18 +323,6 @@ const faq = [
   .ps-sq { display: grid; flex: none; grid-template-columns: 5px 5px; grid-auto-rows: 5px; gap: 2px; }
   .ps-sq i { border-radius: 1px; background: #fff; }
   /* Сделки: серая карточка с цифрой (как статистика «Обо мне») + список с [01] (как «Услуги» на главной) */
-  .sd-wrap { display: grid; gap: 1.5rem; }
-  @media (min-width: 1024px) { .sd-wrap { grid-template-columns: minmax(0, 5fr) minmax(0, 8fr); gap: clamp(1.5rem, 3vw, 3.5rem); } }
-  .sd-card { display: flex; flex-direction: column; padding: clamp(1.25rem, 1.8vw, 2rem) clamp(1.25rem, 1.6vw, 1.75rem); border-radius: 16px; background: #f3f4f6; }
-  .sd-num { font-family: var(--font-display); font-weight: 700; font-size: clamp(2.25rem, 3.2vw, 3rem); line-height: 1; letter-spacing: -0.02em; color: #1d1e21; }
-  .sd-cap { margin-top: 0.5rem; font-size: var(--fs-body); line-height: 1.45; color: #7c818a; text-wrap: pretty; }
-  .sd-note { margin-top: auto; padding-top: 2rem; font-size: var(--fs-body); line-height: 1.45; color: #1d1e21; }
-  .lp-btn.sd-btn { align-self: flex-start; margin-top: 1.25rem; }
-  @media (max-width: 639px) { .lp-btn.sd-btn { align-self: stretch; } }
-  .sd-list li { display: grid; grid-template-columns: 3.5rem minmax(0, 1fr); gap: 1rem; padding: 1rem 0; border-top: 1px solid rgb(29 30 33 / 0.1); font-size: var(--fs-body); line-height: 1.45; color: #1d1e21; }
-  .sd-list li:last-child { border-bottom: 1px solid rgb(29 30 33 / 0.1); }
-  .sd-n { color: #8a8f98; }
-  @media (max-width: 639px) { .sd-list li { grid-template-columns: 2.75rem minmax(0, 1fr); gap: 0.75rem; } }
   /* Имущество: плитки «останется» + тёмная плашка «могут продать» */
   .im-grid { display: grid; gap: 0.75rem; }
   @media (min-width: 640px) { .im-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
