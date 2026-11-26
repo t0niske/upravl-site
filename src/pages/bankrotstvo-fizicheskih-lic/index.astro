@@ -11,6 +11,7 @@ import Lawyer from '../../components/Lawyer.astro';
 import { pricing, law, rub } from '../../data/site';
 import { serviceSchema } from '../../data/schema';
 import { docs } from '../../data/docs';
+import heroBg from '../../assets/page-bg-desk.png'; // прежний фон по умолчанию — чтобы с портретом не сменился на градиент
 
 const url = '/bankrotstvo-fizicheskih-lic/';
 const description = `Списание долгов гражданам через Арбитражный суд Томской области: под ключ от ${rub(pricing.citizenTurnkey)}, рассрочка. Что сохранится, какие сделки оспорят.`;
@@ -74,15 +75,10 @@ const faq = [
   h1="Банкротство физических лиц в Томске"
   eyebrow="Для граждан"
   crumbs={[{ name: 'Банкротство физических лиц', href: url }]}
-  facts={[
-    ['Сопровождение под ключ', `от ${rub(pricing.citizenTurnkey)}`],
-    ['Рассрочка', `от ${rub(pricing.citizenInstallmentFrom)}/мес`],
-    ['Депозит управляющему', rub(law.fuDeposit)],
-    ['Реализация имущества', `от ${law.realizationMonths} месяцев`],
-  ]}
   faq={faq}
+  heroBg={heroBg}
+  heroPortrait
   topic="Банкротство гражданина"
-  expert
   schema={[serviceSchema({ name: 'Банкротство физических лиц', url, description, price: pricing.citizenTurnkey, serviceType: 'Сопровождение процедуры банкротства гражданина' })]}
   related={[
     { href: '/bankrotstvo-ip/', label: 'Банкротство ИП', text: 'Списание личных долгов и долгов по бизнесу, включая налоги.' },
@@ -91,7 +87,7 @@ const faq = [
   ]}
 >
   <Fragment slot="lead">
-    <p>{nb('Законно спишу долги через Арбитражный суд: кредиты, микрозаймы, налоги, ЖКХ и расписки. Звонки коллекторов прекратятся')}</p>
+    <p>{nb(`Законно спишу долги через Арбитражный суд: кредиты, микрозаймы, налоги, ЖКХ и расписки. Звонки коллекторов прекратятся. Под ключ — от ${rub(pricing.citizenTurnkey)}, можно в рассрочку от ${rub(pricing.citizenInstallmentFrom)} в месяц`)}</p>
   </Fragment>
 
   <Fragment slot="after">

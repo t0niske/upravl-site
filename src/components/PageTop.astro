@@ -61,7 +61,8 @@ const nameBadge = portrait && !Astro.url.pathname.endsWith('/ob-upravlyayushchem
   .pt-bg::after {
     content: ''; position: absolute; inset: 0;
     background:
-      linear-gradient(90deg, rgb(16 34 64 / 0.96) 0%, rgb(16 34 64 / 0.8) 45%, rgb(16 34 64 / 0.35) 100%),
+      /* плавнее (26.11.2026): больше точек, чтобы не было видно края между тёмной частью и фото */
+      linear-gradient(90deg, rgb(16 34 64 / 0.96) 0%, rgb(16 34 64 / 0.9) 35%, rgb(16 34 64 / 0.72) 55%, rgb(16 34 64 / 0.5) 75%, rgb(16 34 64 / 0.35) 100%),
       linear-gradient(0deg, rgb(11 40 80 / 0.5) 0%, transparent 40%);
   }
   .pt-crumbs { margin-top: clamp(1.5rem, 3vw, 2.5rem); font-size: 0.9375rem; }
