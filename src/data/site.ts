@@ -254,7 +254,7 @@ export const headerNav: NavGroup[] = [
       { href: '/dela/', label: 'Завершённые дела', icon: 'doc' },
     ],
   },
-  { href: '/#otzyvy', label: 'Отзывы' },
+  { href: '/otzyvy/', label: 'Отзывы' },
   { href: '/kontakty/', label: 'Контакты' },
 ];
 

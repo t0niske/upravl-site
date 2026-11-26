@@ -1,0 +1,90 @@
+---
+import Page from '../layouts/Page.astro';
+import LpSection from '../components/LpSection.astro';
+import { nb } from '../data/typo';
+import { reviews, reviewsSource } from '../data/reviews';
+import { SITE_URL } from '../data/site';
+import '../styles/lp.css';
+
+/**
+ * «Отзывы» (26.11.2026): все отзывы из src/data/reviews.ts целиком и дословно, плашка оценки 2ГИС со ссылкой на источник.
+ * Разметку Review/AggregateRating не ставим: отзывы о себе на своём сайте Google не показывает и считает самоназначенными.
+ */
+const url = '/otzyvy/';
+const rating = reviewsSource.rating.toFixed(1).replace('.', ',');
+const star = 'M12 2.5l2.9 6.1 6.6.8-4.9 4.6 1.3 6.6L12 17.3l-5.9 3.3 1.3-6.6L2.5 9.4l6.6-.8z';
+const description = `Отзывы клиентов арбитражного управляющего Антонца Ю. А. с 2ГИС: оценка ${rating} по ${reviewsSource.count} отзывам. Тексты дословно, со ссылкой на источник.`;
+const webPage = { '@type': 'WebPage', url: `${SITE_URL}${url}`, name: 'Отзывы клиентов' };
+---
+
+<Page
+  title="Отзывы об арбитражном управляющем — Томск"
+  description={description}
+  h1="Отзывы клиентов"
+  eyebrow="2ГИС"
+  crumbs={[{ name: 'Отзывы', href: url }]}
+  topic="Консультация"
+  blog={false}
+  schema={[webPage]}
+  formTitle="Разберу вашу ситуацию бесплатно"
+  formText="Расскажите коротко о долгах и имуществе. Перезвоню и скажу, подходит ли вам банкротство."
+>
+  <Fragment slot="lead">
+    <p>{nb(`Что пишут клиенты на 2ГИС: оценка ${rating} по ${reviewsSource.count} отзывам. Публикуем дословно, Юрий Анатольевич сам читает отзывы и отвечает`)}</p>
+  </Fragment>
+
+  <Fragment slot="after">
+    <LpSection id="otzyvy-list" chip="Отзывы" title="Отзывы с 2ГИС" lead="Тексты без правок, имена сокращены" bg="grey">
+      <a href={reviewsSource.url} target="_blank" rel="noopener" class="oz-score" aria-label={`Оценка ${rating} из 5 на 2ГИС, ${reviewsSource.count} отзывов — читать на 2ГИС`}>
+        <span class="oz-num tnum">{rating}</span>
+        <span class="oz-body">
+          <span class="oz-stars" aria-hidden="true">{[0, 1, 2, 3, 4].map(() => <svg viewBox="0 0 24 24"><path d={star} /></svg>)}</span>
+          <span class="oz-count">{reviewsSource.count} отзывов на 2ГИС</span>
+        </span>
+        <span class="oz-btn">
+          Читать на 2ГИС
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+        </span>
+      </a>
+
+      <ul class="oz-grid">
+        {reviews.map((r) => (
+          <li class="oz-card">
+            {r.theme && <span class="oz-theme">{r.theme}</span>}
+            <blockquote class="oz-text"><p>«{nb(r.text)}»</p></blockquote>
+            <p class="oz-foot">
+              <span class="oz-name">{r.name}</span>
+            </p>
+          </li>
+        ))}
+      </ul>
+    </LpSection>
+  </Fragment>
+</Page>
+
+<style>
+  .oz-score {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 1rem 1.5rem; margin-bottom: clamp(0.75rem, 1.4vw, 1.25rem);
+    padding: clamp(1.25rem, 1.8vw, 1.75rem) clamp(1.25rem, 2vw, 2rem); border-radius: 18px;
+    background: linear-gradient(105deg, #034b8e 0%, #053a6e 55%, #0b1a30 100%); color: #fff; text-decoration: none;
+  }
+  .oz-num { font-family: var(--font-display); font-weight: 700; font-size: clamp(3rem, 4.4vw, 4rem); line-height: 1; letter-spacing: -0.03em; }
+  .oz-body { display: flex; flex-direction: column; gap: 0.5rem; }
+  .oz-stars { display: flex; gap: 3px; }
+  .oz-stars svg { width: 22px; height: 22px; fill: #f5b301; }
+  .oz-count { font-size: 1rem; color: rgb(255 255 255 / 0.85); }
+  .oz-btn { display: inline-flex; align-items: center; gap: 0.5rem; margin-left: auto; padding: 0.875rem 1.25rem; border-radius: 10px; background: #fff; color: #1d1e21; font-size: 1rem; font-weight: 500; transition: background-color 150ms var(--ease-out); }
+  .oz-score:hover .oz-btn { background: #e6eef8; }
+  @media (max-width: 639px) { .oz-btn { margin-left: 0; width: 100%; justify-content: center; } }
+
+  /* колонками, чтобы карточки разной длины шли плотно */
+  .oz-grid { columns: 1; column-gap: clamp(0.75rem, 1.4vw, 1.25rem); }
+  @media (min-width: 768px) { .oz-grid { columns: 2; } }
+  @media (min-width: 1280px) { .oz-grid { columns: 3; } }
+  .oz-card { break-inside: avoid; display: flex; flex-direction: column; margin-bottom: clamp(0.75rem, 1.4vw, 1.25rem); padding: clamp(1.25rem, 2vw, 1.75rem); border-radius: 18px; background: #fff; }
+  .oz-theme { align-self: flex-start; padding: 0.5rem 0.875rem; border-radius: 8px; background: #034b8e; color: #fff; font-family: var(--font-display); font-size: 1rem; font-weight: 600; }
+  .oz-text { margin: 1rem 0 0; }
+  .oz-text p { font-size: var(--fs-body); line-height: 1.55; color: #2a2d33; text-wrap: pretty; }
+  .oz-foot { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0.5rem 1rem; margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid #dfe1e5; }
+  .oz-name { font-family: var(--font-display); font-weight: 600; font-size: 1.0625rem; color: #1d1e21; }
+</style>
