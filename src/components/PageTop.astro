@@ -8,6 +8,7 @@ import SiteHeader from './SiteHeader.astro';
 import court from '../assets/page-bg-desk.png';
 import portraitImg from '../assets/antonets-hero.png';
 import { person } from '../data/site';
+import { nb } from '../data/typo';
 import type { Crumb } from '../data/schema';
 
 interface Props { crumbs?: Crumb[]; bg?: ImageMetadata; portrait?: boolean; bgPos?: string }
@@ -31,7 +32,7 @@ const nameBadge = portrait && !Astro.url.pathname.endsWith('/ob-upravlyayushchem
           {crumbs.map((c, i) => (
             <li>
               <span aria-hidden="true">/</span>
-              {i === crumbs.length - 1 ? <span aria-current="page">{c.name}</span> : <a href={c.href}>{c.name}</a>}
+              {i === crumbs.length - 1 ? <span aria-current="page">{nb(c.name)}</span> : <a href={c.href}>{nb(c.name)}</a>}
             </li>
           ))}
         </ol>
@@ -66,8 +67,11 @@ const nameBadge = portrait && !Astro.url.pathname.endsWith('/ob-upravlyayushchem
       linear-gradient(0deg, rgb(11 40 80 / 0.5) 0%, transparent 40%);
   }
   .pt-crumbs { margin-top: clamp(1.5rem, 3vw, 2.5rem); font-size: 0.9375rem; }
-  .pt-crumbs ol { display: flex; flex-wrap: wrap; align-items: center; gap: 0.25rem 0.5rem; }
-  .pt-crumbs li { display: flex; align-items: center; gap: 0.5rem; color: rgb(255 255 255 / 0.9); }
+  /* строкой, а не флексом: длинное название переносится сразу после «Главная /», а не уходит целиком на новую строку */
+  .pt-crumbs { line-height: 1.45; }
+  .pt-crumbs li { display: inline; color: rgb(255 255 255 / 0.9); }
+  .pt-crumbs li + li::before { content: none; }
+  .pt-crumbs span[aria-hidden] { margin: 0 0.5rem; }
   .pt-crumbs a { color: rgb(255 255 255 / 0.65); text-decoration: none; }
   .pt-crumbs a:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
   .pt-crumbs span[aria-hidden] { color: rgb(255 255 255 / 0.4); }
