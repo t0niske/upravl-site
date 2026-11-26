@@ -22,6 +22,7 @@ final class Audit
         'staff' => 'Сотрудники',
         'password' => 'Смена пароля',
         'retention' => 'Автоудаление',
+        'channel' => 'Канал MAX',
     ];
 
     public static function log(?Actor $actor, string $action, ?int $leadId = null, ?string $details = null): void

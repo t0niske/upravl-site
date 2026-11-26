@@ -10,6 +10,7 @@ declare(strict_types=1);
 
 require dirname(__DIR__) . '/app/bootstrap.php';
 
+use App\Bot\Channel;
 use App\Bot\Store as BotStore;
 use App\Leads\Audit;
 use App\Leads\Actor;
@@ -42,6 +43,11 @@ try {
     // отметка «планировщик жив»: время последнего запуска
     @file_put_contents(APP_ROOT . '/storage/cron.last', Clock::sql($now));
     $closed = Visits::finalize($now);
+
+    $posted = Channel::publishDue($now);
+    if ($posted > 0) {
+        Log::write('cron.log', "Опубликовано постов в канале: $posted");
+    }
 
     if ($closed > 0) {
         Log::write('cron.log', "Закрыто заходов: $closed");

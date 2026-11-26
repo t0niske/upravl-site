@@ -13,6 +13,7 @@ $nav = [
 if (($user['role'] ?? '') === 'manager') {
     $nav += [
         'reports' => ['/crm/reports', 'Отчёты'],
+        'channel' => ['/crm/channel', 'Канал'],
         'staff' => ['/crm/staff', 'Сотрудники'],
         'audit' => ['/crm/audit', 'Журнал'],
     ];

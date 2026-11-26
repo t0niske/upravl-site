@@ -32,7 +32,7 @@ final class Bot
             'message_created' => self::message($u),
             'message_callback' => self::callback($u),
             'bot_stopped' => self::stopped($u),
-            'bot_added' => Log::write('bot.log', 'Бот добавлен в чат ' . ($u['chat_id'] ?? '?')),
+            'bot_added' => self::added($u),
             default => null,
         };
     }
@@ -151,6 +151,17 @@ final class Bot
             'contacts' => self::send($user, Texts::contacts(), Texts::contactsKeyboard()),
             default => self::menu($user),
         };
+    }
+
+    /** Бота добавили в группу или канал. Канал запоминаем — туда пойдут посты по расписанию. */
+    private static function added(array $u): void
+    {
+        $chatId = (string) ($u['chat_id'] ?? '');
+        Log::write('bot.log', 'Бот добавлен в ' . (!empty($u['is_channel']) ? 'канал ' : 'чат ') . $chatId);
+
+        if ($chatId !== '' && !empty($u['is_channel'])) {
+            Channel::remember($chatId);
+        }
     }
 
     private static function stopped(array $u): void

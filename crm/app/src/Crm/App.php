@@ -53,7 +53,7 @@ final class App
             return;
         }
 
-        $managerOnly = preg_match('#^/(reports|staff|audit|leads\.csv)#', $path) === 1
+        $managerOnly = preg_match('#^/(reports|staff|audit|channel|leads\.csv)#', $path) === 1
             || ($method === 'POST' && preg_match('#^/lead/\d+/delete$#', $path) === 1);
 
         if ($managerOnly && !Auth::isManager()) {
@@ -72,6 +72,11 @@ final class App
             $path === '/reports' => ReportsController::index(),
             $path === '/staff' => StaffController::staff($method),
             $path === '/audit' => StaffController::audit(),
+            $path === '/channel' => ChannelController::index(),
+            $path === '/channel/new' => ChannelController::form(null),
+            $path === '/channel/save' && $method === 'POST' => ChannelController::save(),
+            (bool) preg_match('#^/channel/(\d+)$#', $path, $m) => ChannelController::form((int) $m[1]),
+            $method === 'POST' && (bool) preg_match('#^/channel/(\d+)/([a-z]+)$#', $path, $m) => ChannelController::action((int) $m[1], $m[2]),
             $path === '/profile' => AccountController::profile($method),
             $path === '/logout' && $method === 'POST' => AccountController::logout(),
             default => View::render('error', ['title' => 'Не найдено', 'message' => 'Такой страницы нет.'], 404),
