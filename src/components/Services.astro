@@ -6,7 +6,7 @@
  */
 import { nb } from '../data/typo';
 
-const items = [
+const homeItems = [
   {
     href: '/bankrotstvo-fizicheskih-lic/',
     title: 'Банкротство через суд',
@@ -38,9 +38,24 @@ const items = [
     text: 'Помогаю и в делах, не связанных с банкротством: консультирую, составляю договоры и иски, представляю интересы в арбитражном суде и судах общей юрисдикции',
   },
 ];
+
+/** Те же стили на страницах услуг (26.11.2026): свой заголовок и список; пункты без href — без ссылки и плюса. */
+type Item = { href?: string; title: string; text: string };
+interface Props { id?: string; chip?: string; title?: string; lead?: string; btnHref?: string; btnLabel?: string; items?: Item[]; bg?: 'white' | 'grey' }
+const {
+  id = 'uslugi',
+  chip = 'Услуги',
+  title = 'Проведу банкротство гражданина, ИП или компании',
+  lead = 'Первая консультация бесплатна. Разберём долги и имущество, и я скажу, какая процедура вам подходит и что будет дальше',
+  btnHref = '#proverka',
+  btnLabel = 'Обсудить моё дело',
+  items = homeItems as Item[],
+  bg = 'white',
+} = Astro.props;
+const hid = `${id}-title`;
 ---
 
-<section id="uslugi" class="services" aria-labelledby="services-title">
+<section id={id} class:list={['services', bg === 'grey' && 'is-grey']} aria-labelledby={hid}>
   <div class="mx-auto grid w-full max-w-[100rem] gap-10 px-4 sm:px-[3.25rem] lg:grid-cols-[minmax(0,5fr)_minmax(0,7fr)] lg:gap-[clamp(2rem,3vw,4rem)]">
     <div class="sv-side">
       <span class="sv-chip">
@@ -48,28 +63,33 @@ const items = [
           <i class="size-[5px] rounded-[1px] bg-[#034B8E]"></i><i class="size-[5px] rounded-[1px] bg-[#034B8E]"></i>
           <i class="size-[5px] rounded-[1px] bg-[#034B8E]"></i><i class="size-[5px] rounded-[1px] bg-[#034B8E]"></i>
         </span>
-        Услуги
+        {chip}
       </span>
-      <h2 id="services-title" class="sv-title">{nb('Проведу банкротство гражданина, ИП или компании')}</h2>
-      <p class="sv-lead">{nb('Первая консультация бесплатна. Разберём долги и имущество, и я скажу, какая процедура вам подходит и что будет дальше')}</p>
-      <a href="#proverka" class="sv-btn">Обсудить моё дело</a>
+      <h2 id={hid} class="sv-title">{nb(title)}</h2>
+      {lead && <p class="sv-lead">{nb(lead)}</p>}
+      <a href={btnHref} class="sv-btn">{btnLabel}</a>
     </div>
 
     <ol class="sv-list">
-      {items.map((s, i) => (
-        <li>
-          <a href={s.href} class="sv-row">
-            <span class="sv-num tnum">[{String(i + 1).padStart(2, '0')}]</span>
-            <span class="sv-body">
-              <span class="sv-row-title">{nb(s.title)}</span>
-              <span class="sv-row-text">{nb(s.text)}</span>
-            </span>
-            <span class="sv-plus" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14" /></svg>
-            </span>
-          </a>
-        </li>
-      ))}
+      {items.map((s, i) => {
+        const Tag = s.href ? 'a' : 'div';
+        return (
+          <li>
+            <Tag href={s.href} class:list={['sv-row', !s.href && 'is-static']}>
+              <span class="sv-num tnum">[{String(i + 1).padStart(2, '0')}]</span>
+              <span class="sv-body">
+                <span class="sv-row-title">{nb(s.title)}</span>
+                <span class="sv-row-text">{nb(s.text)}</span>
+              </span>
+              {s.href && (
+                <span class="sv-plus" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 5v14M5 12h14" /></svg>
+                </span>
+              )}
+            </Tag>
+          </li>
+        );
+      })}
     </ol>
   </div>
 </section>
@@ -79,6 +99,9 @@ const items = [
     background: #fff;
     padding: clamp(3rem, 5.5vw, 5.75rem) 0 clamp(3.5rem, 7vw, 7rem);
   }
+  .services.is-grey { background: #f3f4f6; }
+  .is-grey .sv-chip { background: #fff; }
+  .is-grey .sv-list, .is-grey .sv-list > li { border-color: #d9dce1; }
   .sv-side { align-self: start; }
   @media (min-width: 1024px) {
     .sv-side { position: sticky; top: 6.75rem; }
@@ -179,7 +202,7 @@ const items = [
     transition: background-color 150ms var(--ease-out), transform 150ms var(--ease-out);
   }
   .sv-plus svg { width: 46%; height: 46%; }
-  .sv-row:hover .sv-row-title { color: #034b8e; }
+  .sv-row:not(.is-static):hover .sv-row-title { color: #034b8e; }
   .sv-row:hover .sv-plus { background: #0a5aa6; }
   .sv-row:active .sv-plus { transform: scale(0.94); }
   .sv-row:focus-visible { outline: 2px solid #034b8e; outline-offset: 4px; border-radius: 6px; }

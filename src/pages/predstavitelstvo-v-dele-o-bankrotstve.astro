@@ -3,6 +3,7 @@ import Page from '../layouts/Page.astro';
 import LpSection from '../components/LpSection.astro';
 import Lawyer from '../components/Lawyer.astro';
 import Steps from '../components/Steps.astro';
+import Services from '../components/Services.astro';
 import HomeReviews from '../components/HomeReviews.astro';
 import { nb } from '../data/typo';
 import { law, rub, pricing } from '../data/site';
@@ -74,19 +75,16 @@ const faq = [
 
   <Fragment slot="after">
     <!-- Что делаю на заседаниях -->
-    <LpSection id="zasedaniya" chip="В суде" title="На каких заседаниях нужна помощь" lead="Дело о банкротстве — это несколько заседаний и обособленных споров. На каждом можно потерять то, что сохранил бы закон" bg="grey">
-      <div class="sd-wrap">
-        <div class="sd-card">
-          <p class="sd-num">от 5 000 ₽</p>
-          <p class="sd-cap">{nb('за одно заседание в деле о банкротстве гражданина')}</p>
-          <p class="sd-note">{nb('Итоговую цену называю до начала работы и фиксирую в договоре')}</p>
-          <a href="#zayavka" class="lp-btn sd-btn">Обсудить дело</a>
-        </div>
-        <ol class="sd-list">
-          {work.map(([h, t], i) => <li><span class="sd-n tnum">[{String(i + 1).padStart(2, '0')}]</span><span><b>{nb(h)}.</b> {nb(t.charAt(0).toUpperCase() + t.slice(1))}</span></li>)}
-        </ol>
-      </div>
-    </LpSection>
+    <Services
+      id="zasedaniya"
+      chip="В суде"
+      title="На каких заседаниях нужна помощь"
+      lead="Дело о банкротстве — это несколько заседаний и обособленных споров. На каждом можно потерять то, что сохранил бы закон"
+      btnHref="#zayavka"
+      btnLabel="Обсудить дело"
+      items={work.map(([title, t]) => ({ title, text: t.charAt(0).toUpperCase() + t.slice(1) }))}
+      bg="grey"
+    />
 
     <!-- Кто представляет -->
     <Lawyer />

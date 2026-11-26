@@ -71,7 +71,7 @@ const stats = [
   .lw-badge span { display: block; }
   .lw-badge span:first-child { font-family: var(--font-display); font-weight: 700; font-size: 1.2em; }
   .lw-badge span + span { margin-top: 0.25rem; color: #5f646d; }
-  @media (min-width: 640px) { .lw-badge { left: auto; } .lw-s { gap: 1.25rem 2.5rem; } }
+  @media (min-width: 640px) { .lw-badge { left: auto; } .lw-s { gap: 1.25rem 2.5rem; justify-content: space-between; } } /* цифры — на всю ширину колонки (26.11.2026) */
   /* телефон: цифры списком, как в блоке «Обо мне» на главной — цифра слева, подпись справа */
   @media (max-width: 639px) {
     .lw-s { display: grid; grid-template-columns: 1fr; gap: 0; border-top: 1px solid #dfe1e5; }
