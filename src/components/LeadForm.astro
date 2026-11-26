@@ -11,11 +11,12 @@ import { contacts } from '../data/site';
 import iconWhatsapp from '../assets/icons/whatsapp.png';
 import iconMax from '../assets/icons/max.png';
 
-interface Props { title?: string; text?: string; topic?: string }
+interface Props { title?: string; text?: string; topic?: string; solo?: boolean }
 const {
   title = 'Бесплатная консультация по вашей ситуации',
   text = 'Оставьте телефон — перезвоню, задам несколько вопросов о долгах и имуществе и скажу, какая процедура вам подходит и сколько она будет стоить. Без обязательств',
   topic = '',
+  solo = false, // только форма, без карточки контактов и карты (страница «Контакты»)
 } = Astro.props;
 
 // метка по координатам офиса (из карточки 2ГИС), без всплывающей карточки поиска
@@ -28,7 +29,7 @@ const messengers = [
 ];
 ---
 
-<section id="zayavka" class="lf scroll-mt-20" aria-labelledby="zayavka-title">
+<section id="zayavka" class:list={['lf scroll-mt-20', solo && 'lf-solo']} aria-labelledby="zayavka-title">
   <div class="mx-auto w-full max-w-[100rem] px-4 sm:px-[3.25rem]">
     <div class="lf-grid">
       <form class="lead-form lf-form" action="/lead.php" method="post" novalidate>
@@ -60,7 +61,7 @@ const messengers = [
         </div>
       </form>
 
-      <div class="lf-contacts">
+      {!solo && <div class="lf-contacts">
         <span class="lf-chip"><span class="lf-sq" aria-hidden="true"><i></i><i></i><i></i><i></i></span>Свяжитесь со мной</span>
         <p class="lf-ctitle">Контакты</p>
         <dl class="lf-info">
@@ -96,11 +97,11 @@ const messengers = [
             </dd>
           </div>
         </dl>
-      </div>
+      </div>}
     </div>
-    <div class="lf-map">
+    {!solo && <div class="lf-map">
       <iframe src={mapSrc} title="Офис на Яндекс Картах: Томск, ул. Тверская, 14" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-    </div>
+    </div>}
   </div>
 </section>
 
@@ -162,6 +163,13 @@ const messengers = [
     position: relative; display: flex; flex-direction: column;
     padding: clamp(1.25rem, 2.4vw, 2.25rem); border-radius: clamp(16px, 1.6vw, 24px);
     background: linear-gradient(160deg, #034b8e 0%, #053a6e 55%, #0b1a30 100%); color: #fff;
+  }
+  @media (min-width: 1024px) {
+    .lf-solo .lf-grid { grid-template-columns: minmax(0, 1fr); }
+    .lf-solo .lf-form { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: clamp(2rem, 4vw, 4rem); align-content: start; }
+    .lf-solo .lf-chip { grid-column: 1; justify-self: start; }
+    .lf-solo .lf-title, .lf-solo .lf-lead { grid-column: 1; }
+    .lf-solo .lf-fields { grid-column: 2; grid-row: 1 / span 3; align-self: center; padding-top: 0; }
   }
   .lf-title { margin-top: clamp(1rem, 1.6vw, 1.5rem); font-family: var(--font-display); font-weight: 700; font-size: var(--fs-h2); line-height: 1.08; letter-spacing: -0.025em; color: #fff; text-wrap: pretty; }
   .lf-lead { margin-top: 1rem; max-width: 34rem; font-size: var(--fs-body); line-height: 1.45; color: rgb(255 255 255 / 0.85); text-wrap: pretty; }

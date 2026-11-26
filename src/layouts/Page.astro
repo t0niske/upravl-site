@@ -48,12 +48,13 @@ interface Props {
   ctaLabel?: string;
   /** false — без блока «Всё о банкротстве» */
   blog?: boolean;
+  formSolo?: boolean;
   /** object-position фона первого экрана, напр. '80% 20%' */
   heroBgPos?: string;
 }
 const {
   title, description, h1, eyebrow, crumbs, facts = [], faq = [], related = [], schema = [],
-  published, ogType = 'website', formTitle, formText, topic, cta = true, expert = false, heroBg, heroPortrait = false, heroStats, faqTitle, ctaHref = '#zayavka', ctaLabel = 'Бесплатная консультация', blog = true, heroBgPos,
+  published, ogType = 'website', formTitle, formText, topic, cta = true, expert = false, heroBg, heroPortrait = false, heroStats, faqTitle, ctaHref = '#zayavka', ctaLabel = 'Бесплатная консультация', blog = true, heroBgPos, formSolo = false,
 } = Astro.props;
 const allSchema = [...schema, ...(faq.length ? [faqSchema(faq)] : [])];
 // страница из блоков (без сплошного текста) — тогда отметка «Обновлено» уходит в синюю полосу
@@ -158,7 +159,7 @@ const relArticles = knowMenu
     </section>
   )}
 
-  <LeadForm title={formTitle} text={formText} topic={topic} />
+  <LeadForm title={formTitle} text={formText} topic={topic} solo={formSolo} />
 
   {cta && (
     <div class="mbar" data-mbar aria-hidden="true">
