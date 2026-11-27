@@ -132,6 +132,7 @@ const messengers = [
       </button>
     </div>
     <ul class="m-list">
+      <li><a href="/" class:list={['m-row', path === '/' && 'is-active']} aria-current={path === '/' ? 'page' : undefined}>Главная</a></li>
       {headerNav.map((i) => (
         <li>
           {i.children ? (

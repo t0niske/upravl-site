@@ -123,3 +123,9 @@
   .table-clean td, .table-clean tbody th { @apply border-b border-line py-3 pr-4 align-top; }
   .table-clean tbody th { @apply font-medium; }
 }
+
+/* Плашка со стрелкой (.lp-strip) на телефоне: текст на всю ширину, стрелка под ним — по просьбе дизайнера 27.11.2026 */
+@media (max-width: 639px) {
+  .lp-strip { flex-direction: column !important; align-items: flex-start !important; gap: 1rem !important; }
+  .lp-strip > span:first-child { flex: none !important; }
+}
