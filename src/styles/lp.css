@@ -29,6 +29,8 @@
 .lp-btn { display: inline-flex; flex: none; align-items: center; justify-content: center; min-height: 3.25rem; padding: 0 1.5rem; border-radius: 10px; background: #034b8e; color: #fff; font-weight: 500; text-decoration: none; transition: background-color 150ms var(--ease-out); }
 .lp-btn:hover { background: #0a5aa6; }
 .lp-btn.is-bottom { align-self: flex-start; margin-top: auto; }
+/* кнопка внизу карточки: не прилипает к тексту, если карточка заполнена */
+:has(+ .lp-btn.is-bottom) { margin-bottom: 1.5rem; }
 @media (max-width: 639px) { .bl-btn, .lp-btn.is-bottom { align-self: stretch; } }
 
 .lp-strip {
