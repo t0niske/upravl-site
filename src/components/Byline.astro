@@ -1,13 +1,22 @@
 ---
 import { CONTENT_UPDATED, CONTENT_REVIEWED_BY_EXPERT, person } from '../data/site';
-interface Props { updated?: string; published?: string }
-const { updated = CONTENT_UPDATED, published } = Astro.props;
+interface Props { updated?: string; published?: string; minutes?: number }
+const { updated = CONTENT_UPDATED, published, minutes } = Astro.props;
 const fmt = (d: string) => new Date(d).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' });
 ---
-<p class="mt-5 flex flex-wrap gap-x-4 gap-y-1 text-sm text-muted">
+<!-- Подпись статьи (26.11.2026): кто отвечает за текст, даты и время чтения — плашками -->
+<p class="bl">
   {CONTENT_REVIEWED_BY_EXPERT
-    ? <span>Проверено: <a href="/ob-upravlyayushchem/" class="text-ink-2">{person.short}</a>, арбитражный управляющий</span>
-    : <span>Редакция сайта арбитражного управляющего {person.short}</span>}
-  {published && <span>Опубликовано: <time datetime={published}>{fmt(published)}</time></span>}
-  <span>Обновлено: <time datetime={updated}>{fmt(updated)}</time></span>
+    ? <span class="bl-i">Проверено: <a href="/ob-upravlyayushchem/">{person.short}</a>, арбитражный управляющий</span>
+    : <span class="bl-i">Редакция сайта арбитражного управляющего <span class="bl-nw">{person.short}</span></span>}
+  {published && <span class="bl-i">Опубликовано <time datetime={published}>{fmt(published)}</time></span>}
+  <span class="bl-i">Обновлено <time datetime={updated}>{fmt(updated)}</time></span>
+  {minutes && <span class="bl-i">{minutes}&nbsp;мин чтения</span>}
 </p>
+
+<style>
+  .bl { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0 0 0.5rem; }
+  .bl-i { padding: 0.4375rem 0.75rem; border-radius: 8px; background: #f3f4f6; font-size: 0.875rem; line-height: 1.3; color: #5f646d; }
+  .bl-i a { color: #034b8e; }
+  .bl-nw { white-space: nowrap; }
+</style>

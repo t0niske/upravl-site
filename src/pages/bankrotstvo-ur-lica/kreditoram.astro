@@ -6,8 +6,8 @@ import Services from '../../components/Services.astro';
 import Lawyer from '../../components/Lawyer.astro';
 import HomeReviews from '../../components/HomeReviews.astro';
 import heroBg from '../../assets/kreditoram/hero-bg.jpg';
-import imgCompany from '../../assets/cases/binders.jpg';
-import imgCitizen from '../../assets/cases/keys.jpg';
+import imgCompany from '../../assets/kreditoram/company.jpg';
+import imgCitizen from '../../assets/kreditoram/citizen.jpg';
 import { nb } from '../../data/typo';
 import { law, rub } from '../../data/site';
 import { serviceSchema } from '../../data/schema';
@@ -100,13 +100,13 @@ const faq = [
     <LpSection id="kogda" chip="Когда подавать" title="Когда можно подать на банкротство должника" lead="Пороги и сроки разные для организаций и граждан" bg="grey">
       <div class="lp-two">
         <div class="lp-card">
-          <Image src={imgCompany} alt="Папки с документами компании на полке в офисе" widths={[480, 800, 1200]} sizes="(min-width: 1024px) 45vw, 100vw" class="lp-img" loading="lazy" />
+          <Image src={imgCompany} alt="Здание бизнес-центра со стеклянным фасадом" widths={[480, 800, 1200]} sizes="(min-width: 1024px) 45vw, 100vw" class="lp-img" loading="lazy" />
           <p class="lp-k">Против организации</p>
           <p class="lp-big is-dark tnum">от {rub(law.companyThreshold)}</p>
           <p class="lp-t is-dark">{nb('требования не исполнены больше трёх месяцев и подтверждены решением суда. Банки и налоговая подают в особом порядке')}</p>
         </div>
         <div class="lp-card">
-          <Image src={imgCitizen} alt="Ключи на документе на столе" widths={[480, 800, 1200]} sizes="(min-width: 1024px) 45vw, 100vw" class="lp-img" loading="lazy" />
+          <Image src={imgCitizen} alt="Счета, калькулятор и очки на столе" widths={[480, 800, 1200]} sizes="(min-width: 1024px) 45vw, 100vw" class="lp-img" loading="lazy" />
           <p class="lp-k">Против гражданина или ИП</p>
           <p class="lp-big is-dark tnum">от {rub(law.citizenDutyThreshold)}</p>
           <p class="lp-t is-dark">{nb('долг просрочен больше трёх месяцев')}</p>

@@ -89,13 +89,31 @@ const faq = [
     </p>
   </Fragment>
 
-  <p class="text-sm text-muted">Обновлено в ноябре 2026: учтены изменения в порядке внесения депозита; убраны устаревшие сведения о законопроектах 2019 года.</p>
+  <p class="art-note">Обновлено в ноябре 2026: учтены изменения в порядке внесения депозита; убраны устаревшие сведения о законопроектах 2019 года.</p>
 
-  {myths.map((m, i) => (
-    <section class="not-prose mt-8 border-t border-line pt-6">
-      <h2 class="text-[1.35rem]">{i + 1}. «{m.myth}»</h2>
-      <p class:list={['mt-2 inline-block rounded px-2 py-0.5 text-sm font-medium', m.verdict === 'Миф' ? 'bg-[#e6f0ea] text-ok' : 'bg-[#f6ead6] text-warn']}>{m.verdict}</p>
-      <p class="mt-3">{m.text}</p>
-    </section>
-  ))}
+  <ol class="not-prose my-list">
+    {myths.map((m, i) => (
+      <li class="my-card">
+        <div class="my-head">
+          <span class="my-n tnum">{String(i + 1).padStart(2, '0')}</span>
+          <span class:list={['my-verdict', m.verdict !== 'Миф' && 'is-part']}>{m.verdict}</span>
+        </div>
+        <h2 class="my-q">«{m.myth}»</h2>
+        <p class="my-t">{m.text}</p>
+      </li>
+    ))}
+  </ol>
 </Page>
+
+<style>
+  /* мифы карточками (26.11.2026) */
+  .my-list { display: grid; gap: 0.75rem; margin-top: 1.5rem !important; padding-left: 0 !important; list-style: none !important; }
+  .my-list > li::marker { content: none; }
+  .my-card { padding: clamp(1.25rem, 2vw, 1.75rem); border-radius: 18px; background: #f3f4f6; }
+  .my-head { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+  .my-n { font-family: var(--font-display); font-weight: 700; font-size: 1.125rem; color: #034b8e; }
+  .my-verdict { padding: 0.375rem 0.75rem; border-radius: 8px; background: #034b8e; color: #fff; font-size: 0.875rem; font-weight: 600; }
+  .my-verdict.is-part { background: #fff; color: #034b8e; box-shadow: inset 0 0 0 1.5px #034b8e; }
+  .my-q { margin-top: 0.875rem; padding-top: 0 !important; border-top: 0 !important; font-family: var(--font-display); font-weight: 600; font-size: var(--fs-h3) !important; line-height: 1.25; color: #1d1e21; }
+  .my-t { margin-top: 0.625rem; font-size: var(--fs-body); line-height: 1.6; color: #3a3e45; }
+</style>
